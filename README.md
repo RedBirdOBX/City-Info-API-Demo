@@ -136,6 +136,9 @@ The `CitiesController` logs to the logger service (NLog) and it outputs to the c
 ## CICD
 This API is built with CICD (Continuous Integration, Continuous Delivery). As new features or fixes are accepted into the `development` branch, they are automatically deployed to the development instance of this app.  As feaures and fixes are promoted up to the `master` branch, they are once again automatically delivered into the production version of this app.  No publishing or FTP-ing of files is required.  Life is good.
 
+Development URI : `https://city-info-api-demo-dev.azurewebsites.net/api`  
+Production URI : `https://city-info-api-demo.azurewebsites.net/api`
+
 <a href="" id="architecture" name="architecture"></a>
 ## Architecture  
 This API is designed with what I consider to be, a sound and proper architectural design.  It has multiple layers (projects) and each layer has a single responsibility. 
