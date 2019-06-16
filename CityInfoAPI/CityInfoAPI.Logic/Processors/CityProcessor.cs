@@ -1,0 +1,48 @@
+﻿using AutoMapper;
+using CityInfoAPI.Data.Repositories;
+using CityInfoAPI.Dtos.Models;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace CityInfoAPI.Logic.Processors
+{
+    public class CityProcessor
+    {
+        // fields
+        private ICityInfoRepository _cityInfoRepository;
+
+        // constructor
+        public CityProcessor(ICityInfoRepository cityInfoRepository)
+        {
+            _cityInfoRepository = cityInfoRepository;
+        }
+
+
+        // cities
+        public IEnumerable<CityWithoutPointsOfInterestDto> GetCities()
+        {
+            var cityEntities = _cityInfoRepository.GetCities();
+            var results = Mapper.Map<IEnumerable<CityWithoutPointsOfInterestDto>>(cityEntities);
+            return results;
+        }
+
+        public bool DoesCityExist(int cityId)
+        {
+            return _cityInfoRepository.DoesCityExist(cityId);
+        }
+
+        public CityWithoutPointsOfInterestDto GetCityByIdWithoutPointsOfInterest(int cityId)
+        {
+            var city = _cityInfoRepository.GetCityById(cityId, false);
+            var results = Mapper.Map<CityWithoutPointsOfInterestDto>(city);
+            return results;
+        }
+
+        public CityDto GetCityByIdWithPointsOfInterest(int cityId)
+        {
+            var city = _cityInfoRepository.GetCityById(cityId, true);
+            var results = Mapper.Map<CityDto>(city);
+            return results;
+        }
+    }
+}
