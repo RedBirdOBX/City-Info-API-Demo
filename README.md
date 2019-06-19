@@ -52,7 +52,7 @@ Here, you can request a specific city and also provide an optional querystring p
 ### Get Points of Interest for City  
 `http://city-info-api-demo.azurewebsites.net/api/cities/{cityId}/pointsofinterest`  
 `GET`  
-You can request to see the Points of Interest for any given city by Id.
+You can request to see a collection of the Points of Interest for any given city by Id.
 
 ### Get Point of Interest By Id  
 `http://city-info-api-demo.azurewebsites.net/api/cities/{cityId}/pointsofinterest/{pointOfInterestId}`  
