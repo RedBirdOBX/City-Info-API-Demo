@@ -44,8 +44,8 @@ You can `import` this collection into your Postman application for ease of testi
 This resource with return a collection of all cities but does not show you their associated points of interest.
 
 ### Get City By Id  
-`http://city-info-api-demo.azurewebsites.net/api/cities/{cityId}`
-`http://city-info-api-demo.azurewebsites.net/api/cities/{cityId}?includepointsofinterest=true`  
+`http://city-info-api-demo.azurewebsites.net/api/cities/{cityId}`  
+`http://city-info-api-demo.azurewebsites.net/api/cities/{cityId}?includepointsofinterest=true`   
 `GET`    
 Here, you can request a specific city and also provide an optional querystring parameter to explicitly request the Points Of Interest along with the City data.
 
