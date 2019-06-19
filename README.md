@@ -80,8 +80,8 @@ Furthermore, it will return the location of this new resource in the Header of t
 
 
 ### Update a Point of Interest
-`http://city-info-api-demo.azurewebsites.net/api/cities/{cityId}/pointsofinterest/{pointOfInterestId}`
-`PUT`
+`http://city-info-api-demo.azurewebsites.net/api/cities/{cityId}/pointsofinterest/{pointOfInterestId}`  
+`PUT`  
 This the endpoint where you can update an entire Point of Interest resource. You do this through a PUT and provide the whole Point of Interest with it's new values.
 
 If successful, it will return you a 200 Success status and the values of the updated resource.
@@ -90,7 +90,7 @@ If successful, it will return you a 200 Success status and the values of the upd
 
 ### Patch a Point of Interest
 `http://city-info-api-demo.azurewebsites.net/api/cities/{cityId}/pointsofinterest/{pointOfInterestId}`  
-`PATCH`
+`PATCH`  
 Instead of updated the whole resource, you can use a patch document and only update one or more properties of the resource such as passwords, emails, and so on. With this api, you can a standard patch document and specify what part of the resource you want to update.
 
 ```
@@ -108,7 +108,7 @@ If successful, it will return a 200 OK status and the new updated resource in th
 
 ### Delete a Point of Interest
 `http://city-info-api-demo.azurewebsites.net/api/cities/{cityId}/pointsofinterest/{pointOfInterestId}`  
-`DELETE`
+`DELETE`  
 By providing a proper City id and a Point of Interest id, you can delete a resource from the data store.  This functionality would rarely make it to production like this but here is a demonstration none the less.
 
 ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/successful-delete.PNG)
