@@ -91,7 +91,7 @@ If successful, it will return you a 200 Success status and the values of the upd
 ### Patch a Point of Interest
 `http://city-info-api-demo.azurewebsites.net/api/cities/{cityId}/pointsofinterest/{pointOfInterestId}`  
 `PATCH`  
-Instead of updated the whole resource, you can use a patch document and only update one or more properties of the resource such as passwords, emails, and so on. With this api, you can a standard patch document and specify what part of the resource you want to update.
+Instead of updated the whole resource, you can use a patch document and only update one or more properties of the resource such as passwords, emails, and so on. With this API, you can use a standard patch document and specify what part of the resource you want to update.
 
 ```
 [
