@@ -72,8 +72,9 @@ namespace CityInfoAPI.Web
                 // we want to add a swagger document...a specification document.
                 // 1) add name. This will be part of the URI.
                 // 2) add OpenApiInfo object
+                // https://localhost:44305/swagger/OpenAPISpecification/swagger.json
                 setupAction.SwaggerDoc(
-                    "LibraryOpenAPISpecification",
+                    "OpenAPISpecification",
                     new Microsoft.OpenApi.Models.OpenApiInfo()
                     {
                         Title = "City Info API",
