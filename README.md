@@ -3,7 +3,7 @@
 
 
 ## Summary
-Welcome to the City Info Demo API. Imagine that you were developing for some kind of travel site and one of the requirements was that you needed to be able to ask for a complete listing of cities, ask for any given city by it's ID and, if specifically asked for, you needed to be able to provide all the "touristy" things to do for that specified city (landmarks, parks, restaurants, and so on).  
+Welcome to the City Info Demo API. Imagine that you were developing for some kind of travel site and one of the requirements was you needed to be able to ask for a complete listing of cities; ask for any given city by it's ID and, if specifically asked for, you needed to be able to provide all the "touristy" things to do for that specified city (landmarks, parks, restaurants, and so on).  
 
 This demo RESTFul API does just that. It allows consumers to make request for USA Cities and their known "Points of Interest" (tourist attractions). 
 
@@ -13,7 +13,7 @@ It supports and demonstrates all HTTP verbs: GET, POST, PUT, PATCH, and DELETE.
 `https://city-info-api-demo.azurewebsites.net/api/cities`
 
 ## Platform: 
-- ASP.NET Core 2.1 MVC  
+- ASP.NET Core 2.2 API  
 - Entity Framework Core  
 - Microsoft Azure cloud services   
 
@@ -41,18 +41,18 @@ You can `import` this collection into your Postman application for ease of testi
 ### Get All Cities  
 `https://city-info-api-demo.azurewebsites.net/api/cities`  
 `GET`   
-This resource with return a collection of all cities and their associated points of interest.
+This resource with return a collection of all cities but does not show you their associated points of interest.
 
 ### Get City By Id  
-`http://city-info-api-demo.azurewebsites.net/api/cities/{cityId}`
-`http://city-info-api-demo.azurewebsites.net/api/cities/{cityId}?includepointsofinterest=true`  
+`http://city-info-api-demo.azurewebsites.net/api/cities/{cityId}`  
+`http://city-info-api-demo.azurewebsites.net/api/cities/{cityId}?includepointsofinterest=true`   
 `GET`    
 Here, you can request a specific city and also provide an optional querystring parameter to explicitly request the Points Of Interest along with the City data.
 
 ### Get Points of Interest for City  
 `http://city-info-api-demo.azurewebsites.net/api/cities/{cityId}/pointsofinterest`  
 `GET`  
-You can request to see the Points of Interest for any given city by Id.
+You can request to see a collection of the Points of Interest for any given city by Id.
 
 ### Get Point of Interest By Id  
 `http://city-info-api-demo.azurewebsites.net/api/cities/{cityId}/pointsofinterest/{pointOfInterestId}`  
@@ -80,8 +80,8 @@ Furthermore, it will return the location of this new resource in the Header of t
 
 
 ### Update a Point of Interest
-`http://city-info-api-demo.azurewebsites.net/api/cities/{cityId}/pointsofinterest/{pointOfInterestId}`
-`PUT`
+`http://city-info-api-demo.azurewebsites.net/api/cities/{cityId}/pointsofinterest/{pointOfInterestId}`  
+`PUT`  
 This the endpoint where you can update an entire Point of Interest resource. You do this through a PUT and provide the whole Point of Interest with it's new values.
 
 If successful, it will return you a 200 Success status and the values of the updated resource.
@@ -90,8 +90,8 @@ If successful, it will return you a 200 Success status and the values of the upd
 
 ### Patch a Point of Interest
 `http://city-info-api-demo.azurewebsites.net/api/cities/{cityId}/pointsofinterest/{pointOfInterestId}`  
-`PATCH`
-Instead of updated the whole resource, you can use a patch document and only update one or more properties of the resource such as passwords, emails, and so on. With this api, you can a standard patch document and specify what part of the resource you want to update.
+`PATCH`  
+Instead of updated the whole resource, you can use a patch document and only update one or more properties of the resource such as passwords, emails, and so on. With this API, you can use a standard patch document and specify what part of the resource you want to update.
 
 ```
 [
@@ -108,7 +108,7 @@ If successful, it will return a 200 OK status and the new updated resource in th
 
 ### Delete a Point of Interest
 `http://city-info-api-demo.azurewebsites.net/api/cities/{cityId}/pointsofinterest/{pointOfInterestId}`  
-`DELETE`
+`DELETE`  
 By providing a proper City id and a Point of Interest id, you can delete a resource from the data store.  This functionality would rarely make it to production like this but here is a demonstration none the less.
 
 ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/successful-delete.PNG)
