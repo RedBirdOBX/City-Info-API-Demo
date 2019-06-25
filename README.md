@@ -13,7 +13,7 @@ It supports and demonstrates all HTTP verbs: GET, POST, PUT, PATCH, and DELETE.
 `https://city-info-api-demo.azurewebsites.net/api/cities`
 
 ## Platform: 
-- ASP.NET Core 2.1 MVC  
+- ASP.NET Core 2.2 API  
 - Entity Framework Core  
 - Microsoft Azure cloud services   
 
