@@ -14,7 +14,10 @@ It supports and demonstrates all HTTP verbs: GET, POST, PUT, PATCH, and DELETE.
 
 ## Platform: 
 - ASP.NET Core 2.2 API  
-- Entity Framework Core  
+- Entity Framework Core
+- Swashbuckle.AspNetCore 5 RC2
+- AutoMapper 8.1
+- NLog 4.8  
 - Microsoft Azure cloud services   
 
 ## Chapters

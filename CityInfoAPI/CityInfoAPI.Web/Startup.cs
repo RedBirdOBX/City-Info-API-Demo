@@ -65,6 +65,23 @@ namespace CityInfoAPI.Web
             services.AddScoped<ICityInfoRepository, CityInfoRepository>();
             services.AddScoped<CityProcessor>();
             services.AddScoped<PointsOfInterestProcessor>();
+
+            // accepts a "set up" action to set it up.
+            services.AddSwaggerGen(setupAction =>
+            {
+                // we want to add a swagger document...a specification document.
+                // 1) add name. This will be part of the URI.
+                // 2) add OpenApiInfo object
+                setupAction.SwaggerDoc(
+                    "LibraryOpenAPISpecification",
+                    new Microsoft.OpenApi.Models.OpenApiInfo()
+                    {
+                        Title = "City Info API",
+                        Version = "1.0"
+                    }
+                );
+            });
+
         }
 
         // This method gets called by the runtime.
@@ -86,6 +103,7 @@ namespace CityInfoAPI.Web
                 //app.UseExceptionHandler();
             }
 
+            app.UseHttpsRedirection();      // <-- learn more about this.
             app.UseStatusCodePages();
             app.UseMvc();
 
@@ -104,6 +122,8 @@ namespace CityInfoAPI.Web
                 // Find the Entity first and map it to a DTO to hide implementation details.
                 cfg.CreateMap<CityInfoAPI.Data.Entities.PointOfInterest, CityInfoAPI.Dtos.Models.PointOfInterestUpdateDto>();
             });
+
+            app.UseSwagger();
 
         }
     }
