@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CityInfoAPI.Web</name>
+    </assembly>
+    <members>
+        <member name="M:CityInfoAPI.Web.Controllers.CitiesController.GetCities">
+            <summary>get a collection of all cities.</summary>
+            <returns>a collection of all cities</returns>
+        </member>
+        <member name="M:CityInfoAPI.Web.Controllers.CitiesController.GetCityById(System.Int32,System.Boolean)">
+            <summary>get a specific city by id</summary>
+            <param name="cityId">the id of the city</param>
+            <param name="includePointsOfInterest">flag which indicates whether or not points of interest should be included.  true/false</param>
+            <returns>a city with optional points of interest</returns>
+        </member>
+    </members>
+</doc>
