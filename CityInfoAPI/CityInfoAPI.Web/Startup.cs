@@ -4,12 +4,17 @@ using CityInfoAPI.Logic.Processors;
 using CityInfoAPI.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
+using System;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 
 namespace CityInfoAPI.Web
 {
@@ -82,7 +87,13 @@ namespace CityInfoAPI.Web
                     }
                 );
 
-                setupAction.IncludeXmlComments("CityInfoAPI.Web.xml");
+                // we could do this...
+                // setupAction.IncludeXmlComments("CityInfoAPI.Web.xml");
+
+                // but since the xml file matches the assembly name, we can use reflection like so:
+                string xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                string fullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
+                setupAction.IncludeXmlComments(xmlCommentsFile);
             });
 
         }
