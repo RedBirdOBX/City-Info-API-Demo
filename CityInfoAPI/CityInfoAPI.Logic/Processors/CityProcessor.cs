@@ -19,10 +19,10 @@ namespace CityInfoAPI.Logic.Processors
 
 
         // cities
-        public IEnumerable<CityWithoutPointsOfInterestDto> GetCities()
+        public List<CityWithoutPointsOfInterestDto> GetCities()
         {
             var cityEntities = _cityInfoRepository.GetCities();
-            var results = Mapper.Map<IEnumerable<CityWithoutPointsOfInterestDto>>(cityEntities);
+            var results = Mapper.Map<List<CityWithoutPointsOfInterestDto>>(cityEntities);
             return results;
         }
 

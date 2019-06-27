@@ -1,7 +1,9 @@
 ﻿using CityInfoAPI.Data.Repositories;
+using CityInfoAPI.Dtos.Models;
 using CityInfoAPI.Logic.Processors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 
 namespace CityInfoAPI.Web.Controllers
 {
@@ -27,7 +29,7 @@ namespace CityInfoAPI.Web.Controllers
         /// <summary>get a collection of all cities.</summary>
         /// <returns>a collection of all cities</returns>
         [HttpGet("", Name = "GetCities")]
-        public IActionResult GetCities()
+        public ActionResult<List<CityDto>> GetCities()
         {
             var results = _cityProcessor.GetCities();
             return Ok(results);
