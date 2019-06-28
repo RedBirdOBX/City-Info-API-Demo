@@ -31,16 +31,9 @@ namespace CityInfoAPI.Logic.Processors
             return _cityInfoRepository.DoesCityExist(cityId);
         }
 
-        public CityWithoutPointsOfInterestDto GetCityByIdWithoutPointsOfInterest(int cityId)
+        public CityDto GetCityById(int cityId, bool includePointsOfInterest)
         {
-            var city = _cityInfoRepository.GetCityById(cityId, false);
-            var results = Mapper.Map<CityWithoutPointsOfInterestDto>(city);
-            return results;
-        }
-
-        public CityDto GetCityByIdWithPointsOfInterest(int cityId)
-        {
-            var city = _cityInfoRepository.GetCityById(cityId, true);
+            var city = _cityInfoRepository.GetCityById(cityId, includePointsOfInterest);
             var results = Mapper.Map<CityDto>(city);
             return results;
         }

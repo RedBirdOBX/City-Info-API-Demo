@@ -33,8 +33,10 @@ namespace CityInfoAPI.Web.Controllers
         }
 
 
-        // GET all points of interest for any given city
         // http://{domain}/api/cities/{cityId}/pointsofinterest
+        /// <summary>get all points of interest for any given city</summary>
+        /// <param name="cityId">the id of the city to retrieve points of interest for</param>
+        /// <returns>a collection of points of interest</returns>
         [HttpGet("pointsofinterest")]
         public IActionResult GetPointsOfInterest(int cityId)
         {
@@ -58,8 +60,11 @@ namespace CityInfoAPI.Web.Controllers
             }
         }
 
-        // GET specific point of interest for city
         // http://{domain}/api/cities/{cityId}/pointsofinterest/{pointOfInterestId}
+        /// <summary>get a point of interest by id for a city by id</summary>
+        /// <param name="cityId">id of city</param>
+        /// <param name="pointOfInterestId">if of point of interest</param>
+        /// <returns>a single point of interest</returns>
         [HttpGet("pointsofinterest/{pointOfInterestId}", Name = "GetPointOfInterestById")]
         public IActionResult GetPointOfInterestById(int cityId, int pointOfInterestId)
         {
@@ -84,8 +89,11 @@ namespace CityInfoAPI.Web.Controllers
 
         }
 
-        // CREATE a new point of interest for specified city
         // http://{domain}/api/cities/{cityId}/pointsofinterest
+        /// <summary>POST endpoint for creating a new point of interest</summary>
+        /// <param name="cityId">required city id</param>
+        /// <param name="submittedPointOfInterest">new point of interest</param>
+        /// <returns>201 status code with new endpoint in header</returns>
         [HttpPost("pointsofinterest", Name = "CreatePointOfInterest")]
         public IActionResult CreatePointOfInterest(int cityId, [FromBody] PointOfInterestCreateDto submittedPointOfInterest)
         {
@@ -118,7 +126,7 @@ namespace CityInfoAPI.Web.Controllers
             // each city can only have 25 points of interest.
             if (_pointsOfInterestProcessor.GetPointsOfInterest(cityId).Count() >= 25)
             {
-                var city = _cityProcessor.GetCityByIdWithoutPointsOfInterest(cityId);
+                var city = _cityProcessor.GetCityById(cityId, false);
                 return BadRequest($"Sorry. The city {city.Name} cannot have more that 25 points of interest.");
             }
 
@@ -140,8 +148,12 @@ namespace CityInfoAPI.Web.Controllers
             }
         }
 
-        // UPDATE existing point of interest for specified point of interest
         // http://{domain}/api/cities/{cityId}/pointsofinterest/{pointOfInterestId}
+        /// <summary>PUT endpoint for updating the entire point of interest</summary>
+        /// <param name="cityId">required city id</param>
+        /// <param name="pointOfInterestId">required point of interest id</param>
+        /// <param name="submittedPointOfInterest">entire updated point of interest</param>
+        /// <returns>Ok status with updated version of point of interest</returns>
         [HttpPut("pointsofinterest/{pointOfInterestId}", Name = "UpdatePointOfInterest")]
         public IActionResult UpdatePointOfInterest(int cityId, int pointOfInterestId, [FromBody] PointOfInterestUpdateDto submittedPointOfInterest)
         {
@@ -197,8 +209,12 @@ namespace CityInfoAPI.Web.Controllers
             return Ok(submittedPointOfInterest);
         }
 
-        // PATCH an existing point of interest
         // http://{domain}/api/{cityId}/pointsofinterest/{pointOfInterestId}
+        /// <summary>PATCH endpoint for updating less than the whole point of interest</summary>
+        /// <param name="cityId">required city id</param>
+        /// <param name="pointOfInterestId">required point of interest id</param>
+        /// <param name="patchDocument">required patch document which indicates which part(s) will be updated</param>
+        /// <returns>returns Ok status with newly patched point of interest</returns>
         [HttpPatch("pointsofinterest/{pointOfInterestId}", Name = "PatchPointOfInterest")]
         public IActionResult PatchPointOfInterest(int cityId, int pointOfInterestId, [FromBody] JsonPatchDocument<PointOfInterestUpdateDto> patchDocument)
         {
@@ -268,6 +284,10 @@ namespace CityInfoAPI.Web.Controllers
         }
 
         // http://{domain}/api/{cityId}/pointsofinterest/{pointOfInterestId}
+        /// <summary>DELETE operation to delete a point of interest</summary>
+        /// <param name="cityId">required city id</param>
+        /// <param name="pointOfInterestId">required point of interest id</param>
+        /// <returns>Ok status and the name of the point of interested which was deleted</returns>
         [HttpDelete("pointsofinterest/{pointOfInterestId:int}")]
         public IActionResult DeletePointOfInterest(int cityId, int pointOfInterestId)
         {

@@ -24,9 +24,8 @@ namespace CityInfoAPI.Web.Controllers
             _logger = logger;
         }
 
-        //  Get all cities
         //  http://{domain}/api/cities
-        /// <summary>get a collection of all cities.</summary>
+        /// <summary>get a collection of all cities</summary>
         /// <returns>a collection of all cities</returns>
         [HttpGet("", Name = "GetCities")]
         public ActionResult<List<CityDto>> GetCities()
@@ -35,14 +34,13 @@ namespace CityInfoAPI.Web.Controllers
             return Ok(results);
         }
 
-        // Get city by id
         // http://{domain}/api/cities/{cityId}
         /// <summary>get a specific city by id</summary>
         /// <param name="cityId">the id of the city</param>
         /// <param name="includePointsOfInterest">flag which indicates whether or not points of interest should be included.  true/false</param>
         /// <returns>a city with optional points of interest</returns>
         [HttpGet("{cityId}", Name = "GetCityById")]
-        public IActionResult GetCityById([FromRoute] int cityId, [FromQuery] bool includePointsOfInterest = false)
+        public ActionResult<CityDto> GetCityById([FromRoute] int cityId, [FromQuery] bool includePointsOfInterest = true)
         {
             if (!_cityProcessor.DoesCityExist(cityId))
             {
@@ -51,16 +49,8 @@ namespace CityInfoAPI.Web.Controllers
             }
             else
             {
-                if (includePointsOfInterest)
-                {
-                    var city = _cityProcessor.GetCityByIdWithPointsOfInterest(cityId);
-                    return Ok(city);
-                }
-                else
-                {
-                    var city = _cityProcessor.GetCityByIdWithoutPointsOfInterest(cityId);
-                    return Ok(city);
-                }
+                var city = _cityProcessor.GetCityById(cityId, includePointsOfInterest);
+                return Ok(city);
             }
         }
     }

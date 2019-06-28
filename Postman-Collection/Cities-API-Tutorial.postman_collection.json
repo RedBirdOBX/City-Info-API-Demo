@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "0b971402-98c6-408c-b590-7795e5cab98e",
+		"_postman_id": "7c2d2afe-58c7-4f98-9945-11f7c6f2aeb5",
 		"name": "Cities-API-Tutorial",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -10,10 +10,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "http://localhost:5000/api/cities",
 					"protocol": "http",
@@ -34,10 +30,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "http://localhost:5000/api/cities/1",
 					"protocol": "http",
@@ -55,16 +47,12 @@
 			"response": []
 		},
 		{
-			"name": "Get City with Points of Interest",
+			"name": "Get City without Points of Interest",
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "http://localhost:5000/api/cities/1",
+					"raw": "http://localhost:5000/api/cities/1?includePointsOfInterest=false",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -74,6 +62,12 @@
 						"api",
 						"cities",
 						"1"
+					],
+					"query": [
+						{
+							"key": "includePointsOfInterest",
+							"value": "false"
+						}
 					]
 				}
 			},
@@ -90,10 +84,6 @@
 						"type": "text"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "http://localhost:5000/api/cities/1/pointsofinterest/1",
 					"protocol": "http",
@@ -274,10 +264,6 @@
 						"type": "text"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "http://localhost:5000/api/cities/1/pointsofinterest",
 					"protocol": "http",
