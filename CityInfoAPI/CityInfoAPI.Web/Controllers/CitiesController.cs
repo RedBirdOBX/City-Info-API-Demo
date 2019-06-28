@@ -9,6 +9,7 @@ namespace CityInfoAPI.Web.Controllers
 {
     // http://{domain}/api/cities
     [Route("api/cities")]
+    [ApiController]
     public class CitiesController : Controller
     {
         // fields

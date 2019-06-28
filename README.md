@@ -48,9 +48,9 @@ This resource with return a collection of all cities but does not show you their
 
 ### Get City By Id  
 `http://city-info-api-demo.azurewebsites.net/api/cities/{cityId}`  
-`http://city-info-api-demo.azurewebsites.net/api/cities/{cityId}?includepointsofinterest=true`   
+`http://city-info-api-demo.azurewebsites.net/api/cities/{cityId}?includepointsofinterest=false`   
 `GET`    
-Here, you can request a specific city and also provide an optional querystring parameter to explicitly request the Points Of Interest along with the City data.
+Here, you can request a specific city and also provide an optional query string parameter to explicitly request the Points Of Interest along with the City data. If false, the points of interest collection will be intentionally empty (to lighten payload).  Otherwise, they will be included by default. 
 
 ### Get Points of Interest for City  
 `http://city-info-api-demo.azurewebsites.net/api/cities/{cityId}/pointsofinterest`  
@@ -174,3 +174,9 @@ This is the layer exposed to the public. This layer contains all the typical MVC
 
 ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/webapi-layer.PNG)
   
+
+## Swagger
+
+http://localhost:5000/index.html
+
+http://localhost:5000/swagger/OpenAPISpecification/swagger.json
