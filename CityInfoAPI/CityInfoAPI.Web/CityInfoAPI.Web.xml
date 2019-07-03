@@ -39,11 +39,22 @@
             <returns>Ok status with updated version of point of interest</returns>
         </member>
         <member name="M:CityInfoAPI.Web.Controllers.PointsOfInterestController.PatchPointOfInterest(System.Int32,System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{CityInfoAPI.Dtos.Models.PointOfInterestUpdateDto})">
-            <summary>PATCH endpoint for updating less than the whole point of interest</summary>
-            <param name="cityId">required city id</param>
-            <param name="pointOfInterestId">required point of interest id</param>
-            <param name="patchDocument">required patch document which indicates which part(s) will be updated</param>
-            <returns>returns Ok status with newly patched point of interest</returns>
+             <summary>PATCH endpoint for updating less than the whole point of interest</summary>
+             <param name="cityId">required city id</param>
+             <param name="pointOfInterestId">required point of interest id</param>
+             <param name="patchDocument">required patch document which indicates which part(s) will be updated</param>
+             <returns>returns Ok status with newly patched point of interest</returns>
+             <remarks>
+             http://{domain}/api/{cityId}/pointsofinterest/{pointOfInterestId} \
+             sample patch document: \
+             [ \
+            	    { \
+            		    "op": "replace", \
+            		    "path": "/description", \
+            		    "value": "Rico's world famous restaurant." \
+            	    } \
+            ] \
+             </remarks>
         </member>
         <member name="M:CityInfoAPI.Web.Controllers.PointsOfInterestController.DeletePointOfInterest(System.Int32,System.Int32)">
             <summary>DELETE operation to delete a point of interest</summary>

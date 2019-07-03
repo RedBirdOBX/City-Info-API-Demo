@@ -215,6 +215,17 @@ namespace CityInfoAPI.Web.Controllers
         /// <param name="pointOfInterestId">required point of interest id</param>
         /// <param name="patchDocument">required patch document which indicates which part(s) will be updated</param>
         /// <returns>returns Ok status with newly patched point of interest</returns>
+        /// <remarks>
+        /// http://{domain}/api/{cityId}/pointsofinterest/{pointOfInterestId} \
+        /// sample patch document: \
+        /// [ \
+        ///	    { \
+        ///		    "op": "replace", \
+        ///		    "path": "/description", \
+        ///		    "value": "Rico's world famous restaurant." \
+        ///	    } \
+        ///] \
+        /// </remarks>
         [HttpPatch("pointsofinterest/{pointOfInterestId}", Name = "PatchPointOfInterest")]
         public IActionResult PatchPointOfInterest(int cityId, int pointOfInterestId, [FromBody] JsonPatchDocument<PointOfInterestUpdateDto> patchDocument)
         {

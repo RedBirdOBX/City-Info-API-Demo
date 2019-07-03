@@ -3,11 +3,11 @@
 namespace CityInfoAPI.Dtos.Models
 {
     /// <summary>
-    /// DTO class representing a city
+    /// city dto
     /// </summary>
     public class CityDto
     {
-        // constructor
+        /// constructor
         public CityDto()
         {
             PointsOfInterest = new List<PointOfInterestDto>();

@@ -91,9 +91,18 @@ namespace CityInfoAPI.Web
                 // setupAction.IncludeXmlComments("CityInfoAPI.Web.xml");
 
                 // but since the xml file matches the assembly name, we can use reflection like so:
-                string xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                string fullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
-                setupAction.IncludeXmlComments(xmlCommentsFile);
+                //string xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                //string fullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
+                //setupAction.IncludeXmlComments(xmlCommentsFile);
+
+                // since multiple projects will have xml documentation, we will need to loop thru all the files and include
+                // all of the xml docs....not just the CityInfoAPI.Web.Xml.
+                DirectoryInfo baseDirectoryInfo = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory);
+                foreach (var fileInfo in baseDirectoryInfo.EnumerateFiles("CityInfoAPI*.xml"))
+                {
+                    setupAction.IncludeXmlComments(fileInfo.FullName);
+                }
+
             });
 
         }
