@@ -18,12 +18,13 @@ using System.Reflection;
 
 namespace CityInfoAPI.Web
 {
+
+    #pragma warning disable CS1591
+
     public class Startup
     {
-
-
+        // properties
         public static IConfiguration Configuration;
-
 
         // constructor
         // we will need to inject the hosting environment.  we need this to point the framework to the root of our application.
@@ -37,7 +38,6 @@ namespace CityInfoAPI.Web
                 .AddEnvironmentVariables(); // add environ variable to configuration chain
             Configuration = builder.Build();
         }
-
 
 
         // add/register services for our application.
@@ -83,7 +83,21 @@ namespace CityInfoAPI.Web
                     new Microsoft.OpenApi.Models.OpenApiInfo()
                     {
                         Title = "City Info API",
-                        Version = "1.0"
+                        Version = "1.0",
+                        Description = "City Info DEMO RESTful API",
+                        Contact = new Microsoft.OpenApi.Models.OpenApiContact
+                        {
+                            Email = "shane.fowlkes.70@gmail.com",
+                            Name = "D. Shane Fowlkes",
+                            Url = new Uri("https://github.com/RedBirdOBX/")
+                        },
+
+                        // you can also include licensing information
+                        License = new Microsoft.OpenApi.Models.OpenApiLicense
+                        {
+                            Name = "MIT License",
+                            Url = new Uri("https://opensource.org/licenses/mit")
+                        }
                     }
                 );
 
@@ -158,4 +172,7 @@ namespace CityInfoAPI.Web
             });
         }
     }
+
+    #pragma warning restore CS1591
+
 }

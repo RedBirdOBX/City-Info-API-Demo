@@ -5,6 +5,8 @@ using NLog.Web;
 
 namespace CityInfoAPI.Web
 {
+    #pragma warning disable CS1591
+
     public class Program
     {
         public static void Main(string[] args)
@@ -43,4 +45,6 @@ namespace CityInfoAPI.Web
             // NLog: setup NLog for Dependency injection
             .UseNLog();
     }
+
+    #pragma warning restore CS1591
 }

@@ -8,6 +8,9 @@ using System.Collections.Generic;
 namespace CityInfoAPI.Web.Controllers
 {
     // http://{domain}/api/cities
+    /// <summary>
+    /// cities controller
+    /// </summary>
     [Route("api/cities")]
     [ApiController]
     public class CitiesController : Controller
@@ -17,7 +20,12 @@ namespace CityInfoAPI.Web.Controllers
         private ICityInfoRepository _cityInfoRepository;
         private CityProcessor _cityProcessor;
 
-        // constructor
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="cityInfoRepository">city data repository middleware to be injected</param>
+        /// <param name="logger">logger factory middleware to be injected</param>
+        /// <param name="cityProcessor">city processor middleware to be injected</param>
         public CitiesController(ICityInfoRepository cityInfoRepository, ILogger<CitiesController> logger, CityProcessor cityProcessor)
         {
             _cityInfoRepository = cityInfoRepository;

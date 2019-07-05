@@ -10,6 +10,9 @@ using System.Linq;
 
 namespace CityInfoAPI.Web.Controllers
 {
+    /// <summary>
+    /// point of interest controller
+    /// </summary>
     // http://{domain}/api/cities/{cityId}
     [Route("api/cities/{cityId}")]
     public class PointsOfInterestController: Controller
@@ -21,7 +24,14 @@ namespace CityInfoAPI.Web.Controllers
         private CityProcessor _cityProcessor;
         private PointsOfInterestProcessor _pointsOfInterestProcessor;
 
-        // constructor
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="logger">logger factory to be injected</param>
+        /// <param name="mailService">mail service to be injected</param>
+        /// <param name="cityInfoRepository">data repository to be injected</param>
+        /// <param name="cityProcessor">city processor middleware to be injected</param>
+        /// <param name="pointsOfInterestProcessor">points of interest middleware to be injected</param>
         public PointsOfInterestController(ILogger<PointsOfInterestController> logger, IMailService mailService,
             ICityInfoRepository cityInfoRepository, CityProcessor cityProcessor, PointsOfInterestProcessor pointsOfInterestProcessor)
         {

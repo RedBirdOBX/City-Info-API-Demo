@@ -4,6 +4,19 @@
         <name>CityInfoAPI.Web</name>
     </assembly>
     <members>
+        <member name="T:CityInfoAPI.Web.Controllers.CitiesController">
+            <summary>
+            cities controller
+            </summary>
+        </member>
+        <member name="M:CityInfoAPI.Web.Controllers.CitiesController.#ctor(CityInfoAPI.Data.Repositories.ICityInfoRepository,Microsoft.Extensions.Logging.ILogger{CityInfoAPI.Web.Controllers.CitiesController},CityInfoAPI.Logic.Processors.CityProcessor)">
+            <summary>
+            constructor
+            </summary>
+            <param name="cityInfoRepository">city data repository middleware to be injected</param>
+            <param name="logger">logger factory middleware to be injected</param>
+            <param name="cityProcessor">city processor middleware to be injected</param>
+        </member>
         <member name="M:CityInfoAPI.Web.Controllers.CitiesController.GetCities">
             <summary>get a collection of all cities</summary>
             <returns>a collection of all cities</returns>
@@ -13,6 +26,21 @@
             <param name="cityId">the id of the city</param>
             <param name="includePointsOfInterest">flag which indicates whether or not points of interest should be included.  true/false</param>
             <returns>a city with optional points of interest</returns>
+        </member>
+        <member name="T:CityInfoAPI.Web.Controllers.PointsOfInterestController">
+            <summary>
+            point of interest controller
+            </summary>
+        </member>
+        <member name="M:CityInfoAPI.Web.Controllers.PointsOfInterestController.#ctor(Microsoft.Extensions.Logging.ILogger{CityInfoAPI.Web.Controllers.PointsOfInterestController},CityInfoAPI.Web.Services.IMailService,CityInfoAPI.Data.Repositories.ICityInfoRepository,CityInfoAPI.Logic.Processors.CityProcessor,CityInfoAPI.Logic.Processors.PointsOfInterestProcessor)">
+            <summary>
+            constructor
+            </summary>
+            <param name="logger">logger factory to be injected</param>
+            <param name="mailService">mail service to be injected</param>
+            <param name="cityInfoRepository">data repository to be injected</param>
+            <param name="cityProcessor">city processor middleware to be injected</param>
+            <param name="pointsOfInterestProcessor">points of interest middleware to be injected</param>
         </member>
         <member name="M:CityInfoAPI.Web.Controllers.PointsOfInterestController.GetPointsOfInterest(System.Int32)">
             <summary>get all points of interest for any given city</summary>
@@ -61,6 +89,42 @@
             <param name="cityId">required city id</param>
             <param name="pointOfInterestId">required point of interest id</param>
             <returns>Ok status and the name of the point of interested which was deleted</returns>
+        </member>
+        <member name="T:CityInfoAPI.Web.Services.CloudMailService">
+            <summary>
+            cloud mail service such as gmail
+            </summary>
+        </member>
+        <member name="M:CityInfoAPI.Web.Services.CloudMailService.SendMessage(System.String,System.String)">
+            <summary>
+            method to send message via cloud service
+            </summary>
+            <param name="subject">subject of message</param>
+            <param name="message">message itself</param>
+        </member>
+        <member name="T:CityInfoAPI.Web.Services.IMailService">
+            <summary>
+            contract for mail service - all implementations must look like this
+            </summary>
+        </member>
+        <member name="M:CityInfoAPI.Web.Services.IMailService.SendMessage(System.String,System.String)">
+            <summary>
+            method to send message
+            </summary>
+            <param name="subject">the subject of the message</param>
+            <param name="message">the message itself</param>
+        </member>
+        <member name="T:CityInfoAPI.Web.Services.LocalMailService">
+            <summary>
+            a local, smtp mail service
+            </summary>
+        </member>
+        <member name="M:CityInfoAPI.Web.Services.LocalMailService.SendMessage(System.String,System.String)">
+            <summary>
+            method to send message from local smtp service
+            </summary>
+            <param name="subject">subject of message</param>
+            <param name="message">message itself</param>
         </member>
     </members>
 </doc>
