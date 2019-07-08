@@ -26,6 +26,9 @@
             <param name="cityId">the id of the city</param>
             <param name="includePointsOfInterest">flag which indicates whether or not points of interest should be included.  true/false</param>
             <returns>a city with optional points of interest</returns>
+            <response code="200">successful return of city</response>
+            <response code="400">bad request for city</response>
+            <response code="404">city id not valid</response>
         </member>
         <member name="T:CityInfoAPI.Web.Controllers.PointsOfInterestController">
             <summary>
