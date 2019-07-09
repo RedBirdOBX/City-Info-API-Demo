@@ -3,17 +3,17 @@ using CityInfoAPI.Data.Repositories;
 using CityInfoAPI.Dtos.Models;
 using CityInfoAPI.Logic.Processors;
 using CityInfoAPI.Web.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace CityInfoAPI.Web.Controllers
 {
-    /// <summary>
-    /// point of interest controller
-    /// </summary>
-    // http://{domain}/api/cities/{cityId}
+    /// <summary>point of interest controller</summary>
+    /// <example>http://{domain}/api/cities/{cityId}</example>
     [Route("api/cities/{cityId}")]
     public class PointsOfInterestController: Controller
     {
@@ -24,9 +24,7 @@ namespace CityInfoAPI.Web.Controllers
         private CityProcessor _cityProcessor;
         private PointsOfInterestProcessor _pointsOfInterestProcessor;
 
-        /// <summary>
-        /// constructor
-        /// </summary>
+        /// <summary>constructor</summary>
         /// <param name="logger">logger factory to be injected</param>
         /// <param name="mailService">mail service to be injected</param>
         /// <param name="cityInfoRepository">data repository to be injected</param>
@@ -43,12 +41,20 @@ namespace CityInfoAPI.Web.Controllers
         }
 
 
-        // http://{domain}/api/cities/{cityId}/pointsofinterest
         /// <summary>get all points of interest for any given city</summary>
+        /// <example>http://{domain}/api/cities/{cityId}/pointsofinterest</example>
         /// <param name="cityId">the id of the city to retrieve points of interest for</param>
-        /// <returns>a collection of points of interest</returns>
+        /// <returns>a list of PointOfInterestDto</returns>
+        /// <response code="200">returns list of points of interest for city</response>
+        /// <response code="400">bad request for points of interest</response>
+        /// <response code="404">city id not valid</response>
+        /// <response code="500">application error</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpGet("pointsofinterest")]
-        public IActionResult GetPointsOfInterest(int cityId)
+        public ActionResult<List<PointOfInterestDto>> GetPointsOfInterest(int cityId)
         {
             try
             {
@@ -70,13 +76,21 @@ namespace CityInfoAPI.Web.Controllers
             }
         }
 
-        // http://{domain}/api/cities/{cityId}/pointsofinterest/{pointOfInterestId}
         /// <summary>get a point of interest by id for a city by id</summary>
+        /// <example>http://{domain}/api/cities/{cityId}/pointsofinterest/{pointOfInterestId}</example>
         /// <param name="cityId">id of city</param>
         /// <param name="pointOfInterestId">if of point of interest</param>
-        /// <returns>a single point of interest</returns>
+        /// <returns>returns PointOfInterestDto</returns>
+        /// <response code="200">returns point of interest for city</response>
+        /// <response code="400">bad request for point of interest</response>
+        /// <response code="404">city id not valid</response>
+        /// <response code="500">application error</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpGet("pointsofinterest/{pointOfInterestId}", Name = "GetPointOfInterestById")]
-        public IActionResult GetPointOfInterestById(int cityId, int pointOfInterestId)
+        public ActionResult<PointOfInterestDto> GetPointOfInterestById(int cityId, int pointOfInterestId)
         {
             if (!_cityProcessor.DoesCityExist(cityId))
             {
@@ -96,16 +110,23 @@ namespace CityInfoAPI.Web.Controllers
                     return Ok(pointOfInterest);
                 }
             }
-
         }
 
-        // http://{domain}/api/cities/{cityId}/pointsofinterest
         /// <summary>POST endpoint for creating a new point of interest</summary>
+        /// <example>http://{domain}/api/cities/{cityId}/pointsofinterest</example>
         /// <param name="cityId">required city id</param>
         /// <param name="submittedPointOfInterest">new point of interest</param>
         /// <returns>201 status code with new endpoint in header</returns>
+        /// <response code="201">returns the new point of interest</response>
+        /// <response code="400">bad request - fails validation</response>
+        /// <response code="404">city id not valid</response>
+        /// <response code="500">application error</response>
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPost("pointsofinterest", Name = "CreatePointOfInterest")]
-        public IActionResult CreatePointOfInterest(int cityId, [FromBody] PointOfInterestCreateDto submittedPointOfInterest)
+        public ActionResult CreatePointOfInterest(int cityId, [FromBody] PointOfInterestCreateDto submittedPointOfInterest)
         {
             // The framework will attempt to deserialize the body post to a PointOfInterestCreateDto type.
             // If it can't, it will remain null and we know we have bad input.
@@ -115,12 +136,14 @@ namespace CityInfoAPI.Web.Controllers
             }
 
             // did the submitted data meet all the rules?
+            // should this be a 422?
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
             // is the name different than the description?
+            // should this be a 422?
             if (submittedPointOfInterest.Name.ToLower().Equals(submittedPointOfInterest.Description.ToLower()))
             {
                 ModelState.AddModelError("Description", "Name and Description cannot be the same.");
@@ -158,12 +181,20 @@ namespace CityInfoAPI.Web.Controllers
             }
         }
 
-        // http://{domain}/api/cities/{cityId}/pointsofinterest/{pointOfInterestId}
         /// <summary>PUT endpoint for updating the entire point of interest</summary>
+        /// <example>http://{domain}/api/cities/{cityId}/pointsofinterest/{pointOfInterestId}</example>
         /// <param name="cityId">required city id</param>
         /// <param name="pointOfInterestId">required point of interest id</param>
         /// <param name="submittedPointOfInterest">entire updated point of interest</param>
         /// <returns>Ok status with updated version of point of interest</returns>
+        /// <response code="200">returns updated point of interest for city</response>
+        /// <response code="400">bad request for point of interest</response>
+        /// <response code="404">city id not valid</response>
+        /// <response code="500">application error</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPut("pointsofinterest/{pointOfInterestId}", Name = "UpdatePointOfInterest")]
         public IActionResult UpdatePointOfInterest(int cityId, int pointOfInterestId, [FromBody] PointOfInterestUpdateDto submittedPointOfInterest)
         {
@@ -175,12 +206,14 @@ namespace CityInfoAPI.Web.Controllers
             }
 
             // did the submitted data meet all the rules?
+            // should be 422?
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
             // is the name different than the description?
+            // should be 422?
             if (submittedPointOfInterest.Name.ToLower().Equals(submittedPointOfInterest.Description.ToLower()))
             {
                 ModelState.AddModelError("Description", "Name and Description cannot be the same.");
@@ -195,6 +228,7 @@ namespace CityInfoAPI.Web.Controllers
             }
 
             // are the name and description provided?
+            // 422?
             if (string.IsNullOrWhiteSpace(submittedPointOfInterest.Name) || string.IsNullOrWhiteSpace(submittedPointOfInterest.Description))
             {
                 return BadRequest(ModelState);
@@ -219,12 +253,12 @@ namespace CityInfoAPI.Web.Controllers
             return Ok(submittedPointOfInterest);
         }
 
-        // http://{domain}/api/{cityId}/pointsofinterest/{pointOfInterestId}
         /// <summary>PATCH endpoint for updating less than the whole point of interest</summary>
+        /// <example>http://{domain}/api/{cityId}/pointsofinterest/{pointOfInterestId}</example>
         /// <param name="cityId">required city id</param>
         /// <param name="pointOfInterestId">required point of interest id</param>
         /// <param name="patchDocument">required patch document which indicates which part(s) will be updated</param>
-        /// <returns>returns Ok status with newly patched point of interest</returns>
+        /// <returns>returns PointOfInterestUpdateDto with new value(s)</returns>
         /// <remarks>
         /// http://{domain}/api/{cityId}/pointsofinterest/{pointOfInterestId} \
         /// sample patch document: \
@@ -236,8 +270,16 @@ namespace CityInfoAPI.Web.Controllers
         ///	    } \
         ///] \
         /// </remarks>
+        /// <response code="200">returns patched point of interest for city</response>
+        /// <response code="400">bad request for points of interest</response>
+        /// <response code="404">city id not valid</response>
+        /// <response code="500">application error</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPatch("pointsofinterest/{pointOfInterestId}", Name = "PatchPointOfInterest")]
-        public IActionResult PatchPointOfInterest(int cityId, int pointOfInterestId, [FromBody] JsonPatchDocument<PointOfInterestUpdateDto> patchDocument)
+        public ActionResult<PointOfInterestUpdateDto> PatchPointOfInterest(int cityId, int pointOfInterestId, [FromBody] JsonPatchDocument<PointOfInterestUpdateDto> patchDocument)
         {
             // see if the correct properties and type was passed in
             if (patchDocument == null)
@@ -272,6 +314,7 @@ namespace CityInfoAPI.Web.Controllers
             // no errors and be valid.
             patchDocument.ApplyTo(pointOfInterestToPatch, ModelState);
 
+            // should be 422?
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -279,6 +322,7 @@ namespace CityInfoAPI.Web.Controllers
 
             // We can solve this with some custom logic again
             // are the name and description provided?
+            // should be 422?
             if (string.IsNullOrWhiteSpace(pointOfInterestToPatch.Name) || string.IsNullOrWhiteSpace(pointOfInterestToPatch.Description))
             {
                 return BadRequest(ModelState);
@@ -287,6 +331,7 @@ namespace CityInfoAPI.Web.Controllers
             // Try to validate the model again
             TryValidateModel(pointOfInterestToPatch);
 
+            // should be 422?
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -304,13 +349,21 @@ namespace CityInfoAPI.Web.Controllers
             return Ok(pointOfInterestToPatch);
         }
 
-        // http://{domain}/api/{cityId}/pointsofinterest/{pointOfInterestId}
         /// <summary>DELETE operation to delete a point of interest</summary>
+        /// <example>http://{domain}/api/{cityId}/pointsofinterest/{pointOfInterestId}</example>
         /// <param name="cityId">required city id</param>
         /// <param name="pointOfInterestId">required point of interest id</param>
         /// <returns>Ok status and the name of the point of interested which was deleted</returns>
+        /// <response code="200">returns the recently deleted point of interest</response>
+        /// <response code="400">bad request for points of interest</response>
+        /// <response code="404">city id not valid</response>
+        /// <response code="500">application error</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpDelete("pointsofinterest/{pointOfInterestId:int}")]
-        public IActionResult DeletePointOfInterest(int cityId, int pointOfInterestId)
+        public ActionResult DeletePointOfInterest(int cityId, int pointOfInterestId)
         {
             // is this a valid city?
             if (!_cityProcessor.DoesCityExist(cityId))

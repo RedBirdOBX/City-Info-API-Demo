@@ -18,7 +18,9 @@ It supports and demonstrates all HTTP verbs: GET, POST, PUT, PATCH, and DELETE.
 - Swashbuckle.AspNetCore 5 RC2
 - AutoMapper 8.1
 - NLog 4.8  
+- Microsoft.AspNetCore.Mvc.Api.Analyzers 2.2.0
 - Microsoft Azure cloud services   
+
 
 ## Chapters
 - [How To Test](#test)
