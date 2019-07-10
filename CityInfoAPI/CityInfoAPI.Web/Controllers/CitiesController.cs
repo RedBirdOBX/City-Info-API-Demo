@@ -12,7 +12,9 @@ namespace CityInfoAPI.Web.Controllers
     /// <example>http://{domain}/api/cities</example>
     [Route("api/cities")]
     [ApiController]
-    public class CitiesController : Controller
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public class CitiesController : ControllerBase
     {
         // fields
         private ILogger<CitiesController> _logger;
@@ -36,7 +38,7 @@ namespace CityInfoAPI.Web.Controllers
         /// <response code="200">returns the list of cities</response>
         /// <response code="400">bad request for cities</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesDefaultResponseType]
         [HttpGet("", Name = "GetCities")]
         public ActionResult<List<CityDto>> GetCities()
         {
@@ -53,8 +55,8 @@ namespace CityInfoAPI.Web.Controllers
         /// <response code="400">bad request for city</response>
         /// <response code="404">city id not valid</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         [HttpGet("{cityId}", Name = "GetCityById")]
         public ActionResult<CityDto> GetCityById([FromRoute] int cityId, [FromQuery] bool includePointsOfInterest = true)
         {

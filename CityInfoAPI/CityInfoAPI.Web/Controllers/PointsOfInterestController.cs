@@ -15,7 +15,10 @@ namespace CityInfoAPI.Web.Controllers
     /// <summary>point of interest controller</summary>
     /// <example>http://{domain}/api/cities/{cityId}</example>
     [Route("api/cities/{cityId}")]
-    public class PointsOfInterestController: Controller
+    [ApiController]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public class PointsOfInterestController: ControllerBase
     {
         // fields
         private ILogger<PointsOfInterestController> _logger;
@@ -50,9 +53,8 @@ namespace CityInfoAPI.Web.Controllers
         /// <response code="404">city id not valid</response>
         /// <response code="500">application error</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesDefaultResponseType]
         [HttpGet("pointsofinterest")]
         public ActionResult<List<PointOfInterestDto>> GetPointsOfInterest(int cityId)
         {
@@ -86,9 +88,8 @@ namespace CityInfoAPI.Web.Controllers
         /// <response code="404">city id not valid</response>
         /// <response code="500">application error</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesDefaultResponseType]
         [HttpGet("pointsofinterest/{pointOfInterestId}", Name = "GetPointOfInterestById")]
         public ActionResult<PointOfInterestDto> GetPointOfInterestById(int cityId, int pointOfInterestId)
         {
@@ -122,9 +123,8 @@ namespace CityInfoAPI.Web.Controllers
         /// <response code="404">city id not valid</response>
         /// <response code="500">application error</response>
         [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesDefaultResponseType]
         [HttpPost("pointsofinterest", Name = "CreatePointOfInterest")]
         public ActionResult CreatePointOfInterest(int cityId, [FromBody] PointOfInterestCreateDto submittedPointOfInterest)
         {
@@ -192,9 +192,8 @@ namespace CityInfoAPI.Web.Controllers
         /// <response code="404">city id not valid</response>
         /// <response code="500">application error</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesDefaultResponseType]
         [HttpPut("pointsofinterest/{pointOfInterestId}", Name = "UpdatePointOfInterest")]
         public IActionResult UpdatePointOfInterest(int cityId, int pointOfInterestId, [FromBody] PointOfInterestUpdateDto submittedPointOfInterest)
         {
@@ -275,9 +274,8 @@ namespace CityInfoAPI.Web.Controllers
         /// <response code="404">city id not valid</response>
         /// <response code="500">application error</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesDefaultResponseType]
         [HttpPatch("pointsofinterest/{pointOfInterestId}", Name = "PatchPointOfInterest")]
         public ActionResult<PointOfInterestUpdateDto> PatchPointOfInterest(int cityId, int pointOfInterestId, [FromBody] JsonPatchDocument<PointOfInterestUpdateDto> patchDocument)
         {
@@ -359,9 +357,8 @@ namespace CityInfoAPI.Web.Controllers
         /// <response code="404">city id not valid</response>
         /// <response code="500">application error</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesDefaultResponseType]
         [HttpDelete("pointsofinterest/{pointOfInterestId:int}")]
         public ActionResult DeletePointOfInterest(int cityId, int pointOfInterestId)
         {
