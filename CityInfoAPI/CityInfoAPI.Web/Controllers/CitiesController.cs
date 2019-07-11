@@ -11,9 +11,10 @@ namespace CityInfoAPI.Web.Controllers
     /// <summary>cities controller</summary>
     /// <example>http://{domain}/api/cities</example>
     [Route("api/cities")]
+    //[Produces("application/json", "application/xml")]
     [ApiController]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public class CitiesController : ControllerBase
     {
         // fields

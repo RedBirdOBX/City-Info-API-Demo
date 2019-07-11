@@ -18,6 +18,7 @@ namespace CityInfoAPI.Web.Controllers
     [ApiController]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    //[Produces("application/json, application/xml")]
     public class PointsOfInterestController: ControllerBase
     {
         // fields
