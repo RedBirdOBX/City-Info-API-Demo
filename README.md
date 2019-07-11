@@ -126,10 +126,10 @@ If successful, it will return a 200 OK status and a message in the body.
 Thie demo API can return either JSON data or Xml Data depending on the Accept parameter you provide in your request header.  JSON is the default if nothing is provided or an invalid type is provided in the request.
 
 **JSON**
-![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/swashbuckle/Images/json-content-type.PNG)
+![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/add-swashbuckle/Images/json-content-type.PNG)
 
 **Xml**
-![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/swashbuckle/Images/xml-content-type.PNG)
+![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/add-swashbuckle/Images/xml-content-type.PNG)
 
 
 
