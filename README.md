@@ -120,6 +120,19 @@ By providing a proper City id and a Point of Interest id, you can delete a resou
 
 If successful, it will return a 200 OK status and a message in the body.
 
+<a href="" id="content" name="content"></a>
+## Content Negotiation 
+
+Thie demo API can return either JSON data or Xml Data depending on the Accept parameter you provide in your request header.  JSON is the default if nothing is provided or an invalid type is provided in the request.
+
+**JSON**
+![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/swashbuckle/Images/json-content-type.PNG)
+
+**Xml**
+![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/swashbuckle/Images/xml-content-type.PNG)
+
+
+
 <a href="" id="logging" name="logging"></a>
 ## Logging 
 This API uses NLog (`https://nlog-project.org/`) for logging.  It is currently set up to log to local text files and to the console. As a demonstration, a log entry is created when you request a city by id that doesn't exist.
