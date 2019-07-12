@@ -25,6 +25,7 @@ It supports and demonstrates all HTTP verbs: GET, POST, PUT, PATCH, and DELETE.
 ## Chapters
 - [How To Test](#test)
 - [Endpoints](#endpoints)
+- [Support Media Types](#content)
 - [Logging](#logging)
 - [CICD](#cicd)
 - [Architecture](#architecture)
