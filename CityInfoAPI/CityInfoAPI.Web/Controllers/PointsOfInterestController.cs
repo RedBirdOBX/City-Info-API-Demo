@@ -18,7 +18,7 @@ namespace CityInfoAPI.Web.Controllers
     [ApiController]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    //[Produces("application/json, application/xml")]
+    [Produces("application/json")]
     public class PointsOfInterestController: ControllerBase
     {
         // fields
@@ -126,6 +126,7 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
+        [Consumes("application/json")]
         [HttpPost("pointsofinterest", Name = "CreatePointOfInterest")]
         public ActionResult CreatePointOfInterest(int cityId, [FromBody] PointOfInterestCreateDto submittedPointOfInterest)
         {

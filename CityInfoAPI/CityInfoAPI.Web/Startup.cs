@@ -52,16 +52,25 @@ namespace CityInfoAPI.Web
             #endif
 
             // adding the mvc service
-            services.AddMvc()
-                //.AddJsonOptions(o =>
-                //{
-                //    if (o.SerializerSettings.ContractResolver != null)
-                //    {
-                //        var castedResolver = o.SerializerSettings.ContractResolver as DefaultContractResolver;
-                //        castedResolver.NamingStrategy = null;
-                //    }
-                //});
-                .AddMvcOptions(o => o.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter()));
+            services.AddMvc(setupAction =>
+            {
+                // disallows unsupported media type. returns a 406 error
+                setupAction.ReturnHttpNotAcceptable = true;
+
+                // allows for xml
+                setupAction.OutputFormatters.Add(new XmlSerializerOutputFormatter());
+            });
+
+
+            //.AddJsonOptions(o =>
+            //{
+            //    if (o.SerializerSettings.ContractResolver != null)
+            //    {
+            //        var castedResolver = o.SerializerSettings.ContractResolver as DefaultContractResolver;
+            //        castedResolver.NamingStrategy = null;
+            //    }
+            //});
+
 
             // register EF Services
             string connectionString = Startup.Configuration["ConnectionStrings:cityInfoConnectionString"];
@@ -115,8 +124,7 @@ namespace CityInfoAPI.Web
                 foreach (var fileInfo in baseDirectoryInfo.EnumerateFiles("CityInfoAPI*.xml"))
                 {
                     setupAction.IncludeXmlComments(fileInfo.FullName);
-                }
-
+                };
             });
 
         }
