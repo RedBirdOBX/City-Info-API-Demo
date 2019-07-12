@@ -132,7 +132,7 @@ This demo API can return either JSON data or Xml Data (content negotiation) depe
 **Xml**
 ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/add-swashbuckle/Images/xml-content-type.PNG)
 
-If you provide a content media type in the request, it will, by design, give you a `406 Not Acceptable` response.
+If you provide an **unsupported** media type in the request, it will, by design, give you a `406 Not Acceptable` response.  
 ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/add-swashbuckle/Images/not-acceptable-error.PNG)
 
 
