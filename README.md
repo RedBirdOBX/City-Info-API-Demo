@@ -122,9 +122,9 @@ By providing a proper City id and a Point of Interest id, you can delete a resou
 If successful, it will return a 200 OK status and a message in the body.
 
 <a href="" id="content" name="content"></a>
-## Content Negotiation 
+## Support Media Types 
 
-This demo API can return either JSON data or Xml Data depending on the Accept parameter you provide in your request header.  JSON is the default if nothing is provided or an invalid type is provided in the request.
+This demo API can return either JSON data or Xml Data (content negotiation) depending on the Accept parameter you provide in your request header. JSON is the default if nothing is provided or an invalid type is provided in the request.
 
 **JSON**
 ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/add-swashbuckle/Images/json-content-type.PNG)
