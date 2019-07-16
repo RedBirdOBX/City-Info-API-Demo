@@ -37,7 +37,6 @@ namespace CityInfoAPI.Web.Controllers
         /// <example>http://{domain}/api/cities</example>
         /// <returns>a collection of CityDto</returns>
         /// <response code="200">returns the list of cities</response>
-        /// <response code="400">bad request for cities</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesDefaultResponseType]
         [HttpGet("", Name = "GetCities")]
@@ -53,7 +52,6 @@ namespace CityInfoAPI.Web.Controllers
         /// <param name="includePointsOfInterest">flag which indicates whether or not points of interest should be included.  true/false</param>
         /// <returns>a CityDto with optional points of interest</returns>
         /// <response code="200">returns a city</response>
-        /// <response code="400">bad request for city</response>
         /// <response code="404">city id not valid</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

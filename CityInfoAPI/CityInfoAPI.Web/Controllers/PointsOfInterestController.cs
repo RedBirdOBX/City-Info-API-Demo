@@ -50,9 +50,7 @@ namespace CityInfoAPI.Web.Controllers
         /// <param name="cityId">the id of the city to retrieve points of interest for</param>
         /// <returns>a list of PointOfInterestDto</returns>
         /// <response code="200">returns list of points of interest for city</response>
-        /// <response code="400">bad request for points of interest</response>
         /// <response code="404">city id not valid</response>
-        /// <response code="500">application error</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
@@ -85,9 +83,7 @@ namespace CityInfoAPI.Web.Controllers
         /// <param name="pointOfInterestId">if of point of interest</param>
         /// <returns>returns PointOfInterestDto</returns>
         /// <response code="200">returns point of interest for city</response>
-        /// <response code="400">bad request for point of interest</response>
         /// <response code="404">city id not valid</response>
-        /// <response code="500">application error</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
@@ -120,9 +116,7 @@ namespace CityInfoAPI.Web.Controllers
         /// <param name="submittedPointOfInterest">new point of interest</param>
         /// <returns>201 status code with new endpoint in header</returns>
         /// <response code="201">returns the new point of interest</response>
-        /// <response code="400">bad request - fails validation</response>
         /// <response code="404">city id not valid</response>
-        /// <response code="500">application error</response>
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
@@ -190,9 +184,7 @@ namespace CityInfoAPI.Web.Controllers
         /// <param name="submittedPointOfInterest">entire updated point of interest</param>
         /// <returns>Ok status with updated version of point of interest</returns>
         /// <response code="200">returns updated point of interest for city</response>
-        /// <response code="400">bad request for point of interest</response>
         /// <response code="404">city id not valid</response>
-        /// <response code="500">application error</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
@@ -272,9 +264,7 @@ namespace CityInfoAPI.Web.Controllers
         ///] \
         /// </remarks>
         /// <response code="200">returns patched point of interest for city</response>
-        /// <response code="400">bad request for points of interest</response>
         /// <response code="404">city id not valid</response>
-        /// <response code="500">application error</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
@@ -355,9 +345,7 @@ namespace CityInfoAPI.Web.Controllers
         /// <param name="pointOfInterestId">required point of interest id</param>
         /// <returns>Ok status and the name of the point of interested which was deleted</returns>
         /// <response code="200">returns the recently deleted point of interest</response>
-        /// <response code="400">bad request for points of interest</response>
         /// <response code="404">city id not valid</response>
-        /// <response code="500">application error</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
@@ -391,6 +379,22 @@ namespace CityInfoAPI.Web.Controllers
             _mailService.SendMessage("**** Point of Interest deleted", $"Point of Interest {pointOfInterestToBeDeleted.Id} {pointOfInterestToBeDeleted.Name} was deleted. ****");
 
             return Ok(pointOfInterestToBeDeleted.Name + " has been removed");
+        }
+
+
+        // Experiment - this one endpoint, resource will be used for versioning and creating a second swagger doc.
+        /// <summary>returns all points of interest, regardless of city.  v1.1</summary>
+        /// <example>http:{domain}api/cities/2/allpointsofinterest</example>
+        /// <returns>list of PointOfInterestDto</returns>
+        /// <param name="cityId">requires a cityid - not currently used</param>
+        /// <response code="200">returns a collection of all points of interest</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesDefaultResponseType]
+        [HttpGet("allpointsofinterest", Name = "GetAllPointsOfInterest")]
+        public ActionResult<List<PointOfInterestDto>> GetAllPointsOfInterest(int cityId)
+        {
+            // just for the time-being, we're going to ignore the cityId. Simply require it.
+            return _pointsOfInterestProcessor.GetAllPointsOfInterest();
         }
     }
 }

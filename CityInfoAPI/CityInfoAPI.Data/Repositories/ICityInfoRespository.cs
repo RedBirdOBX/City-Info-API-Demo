@@ -6,7 +6,7 @@ namespace CityInfoAPI.Data.Repositories
     public interface ICityInfoRepository
     {
         // cities
-        IEnumerable<City> GetCities();
+        List<City> GetCities();
 
         City GetCityById(int id, bool includePointsOfInterest);
 
@@ -14,7 +14,7 @@ namespace CityInfoAPI.Data.Repositories
 
 
         // points of interest
-        IEnumerable<PointOfInterest> GetPointsOfInterest(int cityId);
+        List<PointOfInterest> GetPointsOfInterest(int cityId);
 
         PointOfInterest GetPointOfInterestById(int cityId, int pointOfInterestId);
 
@@ -22,6 +22,7 @@ namespace CityInfoAPI.Data.Repositories
 
         void DeletePointOfInterest(PointOfInterest pointOfInterest);
 
+        List<PointOfInterest> GetAllPointsOfInterest();
 
         // global
         bool SaveChanges();

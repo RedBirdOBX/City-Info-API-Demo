@@ -92,6 +92,11 @@
             point of interest description
             </summary>
         </member>
+        <member name="P:CityInfoAPI.Dtos.Models.PointOfInterestDto.CityId">
+            <summary>
+            id of city this point of interest belongs to
+            </summary>
+        </member>
         <member name="T:CityInfoAPI.Dtos.Models.PointOfInterestUpdateDto">
             <summary>
             dto for updating point of interest

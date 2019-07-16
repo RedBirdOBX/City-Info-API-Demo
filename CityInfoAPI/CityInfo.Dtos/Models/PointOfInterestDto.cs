@@ -9,7 +9,7 @@
         /// point of interest id
         /// </summary>
         public int Id { get; set; }
-        
+
         /// <summary>
         /// point of interest name
         /// </summary>
@@ -19,5 +19,10 @@
         /// point of interest description
         /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// id of city this point of interest belongs to
+        /// </summary>
+        public int CityId { get; set; }
     }
 }

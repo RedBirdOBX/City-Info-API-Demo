@@ -19,7 +19,7 @@ namespace CityInfoAPI.Data.Repositories
 
 
         // cities
-        public IEnumerable<City> GetCities()
+        public List<City> GetCities()
         {
             return _cityInfoDbContext.Cities.OrderBy(c => c.Name).ToList();
         }
@@ -48,7 +48,7 @@ namespace CityInfoAPI.Data.Repositories
 
 
         // points of interest
-        public IEnumerable<PointOfInterest> GetPointsOfInterest(int cityId)
+        public List<PointOfInterest> GetPointsOfInterest(int cityId)
         {
             return _cityInfoDbContext.PointsOfInterest
                     .Where(p => p.CityId == cityId)
@@ -72,6 +72,14 @@ namespace CityInfoAPI.Data.Repositories
         public void DeletePointOfInterest(PointOfInterest pointOfInterest)
         {
             _cityInfoDbContext.PointsOfInterest.Remove(pointOfInterest);
+        }
+
+        public List<PointOfInterest> GetAllPointsOfInterest()
+        {
+            return _cityInfoDbContext.PointsOfInterest
+                .Include(c => c.City)
+                .OrderBy(p => p.Name)
+                .ToList();
         }
 
 
