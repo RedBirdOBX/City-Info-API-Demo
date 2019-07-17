@@ -19,6 +19,7 @@ namespace CityInfoAPI.Web.Controllers
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [Produces("application/json")]
+    [ApiExplorerSettings(GroupName = "OpenAPISpecificationForPointsOfInterest")]
     public class PointsOfInterestController: ControllerBase
     {
         // fields
@@ -390,6 +391,7 @@ namespace CityInfoAPI.Web.Controllers
         /// <response code="200">returns a collection of all points of interest</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesDefaultResponseType]
+        //[ApiExplorerSettings(GroupName = "OpenAPISpecificationForV2")]
         [HttpGet("allpointsofinterest", Name = "GetAllPointsOfInterest")]
         public ActionResult<List<PointOfInterestDto>> GetAllPointsOfInterest(int cityId)
         {

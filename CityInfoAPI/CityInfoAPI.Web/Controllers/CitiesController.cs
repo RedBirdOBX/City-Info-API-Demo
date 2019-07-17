@@ -13,6 +13,7 @@ namespace CityInfoAPI.Web.Controllers
     [Route("api/cities")]
     [Produces("application/json", "application/xml")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "OpenAPISpecificationForCities")]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public class CitiesController : ControllerBase
