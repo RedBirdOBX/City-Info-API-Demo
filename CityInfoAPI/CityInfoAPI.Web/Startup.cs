@@ -88,12 +88,12 @@ namespace CityInfoAPI.Web
                 // 2) add OpenApiInfo object
                 // https://localhost:44305/swagger/OpenAPISpecification/swagger.json
                 setupAction.SwaggerDoc(
-                    "OpenAPISpecificationForCities",
+                    "OpenAPISpecification",
                     new Microsoft.OpenApi.Models.OpenApiInfo()
                     {
-                        Title = "City Info API (Cities)",
+                        Title = "City Info API",
                         Version = "1.0",
-                        Description = "City Info DEMO RESTful API (Cities)",
+                        Description = "City Info DEMO RESTful API",
                         Contact = new Microsoft.OpenApi.Models.OpenApiContact
                         {
                             Email = "shane.fowlkes.70@gmail.com",
@@ -110,29 +110,29 @@ namespace CityInfoAPI.Web
                     }
                 );
 
-                // experimental - ver 2 test
-                setupAction.SwaggerDoc(
-                    "OpenAPISpecificationForPointsOfInterest",
-                    new Microsoft.OpenApi.Models.OpenApiInfo()
-                    {
-                        Title = "City Info API (Points Of Interest)",
-                        Version = "1.0",
-                        Description = "City Info DEMO RESTful API (Points Of Interest)",
-                        Contact = new Microsoft.OpenApi.Models.OpenApiContact
-                        {
-                            Email = "shane.fowlkes.70@gmail.com",
-                            Name = "D. Shane Fowlkes",
-                            Url = new Uri("https://github.com/RedBirdOBX/")
-                        },
+                //// experimental - ver 2 test
+                //setupAction.SwaggerDoc(
+                //    "OpenAPISpecificationForPointsOfInterest",
+                //    new Microsoft.OpenApi.Models.OpenApiInfo()
+                //    {
+                //        Title = "City Info API (Points Of Interest)",
+                //        Version = "1.0",
+                //        Description = "City Info DEMO RESTful API (Points Of Interest)",
+                //        Contact = new Microsoft.OpenApi.Models.OpenApiContact
+                //        {
+                //            Email = "shane.fowlkes.70@gmail.com",
+                //            Name = "D. Shane Fowlkes",
+                //            Url = new Uri("https://github.com/RedBirdOBX/")
+                //        },
 
-                        // you can also include licensing information
-                        License = new Microsoft.OpenApi.Models.OpenApiLicense
-                        {
-                            Name = "MIT License",
-                            Url = new Uri("https://opensource.org/licenses/mit")
-                        }
-                    }
-                );
+                //        // you can also include licensing information
+                //        License = new Microsoft.OpenApi.Models.OpenApiLicense
+                //        {
+                //            Name = "MIT License",
+                //            Url = new Uri("https://opensource.org/licenses/mit")
+                //        }
+                //    }
+                //);
 
                 // we could do this...
                 // setupAction.IncludeXmlComments("CityInfoAPI.Web.xml");
@@ -199,10 +199,10 @@ namespace CityInfoAPI.Web
             // pass in the URI and a name
             app.UseSwaggerUI(setupAction =>
             {
-                setupAction.SwaggerEndpoint("/swagger/OpenAPISpecificationForCities/swagger.json", "City Info API (Cities)");
+                setupAction.SwaggerEndpoint("/swagger/OpenAPISpecification/swagger.json", "City Info API");
 
                 // experimental
-                setupAction.SwaggerEndpoint("/swagger/OpenAPISpecificationForPointsOfInterest/swagger.json", "City Info API (Points Of Interest)");
+                //setupAction.SwaggerEndpoint("/swagger/OpenAPISpecificationForPointsOfInterest/swagger.json", "City Info API (Points Of Interest)");
 
                 // helps set up the index.html endpoint
                 setupAction.RoutePrefix = string.Empty;

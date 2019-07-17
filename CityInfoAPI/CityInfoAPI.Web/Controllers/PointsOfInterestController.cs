@@ -19,7 +19,7 @@ namespace CityInfoAPI.Web.Controllers
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [Produces("application/json")]
-    [ApiExplorerSettings(GroupName = "OpenAPISpecificationForPointsOfInterest")]
+    //[ApiExplorerSettings(GroupName = "OpenAPISpecificationForPointsOfInterest")]
     public class PointsOfInterestController: ControllerBase
     {
         // fields
