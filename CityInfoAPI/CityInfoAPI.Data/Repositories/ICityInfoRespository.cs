@@ -22,8 +22,6 @@ namespace CityInfoAPI.Data.Repositories
 
         void DeletePointOfInterest(PointOfInterest pointOfInterest);
 
-        List<PointOfInterest> GetAllPointsOfInterest();
-
         // global
         bool SaveChanges();
     }

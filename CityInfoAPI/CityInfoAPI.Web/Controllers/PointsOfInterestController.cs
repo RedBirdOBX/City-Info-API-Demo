@@ -19,7 +19,6 @@ namespace CityInfoAPI.Web.Controllers
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [Produces("application/json")]
-    //[ApiExplorerSettings(GroupName = "OpenAPISpecificationForPointsOfInterest")]
     public class PointsOfInterestController: ControllerBase
     {
         // fields
@@ -380,23 +379,6 @@ namespace CityInfoAPI.Web.Controllers
             _mailService.SendMessage("**** Point of Interest deleted", $"Point of Interest {pointOfInterestToBeDeleted.Id} {pointOfInterestToBeDeleted.Name} was deleted. ****");
 
             return Ok(pointOfInterestToBeDeleted.Name + " has been removed");
-        }
-
-
-        // Experiment - this one endpoint, resource will be used for versioning and creating a second swagger doc.
-        /// <summary>returns all points of interest, regardless of city.  v1.1</summary>
-        /// <example>http:{domain}api/cities/2/allpointsofinterest</example>
-        /// <returns>list of PointOfInterestDto</returns>
-        /// <param name="cityId">requires a cityid - not currently used</param>
-        /// <response code="200">returns a collection of all points of interest</response>
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesDefaultResponseType]
-        //[ApiExplorerSettings(GroupName = "OpenAPISpecificationForV2")]
-        [HttpGet("allpointsofinterest", Name = "GetAllPointsOfInterest")]
-        public ActionResult<List<PointOfInterestDto>> GetAllPointsOfInterest(int cityId)
-        {
-            // just for the time-being, we're going to ignore the cityId. Simply require it.
-            return _pointsOfInterestProcessor.GetAllPointsOfInterest();
         }
     }
 }

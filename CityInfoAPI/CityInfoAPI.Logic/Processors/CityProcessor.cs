@@ -18,7 +18,6 @@ namespace CityInfoAPI.Logic.Processors
         }
 
 
-        // cities
         public List<CityWithoutPointsOfInterestDto> GetCities()
         {
             var cityEntities = _cityInfoRepository.GetCities();

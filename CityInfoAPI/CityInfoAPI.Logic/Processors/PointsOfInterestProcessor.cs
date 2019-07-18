@@ -32,13 +32,6 @@ namespace CityInfoAPI.Logic.Processors
             return results;
         }
 
-        public List<PointOfInterestDto> GetAllPointsOfInterest()
-        {
-            var pointsOfInterest = _cityInfoRepository.GetAllPointsOfInterest();
-            var results = Mapper.Map<List<PointOfInterestDto>>(pointsOfInterest);
-            return results;
-        }
-
         public PointOfInterestDto GetPointOfInterestById(int cityId, int pointOfInterestId)
         {
             var pointOfInterest = _cityInfoRepository.GetPointOfInterestById(cityId, pointOfInterestId);

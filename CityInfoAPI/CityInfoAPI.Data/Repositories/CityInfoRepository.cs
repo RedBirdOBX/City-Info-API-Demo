@@ -74,15 +74,6 @@ namespace CityInfoAPI.Data.Repositories
             _cityInfoDbContext.PointsOfInterest.Remove(pointOfInterest);
         }
 
-        public List<PointOfInterest> GetAllPointsOfInterest()
-        {
-            return _cityInfoDbContext.PointsOfInterest
-                .Include(c => c.City)
-                .OrderBy(p => p.Name)
-                .ToList();
-        }
-
-
         // global
         public bool SaveChanges()
         {

@@ -80,6 +80,16 @@ namespace CityInfoAPI.Web
             services.AddScoped<CityProcessor>();
             services.AddScoped<PointsOfInterestProcessor>();
 
+            //services.AddAutoMapper();
+
+            // register versioning services in our container
+            services.AddApiVersioning(setupAction =>
+            {
+                setupAction.AssumeDefaultVersionWhenUnspecified = true;
+                setupAction.DefaultApiVersion = new ApiVersion(1, 0);
+                setupAction.ReportApiVersions = true;
+            });
+
             // accepts a "set up" action to set it up.
             services.AddSwaggerGen(setupAction =>
             {
@@ -109,30 +119,6 @@ namespace CityInfoAPI.Web
                         }
                     }
                 );
-
-                //// experimental - ver 2 test
-                //setupAction.SwaggerDoc(
-                //    "OpenAPISpecificationForPointsOfInterest",
-                //    new Microsoft.OpenApi.Models.OpenApiInfo()
-                //    {
-                //        Title = "City Info API (Points Of Interest)",
-                //        Version = "1.0",
-                //        Description = "City Info DEMO RESTful API (Points Of Interest)",
-                //        Contact = new Microsoft.OpenApi.Models.OpenApiContact
-                //        {
-                //            Email = "shane.fowlkes.70@gmail.com",
-                //            Name = "D. Shane Fowlkes",
-                //            Url = new Uri("https://github.com/RedBirdOBX/")
-                //        },
-
-                //        // you can also include licensing information
-                //        License = new Microsoft.OpenApi.Models.OpenApiLicense
-                //        {
-                //            Name = "MIT License",
-                //            Url = new Uri("https://opensource.org/licenses/mit")
-                //        }
-                //    }
-                //);
 
                 // we could do this...
                 // setupAction.IncludeXmlComments("CityInfoAPI.Web.xml");
@@ -200,9 +186,6 @@ namespace CityInfoAPI.Web
             app.UseSwaggerUI(setupAction =>
             {
                 setupAction.SwaggerEndpoint("/swagger/OpenAPISpecification/swagger.json", "City Info API");
-
-                // experimental
-                //setupAction.SwaggerEndpoint("/swagger/OpenAPISpecificationForPointsOfInterest/swagger.json", "City Info API (Points Of Interest)");
 
                 // helps set up the index.html endpoint
                 setupAction.RoutePrefix = string.Empty;

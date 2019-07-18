@@ -107,13 +107,6 @@
             <response code="200">returns the recently deleted point of interest</response>
             <response code="404">city id not valid</response>
         </member>
-        <member name="M:CityInfoAPI.Web.Controllers.PointsOfInterestController.GetAllPointsOfInterest(System.Int32)">
-            <summary>returns all points of interest, regardless of city.  v1.1</summary>
-            <example>http:{domain}api/cities/2/allpointsofinterest</example>
-            <returns>list of PointOfInterestDto</returns>
-            <param name="cityId">requires a cityid - not currently used</param>
-            <response code="200">returns a collection of all points of interest</response>
-        </member>
         <member name="T:CityInfoAPI.Web.Services.CloudMailService">
             <summary>
             cloud mail service such as gmail

@@ -37,6 +37,21 @@
             a list of points of interest for this city
             </summary>
         </member>
+        <member name="T:CityInfoAPI.Dtos.Models.CitySummaryDto">
+            <summary>
+            dto to provide city name and count of points of interest
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.CitySummaryDto.CityName">
+            <summary>
+            name of city
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.CitySummaryDto.PointsOfInterestCount">
+            <summary>
+            total number of points of interest for city
+            </summary>
+        </member>
         <member name="T:CityInfoAPI.Dtos.Models.CityWithoutPointsOfInterestDto">
             <summary>
             city with no point of interest property
