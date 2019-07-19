@@ -2,7 +2,6 @@
 using CityInfoAPI.Data.Repositories;
 using CityInfoAPI.Dtos.Models;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace CityInfoAPI.Logic.Processors
 {
@@ -22,6 +21,13 @@ namespace CityInfoAPI.Logic.Processors
         {
             var cityEntities = _cityInfoRepository.GetCities();
             var results = Mapper.Map<List<CityWithoutPointsOfInterestDto>>(cityEntities);
+            return results;
+        }
+
+        public List<CityDto> GetCitiesWithPointOfInterest()
+        {
+            var cities = _cityInfoRepository.GetCitiesWithPointsOfInterest();
+            var results = Mapper.Map<List<CityDto>>(cities);
             return results;
         }
 

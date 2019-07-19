@@ -79,6 +79,7 @@ namespace CityInfoAPI.Web
             services.AddScoped<ICityInfoRepository, CityInfoRepository>();
             services.AddScoped<CityProcessor>();
             services.AddScoped<PointsOfInterestProcessor>();
+            services.AddScoped<ReportingProcessor>();
 
             //services.AddAutoMapper();
 

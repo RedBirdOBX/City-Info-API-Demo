@@ -42,12 +42,12 @@
             dto to provide city name and count of points of interest
             </summary>
         </member>
-        <member name="P:CityInfoAPI.Dtos.Models.CitySummaryDto.CityName">
+        <member name="P:CityInfoAPI.Dtos.Models.CitySummaryDto.Name">
             <summary>
             name of city
             </summary>
         </member>
-        <member name="P:CityInfoAPI.Dtos.Models.CitySummaryDto.PointsOfInterestCount">
+        <member name="P:CityInfoAPI.Dtos.Models.CitySummaryDto.NumberOfPointsOfInterest">
             <summary>
             total number of points of interest for city
             </summary>
@@ -64,7 +64,7 @@
         </member>
         <member name="P:CityInfoAPI.Dtos.Models.CityWithoutPointsOfInterestDto.Name">
             <summary>
-            point of interest nane
+            point of interest name
             </summary>
         </member>
         <member name="P:CityInfoAPI.Dtos.Models.CityWithoutPointsOfInterestDto.Description">

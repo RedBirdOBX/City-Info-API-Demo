@@ -1,34 +1,26 @@
 ﻿using AutoMapper;
-using CityInfoAPI.Data.Repositories;
 using CityInfoAPI.Dtos.Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace CityInfoAPI.Logic.Processors
 {
     public class ReportingProcessor
     {
         // fields
-        private ICityInfoRepository _cityInfoRepository;
+        private CityProcessor _cityProcessor;
 
         // constructor
-        public ReportingProcessor(ICityInfoRepository cityInfoRepository)
+        public ReportingProcessor(CityProcessor cityProcessor)
         {
-            _cityInfoRepository = cityInfoRepository;
+            _cityProcessor = cityProcessor;
         }
 
 
         public List<CitySummaryDto> GetCitiesSummary()
         {
-            // 1 - get cities from processor, not repository.  This will automatically have the name and the count of points of interest,.
-            // 2 - map that to the CitySummaryDto
-
-            //var cities = _cityInfoRepository.GetCities();
-            //var results = Mapper.Map<List<CitySummaryDto>>(cityEntities);
-            //return results;
+            var cities = _cityProcessor.GetCitiesWithPointOfInterest();
+            var results = Mapper.Map<List<CitySummaryDto>>(cities);
+            return results;
         }
-
-
     }
 }

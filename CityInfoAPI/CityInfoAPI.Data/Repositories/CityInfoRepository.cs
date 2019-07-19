@@ -24,6 +24,13 @@ namespace CityInfoAPI.Data.Repositories
             return _cityInfoDbContext.Cities.OrderBy(c => c.Name).ToList();
         }
 
+        public List<City> GetCitiesWithPointsOfInterest()
+        {
+            return _cityInfoDbContext.Cities
+                    .Include(c => c.PointsOfInterest)
+                    .OrderBy(c => c.Name).ToList();
+        }
+
         public City GetCityById(int cityId, bool includePointsOfInterest)
         {
             if (includePointsOfInterest)

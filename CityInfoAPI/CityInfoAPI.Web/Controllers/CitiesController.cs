@@ -19,16 +19,16 @@ namespace CityInfoAPI.Web.Controllers
     {
         // fields
         private ILogger<CitiesController> _logger;
-        private ICityInfoRepository _cityInfoRepository;
+        //private ICityInfoRepository _cityInfoRepository;
         private CityProcessor _cityProcessor;
 
         /// <summary>constructor</summary>
-        /// <param name="cityInfoRepository">city data repository middleware to be injected</param>
+        ///// <param name="cityInfoRepository">city data repository middleware to be injected</param>
         /// <param name="logger">logger factory middleware to be injected</param>
         /// <param name="cityProcessor">city processor middleware to be injected</param>
-        public CitiesController(ICityInfoRepository cityInfoRepository, ILogger<CitiesController> logger, CityProcessor cityProcessor)
+        public CitiesController(ILogger<CitiesController> logger, CityProcessor cityProcessor)
         {
-            _cityInfoRepository = cityInfoRepository;
+            //_cityInfoRepository = cityInfoRepository;
             _cityProcessor = cityProcessor;
             _logger = logger;
         }

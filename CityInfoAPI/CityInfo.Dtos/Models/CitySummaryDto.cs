@@ -5,14 +5,15 @@
     /// </summary>
     public class CitySummaryDto
     {
+
         /// <summary>
         /// name of city
         /// </summary>
-        public string CityName { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// total number of points of interest for city
         /// </summary>
-        public int NumberOfPointsOfInterest { get; set; }
+        public int NumberOfPointsOfInterest { get; set;  }
     }
 }

@@ -11,7 +11,7 @@
         public int Id { get; set; }
 
         /// <summary>
-        /// point of interest nane
+        /// point of interest name
         /// </summary>
         public string Name { get; set; }
 

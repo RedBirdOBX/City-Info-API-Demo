@@ -8,6 +8,8 @@ namespace CityInfoAPI.Data.Repositories
         // cities
         List<City> GetCities();
 
+        List<City> GetCitiesWithPointsOfInterest();
+
         City GetCityById(int id, bool includePointsOfInterest);
 
         bool DoesCityExist(int cityId);

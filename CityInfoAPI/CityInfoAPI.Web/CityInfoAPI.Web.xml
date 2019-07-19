@@ -8,9 +8,7 @@
             <summary>cities controller</summary>
             <example>http://{domain}/api/cities</example>
         </member>
-        <member name="M:CityInfoAPI.Web.Controllers.CitiesController.#ctor(CityInfoAPI.Data.Repositories.ICityInfoRepository,Microsoft.Extensions.Logging.ILogger{CityInfoAPI.Web.Controllers.CitiesController},CityInfoAPI.Logic.Processors.CityProcessor)">
-            <summary>constructor</summary>
-            <param name="cityInfoRepository">city data repository middleware to be injected</param>
+        <member name="M:CityInfoAPI.Web.Controllers.CitiesController.#ctor(Microsoft.Extensions.Logging.ILogger{CityInfoAPI.Web.Controllers.CitiesController},CityInfoAPI.Logic.Processors.CityProcessor)">
             <param name="logger">logger factory middleware to be injected</param>
             <param name="cityProcessor">city processor middleware to be injected</param>
         </member>
@@ -106,6 +104,23 @@
             <returns>Ok status and the name of the point of interested which was deleted</returns>
             <response code="200">returns the recently deleted point of interest</response>
             <response code="404">city id not valid</response>
+        </member>
+        <member name="T:CityInfoAPI.Web.Controllers.ReportingController">
+            <summary>
+            returns various reports
+            </summary>
+        </member>
+        <member name="M:CityInfoAPI.Web.Controllers.ReportingController.#ctor(CityInfoAPI.Logic.Processors.ReportingProcessor)">
+            <summary>
+            constructor
+            </summary>
+            <param name="reportingProcessor">reporting processor</param>
+        </member>
+        <member name="M:CityInfoAPI.Web.Controllers.ReportingController.CitySummary">
+            <summary>
+            returns a list of cities and its count of points of interest
+            </summary>
+            <returns>collection of city summary dto</returns>
         </member>
         <member name="T:CityInfoAPI.Web.Services.CloudMailService">
             <summary>
