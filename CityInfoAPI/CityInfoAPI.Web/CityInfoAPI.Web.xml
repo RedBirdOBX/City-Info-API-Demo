@@ -107,20 +107,18 @@
         </member>
         <member name="T:CityInfoAPI.Web.Controllers.ReportingController">
             <summary>
-            returns various reports
+            returns various reports. controller requires a version to be specified.
             </summary>
         </member>
         <member name="M:CityInfoAPI.Web.Controllers.ReportingController.#ctor(CityInfoAPI.Logic.Processors.ReportingProcessor)">
-            <summary>
-            constructor
-            </summary>
+            <summary>constructor</summary>
             <param name="reportingProcessor">reporting processor</param>
         </member>
         <member name="M:CityInfoAPI.Web.Controllers.ReportingController.CitySummary">
-            <summary>
-            returns a list of cities and its count of points of interest
-            </summary>
+            <summary>V2 resource. returns a list of cities and its count of points of interest</summary>
+            <example>http://{domain}/api/cities/reporting/summary</example>
             <returns>collection of city summary dto</returns>
+            <response code="200">returns point of interest for city</response>
         </member>
         <member name="T:CityInfoAPI.Web.Services.CloudMailService">
             <summary>

@@ -14,8 +14,9 @@ namespace CityInfoAPI.Web.Controllers
 {
     /// <summary>point of interest controller</summary>
     /// <example>http://{domain}/api/cities/{cityId}</example>
-    [Route("api/cities/{cityId}")]
+    [Route("api/v{version:apiVersion}/cities/{cityId}")]
     [ApiController]
+    [ApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [Produces("application/json")]

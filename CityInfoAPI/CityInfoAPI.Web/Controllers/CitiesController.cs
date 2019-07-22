@@ -10,9 +10,10 @@ namespace CityInfoAPI.Web.Controllers
 {
     /// <summary>cities controller</summary>
     /// <example>http://{domain}/api/cities</example>
-    [Route("api/cities")]
+    [Route("api/v{version:apiVersion}/cities")]
     [Produces("application/json", "application/xml")]
     [ApiController]
+    [ApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public class CitiesController : ControllerBase
@@ -23,7 +24,7 @@ namespace CityInfoAPI.Web.Controllers
         private CityProcessor _cityProcessor;
 
         /// <summary>constructor</summary>
-        ///// <param name="cityInfoRepository">city data repository middleware to be injected</param>
+        ////// <param name="cityInfoRepository">city data repository middleware to be injected</param>
         /// <param name="logger">logger factory middleware to be injected</param>
         /// <param name="cityProcessor">city processor middleware to be injected</param>
         public CitiesController(ILogger<CitiesController> logger, CityProcessor cityProcessor)

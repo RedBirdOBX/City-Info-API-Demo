@@ -29,7 +29,13 @@
 			"name": "Get City By Id",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/jsonfoo",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "http://localhost:5000/api/cities/1",
 					"protocol": "http",
@@ -125,6 +131,29 @@
 						"cities",
 						"1",
 						"pointsofinterest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Cities Summary",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/v2.0/cities/reporting/summary",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v2.0",
+						"cities",
+						"reporting",
+						"summary"
 					]
 				}
 			},
