@@ -5,6 +5,7 @@ using CityInfoAPI.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -81,8 +82,6 @@ namespace CityInfoAPI.Web
             services.AddScoped<PointsOfInterestProcessor>();
             services.AddScoped<ReportingProcessor>();
 
-            //services.AddAutoMapper();
-
             // register versioning services in our container
             services.AddApiVersioning(setupAction =>
             {
@@ -91,35 +90,57 @@ namespace CityInfoAPI.Web
                 setupAction.ReportApiVersions = true;
             });
 
+            // we need an instance of an ApiVersionDescriptionProvider
+            // we cannot use DI here because we are in the Configure Services provider so we call into
+            // BuildServiceProvider on the services object.
+            var apiVersionDescriptionProvider = services.BuildServiceProvider().GetService<IApiVersionDescriptionProvider>();
+
+            // it will look for the letter "v" followed by major and potential minor version
+            services.AddVersionedApiExplorer(setupAction =>
+            {
+                setupAction.GroupNameFormat = "'v'VV";
+            });
+
             // accepts a "set up" action to set it up.
             services.AddSwaggerGen(setupAction =>
             {
-                // we want to add a swagger document...a specification document.
-                // 1) add name. This will be part of the URI.
-                // 2) add OpenApiInfo object
-                // https://localhost:44305/swagger/OpenAPISpecification/swagger.json
-                setupAction.SwaggerDoc(
-                    "OpenAPISpecification",
-                    new Microsoft.OpenApi.Models.OpenApiInfo()
-                    {
-                        Title = "City Info API",
-                        Version = "1.0",
-                        Description = "City Info DEMO RESTful API",
-                        Contact = new Microsoft.OpenApi.Models.OpenApiContact
+
+                // there will be one description doc for each version.
+                foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions)
+                {
+
+                    // we want to add a swagger document...a specification document.
+                    // 1) add name. This will be part of the URI.
+                    // 2) add OpenApiInfo object
+                    // https://localhost:44305/swagger/OpenAPISpecification/swagger.json
+
+                    // now we can pass the group name in the Swagger doc name.
+
+                    setupAction.SwaggerDoc(
+                        $"CityAPISpecification{description.GroupName}",
+                        new Microsoft.OpenApi.Models.OpenApiInfo()
                         {
-                            Email = "shane.fowlkes.70@gmail.com",
-                            Name = "D. Shane Fowlkes",
-                            Url = new Uri("https://github.com/RedBirdOBX/")
-                        },
+                            Title = "City Info API",
+                            Version = description.ApiVersion.ToString(),
+                            Description = "City Info DEMO RESTful API",
+                            Contact = new Microsoft.OpenApi.Models.OpenApiContact
+                            {
+                                Email = "shane.fowlkes.70@gmail.com",
+                                Name = "D. Shane Fowlkes",
+                                Url = new Uri("https://github.com/RedBirdOBX/")
+                            },
 
                         // you can also include licensing information
                         License = new Microsoft.OpenApi.Models.OpenApiLicense
-                        {
-                            Name = "MIT License",
-                            Url = new Uri("https://opensource.org/licenses/mit")
+                            {
+                                Name = "MIT License",
+                                Url = new Uri("https://opensource.org/licenses/mit")
+                            }
                         }
-                    }
-                );
+                    );
+
+
+                }
 
                 // we could do this...
                 // setupAction.IncludeXmlComments("CityInfoAPI.Web.xml");
@@ -143,7 +164,7 @@ namespace CityInfoAPI.Web
         // This method gets called by the runtime.
         // build pipeline
         // Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, CityInfoDbContext cityInfoDbContext)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, CityInfoDbContext cityInfoDbContext, IApiVersionDescriptionProvider apiVersionDescriptionProvider)
         {
             loggerFactory.AddConsole();
             loggerFactory.AddDebug(LogLevel.Information);
@@ -186,7 +207,12 @@ namespace CityInfoAPI.Web
             // pass in the URI and a name
             app.UseSwaggerUI(setupAction =>
             {
-                setupAction.SwaggerEndpoint("/swagger/OpenAPISpecification/swagger.json", "City Info API");
+                //setupAction.SwaggerEndpoint("/swagger/OpenAPISpecification/swagger.json", "City Info API");
+
+                foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions)
+                {
+                    setupAction.SwaggerEndpoint($"/swagger/CityAPISpecification{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
+                }
 
                 // helps set up the index.html endpoint
                 setupAction.RoutePrefix = string.Empty;
