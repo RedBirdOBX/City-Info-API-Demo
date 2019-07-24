@@ -60,7 +60,8 @@ namespace CityInfoAPI.Web
 
                 // allows for xml
                 setupAction.OutputFormatters.Add(new XmlSerializerOutputFormatter());
-            });
+            })
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
 
             //.AddJsonOptions(o =>
@@ -82,6 +83,12 @@ namespace CityInfoAPI.Web
             services.AddScoped<PointsOfInterestProcessor>();
             services.AddScoped<ReportingProcessor>();
 
+            // it will look for the letter "v" followed by major and potential minor version
+            services.AddVersionedApiExplorer(setupAction =>
+            {
+                setupAction.GroupNameFormat = "'v'VV";
+            });
+
             // register versioning services in our container
             services.AddApiVersioning(setupAction =>
             {
@@ -94,12 +101,6 @@ namespace CityInfoAPI.Web
             // we cannot use DI here because we are in the Configure Services provider so we call into
             // BuildServiceProvider on the services object.
             var apiVersionDescriptionProvider = services.BuildServiceProvider().GetService<IApiVersionDescriptionProvider>();
-
-            // it will look for the letter "v" followed by major and potential minor version
-            services.AddVersionedApiExplorer(setupAction =>
-            {
-                setupAction.GroupNameFormat = "'v'VV";
-            });
 
             // accepts a "set up" action to set it up.
             services.AddSwaggerGen(setupAction =>
@@ -129,9 +130,8 @@ namespace CityInfoAPI.Web
                                 Name = "D. Shane Fowlkes",
                                 Url = new Uri("https://github.com/RedBirdOBX/")
                             },
-
-                        // you can also include licensing information
-                        License = new Microsoft.OpenApi.Models.OpenApiLicense
+                            // you can also include licensing information
+                            License = new Microsoft.OpenApi.Models.OpenApiLicense
                             {
                                 Name = "MIT License",
                                 Url = new Uri("https://opensource.org/licenses/mit")
@@ -141,6 +141,28 @@ namespace CityInfoAPI.Web
 
 
                 }
+
+                // what does this do?
+                //setupAction.DocInclusionPredicate((documentName, apiDescription) =>
+                //{
+                //    var actionApiVersionModel = apiDescription.ActionDescriptor
+                //    .GetApiVersionModel(ApiVersionMapping.Explicit | ApiVersionMapping.Implicit);
+
+                //    if (actionApiVersionModel == null)
+                //    {
+                //        return true;
+                //    }
+
+                //    if (actionApiVersionModel.DeclaredApiVersions.Any())
+                //    {
+                //        return actionApiVersionModel.DeclaredApiVersions.Any(v =>
+                //        $"LibraryOpenAPISpecificationv{v.ToString()}" == documentName);
+                //    }
+                //    return actionApiVersionModel.ImplementedApiVersions.Any(v =>
+                //        $"LibraryOpenAPISpecificationv{v.ToString()}" == documentName);
+                //});
+
+
 
                 // we could do this...
                 // setupAction.IncludeXmlComments("CityInfoAPI.Web.xml");

@@ -20,6 +20,8 @@ It supports and demonstrates all HTTP verbs: GET, POST, PUT, PATCH, and DELETE.
 - NLog 4.8  
 - Microsoft.AspNetCore.Mvc.Api.Analyzers 2.2.0
 - Microsoft Azure cloud services   
+- Microsoft.AspNetCore.Mvc.Versioning 3.1.3
+- Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer 3.2.0
 
 
 ## Chapters
