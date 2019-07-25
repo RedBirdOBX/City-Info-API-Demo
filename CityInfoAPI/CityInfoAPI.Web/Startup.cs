@@ -5,8 +5,10 @@ using CityInfoAPI.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -142,25 +144,26 @@ namespace CityInfoAPI.Web
 
                 }
 
-                // what does this do?
-                //setupAction.DocInclusionPredicate((documentName, apiDescription) =>
-                //{
-                //    var actionApiVersionModel = apiDescription.ActionDescriptor
-                //    .GetApiVersionModel(ApiVersionMapping.Explicit | ApiVersionMapping.Implicit);
+                // we need to select/find actions to match the versions for the API Explorer
+                setupAction.DocInclusionPredicate((documentName, apiDescription) =>
+                {
+                    var actionApiVersionModel = apiDescription.ActionDescriptor.GetApiVersionModel(ApiVersionMapping.Explicit | ApiVersionMapping.Implicit);
 
-                //    if (actionApiVersionModel == null)
-                //    {
-                //        return true;
-                //    }
+                    if (actionApiVersionModel == null)
+                    {
+                        return true;
+                    }
 
-                //    if (actionApiVersionModel.DeclaredApiVersions.Any())
-                //    {
-                //        return actionApiVersionModel.DeclaredApiVersions.Any(v =>
-                //        $"LibraryOpenAPISpecificationv{v.ToString()}" == documentName);
-                //    }
-                //    return actionApiVersionModel.ImplementedApiVersions.Any(v =>
-                //        $"LibraryOpenAPISpecificationv{v.ToString()}" == documentName);
-                //});
+                    // for some reason, this does not return to be true.
+                    if (actionApiVersionModel.DeclaredApiVersions.Any())
+                    {
+                        // too many magic strings
+                        bool test = actionApiVersionModel.DeclaredApiVersions.Any(v => $"CityAPISpecification{v.ToString()}" == documentName);
+                        return test;
+                    }
+
+                    return actionApiVersionModel.ImplementedApiVersions.Any(v => $"CityAPISpecification{v.ToString()}" == documentName);
+                });
 
 
 
