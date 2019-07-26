@@ -48,6 +48,9 @@ namespace CityInfoAPI.Web
         public void ConfigureServices(IServiceCollection services)
         {
 
+            string _specsName = "CityAPISpecification";
+
+
             #if DEBUG
                 services.AddTransient<IMailService, LocalMailService>();
             #else
@@ -111,16 +114,14 @@ namespace CityInfoAPI.Web
                 // there will be one description doc for each version.
                 foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions)
                 {
-
                     // we want to add a swagger document...a specification document.
                     // 1) add name. This will be part of the URI.
                     // 2) add OpenApiInfo object
                     // https://localhost:44305/swagger/OpenAPISpecification/swagger.json
 
                     // now we can pass the group name in the Swagger doc name.
-
                     setupAction.SwaggerDoc(
-                        $"CityAPISpecification{description.GroupName}",
+                        $"{_specsName}{description.GroupName}",
                         new Microsoft.OpenApi.Models.OpenApiInfo()
                         {
                             Title = "City Info API",
@@ -154,15 +155,12 @@ namespace CityInfoAPI.Web
                         return true;
                     }
 
-                    // for some reason, this does not return to be true.
                     if (actionApiVersionModel.DeclaredApiVersions.Any())
                     {
-                        // too many magic strings
-                        bool test = actionApiVersionModel.DeclaredApiVersions.Any(v => $"CityAPISpecification{v.ToString()}" == documentName);
-                        return test;
+                        return actionApiVersionModel.DeclaredApiVersions.Any(v => $"{_specsName}v{v.ToString()}" == documentName);
                     }
 
-                    return actionApiVersionModel.ImplementedApiVersions.Any(v => $"CityAPISpecification{v.ToString()}" == documentName);
+                    return actionApiVersionModel.ImplementedApiVersions.Any(v => $"{_specsName}v{v.ToString()}" == documentName);
                 });
 
 
@@ -191,6 +189,9 @@ namespace CityInfoAPI.Web
         // Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, CityInfoDbContext cityInfoDbContext, IApiVersionDescriptionProvider apiVersionDescriptionProvider)
         {
+
+            string _specsName = "CityAPISpecification";
+
             loggerFactory.AddConsole();
             loggerFactory.AddDebug(LogLevel.Information);
             loggerFactory.AddNLog();
@@ -236,7 +237,7 @@ namespace CityInfoAPI.Web
 
                 foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions)
                 {
-                    setupAction.SwaggerEndpoint($"/swagger/CityAPISpecification{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
+                    setupAction.SwaggerEndpoint($"/swagger/{_specsName}{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
                 }
 
                 // helps set up the index.html endpoint
