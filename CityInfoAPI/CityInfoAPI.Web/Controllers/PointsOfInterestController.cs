@@ -168,10 +168,6 @@ namespace CityInfoAPI.Web.Controllers
             }
             else
             {
-                // once Save has been called, our new PointOfInterest has it's db generated id so we can use that now.
-                // rather than expose the entire new entity, let's map it to a dto so we don't expose all of the entity.
-                //var createdPointOfInterestToReturn = Mapper.Map<CityInfoAPI.Dtos.Models.PointOfInterestDto>(newPointOfInterest);
-
                 // Returns 201 Created Status Code.
                 // Returns the ROUTE in the RESPONSE HEADER (http://localhost:49902/api/cities/{cityId}/pointsofinterest/{newId}) where you can see it.
                 return CreatedAtRoute("GetPointOfInterestById", new { cityId = cityId, pointOfInterestId = newPointOfInterest.Id }, newPointOfInterest);
@@ -192,15 +188,13 @@ namespace CityInfoAPI.Web.Controllers
         [HttpPut("pointsofinterest/{pointOfInterestId}", Name = "UpdatePointOfInterest")]
         public IActionResult UpdatePointOfInterest(int cityId, int pointOfInterestId, [FromBody] PointOfInterestUpdateDto submittedPointOfInterest)
         {
-            // The framework will attempt to deserialize the body post to a PointOnInterestCreateDto type.
-            // If it can't, it will remain null and we know we have bad input.
+            // The framework will attempt to deserialize the body to a PointOnInterestCreateDto. If it can't, it will remain null and we know we have bad input.
             if (submittedPointOfInterest == null)
             {
                 return BadRequest();
             }
 
             // did the submitted data meet all the rules?
-            // should be 422?
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -222,7 +216,6 @@ namespace CityInfoAPI.Web.Controllers
             }
 
             // are the name and description provided?
-            // 422?
             if (string.IsNullOrWhiteSpace(submittedPointOfInterest.Name) || string.IsNullOrWhiteSpace(submittedPointOfInterest.Description))
             {
                 return BadRequest(ModelState);
@@ -305,15 +298,12 @@ namespace CityInfoAPI.Web.Controllers
             // no errors and be valid.
             patchDocument.ApplyTo(pointOfInterestToPatch, ModelState);
 
-            // should be 422?
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            // We can solve this with some custom logic again
-            // are the name and description provided?
-            // should be 422?
+            // We can solve this with some custom logic again. are the name and description provided?
             if (string.IsNullOrWhiteSpace(pointOfInterestToPatch.Name) || string.IsNullOrWhiteSpace(pointOfInterestToPatch.Description))
             {
                 return BadRequest(ModelState);
@@ -322,7 +312,6 @@ namespace CityInfoAPI.Web.Controllers
             // Try to validate the model again
             TryValidateModel(pointOfInterestToPatch);
 
-            // should be 422?
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

@@ -6,9 +6,7 @@ using System.Collections.Generic;
 
 namespace CityInfoAPI.Web.Controllers
 {
-    /// <summary>
-    /// returns various reports. controller requires a version to be specified.
-    /// </summary>
+    /// <summary>returns various reports. controller requires a version to be specified</summary>
     [Route("api/v{version:apiVersion}/cities/reporting")]
     [Produces("application/json", "application/xml")]
     [ApiController]

@@ -9,6 +9,7 @@
             <example>http://{domain}/api/cities</example>
         </member>
         <member name="M:CityInfoAPI.Web.Controllers.CitiesController.#ctor(Microsoft.Extensions.Logging.ILogger{CityInfoAPI.Web.Controllers.CitiesController},CityInfoAPI.Logic.Processors.CityProcessor)">
+            <summary>constructor</summary>
             <param name="logger">logger factory middleware to be injected</param>
             <param name="cityProcessor">city processor middleware to be injected</param>
         </member>
@@ -106,9 +107,7 @@
             <response code="404">city id not valid</response>
         </member>
         <member name="T:CityInfoAPI.Web.Controllers.ReportingController">
-            <summary>
-            returns various reports. controller requires a version to be specified.
-            </summary>
+            <summary>returns various reports. controller requires a version to be specified</summary>
         </member>
         <member name="M:CityInfoAPI.Web.Controllers.ReportingController.#ctor(CityInfoAPI.Logic.Processors.ReportingProcessor)">
             <summary>constructor</summary>

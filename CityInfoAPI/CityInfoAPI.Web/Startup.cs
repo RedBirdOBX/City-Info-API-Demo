@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Serialization;
 using NLog.Extensions.Logging;
 using System;
 using System.IO;
@@ -38,7 +39,8 @@ namespace CityInfoAPI.Web
                 .SetBasePath(environment.ContentRootPath)
                 .AddJsonFile($"appSettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appSettings.{environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
-                .AddEnvironmentVariables(); // add environ variable to configuration chain
+                // add environ variable to configuration chain
+                .AddEnvironmentVariables();
             Configuration = builder.Build();
         }
 
@@ -49,7 +51,6 @@ namespace CityInfoAPI.Web
         {
 
             string _specsName = "CityAPISpecification";
-
 
             #if DEBUG
                 services.AddTransient<IMailService, LocalMailService>();
@@ -67,17 +68,6 @@ namespace CityInfoAPI.Web
                 setupAction.OutputFormatters.Add(new XmlSerializerOutputFormatter());
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-
-            //.AddJsonOptions(o =>
-            //{
-            //    if (o.SerializerSettings.ContractResolver != null)
-            //    {
-            //        var castedResolver = o.SerializerSettings.ContractResolver as DefaultContractResolver;
-            //        castedResolver.NamingStrategy = null;
-            //    }
-            //});
-
 
             // register EF Services
             string connectionString = Startup.Configuration["ConnectionStrings:cityInfoConnectionString"];
