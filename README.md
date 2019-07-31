@@ -1,16 +1,18 @@
 # The City Info Demo API
 
 
+----------
+
 
 ## Summary
 Welcome to the City Info Demo API. Imagine that you were developing for some kind of travel site and one of the requirements was you needed to be able to ask for a complete listing of cities; ask for any given city by it's ID and, if specifically asked for, you needed to be able to provide all the "touristy" things to do for that specified city (landmarks, parks, restaurants, and so on).  
 
-This demo RESTFul API does just that. It allows consumers to make request for USA Cities and their known "Points of Interest" (tourist attractions). 
+This demo RESTful API does just that. It allows consumers to make request for USA Cities and their known "Points of Interest" (tourist attractions). 
 
 It supports and demonstrates all HTTP verbs: GET, POST, PUT, PATCH, and DELETE.
 
 
-`https://city-info-api-demo.azurewebsites.net/api/cities`
+`https://city-info-api-demo.azurewebsites.net/api/v1.0/cities`
 
 ## Platform: 
 - ASP.NET Core 2.2 API  
@@ -31,7 +33,9 @@ It supports and demonstrates all HTTP verbs: GET, POST, PUT, PATCH, and DELETE.
 - [Logging](#logging)
 - [CICD](#cicd)
 - [Architecture](#architecture)
-
+- [Versions](#versions)
+- [Swagger and Documentation](#swagger)
+ 
 
 <a href="" id="test" name="test"></a>
 ## How To Test
@@ -46,30 +50,30 @@ You can `import` this collection into your Postman application for ease of testi
  ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/screenshot.PNG)
 
 
-### Get All Cities  
-`https://city-info-api-demo.azurewebsites.net/api/cities`  
+#### Get All Cities  
+`https://city-info-api-demo.azurewebsites.net/api/v1.0/cities`  
 `GET`   
 This resource with return a collection of all cities but does not show you their associated points of interest.
 
-### Get City By Id  
-`http://city-info-api-demo.azurewebsites.net/api/cities/{cityId}`  
-`http://city-info-api-demo.azurewebsites.net/api/cities/{cityId}?includepointsofinterest=false`   
+#### Get City By Id  
+`http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}`  
+`http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}?includepointsofinterest=false`   
 `GET`    
 Here, you can request a specific city and also provide an optional query string parameter to explicitly request the Points Of Interest along with the City data. If false, the points of interest collection will be intentionally empty (to lighten payload).  Otherwise, they will be included by default. 
 
-### Get Points of Interest for City  
-`http://city-info-api-demo.azurewebsites.net/api/cities/{cityId}/pointsofinterest`  
+#### Get Points of Interest for City  
+`http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest`  
 `GET`  
 You can request to see a collection of the Points of Interest for any given city by Id.
 
-### Get Point of Interest By Id  
-`http://city-info-api-demo.azurewebsites.net/api/cities/{cityId}/pointsofinterest/{pointOfInterestId}`  
+#### Get Point of Interest By Id  
+`http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}`  
 `GET`  
 At this endpoint, you can request a specific Point of Interest for a specific City assuming you know the Ids of both resources. 
 
 
-### Create a Point of Interest  
-`http://city-info-api-demo.azurewebsites.net/api/cities/{cityId}/pointsofinterest`  
+#### Create a Point of Interest  
+`http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest`  
 `POST`  
 As a security measure, a city cannot have more than 25 Points of Interest. Assuming the city is under the limit, you can create a new Point of Interest for a valid city (by providing it's id). You will need to provide a name and a description as JSON data in the body of the POST.  Like so:
 
@@ -87,8 +91,8 @@ Furthermore, it will return the location of this new resource in the Header of t
 ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/successful-post-2.PNG)
 
 
-### Update a Point of Interest
-`http://city-info-api-demo.azurewebsites.net/api/cities/{cityId}/pointsofinterest/{pointOfInterestId}`  
+#### Update a Point of Interest
+`http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}`  
 `PUT`  
 This the endpoint where you can update an entire Point of Interest resource. You do this through a PUT and provide the whole Point of Interest with it's new values.
 
@@ -96,8 +100,8 @@ If successful, it will return you a 200 Success status and the values of the upd
 ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/successful-put.PNG)
 
 
-### Patch a Point of Interest
-`http://city-info-api-demo.azurewebsites.net/api/cities/{cityId}/pointsofinterest/{pointOfInterestId}`  
+#### Patch a Point of Interest
+`http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}`  
 `PATCH`  
 Instead of updated the whole resource, you can use a patch document and only update one or more properties of the resource such as passwords, emails, and so on. With this API, you can use a standard patch document and specify what part of the resource you want to update.
 
@@ -114,14 +118,40 @@ Instead of updated the whole resource, you can use a patch document and only upd
 If successful, it will return a 200 OK status and the new updated resource in the body.
 ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/successful-patch.PNG)
 
-### Delete a Point of Interest
-`http://city-info-api-demo.azurewebsites.net/api/cities/{cityId}/pointsofinterest/{pointOfInterestId}`  
+#### Delete a Point of Interest
+`http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}`  
 `DELETE`  
 By providing a proper City id and a Point of Interest id, you can delete a resource from the data store.  This functionality would rarely make it to production like this but here is a demonstration none the less.
 
 ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/successful-delete.PNG)
 
 If successful, it will return a 200 OK status and a message in the body.
+
+#### City Summary Reporting Data
+`http://city-info-api-demo.azurewebsites.net/api/v2.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}`  
+`GET`
+Version 2.0 Resource.  This endpoint provides a list of all cities the count of points of interest for each city.
+
+   
+Sample Response: 
+```  
+[  
+    {   
+        "name": "Chicago",  
+        "numberOfPointsOfInterest": 2  
+    },  
+    {  
+        "name": "Dallas",  
+        "numberOfPointsOfInterest": 3  
+    },  
+    {  
+        "name": "Gotham",  
+        "numberOfPointsOfInterest": 2  
+    },
+	...etc...     
+]   
+```
+
 
 <a href="" id="content" name="content"></a>
 ## Support Media Types 
@@ -196,7 +226,22 @@ This is the layer exposed to the public. This layer contains all the typical MVC
 ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/webapi-layer.PNG)
   
 
-## Swagger
+<a href="" id="versions" name="versions"></a>
+## Versions
+This API supports versioning. All of the standard endpoints and resources are exposed for a public-facing API: getting cities, getting a specific city, getting a city's points of interest, updating a point of interest, and so on. These all fall under Version 1.0 of this API.  
+
+Now if this were a real API, imagine if the owners of this API needed a Version 2.0 that supported administrative functions such as reporting.  To demonstrate that scenario, another resource was created (described above) called 
+`CitySummary`. This resource is only supported by the 2.0 version of this API. 
+
+This demonstrates that an entire collection of resources can be contained in one version and an entirely different set of resources can be included in another version.
+
+
+<a href="" id="swagger" name="swagger"></a>
+## Swagger and Documentation
+
+This API is fully documented under the OpenAPI 3 standards.  It is using Swashbuckle for ASP.NET Core which includes the Swagger/API Explorer, Swagger UI, and Swagger CodeGen SDKs.
+
+
 
 http://localhost:5000/index.html
 

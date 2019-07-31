@@ -27,7 +27,7 @@ namespace CityInfoAPI.Web.Controllers
 
 
         /// <summary>V2 resource. returns a list of cities and its count of points of interest</summary>
-        /// <example>http://{domain}/api/cities/reporting/summary</example>
+        /// <example>http://{domain}/api/v2.0/cities/reporting/summary</example>
         /// <returns>collection of city summary dto</returns>
         /// <response code="200">returns point of interest for city</response>
         [ProducesResponseType(StatusCodes.Status200OK)]

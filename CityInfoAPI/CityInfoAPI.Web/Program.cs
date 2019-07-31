@@ -20,18 +20,14 @@ namespace CityInfoAPI.Web
             }
             catch (System.Exception ex)
             {
-
-                //NLog: catch setup errors
                 logger.Error(ex, "Stopped program because of exception");
                 throw;
             }
             finally
             {
-                // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
+                // Ensure to flush and stop internal timers/threads before application-exit
                 NLog.LogManager.Shutdown();
             }
-
-
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
@@ -42,8 +38,7 @@ namespace CityInfoAPI.Web
                     logging.ClearProviders();
                     logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
                 })
-            // NLog: setup NLog for Dependency injection
-            .UseNLog();
+                .UseNLog();
     }
 
     #pragma warning restore CS1591

@@ -19,7 +19,7 @@ namespace CityInfoAPI.Web.Controllers
     [ApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [Produces("application/json")]
+    [Produces("application/json", "application/xml")]
     public class PointsOfInterestController: ControllerBase
     {
         // fields
@@ -47,7 +47,7 @@ namespace CityInfoAPI.Web.Controllers
 
 
         /// <summary>get all points of interest for any given city</summary>
-        /// <example>http://{domain}/api/cities/{cityId}/pointsofinterest</example>
+        /// <example>http://{domain}/api/v1.0/cities/{cityId}/pointsofinterest</example>
         /// <param name="cityId">the id of the city to retrieve points of interest for</param>
         /// <returns>a list of PointOfInterestDto</returns>
         /// <response code="200">returns list of points of interest for city</response>
@@ -79,7 +79,7 @@ namespace CityInfoAPI.Web.Controllers
         }
 
         /// <summary>get a point of interest by id for a city by id</summary>
-        /// <example>http://{domain}/api/cities/{cityId}/pointsofinterest/{pointOfInterestId}</example>
+        /// <example>http://{domain}/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}</example>
         /// <param name="cityId">id of city</param>
         /// <param name="pointOfInterestId">if of point of interest</param>
         /// <returns>returns PointOfInterestDto</returns>
@@ -112,7 +112,7 @@ namespace CityInfoAPI.Web.Controllers
         }
 
         /// <summary>POST endpoint for creating a new point of interest</summary>
-        /// <example>http://{domain}/api/cities/{cityId}/pointsofinterest</example>
+        /// <example>http://{domain}/api/v1.0/cities/{cityId}/pointsofinterest</example>
         /// <param name="cityId">required city id</param>
         /// <param name="submittedPointOfInterest">new point of interest</param>
         /// <returns>201 status code with new endpoint in header</returns>
@@ -175,7 +175,7 @@ namespace CityInfoAPI.Web.Controllers
         }
 
         /// <summary>PUT endpoint for updating the entire point of interest</summary>
-        /// <example>http://{domain}/api/cities/{cityId}/pointsofinterest/{pointOfInterestId}</example>
+        /// <example>http://{domain}/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}</example>
         /// <param name="cityId">required city id</param>
         /// <param name="pointOfInterestId">required point of interest id</param>
         /// <param name="submittedPointOfInterest">entire updated point of interest</param>
@@ -241,7 +241,7 @@ namespace CityInfoAPI.Web.Controllers
         }
 
         /// <summary>PATCH endpoint for updating less than the whole point of interest</summary>
-        /// <example>http://{domain}/api/{cityId}/pointsofinterest/{pointOfInterestId}</example>
+        /// <example>http://{domain}/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}</example>
         /// <param name="cityId">required city id</param>
         /// <param name="pointOfInterestId">required point of interest id</param>
         /// <param name="patchDocument">required patch document which indicates which part(s) will be updated</param>
@@ -330,7 +330,7 @@ namespace CityInfoAPI.Web.Controllers
         }
 
         /// <summary>DELETE operation to delete a point of interest</summary>
-        /// <example>http://{domain}/api/{cityId}/pointsofinterest/{pointOfInterestId}</example>
+        /// <example>http://{domain}/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}</example>
         /// <param name="cityId">required city id</param>
         /// <param name="pointOfInterestId">required point of interest id</param>
         /// <returns>Ok status and the name of the point of interested which was deleted</returns>

@@ -15,13 +15,13 @@
         </member>
         <member name="M:CityInfoAPI.Web.Controllers.CitiesController.GetCities">
             <summary>get a collection of all cities</summary>
-            <example>http://{domain}/api/cities</example>
+            <example>http://{domain}/api/v1.0/cities</example>
             <returns>a collection of CityDto</returns>
             <response code="200">returns the list of cities</response>
         </member>
         <member name="M:CityInfoAPI.Web.Controllers.CitiesController.GetCityById(System.Int32,System.Boolean)">
             <summary>get a specific city by id</summary>
-            <example>http://{domain}/api/cities/{cityId}</example>
+            <example>http://{domain}/api/v1.0/cities/{cityId}</example>
             <param name="cityId">the id of the city</param>
             <param name="includePointsOfInterest">flag which indicates whether or not points of interest should be included.  true/false</param>
             <returns>a CityDto with optional points of interest</returns>
@@ -42,7 +42,7 @@
         </member>
         <member name="M:CityInfoAPI.Web.Controllers.PointsOfInterestController.GetPointsOfInterest(System.Int32)">
             <summary>get all points of interest for any given city</summary>
-            <example>http://{domain}/api/cities/{cityId}/pointsofinterest</example>
+            <example>http://{domain}/api/v1.0/cities/{cityId}/pointsofinterest</example>
             <param name="cityId">the id of the city to retrieve points of interest for</param>
             <returns>a list of PointOfInterestDto</returns>
             <response code="200">returns list of points of interest for city</response>
@@ -50,7 +50,7 @@
         </member>
         <member name="M:CityInfoAPI.Web.Controllers.PointsOfInterestController.GetPointOfInterestById(System.Int32,System.Int32)">
             <summary>get a point of interest by id for a city by id</summary>
-            <example>http://{domain}/api/cities/{cityId}/pointsofinterest/{pointOfInterestId}</example>
+            <example>http://{domain}/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}</example>
             <param name="cityId">id of city</param>
             <param name="pointOfInterestId">if of point of interest</param>
             <returns>returns PointOfInterestDto</returns>
@@ -59,7 +59,7 @@
         </member>
         <member name="M:CityInfoAPI.Web.Controllers.PointsOfInterestController.CreatePointOfInterest(System.Int32,CityInfoAPI.Dtos.Models.PointOfInterestCreateDto)">
             <summary>POST endpoint for creating a new point of interest</summary>
-            <example>http://{domain}/api/cities/{cityId}/pointsofinterest</example>
+            <example>http://{domain}/api/v1.0/cities/{cityId}/pointsofinterest</example>
             <param name="cityId">required city id</param>
             <param name="submittedPointOfInterest">new point of interest</param>
             <returns>201 status code with new endpoint in header</returns>
@@ -68,7 +68,7 @@
         </member>
         <member name="M:CityInfoAPI.Web.Controllers.PointsOfInterestController.UpdatePointOfInterest(System.Int32,System.Int32,CityInfoAPI.Dtos.Models.PointOfInterestUpdateDto)">
             <summary>PUT endpoint for updating the entire point of interest</summary>
-            <example>http://{domain}/api/cities/{cityId}/pointsofinterest/{pointOfInterestId}</example>
+            <example>http://{domain}/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}</example>
             <param name="cityId">required city id</param>
             <param name="pointOfInterestId">required point of interest id</param>
             <param name="submittedPointOfInterest">entire updated point of interest</param>
@@ -78,7 +78,7 @@
         </member>
         <member name="M:CityInfoAPI.Web.Controllers.PointsOfInterestController.PatchPointOfInterest(System.Int32,System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{CityInfoAPI.Dtos.Models.PointOfInterestUpdateDto})">
              <summary>PATCH endpoint for updating less than the whole point of interest</summary>
-             <example>http://{domain}/api/{cityId}/pointsofinterest/{pointOfInterestId}</example>
+             <example>http://{domain}/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}</example>
              <param name="cityId">required city id</param>
              <param name="pointOfInterestId">required point of interest id</param>
              <param name="patchDocument">required patch document which indicates which part(s) will be updated</param>
@@ -99,7 +99,7 @@
         </member>
         <member name="M:CityInfoAPI.Web.Controllers.PointsOfInterestController.DeletePointOfInterest(System.Int32,System.Int32)">
             <summary>DELETE operation to delete a point of interest</summary>
-            <example>http://{domain}/api/{cityId}/pointsofinterest/{pointOfInterestId}</example>
+            <example>http://{domain}/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}</example>
             <param name="cityId">required city id</param>
             <param name="pointOfInterestId">required point of interest id</param>
             <returns>Ok status and the name of the point of interested which was deleted</returns>
@@ -115,7 +115,7 @@
         </member>
         <member name="M:CityInfoAPI.Web.Controllers.ReportingController.CitySummary">
             <summary>V2 resource. returns a list of cities and its count of points of interest</summary>
-            <example>http://{domain}/api/cities/reporting/summary</example>
+            <example>http://{domain}/api/v2.0/cities/reporting/summary</example>
             <returns>collection of city summary dto</returns>
             <response code="200">returns point of interest for city</response>
         </member>

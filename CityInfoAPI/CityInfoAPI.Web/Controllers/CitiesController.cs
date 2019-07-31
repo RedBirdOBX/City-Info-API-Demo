@@ -31,7 +31,7 @@ namespace CityInfoAPI.Web.Controllers
         }
 
         /// <summary>get a collection of all cities</summary>
-        /// <example>http://{domain}/api/cities</example>
+        /// <example>http://{domain}/api/v1.0/cities</example>
         /// <returns>a collection of CityDto</returns>
         /// <response code="200">returns the list of cities</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -44,7 +44,7 @@ namespace CityInfoAPI.Web.Controllers
         }
 
         /// <summary>get a specific city by id</summary>
-        /// <example>http://{domain}/api/cities/{cityId}</example>
+        /// <example>http://{domain}/api/v1.0/cities/{cityId}</example>
         /// <param name="cityId">the id of the city</param>
         /// <param name="includePointsOfInterest">flag which indicates whether or not points of interest should be included.  true/false</param>
         /// <returns>a CityDto with optional points of interest</returns>
