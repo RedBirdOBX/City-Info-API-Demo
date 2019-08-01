@@ -228,7 +228,7 @@ This is the layer exposed to the public. This layer contains all the typical MVC
 
 <a href="" id="versions" name="versions"></a>
 ## Versions
-This API supports versioning. All of the standard endpoints and resources are exposed for a public-facing API: getting cities, getting a specific city, getting a city's points of interest, updating a point of interest, and so on. These all fall under Version 1.0 of this API.  
+This API supports versioning. All of the standard endpoints and resources are exposed for a hypothetical public-facing API: getting cities, getting a specific city, getting a city's points of interest, updating a point of interest, and so on. These all fall under Version 1.0 of this API.  
 
 Now if this were a real API, imagine if the owners of this API needed a Version 2.0 that supported administrative functions such as reporting.  To demonstrate that scenario, another resource was created (described above) called 
 `CitySummary`. This resource is only supported by the 2.0 version of this API. 
@@ -242,7 +242,19 @@ This demonstrates that an entire collection of resources can be contained in one
 This API is fully documented under the OpenAPI 3 standards.  It is using Swashbuckle for ASP.NET Core which includes the Swagger/API Explorer, Swagger UI, and Swagger CodeGen SDKs.
 
 
+The Controllers and types in which they return are fully documented and notated per Open API 3 standards.  Doing this allow the API Explorer to "explore" this application and create specification documents ("swagger docs").
 
-http://localhost:5000/index.html
+You can see all of this documentation via the Swagger UI interface.
 
-http://localhost:5000/swagger/OpenAPISpecification/swagger.json
+**Local:**  
+`http://localhost:5000/index.html`
+
+**Development:**  
+`https://city-info-api-demo-dev.azurewebsites.net/index.html`
+
+Notice that you can access the various specification documents - one for each version:
+
+`https://city-info-api-demo-dev.azurewebsites.net/swagger/CityAPISpecificationv1.0/swagger.json`
+
+`https://city-info-api-demo-dev.azurewebsites.net/swagger/CityAPISpecificationv2.0/swagger.json`
+
