@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "0b971402-98c6-408c-b590-7795e5cab98e",
+		"_postman_id": "7c2d2afe-58c7-4f98-9945-11f7c6f2aeb5",
 		"name": "Cities-API-Tutorial",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -10,10 +10,6 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "http://localhost:5000/api/cities",
 					"protocol": "http",
@@ -33,11 +29,13 @@
 			"name": "Get City By Id",
 			"request": {
 				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/jsonfoo",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "http://localhost:5000/api/cities/1",
 					"protocol": "http",
@@ -55,16 +53,12 @@
 			"response": []
 		},
 		{
-			"name": "Get City with Points of Interest",
+			"name": "Get City without Points of Interest",
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "http://localhost:5000/api/cities/1",
+					"raw": "http://localhost:5000/api/cities/1?includePointsOfInterest=false",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -74,6 +68,12 @@
 						"api",
 						"cities",
 						"1"
+					],
+					"query": [
+						{
+							"key": "includePointsOfInterest",
+							"value": "false"
+						}
 					]
 				}
 			},
@@ -90,10 +90,6 @@
 						"type": "text"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
 					"raw": "http://localhost:5000/api/cities/1/pointsofinterest/1",
 					"protocol": "http",
@@ -107,6 +103,57 @@
 						"1",
 						"pointsofinterest",
 						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Points of Interest for a City",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5000/api/cities/1/pointsofinterest",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"cities",
+						"1",
+						"pointsofinterest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Cities Summary",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/v2.0/cities/reporting/summary",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v2.0",
+						"cities",
+						"reporting",
+						"summary"
 					]
 				}
 			},
@@ -132,7 +179,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\": \"Freedom Tower\",\n\t\"description\": \"The new, shiny Freedom Tower.\"\n}"
+					"raw": "{\n\t\"name\": \"Central Park\",\n\t\"description\": \"Big park in the middle of the city.\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:5000/api/cities/1/pointsofinterest",
@@ -174,7 +221,7 @@
 					"raw": "{\n\t\"name\": \"Central Park\",\n\t\"description\": \"Central Park....updated\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:5000/api/cities/1/pointsofinterest/1",
+					"raw": "http://localhost:5000/api/cities/1/pointsofinterest/17",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -185,7 +232,7 @@
 						"cities",
 						"1",
 						"pointsofinterest",
-						"1"
+						"17"
 					]
 				}
 			},
@@ -213,7 +260,7 @@
 					"raw": "[\n\t{\n\t\t\"op\": \"replace\",\n\t\t\"path\": \"/description\",\n\t\t\"value\": \"updated description\"\n\t}\n]"
 				},
 				"url": {
-					"raw": "http://localhost:5000/api/cities/1/pointsofinterest/1",
+					"raw": "http://localhost:5000/api/cities/1/pointsofinterest/17",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -224,7 +271,7 @@
 						"cities",
 						"1",
 						"pointsofinterest",
-						"1"
+						"17"
 					]
 				}
 			},
@@ -246,7 +293,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:5000/api/cities/1/pointsofinterest/1",
+					"raw": "http://localhost:5000/api/cities/1/pointsofinterest/17",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -257,39 +304,7 @@
 						"cities",
 						"1",
 						"pointsofinterest",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Points of Interest for a City",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "http://localhost:5000/api/cities/1/pointsofinterest",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "5000",
-					"path": [
-						"api",
-						"cities",
-						"1",
-						"pointsofinterest"
+						"17"
 					]
 				}
 			},

@@ -1,0 +1,159 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CityInfoAPI.Web</name>
+    </assembly>
+    <members>
+        <member name="T:CityInfoAPI.Web.Controllers.CitiesController">
+            <summary>cities controller</summary>
+            <example>http://{domain}/api/cities</example>
+        </member>
+        <member name="M:CityInfoAPI.Web.Controllers.CitiesController.#ctor(Microsoft.Extensions.Logging.ILogger{CityInfoAPI.Web.Controllers.CitiesController},CityInfoAPI.Logic.Processors.CityProcessor)">
+            <summary>constructor</summary>
+            <param name="logger">logger factory middleware to be injected</param>
+            <param name="cityProcessor">city processor middleware to be injected</param>
+        </member>
+        <member name="M:CityInfoAPI.Web.Controllers.CitiesController.GetCities">
+            <summary>get a collection of all cities</summary>
+            <example>http://{domain}/api/v1.0/cities</example>
+            <returns>a collection of CityDto</returns>
+            <response code="200">returns the list of cities</response>
+        </member>
+        <member name="M:CityInfoAPI.Web.Controllers.CitiesController.GetCityById(System.Int32,System.Boolean)">
+            <summary>get a specific city by id</summary>
+            <example>http://{domain}/api/v1.0/cities/{cityId}</example>
+            <param name="cityId">the id of the city</param>
+            <param name="includePointsOfInterest">flag which indicates whether or not points of interest should be included.  true/false</param>
+            <returns>a CityDto with optional points of interest</returns>
+            <response code="200">returns a city</response>
+            <response code="404">city id not valid</response>
+        </member>
+        <member name="T:CityInfoAPI.Web.Controllers.PointsOfInterestController">
+            <summary>point of interest controller</summary>
+            <example>http://{domain}/api/cities/{cityId}</example>
+        </member>
+        <member name="M:CityInfoAPI.Web.Controllers.PointsOfInterestController.#ctor(Microsoft.Extensions.Logging.ILogger{CityInfoAPI.Web.Controllers.PointsOfInterestController},CityInfoAPI.Web.Services.IMailService,CityInfoAPI.Data.Repositories.ICityInfoRepository,CityInfoAPI.Logic.Processors.CityProcessor,CityInfoAPI.Logic.Processors.PointsOfInterestProcessor)">
+            <summary>constructor</summary>
+            <param name="logger">logger factory to be injected</param>
+            <param name="mailService">mail service to be injected</param>
+            <param name="cityInfoRepository">data repository to be injected</param>
+            <param name="cityProcessor">city processor middleware to be injected</param>
+            <param name="pointsOfInterestProcessor">points of interest middleware to be injected</param>
+        </member>
+        <member name="M:CityInfoAPI.Web.Controllers.PointsOfInterestController.GetPointsOfInterest(System.Int32)">
+            <summary>get all points of interest for any given city</summary>
+            <example>http://{domain}/api/v1.0/cities/{cityId}/pointsofinterest</example>
+            <param name="cityId">the id of the city to retrieve points of interest for</param>
+            <returns>a list of PointOfInterestDto</returns>
+            <response code="200">returns list of points of interest for city</response>
+            <response code="404">city id not valid</response>
+        </member>
+        <member name="M:CityInfoAPI.Web.Controllers.PointsOfInterestController.GetPointOfInterestById(System.Int32,System.Int32)">
+            <summary>get a point of interest by id for a city by id</summary>
+            <example>http://{domain}/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}</example>
+            <param name="cityId">id of city</param>
+            <param name="pointOfInterestId">if of point of interest</param>
+            <returns>returns PointOfInterestDto</returns>
+            <response code="200">returns point of interest for city</response>
+            <response code="404">city id not valid</response>
+        </member>
+        <member name="M:CityInfoAPI.Web.Controllers.PointsOfInterestController.CreatePointOfInterest(System.Int32,CityInfoAPI.Dtos.Models.PointOfInterestCreateDto)">
+            <summary>POST endpoint for creating a new point of interest</summary>
+            <example>http://{domain}/api/v1.0/cities/{cityId}/pointsofinterest</example>
+            <param name="cityId">required city id</param>
+            <param name="submittedPointOfInterest">new point of interest</param>
+            <returns>201 status code with new endpoint in header</returns>
+            <response code="201">returns the new point of interest</response>
+            <response code="404">city id not valid</response>
+        </member>
+        <member name="M:CityInfoAPI.Web.Controllers.PointsOfInterestController.UpdatePointOfInterest(System.Int32,System.Int32,CityInfoAPI.Dtos.Models.PointOfInterestUpdateDto)">
+            <summary>PUT endpoint for updating the entire point of interest</summary>
+            <example>http://{domain}/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}</example>
+            <param name="cityId">required city id</param>
+            <param name="pointOfInterestId">required point of interest id</param>
+            <param name="submittedPointOfInterest">entire updated point of interest</param>
+            <returns>Ok status with updated version of point of interest</returns>
+            <response code="200">returns updated point of interest for city</response>
+            <response code="404">city id not valid</response>
+        </member>
+        <member name="M:CityInfoAPI.Web.Controllers.PointsOfInterestController.PatchPointOfInterest(System.Int32,System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{CityInfoAPI.Dtos.Models.PointOfInterestUpdateDto})">
+             <summary>PATCH endpoint for updating less than the whole point of interest</summary>
+             <example>http://{domain}/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}</example>
+             <param name="cityId">required city id</param>
+             <param name="pointOfInterestId">required point of interest id</param>
+             <param name="patchDocument">required patch document which indicates which part(s) will be updated</param>
+             <returns>returns PointOfInterestUpdateDto with new value(s)</returns>
+             <remarks>
+             http://{domain}/api/{cityId}/pointsofinterest/{pointOfInterestId} \
+             sample patch document: \
+             [ \
+            	    { \
+            		    "op": "replace", \
+            		    "path": "/description", \
+            		    "value": "Rico's world famous restaurant." \
+            	    } \
+            ] \
+             </remarks>
+             <response code="200">returns patched point of interest for city</response>
+             <response code="404">city id not valid</response>
+        </member>
+        <member name="M:CityInfoAPI.Web.Controllers.PointsOfInterestController.DeletePointOfInterest(System.Int32,System.Int32)">
+            <summary>DELETE operation to delete a point of interest</summary>
+            <example>http://{domain}/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}</example>
+            <param name="cityId">required city id</param>
+            <param name="pointOfInterestId">required point of interest id</param>
+            <returns>Ok status and the name of the point of interested which was deleted</returns>
+            <response code="200">returns the recently deleted point of interest</response>
+            <response code="404">city id not valid</response>
+        </member>
+        <member name="T:CityInfoAPI.Web.Controllers.ReportingController">
+            <summary>returns various reports. controller requires a version to be specified</summary>
+        </member>
+        <member name="M:CityInfoAPI.Web.Controllers.ReportingController.#ctor(CityInfoAPI.Logic.Processors.ReportingProcessor)">
+            <summary>constructor</summary>
+            <param name="reportingProcessor">reporting processor</param>
+        </member>
+        <member name="M:CityInfoAPI.Web.Controllers.ReportingController.CitySummary">
+            <summary>V2 resource. returns a list of cities and its count of points of interest</summary>
+            <example>http://{domain}/api/v2.0/cities/reporting/summary</example>
+            <returns>collection of city summary dto</returns>
+            <response code="200">returns point of interest for city</response>
+        </member>
+        <member name="T:CityInfoAPI.Web.Services.CloudMailService">
+            <summary>
+            cloud mail service such as gmail
+            </summary>
+        </member>
+        <member name="M:CityInfoAPI.Web.Services.CloudMailService.SendMessage(System.String,System.String)">
+            <summary>
+            method to send message via cloud service
+            </summary>
+            <param name="subject">subject of message</param>
+            <param name="message">message itself</param>
+        </member>
+        <member name="T:CityInfoAPI.Web.Services.IMailService">
+            <summary>
+            contract for mail service - all implementations must look like this
+            </summary>
+        </member>
+        <member name="M:CityInfoAPI.Web.Services.IMailService.SendMessage(System.String,System.String)">
+            <summary>
+            method to send message
+            </summary>
+            <param name="subject">the subject of the message</param>
+            <param name="message">the message itself</param>
+        </member>
+        <member name="T:CityInfoAPI.Web.Services.LocalMailService">
+            <summary>
+            a local, smtp mail service
+            </summary>
+        </member>
+        <member name="M:CityInfoAPI.Web.Services.LocalMailService.SendMessage(System.String,System.String)">
+            <summary>
+            method to send message from local smtp service
+            </summary>
+            <param name="subject">subject of message</param>
+            <param name="message">message itself</param>
+        </member>
+    </members>
+</doc>

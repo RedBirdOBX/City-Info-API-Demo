@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CityInfoAPI.Dtos</name>
+    </assembly>
+    <members>
+        <member name="T:CityInfoAPI.Dtos.Models.CityDto">
+            <summary>
+            city dto
+            </summary>
+        </member>
+        <member name="M:CityInfoAPI.Dtos.Models.CityDto.#ctor">
+            constructor
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.CityDto.Id">
+            <summary>
+            the id of the city
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.CityDto.Name">
+            <summary>
+            the name of the city
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.CityDto.Description">
+            <summary>
+            the description of the city
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.CityDto.NumberOfPointsOfInterest">
+            <summary>
+            the number of points of interest the city has
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.CityDto.PointsOfInterest">
+            <summary>
+            a list of points of interest for this city
+            </summary>
+        </member>
+        <member name="T:CityInfoAPI.Dtos.Models.CitySummaryDto">
+            <summary>
+            dto to provide city name and count of points of interest
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.CitySummaryDto.Name">
+            <summary>
+            name of city
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.CitySummaryDto.NumberOfPointsOfInterest">
+            <summary>
+            total number of points of interest for city
+            </summary>
+        </member>
+        <member name="T:CityInfoAPI.Dtos.Models.CityWithoutPointsOfInterestDto">
+            <summary>
+            city with no point of interest property
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.CityWithoutPointsOfInterestDto.Id">
+            <summary>
+            point of interest id
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.CityWithoutPointsOfInterestDto.Name">
+            <summary>
+            point of interest name
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.CityWithoutPointsOfInterestDto.Description">
+            <summary>
+            point of interest description
+            </summary>
+        </member>
+        <member name="T:CityInfoAPI.Dtos.Models.PointOfInterestCreateDto">
+            <summary>
+            point of interest create dto
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.PointOfInterestCreateDto.Name">
+            <summary>
+            point of interest name
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.PointOfInterestCreateDto.Description">
+            <summary>
+            point of interest description
+            </summary>
+        </member>
+        <member name="T:CityInfoAPI.Dtos.Models.PointOfInterestDto">
+            <summary>
+            point of interest for city
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.PointOfInterestDto.Id">
+            <summary>
+            point of interest id
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.PointOfInterestDto.Name">
+            <summary>
+            point of interest name
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.PointOfInterestDto.Description">
+            <summary>
+            point of interest description
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.PointOfInterestDto.CityId">
+            <summary>
+            id of city this point of interest belongs to
+            </summary>
+        </member>
+        <member name="T:CityInfoAPI.Dtos.Models.PointOfInterestUpdateDto">
+            <summary>
+            dto for updating point of interest
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.PointOfInterestUpdateDto.Name">
+            <summary>
+            point of interest name
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.PointOfInterestUpdateDto.Description">
+            <summary>
+            point of interest description
+            </summary>
+        </member>
+    </members>
+</doc>
