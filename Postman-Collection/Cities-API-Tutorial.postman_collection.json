@@ -1,21 +1,17 @@
 {
 	"info": {
-		"_postman_id": "0b971402-98c6-408c-b590-7795e5cab98e",
+		"_postman_id": "70f69989-922f-4a08-af47-89de61080211",
 		"name": "Cities-API-Tutorial",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "GET All Cities",
+			"name": "Local - GET All Cities",
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "http://localhost:5000/api/cities",
+					"raw": "http://localhost:5000/api/v1.0/cities",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -23,6 +19,7 @@
 					"port": "5000",
 					"path": [
 						"api",
+						"v1.0",
 						"cities"
 					]
 				}
@@ -30,57 +27,7 @@
 			"response": []
 		},
 		{
-			"name": "Get City By Id",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "http://localhost:5000/api/cities/1",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "5000",
-					"path": [
-						"api",
-						"cities",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get City with Points of Interest",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "http://localhost:5000/api/cities/1",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "5000",
-					"path": [
-						"api",
-						"cities",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Point Of Interest by Id",
+			"name": "Local - Get City By Id",
 			"request": {
 				"method": "GET",
 				"header": [
@@ -90,12 +37,8 @@
 						"type": "text"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
 				"url": {
-					"raw": "http://localhost:5000/api/cities/1/pointsofinterest/1",
+					"raw": "http://localhost:5000/api/v1.0/cities/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -103,9 +46,8 @@
 					"port": "5000",
 					"path": [
 						"api",
+						"v1.0",
 						"cities",
-						"1",
-						"pointsofinterest",
 						"1"
 					]
 				}
@@ -113,7 +55,117 @@
 			"response": []
 		},
 		{
-			"name": "Create Point Of Interest",
+			"name": "Local - Get City w/o Points of Interest",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/v1.0/cities/1?includePointsOfInterest=false",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1.0",
+						"cities",
+						"1"
+					],
+					"query": [
+						{
+							"key": "includePointsOfInterest",
+							"value": "false"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Local - Get Points of Interest for a City",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5000/api/v1.0/cities/1/pointsofinterest",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1.0",
+						"cities",
+						"1",
+						"pointsofinterest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Local - Get Point Of Interest by Id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5000/api/v1.0/cities/1/pointsofinterest/16",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1.0",
+						"cities",
+						"1",
+						"pointsofinterest",
+						"16"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Local - Get Cities Summary V2",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/v2.0/cities/reporting/summary",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v2.0",
+						"cities",
+						"reporting",
+						"summary"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Local - Create Point Of Interest",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -132,10 +184,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\": \"Freedom Tower\",\n\t\"description\": \"The new, shiny Freedom Tower.\"\n}"
+					"raw": "{\n\t\"name\": \"New Point of Interest\",\n\t\"description\": \"New Point of Interest description.\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:5000/api/cities/1/pointsofinterest",
+					"raw": "http://localhost:5000/api/v1.0/cities/1/pointsofinterest",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -143,6 +195,7 @@
 					"port": "5000",
 					"path": [
 						"api",
+						"v1.0",
 						"cities",
 						"1",
 						"pointsofinterest"
@@ -152,7 +205,7 @@
 			"response": []
 		},
 		{
-			"name": "Update Point Of Interest",
+			"name": "Local - Update Point Of Interest",
 			"request": {
 				"method": "PUT",
 				"header": [
@@ -174,7 +227,7 @@
 					"raw": "{\n\t\"name\": \"Central Park\",\n\t\"description\": \"Central Park....updated\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:5000/api/cities/1/pointsofinterest/1",
+					"raw": "http://localhost:5000/api/v1.0/cities/1/pointsofinterest/19",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -182,17 +235,18 @@
 					"port": "5000",
 					"path": [
 						"api",
+						"v1.0",
 						"cities",
 						"1",
 						"pointsofinterest",
-						"1"
+						"19"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Patch a Point Of Interest",
+			"name": "Local - Patch a Point Of Interest",
 			"request": {
 				"method": "PATCH",
 				"header": [
@@ -213,7 +267,7 @@
 					"raw": "[\n\t{\n\t\t\"op\": \"replace\",\n\t\t\"path\": \"/description\",\n\t\t\"value\": \"updated description\"\n\t}\n]"
 				},
 				"url": {
-					"raw": "http://localhost:5000/api/cities/1/pointsofinterest/1",
+					"raw": "http://localhost:5000/api/v1.0/cities/1/pointsofinterest/19",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -221,17 +275,18 @@
 					"port": "5000",
 					"path": [
 						"api",
+						"v1.0",
 						"cities",
 						"1",
 						"pointsofinterest",
-						"1"
+						"19"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Delete Point Of Interest",
+			"name": "Local - Delete Point Of Interest",
 			"request": {
 				"method": "DELETE",
 				"header": [
@@ -246,7 +301,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:5000/api/cities/1/pointsofinterest/1",
+					"raw": "http://localhost:5000/api/v1.0/cities/1/pointsofinterest/19",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -254,9 +309,61 @@
 					"port": "5000",
 					"path": [
 						"api",
+						"v1.0",
 						"cities",
 						"1",
 						"pointsofinterest",
+						"19"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Dev - GET All Cities",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities",
+					"protocol": "https",
+					"host": [
+						"city-info-api-demo-dev",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"cities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Dev - Get City By Id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities/1",
+					"protocol": "https",
+					"host": [
+						"city-info-api-demo-dev",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"cities",
 						"1"
 					]
 				}
@@ -264,9 +371,247 @@
 			"response": []
 		},
 		{
-			"name": "Get Points of Interest for a City",
+			"name": "Dev - Get City w/o Points of Interest",
 			"request": {
 				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities/1?includePointsOfInterest=false",
+					"protocol": "https",
+					"host": [
+						"city-info-api-demo-dev",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"cities",
+						"1"
+					],
+					"query": [
+						{
+							"key": "includePointsOfInterest",
+							"value": "false"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Dev  - Get Points of Interest for a City",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities/2/pointsofinterest",
+					"protocol": "https",
+					"host": [
+						"city-info-api-demo-dev",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"cities",
+						"2",
+						"pointsofinterest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Dev - Get Point Of Interest by Id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities/1/pointsofinterest/16",
+					"protocol": "https",
+					"host": [
+						"city-info-api-demo-dev",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"cities",
+						"1",
+						"pointsofinterest",
+						"16"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Dev - Get Cities Summary V2",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v2.0/cities/reporting/summary",
+					"protocol": "https",
+					"host": [
+						"city-info-api-demo-dev",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"v2.0",
+						"cities",
+						"reporting",
+						"summary"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Dev - Create Point Of Interest",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"New Point of Interest\",\n\t\"description\": \"New Point of Interest description.\"\n}"
+				},
+				"url": {
+					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities/1/pointsofinterest",
+					"protocol": "https",
+					"host": [
+						"city-info-api-demo-dev",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"cities",
+						"1",
+						"pointsofinterest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Dev - Update Point Of Interest",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Central Park\",\n\t\"description\": \"Central Park....updated\"\n}"
+				},
+				"url": {
+					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities/1/pointsofinterest/19",
+					"protocol": "https",
+					"host": [
+						"city-info-api-demo-dev",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"cities",
+						"1",
+						"pointsofinterest",
+						"19"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Dev - Patch a Point Of Interest",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n\t{\n\t\t\"op\": \"replace\",\n\t\t\"path\": \"/description\",\n\t\t\"value\": \"updated description\"\n\t}\n]"
+				},
+				"url": {
+					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities/1/pointsofinterest/19",
+					"protocol": "https",
+					"host": [
+						"city-info-api-demo-dev",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"cities",
+						"1",
+						"pointsofinterest",
+						"19"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Dev  - Delete Point Of Interest",
+			"request": {
+				"method": "DELETE",
 				"header": [
 					{
 						"key": "Accept",
@@ -279,17 +624,20 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:5000/api/cities/1/pointsofinterest",
-					"protocol": "http",
+					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities/1/pointsofinterest/19",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"city-info-api-demo-dev",
+						"azurewebsites",
+						"net"
 					],
-					"port": "5000",
 					"path": [
 						"api",
+						"v1.0",
 						"cities",
 						"1",
-						"pointsofinterest"
+						"pointsofinterest",
+						"19"
 					]
 				}
 			},

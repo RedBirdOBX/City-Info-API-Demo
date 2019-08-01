@@ -2,7 +2,6 @@
 using CityInfoAPI.Data.Repositories;
 using CityInfoAPI.Dtos.Models;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace CityInfoAPI.Logic.Processors
 {
@@ -18,11 +17,17 @@ namespace CityInfoAPI.Logic.Processors
         }
 
 
-        // cities
-        public IEnumerable<CityWithoutPointsOfInterestDto> GetCities()
+        public List<CityWithoutPointsOfInterestDto> GetCities()
         {
             var cityEntities = _cityInfoRepository.GetCities();
-            var results = Mapper.Map<IEnumerable<CityWithoutPointsOfInterestDto>>(cityEntities);
+            var results = Mapper.Map<List<CityWithoutPointsOfInterestDto>>(cityEntities);
+            return results;
+        }
+
+        public List<CityDto> GetCitiesWithPointOfInterest()
+        {
+            var cities = _cityInfoRepository.GetCitiesWithPointsOfInterest();
+            var results = Mapper.Map<List<CityDto>>(cities);
             return results;
         }
 
@@ -31,16 +36,9 @@ namespace CityInfoAPI.Logic.Processors
             return _cityInfoRepository.DoesCityExist(cityId);
         }
 
-        public CityWithoutPointsOfInterestDto GetCityByIdWithoutPointsOfInterest(int cityId)
+        public CityDto GetCityById(int cityId, bool includePointsOfInterest)
         {
-            var city = _cityInfoRepository.GetCityById(cityId, false);
-            var results = Mapper.Map<CityWithoutPointsOfInterestDto>(city);
-            return results;
-        }
-
-        public CityDto GetCityByIdWithPointsOfInterest(int cityId)
-        {
-            var city = _cityInfoRepository.GetCityById(cityId, true);
+            var city = _cityInfoRepository.GetCityById(cityId, includePointsOfInterest);
             var results = Mapper.Map<CityDto>(city);
             return results;
         }

@@ -25,10 +25,10 @@ namespace CityInfoAPI.Logic.Processors
             return pointOfInterest != null;
         }
 
-        public IEnumerable<PointOfInterestDto> GetPointsOfInterest(int cityId)
+        public List<PointOfInterestDto> GetPointsOfInterest(int cityId)
         {
             var pointsOfInterest = _cityInfoRepository.GetPointsOfInterest(cityId);
-            var results = Mapper.Map<IEnumerable<PointOfInterestDto>>(pointsOfInterest);
+            var results = Mapper.Map<List<PointOfInterestDto>>(pointsOfInterest);
             return results;
         }
 
