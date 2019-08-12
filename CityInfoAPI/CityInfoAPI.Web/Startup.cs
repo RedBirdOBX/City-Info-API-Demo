@@ -46,8 +46,7 @@ namespace CityInfoAPI.Web
         // add/register services for our application. add services to container for dependency injection
         public void ConfigureServices(IServiceCollection services)
         {
-
-            string _specsName = "CityAPISpecification";
+            string specsName = "CityAPISpecification";
 
             #if DEBUG
                 services.AddTransient<IMailService, LocalMailService>();
@@ -106,7 +105,7 @@ namespace CityInfoAPI.Web
 
                     // now we can pass the group name in the Swagger doc name.
                     setupAction.SwaggerDoc(
-                        $"{_specsName}{description.GroupName}",
+                        $"{specsName}{description.GroupName}",
                         new Microsoft.OpenApi.Models.OpenApiInfo()
                         {
                             Title = "City Info API",
@@ -139,18 +138,16 @@ namespace CityInfoAPI.Web
 
                     if (actionApiVersionModel.DeclaredApiVersions.Any())
                     {
-                        return actionApiVersionModel.DeclaredApiVersions.Any(v => $"{_specsName}v{v.ToString()}" == documentName);
+                        return actionApiVersionModel.DeclaredApiVersions.Any(v => $"{specsName}v{v.ToString()}" == documentName);
                     }
 
-                    return actionApiVersionModel.ImplementedApiVersions.Any(v => $"{_specsName}v{v.ToString()}" == documentName);
+                    return actionApiVersionModel.ImplementedApiVersions.Any(v => $"{specsName}v{v.ToString()}" == documentName);
                 });
-
-
 
                 // we could do this...
                 // setupAction.IncludeXmlComments("CityInfoAPI.Web.xml");
 
-                // but since the xml file matches the assembly name, we can use reflection like so:
+                // ...but since the xml file matches the assembly name, we can use reflection like so:
                 //string xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 //string fullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
                 //setupAction.IncludeXmlComments(xmlCommentsFile);
