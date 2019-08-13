@@ -54,6 +54,8 @@ namespace CityInfoAPI.Web
                 services.AddTransient<IMailService, CloudMailService>();
             #endif
 
+            services.AddHealthChecks();
+
             // adding the mvc service
             services.AddMvc(setupAction =>
             {
@@ -181,6 +183,7 @@ namespace CityInfoAPI.Web
             // learn more about this.
             app.UseHttpsRedirection();
 
+            app.UseHealthChecks("/health");
             app.UseStatusCodePages();
 
             app.UseMvc();
