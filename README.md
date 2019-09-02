@@ -170,13 +170,13 @@ Postman-Token: 46403ff1-b551-40a3-bead-ba82d0b6ef54
 This demo API can return either JSON data or Xml Data (content negotiation) depending on the Accept parameter you provide in your request header. JSON is the default if nothing is provided or an invalid type is provided in the request.
 
 **JSON**
-![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/add-swashbuckle/Images/json-content-type.PNG)
+![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/development/Images/json-content-type.PNG)
 
 **Xml**
-![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/add-swashbuckle/Images/xml-content-type.PNG)
+![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/development/Images/xml-content-type.PNG)
 
 If you provide an **unsupported** media type in the request, it will, by design, give you a `406 Not Acceptable` response.  
-![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/add-swashbuckle/Images/not-acceptable-error.PNG)
+![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/development/Images/not-acceptable-error.PNG)
 
 
 
