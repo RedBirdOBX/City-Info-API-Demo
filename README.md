@@ -162,7 +162,7 @@ cache-control: no-cache
 Postman-Token: 46403ff1-b551-40a3-bead-ba82d0b6ef54  
 ```
 
-![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/authorization/Images/auth-sample.PNG)
+![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/authentication/Images/auth-sample.PNG)
 
 <a href="" id="content" name="content"></a>
 ## Support Media Types 
