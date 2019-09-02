@@ -251,6 +251,7 @@ This demonstrates that an entire collection of resources can be contained in one
 ## Authentication
 A basic demonstration of authentication and security was implemented on the `City Summary Reporting Data` resource mentioned above. The concept is that in some real-world(ish) scenario, you would want to secure certain administrative resources like reporting data or POST actions.  This `CitySummary` resource in V2 demonstrates that by using Basic Authorization. 
 
+![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/authentication/Images/auth-sample.PNG)
 
 
 
