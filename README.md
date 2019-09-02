@@ -34,6 +34,7 @@ It supports and demonstrates all HTTP verbs: GET, POST, PUT, PATCH, and DELETE.
 - [CICD](#cicd)
 - [Architecture](#architecture)
 - [Versions](#versions)
+- [Authentication](#authentication)
 - [Swagger and Documentation](#swagger)
  
 
@@ -129,8 +130,8 @@ If successful, it will return a 200 OK status and a message in the body.
 
 #### City Summary Reporting Data
 [http://city-info-api-demo.azurewebsites.net/api/v2.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}](http://city-info-api-demo.azurewebsites.net/api/v2.0/cities/{cityId}/pointsofinterest/{pointOfInterestId} "http://city-info-api-demo.azurewebsites.net/api/v2.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}")  
-`GET`
-Version 2.0 Resource.  This endpoint provides a list of all cities the count of points of interest for each city.
+`GET`  
+Version **2.0** Resource.  This endpoint provides a list of all cities the count of points of interest for each city.
 
    
 Sample Response: 
@@ -152,6 +153,16 @@ Sample Response:
 ]   
 ```
 
+This resource requires authorization and you must pass Authorization as part of the request header.  A sample request looks something like this:
+
+```GET /api/v2.0/cities/reporting/summary HTTP/1.1  
+Host: localhost:5000  
+Authorization: Basic Q2l0eUluZm9BUEk6Q2l0eUluZm9BUElQYXNzd29yZA==  
+cache-control: no-cache  
+Postman-Token: 46403ff1-b551-40a3-bead-ba82d0b6ef54  
+```
+
+![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/authorization/Images/auth-sample.PNG)
 
 <a href="" id="content" name="content"></a>
 ## Support Media Types 
@@ -234,6 +245,14 @@ Now if this were a real API, imagine if the owners of this API needed a Version 
 `CitySummary`. This resource is only supported by the 2.0 version of this API. 
 
 This demonstrates that an entire collection of resources can be contained in one version and an entirely different set of resources can be included in another version.
+
+
+<a href="" id="authentication" name="authentication"></a>
+## Authentication
+A basic demonstration of authentication and security was implemented on the `City Summary Reporting Data` resource mentioned above. The concept is that in some real-world(ish) scenario, you would want to secure certain administrative resources like reporting data or POST actions.  This `CitySummary` resource in V2 demonstrates that by using Basic Authorization. 
+
+
+
 
 
 <a href="" id="swagger" name="swagger"></a>
