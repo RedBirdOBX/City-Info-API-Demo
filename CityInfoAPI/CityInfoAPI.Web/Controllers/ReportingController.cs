@@ -12,6 +12,7 @@ namespace CityInfoAPI.Web.Controllers
     [Produces("application/json", "application/xml")]
     [ApiController]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ApiVersion("2.0")]
     [Authorize]

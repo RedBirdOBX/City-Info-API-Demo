@@ -36,8 +36,7 @@ namespace CityInfoAPI.Logic.Authentication
 
                 if (username == "CityInfoAPI" && password == "CityInfoAPIPassword")
                 {
-                    var claims = new[] {
-                        new Claim(ClaimTypes.NameIdentifier, username)};
+                    var claims = new[] { new Claim(ClaimTypes.NameIdentifier, username)};
                     var identity = new ClaimsIdentity(claims, Scheme.Name);
                     var principal = new ClaimsPrincipal(identity);
                     var ticket = new AuthenticationTicket(principal, Scheme.Name);

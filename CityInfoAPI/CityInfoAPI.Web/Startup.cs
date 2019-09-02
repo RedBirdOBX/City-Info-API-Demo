@@ -16,8 +16,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using NLog.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -95,7 +97,6 @@ namespace CityInfoAPI.Web
             services.AddAuthentication("Basic")
                 .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("Basic", null);
 
-
             // register versioning services in our container
             services.AddApiVersioning(setupAction =>
             {
@@ -141,6 +142,30 @@ namespace CityInfoAPI.Web
                         }
                     );
                 }
+
+                // lets add the security definitions so (if any) they are added to the documentation.
+                // pass it a name ("basicAuth") and a new scheme object
+                setupAction.AddSecurityDefinition("basicAuth", new OpenApiSecurityScheme()
+                {
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "basic",
+                    Description = "Input your user name and password to access this endpoint"
+                });
+
+                // let's mark the operation(s) as requiring authentication
+                setupAction.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "basicAuth"
+                            } },
+                            new List<string>()
+                        }
+                });
 
                 // we need to select/find actions to match the versions for the API Explorer
                 setupAction.DocInclusionPredicate((documentName, apiDescription) =>
