@@ -36,6 +36,7 @@ It supports and demonstrates all HTTP verbs: GET, POST, PUT, PATCH, and DELETE.
 - [Versions](#versions)
 - [Authentication](#authentication)
 - [Swagger and Documentation](#swagger)
+- [Releases](#releases)
  
 
 <a href="" id="test" name="test"></a>
@@ -251,6 +252,7 @@ This demonstrates that an entire collection of resources can be contained in one
 ## Authentication
 A basic demonstration of authentication and security was implemented on the `City Summary Reporting Data` resource mentioned above. The concept is that in some real-world(ish) scenario, you would want to secure certain administrative resources like reporting data or POST actions.  This `CitySummary` resource in V2 demonstrates that by using Basic Authorization. 
 
+`https://city-info-api-demo-prod.azurewebsites.net/api/v2.0/cities/reporting/summary`
 ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/authentication/Images/auth-sample.PNG)
 
 
@@ -278,3 +280,15 @@ Notice that you can access the various specification documents - one for each ve
 [https://city-info-api-demo-dev.azurewebsites.net/swagger/CityAPISpecificationv1.0/swagger.json](https://city-info-api-demo-dev.azurewebsites.net/swagger/CityAPISpecificationv1.0/swagger.json)
 
 [https://city-info-api-demo-dev.azurewebsites.net/swagger/CityAPISpecificationv2.0/swagger.json](https://city-info-api-demo-dev.azurewebsites.net/swagger/CityAPISpecificationv2.0/swagger.json)
+
+
+<a href="" id="releases" name="releases"></a>
+## Release Versions
+
+**1.0.0**  
+7.1.2019  
+Initial release  
+
+**1.1.0**  
+9.4.2019  
+Full integration of Swashbuckle (Swagger, Swagger UI), versioning, and Basic Authentication on new resource called City Summary - a hypothetical secured, set of resources at `https://city-info-api-demo-prod.azurewebsites.net/api/v2.0/cities/reporting/summary`.
