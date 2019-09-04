@@ -34,7 +34,9 @@ It supports and demonstrates all HTTP verbs: GET, POST, PUT, PATCH, and DELETE.
 - [CICD](#cicd)
 - [Architecture](#architecture)
 - [Versions](#versions)
+- [Authentication](#authentication)
 - [Swagger and Documentation](#swagger)
+- [Releases](#releases)
  
 
 <a href="" id="test" name="test"></a>
@@ -129,8 +131,8 @@ If successful, it will return a 200 OK status and a message in the body.
 
 #### City Summary Reporting Data
 [http://city-info-api-demo.azurewebsites.net/api/v2.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}](http://city-info-api-demo.azurewebsites.net/api/v2.0/cities/{cityId}/pointsofinterest/{pointOfInterestId} "http://city-info-api-demo.azurewebsites.net/api/v2.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}")  
-`GET`
-Version 2.0 Resource.  This endpoint provides a list of all cities the count of points of interest for each city.
+`GET`  
+Version **2.0** Resource.  This endpoint provides a list of all cities the count of points of interest for each city.
 
    
 Sample Response: 
@@ -152,6 +154,16 @@ Sample Response:
 ]   
 ```
 
+This resource requires authorization and you must pass Authorization as part of the request header.  A sample request looks something like this:
+
+```GET /api/v2.0/cities/reporting/summary HTTP/1.1  
+Host: localhost:5000  
+Authorization: Basic Q2l0eUluZm9BUEk6Q2l0eUluZm9BUElQYXNzd29yZA==  
+cache-control: no-cache  
+Postman-Token: 46403ff1-b551-40a3-bead-ba82d0b6ef54  
+```
+
+![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/authentication/Images/auth-sample.PNG)
 
 <a href="" id="content" name="content"></a>
 ## Support Media Types 
@@ -159,13 +171,13 @@ Sample Response:
 This demo API can return either JSON data or Xml Data (content negotiation) depending on the Accept parameter you provide in your request header. JSON is the default if nothing is provided or an invalid type is provided in the request.
 
 **JSON**
-![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/add-swashbuckle/Images/json-content-type.PNG)
+![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/development/Images/json-content-type.PNG)
 
 **Xml**
-![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/add-swashbuckle/Images/xml-content-type.PNG)
+![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/development/Images/xml-content-type.PNG)
 
 If you provide an **unsupported** media type in the request, it will, by design, give you a `406 Not Acceptable` response.  
-![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/add-swashbuckle/Images/not-acceptable-error.PNG)
+![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/development/Images/not-acceptable-error.PNG)
 
 
 
@@ -236,6 +248,16 @@ Now if this were a real API, imagine if the owners of this API needed a Version 
 This demonstrates that an entire collection of resources can be contained in one version and an entirely different set of resources can be included in another version.
 
 
+<a href="" id="authentication" name="authentication"></a>
+## Authentication
+A basic demonstration of authentication and security was implemented on the `City Summary Reporting Data` resource mentioned above. The concept is that in some real-world(ish) scenario, you would want to secure certain administrative resources like reporting data or POST actions.  This `CitySummary` resource in V2 demonstrates that by using Basic Authorization. 
+
+`https://city-info-api-demo-prod.azurewebsites.net/api/v2.0/cities/reporting/summary`
+![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/authentication/Images/auth-sample.PNG)
+
+
+
+
 <a href="" id="swagger" name="swagger"></a>
 ## Swagger and Documentation
 
@@ -258,3 +280,15 @@ Notice that you can access the various specification documents - one for each ve
 [https://city-info-api-demo-dev.azurewebsites.net/swagger/CityAPISpecificationv1.0/swagger.json](https://city-info-api-demo-dev.azurewebsites.net/swagger/CityAPISpecificationv1.0/swagger.json)
 
 [https://city-info-api-demo-dev.azurewebsites.net/swagger/CityAPISpecificationv2.0/swagger.json](https://city-info-api-demo-dev.azurewebsites.net/swagger/CityAPISpecificationv2.0/swagger.json)
+
+
+<a href="" id="releases" name="releases"></a>
+## Release Versions
+
+**1.0.0**  
+7.1.2019  
+Initial release  
+
+**1.1.0**  
+9.4.2019  
+Full integration of Swashbuckle (Swagger, Swagger UI), versioning, and Basic Authentication on new resource called City Summary - a hypothetical secured, set of resources at `https://city-info-api-demo-prod.azurewebsites.net/api/v2.0/cities/reporting/summary`.

@@ -642,6 +642,35 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Local - GET Reporting City Summary",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic Q2l0eUluZm9BUEk6Q2l0eUluZm9BUElQYXNzd29yZA==",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5000/api/v2.0/cities/reporting/summary",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v2.0",
+						"cities",
+						"reporting",
+						"summary"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
