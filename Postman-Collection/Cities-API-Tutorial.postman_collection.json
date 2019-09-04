@@ -165,6 +165,35 @@
 			"response": []
 		},
 		{
+			"name": "Local - GET Reporting City Summary",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic Q2l0eUluZm9BUEk6Q2l0eUluZm9BUElQYXNzd29yZA==",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5000/api/v2.0/cities/reporting/summary",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v2.0",
+						"cities",
+						"reporting",
+						"summary"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Local - Create Point Of Interest",
 			"request": {
 				"method": "POST",
@@ -644,7 +673,7 @@
 			"response": []
 		},
 		{
-			"name": "Local - GET Reporting City Summary",
+			"name": "Dev - GET Reporting City Summary",
 			"request": {
 				"method": "GET",
 				"header": [
@@ -655,12 +684,13 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:5000/api/v2.0/cities/reporting/summary",
-					"protocol": "http",
+					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v2.0/cities/reporting/summary",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"city-info-api-demo-dev",
+						"azurewebsites",
+						"net"
 					],
-					"port": "5000",
 					"path": [
 						"api",
 						"v2.0",
