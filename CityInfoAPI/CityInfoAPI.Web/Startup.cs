@@ -1,20 +1,25 @@
 ﻿using CityInfoAPI.Data.EF;
 using CityInfoAPI.Data.Repositories;
+using CityInfoAPI.Logic.Authentication;
 using CityInfoAPI.Logic.Processors;
 using CityInfoAPI.Web.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using NLog.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -64,6 +69,9 @@ namespace CityInfoAPI.Web
 
                 // allows for xml
                 setupAction.OutputFormatters.Add(new XmlSerializerOutputFormatter());
+
+                // this will apply an [Authorize] attribute to all controllers
+                //setupAction.Filters.Add(new AuthorizeFilter());
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
@@ -81,6 +89,13 @@ namespace CityInfoAPI.Web
             {
                 setupAction.GroupNameFormat = "'v'VV";
             });
+
+            // register authentication
+            // pass in the default scheme name
+            // pass in scheme options (none used here == null)
+            // pass in our customer handler as a type
+            services.AddAuthentication("Basic")
+                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("Basic", null);
 
             // register versioning services in our container
             services.AddApiVersioning(setupAction =>
@@ -128,6 +143,30 @@ namespace CityInfoAPI.Web
                     );
                 }
 
+                // lets add the security definitions so (if any) they are added to the documentation.
+                // pass it a name ("basicAuth") and a new scheme object
+                setupAction.AddSecurityDefinition("basicAuth", new OpenApiSecurityScheme()
+                {
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "basic",
+                    Description = "Input your user name and password to access this endpoint"
+                });
+
+                // let's mark the operation(s) as requiring authentication
+                setupAction.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "basicAuth"
+                            } },
+                            new List<string>()
+                        }
+                });
+
                 // we need to select/find actions to match the versions for the API Explorer
                 setupAction.DocInclusionPredicate((documentName, apiDescription) =>
                 {
@@ -165,7 +204,7 @@ namespace CityInfoAPI.Web
         }
 
         // This method gets called by the runtime.
-        // build pipeline
+        // build the request pipeline
         // Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, CityInfoDbContext cityInfoDbContext, IApiVersionDescriptionProvider apiVersionDescriptionProvider)
         {
@@ -180,12 +219,10 @@ namespace CityInfoAPI.Web
                 app.UseDeveloperExceptionPage();
             }
 
-            // learn more about this.
-            app.UseHttpsRedirection();
-
-            app.UseHealthChecks("/health");
+            app.UseHttpsRedirection();                  // learn more about this.
+            app.UseHealthChecks("/health");             // learn more about this.
             app.UseStatusCodePages();
-
+            app.UseAuthentication();
             app.UseMvc();
 
             // EF Mappers
