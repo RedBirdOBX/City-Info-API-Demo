@@ -173,13 +173,13 @@ The base64 encoded string is made of a username of `CityInfoAPI` and a password 
 This demo API can return either JSON data or Xml Data (content negotiation) depending on the Accept parameter you provide in your request header. JSON is the default if nothing is provided or an invalid type is provided in the request.
 
 **JSON**
-![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/development/Images/json-content-type.PNG)
+![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/json-content-type.PNG)
 
 **Xml**
-![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/development/Images/xml-content-type.PNG)
+![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/xml-content-type.PNG)
 
 If you provide an **unsupported** media type in the request, it will, by design, give you a `406 Not Acceptable` response.  
-![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/development/Images/not-acceptable-error.PNG)
+![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/not-acceptable-error.PNG)
 
 
 
@@ -255,7 +255,7 @@ This demonstrates that an entire collection of resources can be contained in one
 A basic demonstration of authentication and security was implemented on the `City Summary Reporting Data` resource mentioned above. The concept is that in some real-world(ish) scenario, you would want to secure certain administrative resources like reporting data or POST actions.  This `CitySummary` resource in V2 demonstrates that by using Basic Authorization. 
 
 `https://city-info-api-demo-prod.azurewebsites.net/api/v2.0/cities/reporting/summary`
-![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/authentication/Images/auth-sample.PNG)
+![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/auth-sample.PNG)
 
 
 
