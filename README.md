@@ -163,7 +163,9 @@ cache-control: no-cache
 Postman-Token: 46403ff1-b551-40a3-bead-ba82d0b6ef54  
 ```
 
-![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/authentication/Images/auth-sample.PNG)
+The base64 encoded string is made of a username of `CityInfoAPI` and a password of `CityInfoAPIPassword`.  This produces this key" `Q2l0eUluZm9BUEk6Q2l0eUluZm9BUElQYXNzd29yZA==`.  If you wish to test this endpoint manually through Swagger UI, you will need to manually provide these credentials.
+
+![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/auth-sample.PNG)
 
 <a href="" id="content" name="content"></a>
 ## Support Media Types 
