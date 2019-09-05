@@ -84,7 +84,7 @@
              <param name="patchDocument">required patch document which indicates which part(s) will be updated</param>
              <returns>returns PointOfInterestUpdateDto with new value(s)</returns>
              <remarks>
-             http://{domain}/api/{cityId}/pointsofinterest/{pointOfInterestId} \  
+             http://{domain}/api/{cityId}/pointsofinterest/{pointOfInterestId}   
              ```
              sample patch document. allows you to patch **name and/or description**  
              [  
