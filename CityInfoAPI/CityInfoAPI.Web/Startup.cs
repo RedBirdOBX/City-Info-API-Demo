@@ -185,7 +185,7 @@ namespace CityInfoAPI.Web
                     return actionApiVersionModel.ImplementedApiVersions.Any(v => $"{specsName}v{v.ToString()}" == documentName);
                 });
 
-                // we could do this...
+                // find the xml comments for the api exploer.  we could do this...
                 // setupAction.IncludeXmlComments("CityInfoAPI.Web.xml");
 
                 // ...but since the xml file matches the assembly name, we can use reflection like so:
@@ -254,6 +254,12 @@ namespace CityInfoAPI.Web
 
                 // helps set up the index.html endpoint
                 setupAction.RoutePrefix = string.Empty;
+
+                // shows the method/controller action id in ui. helpful!
+                setupAction.DisplayOperationId();
+
+                // shows the time of request to process in ui.
+                setupAction.DisplayRequestDuration();
             });
         }
     }
