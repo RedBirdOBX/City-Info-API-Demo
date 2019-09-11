@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +16,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using NLog.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -185,7 +183,7 @@ namespace CityInfoAPI.Web
                     return actionApiVersionModel.ImplementedApiVersions.Any(v => $"{specsName}v{v.ToString()}" == documentName);
                 });
 
-                // find the xml comments for the api exploer.  we could do this...
+                // find the xml comments for the api explorer.  we could do this...
                 // setupAction.IncludeXmlComments("CityInfoAPI.Web.xml");
 
                 // ...but since the xml file matches the assembly name, we can use reflection like so:
@@ -209,10 +207,6 @@ namespace CityInfoAPI.Web
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, CityInfoDbContext cityInfoDbContext, IApiVersionDescriptionProvider apiVersionDescriptionProvider)
         {
             string specsName = "CityAPISpecification";
-
-            loggerFactory.AddConsole();
-            loggerFactory.AddDebug(LogLevel.Information);
-            loggerFactory.AddNLog();
 
             if (env.IsDevelopment())
             {
