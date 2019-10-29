@@ -72,7 +72,6 @@ namespace CityInfoAPI.Data.Repositories
                     }
                 }
             };
-
         }
 
         public List<City> GetCities()
