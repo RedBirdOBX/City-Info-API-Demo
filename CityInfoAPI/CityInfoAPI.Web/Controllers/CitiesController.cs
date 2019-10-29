@@ -43,9 +43,9 @@ namespace CityInfoAPI.Web.Controllers
             return Ok(results);
         }
 
-        /// <summary>get a specific city by id</summary>
-        /// <example>http://{domain}/api/v1.0/cities/{cityId}</example>
-        /// <param name="cityId">the id of the city</param>
+        /// <summary>get a specific city by key</summary>
+        /// <example>http://{domain}/api/v1.0/cities/{key}</example>
+        /// <param name="key">the key/guid of the city</param>
         /// <param name="includePointsOfInterest">flag which indicates whether or not points of interest should be included.  true/false</param>
         /// <returns>a CityDto with optional points of interest</returns>
         /// <response code="200">returns a city</response>
@@ -53,17 +53,17 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        [HttpGet("{cityId}", Name = "GetCityById")]
-        public ActionResult<CityDto> GetCityById([FromRoute] int cityId, [FromQuery] bool includePointsOfInterest = true)
+        [HttpGet("{key:string}", Name = "GetCityById")]
+        public ActionResult<CityDto> GetCityByKey([FromRoute] string key, [FromQuery] bool includePointsOfInterest = true)
         {
-            if (!_cityProcessor.DoesCityExist(cityId))
+            if (!_cityProcessor.DoesCityExist(key))
             {
-                _logger.LogInformation($"**** LOGGER: City not found using cityId {cityId}.");
-                return NotFound($"City not found using cityId {cityId}.");
+                _logger.LogInformation($"**** LOGGER: City not found using key {key}.");
+                return NotFound($"City not found using cityId {key}.");
             }
             else
             {
-                var city = _cityProcessor.GetCityById(cityId, includePointsOfInterest);
+                var city = _cityProcessor.GetCityByKey(key, includePointsOfInterest);
                 return Ok(city);
             }
         }

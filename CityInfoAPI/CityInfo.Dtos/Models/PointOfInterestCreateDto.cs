@@ -7,6 +7,14 @@ namespace CityInfoAPI.Dtos.Models
     /// </summary>
     public class PointOfInterestCreateDto
     {
+
+        /// <summary>
+        /// key identifier of city
+        /// </summary>
+        [Required(ErrorMessage = "Point of Interest Key (guid) is required.")]
+        [MaxLength(50, ErrorMessage = "Point of Interest Key (guid) cannot exceed 50 characters.")]
+        public string Key { get; set; }
+
         /// <summary>
         /// point of interest name
         /// </summary>

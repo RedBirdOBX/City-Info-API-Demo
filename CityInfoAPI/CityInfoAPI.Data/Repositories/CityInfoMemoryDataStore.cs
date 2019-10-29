@@ -87,6 +87,7 @@ namespace CityInfoAPI.Data.Repositories
                 var city = new City
                 {
                     Id = completeCity.Id,
+                    Key = completeCity.Key,
                     Name = completeCity.Name,
                     Description = completeCity.Description,
                     PointsOfInterest = new List<PointOfInterest>()
@@ -102,51 +103,51 @@ namespace CityInfoAPI.Data.Repositories
             return _cities.OrderBy(c => c.Name).ToList();
         }
 
-        public City GetCityById(int cityId, bool includePointsOfInterest)
+        public City GetCityByKey(string key, bool includePointsOfInterest)
         {
             if (includePointsOfInterest)
             {
                 return _cities
-                        .Where(c => c.Id == cityId)
+                        .Where(c => c.Key == key)
                         .FirstOrDefault();
             }
             else
             {
-                var city = _cities.Where(c => c.Id == cityId).FirstOrDefault();
+                var city = _cities.Where(c => c.Key == key).FirstOrDefault();
                 city.PointsOfInterest.Clear();
                 return city;
             }
         }
 
-        public bool DoesCityExist(int cityId)
+        public bool DoesCityExist(string cityId)
         {
-            return _cities.Any(c => c.Id == cityId);
+            return _cities.Any(c => c.Key == cityId);
         }
 
-        public List<PointOfInterest> GetPointsOfInterest(int cityId)
+        public List<PointOfInterest> GetPointsOfInterest(string key)
         {
-            return GetCityById(cityId, true).PointsOfInterest;
+            return GetCityByKey(key, true).PointsOfInterest;
         }
 
-        public PointOfInterest GetPointOfInterestById(int cityId, int pointOfInterestId)
+        public PointOfInterest GetPointOfInterestById(string key, int pointOfInterestId)
         {
-            var city = GetCityById(cityId, true);
+            var city = GetCityByKey(key, true);
             return city.PointsOfInterest
-                    .Where(p => p.Id == pointOfInterestId && p.CityId == cityId)
+                    .Where(p => p.Id == pointOfInterestId && p.Key == key)
                     .OrderBy(p => p.Name)
                     .FirstOrDefault();
         }
 
-        public void CreatePointOfInterest(int cityId, PointOfInterest pointOfInterest)
+        public void CreatePointOfInterest(string key, PointOfInterest pointOfInterest)
         {
-            var city = GetCityById(cityId, false);
+            var city = GetCityByKey(key, false);
             city.PointsOfInterest.Add(pointOfInterest);
         }
 
         public void DeletePointOfInterest(PointOfInterest pointOfInterest)
         {
-            var city = GetCityById(pointOfInterest.CityId, true);
-            city.PointsOfInterest.Remove(pointOfInterest);
+            //var city = GetCityByKey(pointOfInterest.CityId, true);
+            //city.PointsOfInterest.Remove(pointOfInterest);
         }
 
         // global

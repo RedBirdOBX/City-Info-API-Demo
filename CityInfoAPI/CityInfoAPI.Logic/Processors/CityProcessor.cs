@@ -31,14 +31,14 @@ namespace CityInfoAPI.Logic.Processors
             return results;
         }
 
-        public bool DoesCityExist(int cityId)
+        public bool DoesCityExist(string cityId)
         {
             return _cityInfoRepository.DoesCityExist(cityId);
         }
 
-        public CityDto GetCityById(int cityId, bool includePointsOfInterest)
+        public CityDto GetCityByKey(string cityId, bool includePointsOfInterest)
         {
-            var city = _cityInfoRepository.GetCityById(cityId, includePointsOfInterest);
+            var city = _cityInfoRepository.GetCityByKey(cityId, includePointsOfInterest);
             var results = Mapper.Map<CityDto>(city);
             return results;
         }

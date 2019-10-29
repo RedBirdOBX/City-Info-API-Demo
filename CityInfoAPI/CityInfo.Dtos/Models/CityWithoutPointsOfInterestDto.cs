@@ -11,6 +11,11 @@
         public int Id { get; set; }
 
         /// <summary>
+        /// key identifier of city
+        /// </summary>
+        public string Key { get; set; }
+
+        /// <summary>
         /// point of interest name
         /// </summary>
         public string Name { get; set; }
