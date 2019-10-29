@@ -73,11 +73,14 @@ namespace CityInfoAPI.Web
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            // register EF Services
+            // sql data store
             string connectionString = Startup.Configuration["ConnectionStrings:cityInfoConnectionString"];
             services.AddDbContext<CityInfoDbContext>(options => options.UseSqlServer(connectionString));
+            //services.AddScoped<ICityInfoRepository, CityInfoRepository>();
 
-            services.AddScoped<ICityInfoRepository, CityInfoRepository>();
+            // in memory data store
+            services.AddSingleton<ICityInfoRepository, CityInfoMemoryDataStore>();
+
             services.AddScoped<CityProcessor>();
             services.AddScoped<PointsOfInterestProcessor>();
             services.AddScoped<ReportingProcessor>();
