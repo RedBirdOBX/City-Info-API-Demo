@@ -18,9 +18,9 @@ namespace CityInfoAPI.Data.Repositories
         // points of interest
         List<PointOfInterest> GetPointsOfInterest(string key);
 
-        PointOfInterest GetPointOfInterestById(string key, int pointOfInterestId);
+        PointOfInterest GetPointOfInterestById(string cityKey, string pointKey);
 
-        void CreatePointOfInterest(string key, PointOfInterest pointOfInterest);
+        void CreatePointOfInterest(string cityKey, PointOfInterest pointOfInterest);
 
         void DeletePointOfInterest(PointOfInterest pointOfInterest);
 

@@ -44,8 +44,8 @@ namespace CityInfoAPI.Web.Controllers
         }
 
         /// <summary>get a specific city by key</summary>
-        /// <example>http://{domain}/api/v1.0/cities/{key}</example>
-        /// <param name="key">the key/guid of the city</param>
+        /// <example>http://{domain}/api/v1.0/cities/{cityKey}</example>
+        /// <param name="cityKey">the key/guid of the city</param>
         /// <param name="includePointsOfInterest">flag which indicates whether or not points of interest should be included.  true/false</param>
         /// <returns>a CityDto with optional points of interest</returns>
         /// <response code="200">returns a city</response>
@@ -53,17 +53,17 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        [HttpGet("{key:string}", Name = "GetCityById")]
-        public ActionResult<CityDto> GetCityByKey([FromRoute] string key, [FromQuery] bool includePointsOfInterest = true)
+        [HttpGet("{cityKey}", Name = "GetCityById")]
+        public ActionResult<CityDto> GetCityByKey([FromRoute] string cityKey, [FromQuery] bool includePointsOfInterest = true)
         {
-            if (!_cityProcessor.DoesCityExist(key))
+            if (!_cityProcessor.DoesCityExist(cityKey))
             {
-                _logger.LogInformation($"**** LOGGER: City not found using key {key}.");
-                return NotFound($"City not found using cityId {key}.");
+                _logger.LogInformation($"**** LOGGER: City not found using key {cityKey}.");
+                return NotFound($"City not found using cityKey {cityKey}.");
             }
             else
             {
-                var city = _cityProcessor.GetCityByKey(key, includePointsOfInterest);
+                var city = _cityProcessor.GetCityByKey(cityKey, includePointsOfInterest);
                 return Ok(city);
             }
         }
