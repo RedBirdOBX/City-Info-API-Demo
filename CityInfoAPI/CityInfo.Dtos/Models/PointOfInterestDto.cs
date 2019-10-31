@@ -6,14 +6,9 @@
     public class PointOfInterestDto
     {
         /// <summary>
-        /// point of interest id
-        /// </summary>
-        public int Id { get; set; }
-
-        /// <summary>
         /// key identifier of point of interest
         /// </summary>
-        public string Key { get; set; }
+        public string PointId { get; set; }
 
         /// <summary>
         /// point of interest name

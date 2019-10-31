@@ -14,14 +14,9 @@ namespace CityInfoAPI.Dtos.Models
         }
 
         /// <summary>
-        /// the id of the city
+        /// identifier of city
         /// </summary>
-        public int Id { get; set; }
-
-        /// <summary>
-        /// key identifier of city
-        /// </summary>
-        public string Key { get; set; }
+        public string CityId { get; set; }
 
         /// <summary>
         /// the name of the city

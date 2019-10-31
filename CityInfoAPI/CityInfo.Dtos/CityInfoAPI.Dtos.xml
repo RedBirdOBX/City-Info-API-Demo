@@ -12,14 +12,9 @@
         <member name="M:CityInfoAPI.Dtos.Models.CityDto.#ctor">
             constructor
         </member>
-        <member name="P:CityInfoAPI.Dtos.Models.CityDto.Id">
+        <member name="P:CityInfoAPI.Dtos.Models.CityDto.CityId">
             <summary>
-            the id of the city
-            </summary>
-        </member>
-        <member name="P:CityInfoAPI.Dtos.Models.CityDto.Key">
-            <summary>
-            key identifier of city
+            identifier of city
             </summary>
         </member>
         <member name="P:CityInfoAPI.Dtos.Models.CityDto.Name">
@@ -62,24 +57,19 @@
             city with no point of interest property
             </summary>
         </member>
-        <member name="P:CityInfoAPI.Dtos.Models.CityWithoutPointsOfInterestDto.Id">
+        <member name="P:CityInfoAPI.Dtos.Models.CityWithoutPointsOfInterestDto.CityId">
             <summary>
-            point of interest id
-            </summary>
-        </member>
-        <member name="P:CityInfoAPI.Dtos.Models.CityWithoutPointsOfInterestDto.Key">
-            <summary>
-            key identifier of city
+            identifier of city
             </summary>
         </member>
         <member name="P:CityInfoAPI.Dtos.Models.CityWithoutPointsOfInterestDto.Name">
             <summary>
-            point of interest name
+            city name
             </summary>
         </member>
         <member name="P:CityInfoAPI.Dtos.Models.CityWithoutPointsOfInterestDto.Description">
             <summary>
-            point of interest description
+            city description
             </summary>
         </member>
         <member name="T:CityInfoAPI.Dtos.Models.PointOfInterestCreateDto">
@@ -87,7 +77,7 @@
             point of interest create dto
             </summary>
         </member>
-        <member name="P:CityInfoAPI.Dtos.Models.PointOfInterestCreateDto.Key">
+        <member name="P:CityInfoAPI.Dtos.Models.PointOfInterestCreateDto.PointId">
             <summary>
             key identifier of city
             </summary>
@@ -107,12 +97,7 @@
             point of interest for city
             </summary>
         </member>
-        <member name="P:CityInfoAPI.Dtos.Models.PointOfInterestDto.Id">
-            <summary>
-            point of interest id
-            </summary>
-        </member>
-        <member name="P:CityInfoAPI.Dtos.Models.PointOfInterestDto.Key">
+        <member name="P:CityInfoAPI.Dtos.Models.PointOfInterestDto.PointId">
             <summary>
             key identifier of point of interest
             </summary>

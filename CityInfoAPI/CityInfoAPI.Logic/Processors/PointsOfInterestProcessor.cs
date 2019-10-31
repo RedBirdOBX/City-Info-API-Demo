@@ -19,33 +19,33 @@ namespace CityInfoAPI.Logic.Processors
         }
 
 
-        public bool DoesPointOfInterestExistForCity(string cityKey, string pointKey)
+        public bool DoesPointOfInterestExistForCity(string cityId, string pointId)
         {
-            PointOfInterest pointOfInterest = _cityInfoRepository.GetPointOfInterestById(cityKey, pointKey);
+            PointOfInterest pointOfInterest = _cityInfoRepository.GetPointOfInterestById(cityId, pointId);
             return pointOfInterest != null;
         }
 
-        public List<PointOfInterestDto> GetPointsOfInterest(string cityKey)
+        public List<PointOfInterestDto> GetPointsOfInterest(string cityId)
         {
-            var pointsOfInterest = _cityInfoRepository.GetPointsOfInterest(cityKey);
+            var pointsOfInterest = _cityInfoRepository.GetPointsOfInterest(cityId);
             var results = Mapper.Map<List<PointOfInterestDto>>(pointsOfInterest);
             return results;
         }
 
-        public PointOfInterestDto GetPointOfInterestById(string cityKey, string pointKey)
+        public PointOfInterestDto GetPointOfInterestById(string cityId, string pointId)
         {
-            var pointOfInterest = _cityInfoRepository.GetPointOfInterestById(cityKey, pointKey);
+            var pointOfInterest = _cityInfoRepository.GetPointOfInterestById(cityId, pointId);
             var result = Mapper.Map<PointOfInterestDto>(pointOfInterest);
             return result;
         }
 
-        public PointOfInterestDto CreateNewPointOfInterest(string cityKey, PointOfInterestCreateDto submittedPointOfInterest)
+        public PointOfInterestDto CreateNewPointOfInterest(string cityId, PointOfInterestCreateDto submittedPointOfInterest)
         {
             // destination / source
             var newPointOfInterest = Mapper.Map<CityInfoAPI.Data.Entities.PointOfInterest>(submittedPointOfInterest);
 
             // add it to memory.
-            _cityInfoRepository.CreatePointOfInterest(cityKey, newPointOfInterest);
+            _cityInfoRepository.CreatePointOfInterest(cityId, newPointOfInterest);
 
             bool success = _cityInfoRepository.SaveChanges();
 
@@ -59,9 +59,9 @@ namespace CityInfoAPI.Logic.Processors
             return returnedPointOfInterest;
         }
 
-        public bool UpdatePointOfInterest(string cityKey, string pointKey, PointOfInterestUpdateDto submittedPointOfInterest)
+        public bool UpdatePointOfInterest(string cityId, string pointId, PointOfInterestUpdateDto submittedPointOfInterest)
         {
-            PointOfInterest entityPointOfInterest = _cityInfoRepository.GetPointOfInterestById(cityKey, pointKey);
+            PointOfInterest entityPointOfInterest = _cityInfoRepository.GetPointOfInterestById(cityId, pointId);
 
             // This is an overload. (source object >> destination object).
             // This overload will overwrite the values in the destination obj with the values in the source object.
@@ -69,10 +69,10 @@ namespace CityInfoAPI.Logic.Processors
             return _cityInfoRepository.SaveChanges();
         }
 
-        public bool DeletePointOfInterest(string cityKey, string pointKey)
+        public bool DeletePointOfInterest(string cityId, string pointId)
         {
             // get the entity
-            var pointOfInterest = _cityInfoRepository.GetPointOfInterestById(cityKey, pointKey);
+            var pointOfInterest = _cityInfoRepository.GetPointOfInterestById(cityId, pointId);
 
             // all is good.  Remove the Point of Interest
             _cityInfoRepository.DeletePointOfInterest(pointOfInterest);

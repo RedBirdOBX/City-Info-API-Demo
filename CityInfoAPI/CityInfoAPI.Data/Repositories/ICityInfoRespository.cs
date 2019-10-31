@@ -10,7 +10,7 @@ namespace CityInfoAPI.Data.Repositories
 
         List<City> GetCitiesWithPointsOfInterest();
 
-        City GetCityByKey(string key, bool includePointsOfInterest);
+        City GetCityByKey(string cityId, bool includePointsOfInterest);
 
         bool DoesCityExist(string cityId);
 
@@ -18,9 +18,9 @@ namespace CityInfoAPI.Data.Repositories
         // points of interest
         List<PointOfInterest> GetPointsOfInterest(string key);
 
-        PointOfInterest GetPointOfInterestById(string cityKey, string pointKey);
+        PointOfInterest GetPointOfInterestById(string cityId, string pointId);
 
-        void CreatePointOfInterest(string cityKey, PointOfInterest pointOfInterest);
+        void CreatePointOfInterest(string cityId, PointOfInterest pointOfInterest);
 
         void DeletePointOfInterest(PointOfInterest pointOfInterest);
 
