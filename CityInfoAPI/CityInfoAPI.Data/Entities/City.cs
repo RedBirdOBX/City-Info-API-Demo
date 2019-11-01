@@ -12,10 +12,10 @@ namespace CityInfoAPI.Data.Entities
             PointsOfInterest = new List<PointOfInterest>();
         }
 
-        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+        [Key]
         [Required(ErrorMessage = "CityId is required.")]
         [MaxLength(50, ErrorMessage = "CityId cannot exceed 50 characters.")]
         public string CityId { get; set; }

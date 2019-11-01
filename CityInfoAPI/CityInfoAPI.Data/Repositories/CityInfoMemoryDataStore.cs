@@ -134,10 +134,26 @@ namespace CityInfoAPI.Data.Repositories
         public PointOfInterest GetPointOfInterestById(string cityId, string pointId)
         {
             var city = GetCityById(cityId, true);
-            return city.PointsOfInterest
-                    .Where(p => p.PointId == pointId && p.City.CityId == cityId)
-                    .OrderBy(p => p.Name)
-                    .FirstOrDefault();
+
+            // pick up here:
+            // determine if development branch has this issue.  The city above has points of interest.... but those points of interest have null City properties.
+            // see if development does this.  I suspect that EF is having trouble making the relationship.
+            // also -cross reference the Library API.
+            try
+            {
+                var pointOfInterest = city.PointsOfInterest
+                        .Where(p => p.PointId == pointId && p.City.CityId == cityId)
+                        .OrderBy(p => p.Name)
+                        .FirstOrDefault();
+                return pointOfInterest;
+
+            }
+            catch (System.Exception exception)
+            {
+
+                throw exception;
+            }
+
         }
 
         public void CreatePointOfInterest(string cityId, PointOfInterest pointOfInterest)
