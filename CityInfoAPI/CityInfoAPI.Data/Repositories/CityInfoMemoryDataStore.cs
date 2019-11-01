@@ -114,7 +114,7 @@ namespace CityInfoAPI.Data.Repositories
             else
             {
                 // When using the in-memory data store, once you clear the list of points of interest,
-                // it's cleared permanently until the app restarts.
+                // it's cleared permanently until the app restarts.  EF uses the '.Include(). so there's no risk with using real db.
                 var city = _cities.Where(c => c.CityId == cityId).FirstOrDefault();
                 city.PointsOfInterest.Clear();
                 return city;
