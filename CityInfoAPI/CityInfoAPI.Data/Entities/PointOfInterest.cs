@@ -21,7 +21,7 @@ namespace CityInfoAPI.Data.Entities
         [MaxLength(200, ErrorMessage = "Description cannot exceed 200 characters.")]
         public string Description { get; set; }
 
-        public int CityId { get; set; }
+        public string CityId { get; set; }
 
         [ForeignKey("CityId")]
         public City City { get; set; }

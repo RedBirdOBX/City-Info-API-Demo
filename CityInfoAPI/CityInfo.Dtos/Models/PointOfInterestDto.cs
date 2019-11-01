@@ -23,6 +23,6 @@
         /// <summary>
         /// id of city this point of interest belongs to
         /// </summary>
-        public int CityId { get; set; }
+        public string CityId { get; set; }
     }
 }

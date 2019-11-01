@@ -31,7 +31,7 @@ namespace CityInfoAPI.Data.Repositories
                     .OrderBy(c => c.Name).ToList();
         }
 
-        public City GetCityByKey(string cityId, bool includePointsOfInterest)
+        public City GetCityById(string cityId, bool includePointsOfInterest)
         {
             if (includePointsOfInterest)
             {
@@ -72,7 +72,7 @@ namespace CityInfoAPI.Data.Repositories
 
         public void CreatePointOfInterest(string cityId, PointOfInterest pointOfInterest)
         {
-            var city = GetCityByKey(cityId, false);
+            var city = GetCityById(cityId, false);
             city.PointsOfInterest.Add(pointOfInterest);
         }
 

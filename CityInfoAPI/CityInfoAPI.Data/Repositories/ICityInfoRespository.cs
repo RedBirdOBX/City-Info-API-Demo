@@ -10,7 +10,7 @@ namespace CityInfoAPI.Data.Repositories
 
         List<City> GetCitiesWithPointsOfInterest();
 
-        City GetCityByKey(string cityId, bool includePointsOfInterest);
+        City GetCityById(string cityId, bool includePointsOfInterest);
 
         bool DoesCityExist(string cityId);
 

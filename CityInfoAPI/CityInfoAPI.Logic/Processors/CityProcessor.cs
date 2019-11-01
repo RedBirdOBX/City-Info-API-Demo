@@ -38,7 +38,7 @@ namespace CityInfoAPI.Logic.Processors
 
         public CityDto GetCityByKey(string cityId, bool includePointsOfInterest)
         {
-            var city = _cityInfoRepository.GetCityByKey(cityId, includePointsOfInterest);
+            var city = _cityInfoRepository.GetCityById(cityId, includePointsOfInterest);
             var results = Mapper.Map<CityDto>(city);
             return results;
         }
