@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -56,7 +57,7 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
         [HttpGet("pointsofinterest")]
-        public ActionResult<List<PointOfInterestDto>> GetPointsOfInterest(string cityId)
+        public ActionResult<List<PointOfInterestDto>> GetPointsOfInterest(Guid cityId)
         {
             try
             {
@@ -89,7 +90,7 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
         [HttpGet("pointsofinterest/{pointId}", Name = "GetPointOfInterestById")]
-        public ActionResult<PointOfInterestDto> GetPointOfInterestById(string cityId, string pointId)
+        public ActionResult<PointOfInterestDto> GetPointOfInterestById(Guid cityId, Guid pointId)
         {
             if (!_cityProcessor.DoesCityExist(cityId))
             {
@@ -123,7 +124,7 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesDefaultResponseType]
         [Consumes("application/json")]
         [HttpPost("pointsofinterest", Name = "CreatePointOfInterest")]
-        public ActionResult CreatePointOfInterest(string cityId, [FromBody] PointOfInterestCreateDto submittedPointOfInterest)
+        public ActionResult CreatePointOfInterest(Guid cityId, [FromBody] PointOfInterestCreateDto submittedPointOfInterest)
         {
             // The framework will attempt to deserialize the body post to a PointOfInterestCreateDto type.
             // If it can't, it will remain null and we know we have bad input.
@@ -177,7 +178,7 @@ namespace CityInfoAPI.Web.Controllers
         /// <summary>PUT endpoint for updating the entire point of interest</summary>
         /// <example>http://{domain}/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}</example>
         /// <param name="cityId">required cityId</param>
-        /// <param name="pointKey">required point of interest key</param>
+        /// <param name="pointId">required point of interest key</param>
         /// <param name="submittedPointOfInterest">entire updated point of interest</param>
         /// <returns>Ok status with updated version of point of interest</returns>
         /// <response code="200">returns updated point of interest for city</response>
@@ -186,7 +187,7 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
         [HttpPut("pointsofinterest/{pointKey}", Name = "UpdatePointOfInterest")]
-        public IActionResult UpdatePointOfInterest(string cityId, string pointId, [FromBody] PointOfInterestUpdateDto submittedPointOfInterest)
+        public IActionResult UpdatePointOfInterest(Guid cityId, Guid pointId, [FromBody] PointOfInterestUpdateDto submittedPointOfInterest)
         {
             // The framework will attempt to deserialize the body to a PointOnInterestCreateDto. If it can't, it will remain null and we know we have bad input.
             if (submittedPointOfInterest == null)
@@ -265,7 +266,7 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
         [HttpPatch("pointsofinterest/{pointId}", Name = "PatchPointOfInterest")]
-        public ActionResult<PointOfInterestUpdateDto> PatchPointOfInterest(string cityId, string pointId, [FromBody] JsonPatchDocument<PointOfInterestUpdateDto> patchDocument)
+        public ActionResult<PointOfInterestUpdateDto> PatchPointOfInterest(Guid cityId, Guid pointId, [FromBody] JsonPatchDocument<PointOfInterestUpdateDto> patchDocument)
         {
             // see if the correct properties and type was passed in
             if (patchDocument == null)
@@ -342,7 +343,7 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
         [HttpDelete("pointsofinterest/{pointKey}")]
-        public ActionResult DeletePointOfInterest(string cityId, string pointId)
+        public ActionResult DeletePointOfInterest(Guid cityId, Guid pointId)
         {
             // is this a valid city?
             if (!_cityProcessor.DoesCityExist(cityId))

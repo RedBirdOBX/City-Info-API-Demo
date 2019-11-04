@@ -77,9 +77,14 @@
             point of interest create dto
             </summary>
         </member>
+        <member name="M:CityInfoAPI.Dtos.Models.PointOfInterestCreateDto.#ctor">
+            <summary>
+            constructor of dto
+            </summary>
+        </member>
         <member name="P:CityInfoAPI.Dtos.Models.PointOfInterestCreateDto.PointId">
             <summary>
-            key identifier of city
+            key identifier of point of interest
             </summary>
         </member>
         <member name="P:CityInfoAPI.Dtos.Models.PointOfInterestCreateDto.Name">

@@ -2,6 +2,7 @@
 using CityInfoAPI.Data.Entities;
 using CityInfoAPI.Data.Repositories;
 using CityInfoAPI.Dtos.Models;
+using System;
 using System.Collections.Generic;
 
 
@@ -19,27 +20,27 @@ namespace CityInfoAPI.Logic.Processors
         }
 
 
-        public bool DoesPointOfInterestExistForCity(string cityId, string pointId)
+        public bool DoesPointOfInterestExistForCity(Guid cityId, Guid pointId)
         {
             PointOfInterest pointOfInterest = _cityInfoRepository.GetPointOfInterestById(cityId, pointId);
             return pointOfInterest != null;
         }
 
-        public List<PointOfInterestDto> GetPointsOfInterest(string cityId)
+        public List<PointOfInterestDto> GetPointsOfInterest(Guid cityId)
         {
             var pointsOfInterest = _cityInfoRepository.GetPointsOfInterest(cityId);
             var results = Mapper.Map<List<PointOfInterestDto>>(pointsOfInterest);
             return results;
         }
 
-        public PointOfInterestDto GetPointOfInterestById(string cityId, string pointId)
+        public PointOfInterestDto GetPointOfInterestById(Guid cityId, Guid pointId)
         {
             var pointOfInterest = _cityInfoRepository.GetPointOfInterestById(cityId, pointId);
             var result = Mapper.Map<PointOfInterestDto>(pointOfInterest);
             return result;
         }
 
-        public PointOfInterestDto CreateNewPointOfInterest(string cityId, PointOfInterestCreateDto submittedPointOfInterest)
+        public PointOfInterestDto CreateNewPointOfInterest(Guid cityId, PointOfInterestCreateDto submittedPointOfInterest)
         {
             // destination / source
             var newPointOfInterest = Mapper.Map<CityInfoAPI.Data.Entities.PointOfInterest>(submittedPointOfInterest);
@@ -59,7 +60,7 @@ namespace CityInfoAPI.Logic.Processors
             return returnedPointOfInterest;
         }
 
-        public bool UpdatePointOfInterest(string cityId, string pointId, PointOfInterestUpdateDto submittedPointOfInterest)
+        public bool UpdatePointOfInterest(Guid cityId, Guid pointId, PointOfInterestUpdateDto submittedPointOfInterest)
         {
             PointOfInterest entityPointOfInterest = _cityInfoRepository.GetPointOfInterestById(cityId, pointId);
 
@@ -69,7 +70,7 @@ namespace CityInfoAPI.Logic.Processors
             return _cityInfoRepository.SaveChanges();
         }
 
-        public bool DeletePointOfInterest(string cityId, string pointId)
+        public bool DeletePointOfInterest(Guid cityId, Guid pointId)
         {
             // get the entity
             var pointOfInterest = _cityInfoRepository.GetPointOfInterestById(cityId, pointId);

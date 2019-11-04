@@ -1,4 +1,6 @@
-﻿namespace CityInfoAPI.Dtos.Models
+﻿using System;
+
+namespace CityInfoAPI.Dtos.Models
 {
     /// <summary>
     /// point of interest for city
@@ -8,7 +10,7 @@
         /// <summary>
         /// key identifier of point of interest
         /// </summary>
-        public string PointId { get; set; }
+        public Guid PointId { get; set; }
 
         /// <summary>
         /// point of interest name

@@ -1,4 +1,5 @@
 ﻿using CityInfoAPI.Data.Entities;
+using System;
 using System.Collections.Generic;
 
 namespace CityInfoAPI.Data.Repositories
@@ -10,17 +11,17 @@ namespace CityInfoAPI.Data.Repositories
 
         List<City> GetCitiesWithPointsOfInterest();
 
-        City GetCityById(string cityId, bool includePointsOfInterest);
+        City GetCityById(Guid cityId, bool includePointsOfInterest);
 
-        bool DoesCityExist(string cityId);
+        bool DoesCityExist(Guid cityId);
 
 
         // points of interest
-        List<PointOfInterest> GetPointsOfInterest(string key);
+        List<PointOfInterest> GetPointsOfInterest(Guid cityId);
 
-        PointOfInterest GetPointOfInterestById(string cityId, string pointId);
+        PointOfInterest GetPointOfInterestById(Guid cityId, Guid pointId);
 
-        void CreatePointOfInterest(string cityId, PointOfInterest pointOfInterest);
+        void CreatePointOfInterest(Guid cityId, PointOfInterest pointOfInterest);
 
         void DeletePointOfInterest(PointOfInterest pointOfInterest);
 

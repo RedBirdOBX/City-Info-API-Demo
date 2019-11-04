@@ -3,6 +3,7 @@ using CityInfoAPI.Logic.Processors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 
 namespace CityInfoAPI.Web.Controllers
@@ -54,7 +55,7 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
         [HttpGet("{cityId}", Name = "GetCityById")]
-        public ActionResult<CityDto> GetCityByKey([FromRoute] string cityId, [FromQuery] bool includePointsOfInterest = true)
+        public ActionResult<CityDto> GetCityByKey([FromRoute] Guid cityId, [FromQuery] bool includePointsOfInterest = true)
         {
             if (!_cityProcessor.DoesCityExist(cityId))
             {

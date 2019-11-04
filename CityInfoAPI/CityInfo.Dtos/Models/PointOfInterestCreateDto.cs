@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace CityInfoAPI.Dtos.Models
 {
@@ -7,13 +8,19 @@ namespace CityInfoAPI.Dtos.Models
     /// </summary>
     public class PointOfInterestCreateDto
     {
+        /// <summary>
+        /// constructor of dto
+        /// </summary>
+        public PointOfInterestCreateDto()
+        {
+            PointId = Guid.NewGuid();
+        }
 
         /// <summary>
-        /// key identifier of city
+        /// key identifier of point of interest
         /// </summary>
         [Required(ErrorMessage = "Point of Interest Id is required.")]
-        [MaxLength(50, ErrorMessage = "Point of Interest Id (guid) cannot exceed 50 characters.")]
-        public string PointId { get; set; }
+        public Guid PointId { get; set; }
 
         /// <summary>
         /// point of interest name

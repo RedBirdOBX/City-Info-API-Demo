@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CityInfoAPI.Data.Entities
@@ -11,7 +12,7 @@ namespace CityInfoAPI.Data.Entities
         [Key]
         [Required(ErrorMessage = "PointId is required.")]
         [MaxLength(50, ErrorMessage = "PointId cannot exceed 50 characters.")]
-        public string PointId { get; set; }
+        public Guid PointId { get; set; }
 
         [Required(ErrorMessage = "Name is required.")]
         [MaxLength(50, ErrorMessage = "Name cannot exceed 50 characters.")]
@@ -21,7 +22,7 @@ namespace CityInfoAPI.Data.Entities
         [MaxLength(200, ErrorMessage = "Description cannot exceed 200 characters.")]
         public string Description { get; set; }
 
-        public string CityId { get; set; }
+        public Guid CityId { get; set; }
 
         [ForeignKey("CityId")]
         public City City { get; set; }
