@@ -1,6 +1,6 @@
-# The City Info Demo API
+# The City Info Demo API #
 
-
+*Version 1.2.0*
 ----------
 
 
@@ -62,6 +62,8 @@ This resource with return a collection of all cities but does not show you their
 [http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}?includepointsofinterest=false](http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}?includepointsofinterest=false "http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}?includepointsofinterest=false")   
 `GET`    
 Here, you can request a specific city and also provide an optional query string parameter to explicitly request the Points Of Interest along with the City data. If false, the points of interest collection will be intentionally empty (to lighten payload).  Otherwise, they will be included by default. 
+
+The id along with all other ids are guids.
 
 #### Get Points of Interest for City  
 [http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest](http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest "http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest")  
@@ -130,7 +132,7 @@ By providing a proper City id and a Point of Interest id, you can delete a resou
 If successful, it will return a 200 OK status and a message in the body.
 
 #### City Summary Reporting Data
-[http://city-info-api-demo.azurewebsites.net/api/v2.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}](http://city-info-api-demo.azurewebsites.net/api/v2.0/cities/{cityId}/pointsofinterest/{pointOfInterestId} "http://city-info-api-demo.azurewebsites.net/api/v2.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}")  
+[http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/reporting/summary](http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/reporting/summary "http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/reporting/summary")  
 `GET`  
 Version **2.0** Resource.  This endpoint provides a list of all cities the count of points of interest for each city.
 
@@ -294,3 +296,7 @@ Initial release
 **1.1.0**  
 9.4.2019  
 Full integration of Swashbuckle (Swagger, Swagger UI), versioning, and Basic Authentication on new resource called City Summary - a hypothetical secured, set of resources at `https://city-info-api-demo-prod.azurewebsites.net/api/v2.0/cities/reporting/summary`.
+
+**1.2.0**
+11.10.2019
+Replaced all database record identifiers in routes with guids.  Now, regardless of where or how the data is stored, the identifiers will always remain the same.  

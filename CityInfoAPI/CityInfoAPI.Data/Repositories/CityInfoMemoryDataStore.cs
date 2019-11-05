@@ -161,8 +161,8 @@ namespace CityInfoAPI.Data.Repositories
 
         public void DeletePointOfInterest(PointOfInterest pointOfInterest)
         {
-            //var city = GetCityByKey(pointOfInterest.CityId, true);
-            //city.PointsOfInterest.Remove(pointOfInterest);
+            var city = GetCityById(pointOfInterest.CityId, true);
+            city.PointsOfInterest.Remove(pointOfInterest);
         }
 
         // global

@@ -46,7 +46,7 @@ namespace CityInfoAPI.Web.Controllers
 
         /// <summary>get a specific city by key</summary>
         /// <example>http://{domain}/api/v1.0/cities/{cityId}</example>
-        /// <param name="cityKey">the key/guid of the city</param>
+        /// <param name="cityId">the id of the city</param>
         /// <param name="includePointsOfInterest">flag which indicates whether or not points of interest should be included.  true/false</param>
         /// <returns>a CityDto with optional points of interest</returns>
         /// <response code="200">returns a city</response>

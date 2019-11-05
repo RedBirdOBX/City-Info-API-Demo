@@ -7,13 +7,13 @@ using System.Linq;
 
 namespace CityInfoAPI.Data.Repositories
 {
-    public class CityInfoRepository : ICityInfoRepository
+    public class CityInfoSqlDataStore : ICityInfoRepository
     {
         // fields
         private CityInfoDbContext _cityInfoDbContext;
 
         // constructor
-        public CityInfoRepository(CityInfoDbContext cityInfoDbContext)
+        public CityInfoSqlDataStore(CityInfoDbContext cityInfoDbContext)
         {
             _cityInfoDbContext = cityInfoDbContext;
         }

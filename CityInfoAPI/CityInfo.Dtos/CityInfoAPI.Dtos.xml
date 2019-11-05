@@ -87,6 +87,11 @@
             key identifier of point of interest
             </summary>
         </member>
+        <member name="P:CityInfoAPI.Dtos.Models.PointOfInterestCreateDto.CityId">
+            <summary>
+            key identifier of city
+            </summary>
+        </member>
         <member name="P:CityInfoAPI.Dtos.Models.PointOfInterestCreateDto.Name">
             <summary>
             point of interest name

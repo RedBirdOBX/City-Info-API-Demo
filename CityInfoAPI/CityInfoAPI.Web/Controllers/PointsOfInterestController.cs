@@ -186,7 +186,7 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        [HttpPut("pointsofinterest/{pointKey}", Name = "UpdatePointOfInterest")]
+        [HttpPut("pointsofinterest/{pointId}", Name = "UpdatePointOfInterest")]
         public IActionResult UpdatePointOfInterest(Guid cityId, Guid pointId, [FromBody] PointOfInterestUpdateDto submittedPointOfInterest)
         {
             // The framework will attempt to deserialize the body to a PointOnInterestCreateDto. If it can't, it will remain null and we know we have bad input.
@@ -342,7 +342,7 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        [HttpDelete("pointsofinterest/{pointKey}")]
+        [HttpDelete("pointsofinterest/{pointId}")]
         public ActionResult DeletePointOfInterest(Guid cityId, Guid pointId)
         {
             // is this a valid city?
