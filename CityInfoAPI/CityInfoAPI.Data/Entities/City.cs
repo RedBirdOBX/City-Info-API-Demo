@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -12,9 +13,13 @@ namespace CityInfoAPI.Data.Entities
             PointsOfInterest = new List<PointOfInterest>();
         }
 
-        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+
+        [Key]
+        [Required(ErrorMessage = "CityId is required.")]
+        [MaxLength(50, ErrorMessage = "CityId cannot exceed 50 characters.")]
+        public Guid CityId { get; set; }
 
         [Required(ErrorMessage = "Name is required.")]
         [MaxLength(50, ErrorMessage = "Name cannot exceed 50 characters.")]

@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore;
+﻿using System;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using NLog.Extensions.Logging;
 using NLog.Web;
 
 namespace CityInfoAPI.Web
@@ -33,12 +36,33 @@ namespace CityInfoAPI.Web
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+
+                // https://johan.driessen.se/posts/Properly-configuring-NLog-and-ILogger-in-ASP-NET-Core-2-2/
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                {
+                    var env = hostingContext.HostingEnvironment;
+
+                    //Read configuration from appsettings.json
+                    config
+                        .AddJsonFile("appSettings.json", optional: false, reloadOnChange: true)
+                        .AddJsonFile($"appSettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
+
+                    //Add environment variables to config
+                    config.AddEnvironmentVariables();
+
+                    //Read NLog configuration from the nlog config file
+                    //env.ConfigureNLog($"nlog.{env.EnvironmentName}.config");
+                    env.ConfigureNLog($"nlog.config");
+                })
                 .ConfigureLogging(logging =>
                 {
                     logging.ClearProviders();
+                    logging.AddDebug();
+                    logging.AddConsole();
+                    logging.AddNLog();
                     logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
-                })
-                .UseNLog();
+                });
+
     }
 
     #pragma warning restore CS1591

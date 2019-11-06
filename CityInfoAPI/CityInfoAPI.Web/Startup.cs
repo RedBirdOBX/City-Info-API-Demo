@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +16,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using NLog.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -75,11 +73,14 @@ namespace CityInfoAPI.Web
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            // register EF Services
+            // sql data store
             string connectionString = Startup.Configuration["ConnectionStrings:cityInfoConnectionString"];
             services.AddDbContext<CityInfoDbContext>(options => options.UseSqlServer(connectionString));
+            services.AddScoped<ICityInfoRepository, CityInfoSqlDataStore>();
 
-            services.AddScoped<ICityInfoRepository, CityInfoRepository>();
+            // in memory data store
+            //services.AddSingleton<ICityInfoRepository, CityInfoMemoryDataStore>();
+
             services.AddScoped<CityProcessor>();
             services.AddScoped<PointsOfInterestProcessor>();
             services.AddScoped<ReportingProcessor>();
@@ -185,7 +186,7 @@ namespace CityInfoAPI.Web
                     return actionApiVersionModel.ImplementedApiVersions.Any(v => $"{specsName}v{v.ToString()}" == documentName);
                 });
 
-                // find the xml comments for the api exploer.  we could do this...
+                // find the xml comments for the api explorer.  we could do this...
                 // setupAction.IncludeXmlComments("CityInfoAPI.Web.xml");
 
                 // ...but since the xml file matches the assembly name, we can use reflection like so:
@@ -206,13 +207,11 @@ namespace CityInfoAPI.Web
         // This method gets called by the runtime.
         // build the request pipeline
         // Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, CityInfoDbContext cityInfoDbContext, IApiVersionDescriptionProvider apiVersionDescriptionProvider)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApiVersionDescriptionProvider apiVersionDescriptionProvider)
         {
-            string specsName = "CityAPISpecification";
+            // CityInfoDbContext cityInfoDbContext
 
-            loggerFactory.AddConsole();
-            loggerFactory.AddDebug(LogLevel.Information);
-            loggerFactory.AddNLog();
+            string specsName = "CityAPISpecification";
 
             if (env.IsDevelopment())
             {

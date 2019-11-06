@@ -3,6 +3,7 @@ using CityInfoAPI.Logic.Processors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 
 namespace CityInfoAPI.Web.Controllers
@@ -43,7 +44,7 @@ namespace CityInfoAPI.Web.Controllers
             return Ok(results);
         }
 
-        /// <summary>get a specific city by id</summary>
+        /// <summary>get a specific city by key</summary>
         /// <example>http://{domain}/api/v1.0/cities/{cityId}</example>
         /// <param name="cityId">the id of the city</param>
         /// <param name="includePointsOfInterest">flag which indicates whether or not points of interest should be included.  true/false</param>
@@ -54,7 +55,7 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
         [HttpGet("{cityId}", Name = "GetCityById")]
-        public ActionResult<CityDto> GetCityById([FromRoute] int cityId, [FromQuery] bool includePointsOfInterest = true)
+        public ActionResult<CityDto> GetCityByKey([FromRoute] Guid cityId, [FromQuery] bool includePointsOfInterest = true)
         {
             if (!_cityProcessor.DoesCityExist(cityId))
             {
@@ -63,7 +64,7 @@ namespace CityInfoAPI.Web.Controllers
             }
             else
             {
-                var city = _cityProcessor.GetCityById(cityId, includePointsOfInterest);
+                var city = _cityProcessor.GetCityByKey(cityId, includePointsOfInterest);
                 return Ok(city);
             }
         }
