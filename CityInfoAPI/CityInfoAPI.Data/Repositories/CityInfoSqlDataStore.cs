@@ -1,18 +1,19 @@
 ﻿using CityInfoAPI.Data.EF;
 using CityInfoAPI.Data.Entities;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace CityInfoAPI.Data.Repositories
 {
-    public class CityInfoRepository : ICityInfoRepository
+    public class CityInfoSqlDataStore : ICityInfoRepository
     {
         // fields
         private CityInfoDbContext _cityInfoDbContext;
 
         // constructor
-        public CityInfoRepository(CityInfoDbContext cityInfoDbContext)
+        public CityInfoSqlDataStore(CityInfoDbContext cityInfoDbContext)
         {
             _cityInfoDbContext = cityInfoDbContext;
         }
@@ -31,46 +32,46 @@ namespace CityInfoAPI.Data.Repositories
                     .OrderBy(c => c.Name).ToList();
         }
 
-        public City GetCityById(int cityId, bool includePointsOfInterest)
+        public City GetCityById(Guid cityId, bool includePointsOfInterest)
         {
             if (includePointsOfInterest)
             {
                 return _cityInfoDbContext.Cities
                         .Include(c => c.PointsOfInterest)
-                        .Where(c => c.Id == cityId)
+                        .Where(c => c.CityId == cityId)
                         .FirstOrDefault();
             }
             else
             {
                 return _cityInfoDbContext.Cities
-                        .Where(c => c.Id == cityId)
+                        .Where(c => c.CityId == cityId)
                         .FirstOrDefault();
             }
         }
 
-        public bool DoesCityExist(int cityId)
+        public bool DoesCityExist(Guid cityId)
         {
-            return _cityInfoDbContext.Cities.Any(c => c.Id == cityId);
+            return _cityInfoDbContext.Cities.Any(c => c.CityId == cityId);
         }
 
 
         // points of interest
-        public List<PointOfInterest> GetPointsOfInterest(int cityId)
+        public List<PointOfInterest> GetPointsOfInterest(Guid cityId)
         {
             return _cityInfoDbContext.PointsOfInterest
                     .Where(p => p.CityId == cityId)
                     .ToList();
         }
 
-        public PointOfInterest GetPointOfInterestById(int cityId, int pointOfInterestId)
+        public PointOfInterest GetPointOfInterestById(Guid cityId, Guid pointId)
         {
             return _cityInfoDbContext.PointsOfInterest
-                    .Where(p => p.Id == pointOfInterestId && p.CityId == cityId)
+                    .Where(p => p.PointId == pointId && p.City.CityId == cityId)
                     .OrderBy(p => p.Name)
                     .FirstOrDefault();
         }
 
-        public void CreatePointOfInterest(int cityId, PointOfInterest pointOfInterest)
+        public void CreatePointOfInterest(Guid cityId, PointOfInterest pointOfInterest)
         {
             var city = GetCityById(cityId, false);
             city.PointsOfInterest.Add(pointOfInterest);

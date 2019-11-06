@@ -6,17 +6,17 @@
     public class CityWithoutPointsOfInterestDto
     {
         /// <summary>
-        /// point of interest id
+        /// identifier of city
         /// </summary>
-        public int Id { get; set; }
+        public string CityId { get; set; }
 
         /// <summary>
-        /// point of interest name
+        /// city name
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// point of interest description
+        /// city description
         /// </summary>
         public string Description { get; set; }
     }

@@ -73,11 +73,14 @@ namespace CityInfoAPI.Web
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            // register EF Services
+            // sql data store
             string connectionString = Startup.Configuration["ConnectionStrings:cityInfoConnectionString"];
             services.AddDbContext<CityInfoDbContext>(options => options.UseSqlServer(connectionString));
+            services.AddScoped<ICityInfoRepository, CityInfoSqlDataStore>();
 
-            services.AddScoped<ICityInfoRepository, CityInfoRepository>();
+            // in memory data store
+            //services.AddSingleton<ICityInfoRepository, CityInfoMemoryDataStore>();
+
             services.AddScoped<CityProcessor>();
             services.AddScoped<PointsOfInterestProcessor>();
             services.AddScoped<ReportingProcessor>();
@@ -204,8 +207,10 @@ namespace CityInfoAPI.Web
         // This method gets called by the runtime.
         // build the request pipeline
         // Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, CityInfoDbContext cityInfoDbContext, IApiVersionDescriptionProvider apiVersionDescriptionProvider)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApiVersionDescriptionProvider apiVersionDescriptionProvider)
         {
+            // CityInfoDbContext cityInfoDbContext
+
             string specsName = "CityAPISpecification";
 
             if (env.IsDevelopment())

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CityInfoAPI.Data.Repositories;
 using CityInfoAPI.Dtos.Models;
+using System;
 using System.Collections.Generic;
 
 namespace CityInfoAPI.Logic.Processors
@@ -31,12 +32,12 @@ namespace CityInfoAPI.Logic.Processors
             return results;
         }
 
-        public bool DoesCityExist(int cityId)
+        public bool DoesCityExist(Guid cityId)
         {
             return _cityInfoRepository.DoesCityExist(cityId);
         }
 
-        public CityDto GetCityById(int cityId, bool includePointsOfInterest)
+        public CityDto GetCityByKey(Guid cityId, bool includePointsOfInterest)
         {
             var city = _cityInfoRepository.GetCityById(cityId, includePointsOfInterest);
             var results = Mapper.Map<CityDto>(city);
