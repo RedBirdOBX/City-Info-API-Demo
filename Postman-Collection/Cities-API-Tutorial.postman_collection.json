@@ -382,7 +382,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2?includePointsOfInterest=false",
+					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2?includePointsOfInterest=true",
 					"protocol": "https",
 					"host": [
 						"city-info-api-demo-dev",
@@ -398,7 +398,7 @@
 					"query": [
 						{
 							"key": "includePointsOfInterest",
-							"value": "false"
+							"value": "true"
 						}
 					]
 				}
@@ -417,7 +417,7 @@
 					}
 				],
 				"url": {
-					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities/2/pointsofinterest",
+					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest",
 					"protocol": "https",
 					"host": [
 						"city-info-api-demo-dev",
@@ -428,7 +428,7 @@
 						"api",
 						"v1.0",
 						"cities",
-						"2",
+						"38276231-1918-452d-a3e9-6f50873a95d2",
 						"pointsofinterest"
 					]
 				}
@@ -447,7 +447,7 @@
 					}
 				],
 				"url": {
-					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities/1/pointsofinterest/16",
+					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest/e5a5f605-627d-4aec-9f5c-e9939ea0a6cf",
 					"protocol": "https",
 					"host": [
 						"city-info-api-demo-dev",
@@ -458,9 +458,9 @@
 						"api",
 						"v1.0",
 						"cities",
-						"1",
+						"38276231-1918-452d-a3e9-6f50873a95d2",
 						"pointsofinterest",
-						"16"
+						"e5a5f605-627d-4aec-9f5c-e9939ea0a6cf"
 					]
 				}
 			},
@@ -470,7 +470,13 @@
 			"name": "Dev - Get Cities Summary V2",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic Q2l0eUluZm9BUEk6Q2l0eUluZm9BUElQYXNzd29yZA==",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v2.0/cities/reporting/summary",
 					"protocol": "https",
@@ -513,7 +519,7 @@
 					"raw": "{\n\t\"name\": \"New Point of Interest\",\n\t\"description\": \"New Point of Interest description.\"\n}"
 				},
 				"url": {
-					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities/1/pointsofinterest",
+					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest",
 					"protocol": "https",
 					"host": [
 						"city-info-api-demo-dev",
@@ -524,7 +530,7 @@
 						"api",
 						"v1.0",
 						"cities",
-						"1",
+						"38276231-1918-452d-a3e9-6f50873a95d2",
 						"pointsofinterest"
 					]
 				}
@@ -551,10 +557,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\": \"Central Park\",\n\t\"description\": \"Central Park....updated\"\n}"
+					"raw": "{\n\t\"name\": \"Point of Interest revised\",\n\t\"description\": \"Point of Interest revised....updated\"\n}"
 				},
 				"url": {
-					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities/1/pointsofinterest/19",
+					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest/24fa74d3-8ec8-41d3-8bb6-8d364edeffa7",
 					"protocol": "https",
 					"host": [
 						"city-info-api-demo-dev",
@@ -565,9 +571,9 @@
 						"api",
 						"v1.0",
 						"cities",
-						"1",
+						"38276231-1918-452d-a3e9-6f50873a95d2",
 						"pointsofinterest",
-						"19"
+						"24fa74d3-8ec8-41d3-8bb6-8d364edeffa7"
 					]
 				}
 			},
@@ -595,7 +601,7 @@
 					"raw": "[\n\t{\n\t\t\"op\": \"replace\",\n\t\t\"path\": \"/description\",\n\t\t\"value\": \"updated description\"\n\t}\n]"
 				},
 				"url": {
-					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities/1/pointsofinterest/19",
+					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest/24fa74d3-8ec8-41d3-8bb6-8d364edeffa7",
 					"protocol": "https",
 					"host": [
 						"city-info-api-demo-dev",
@@ -606,9 +612,9 @@
 						"api",
 						"v1.0",
 						"cities",
-						"1",
+						"38276231-1918-452d-a3e9-6f50873a95d2",
 						"pointsofinterest",
-						"19"
+						"24fa74d3-8ec8-41d3-8bb6-8d364edeffa7"
 					]
 				}
 			},
@@ -630,7 +636,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities/1/pointsofinterest/19",
+					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest/24fa74d3-8ec8-41d3-8bb6-8d364edeffa7",
 					"protocol": "https",
 					"host": [
 						"city-info-api-demo-dev",
@@ -641,9 +647,9 @@
 						"api",
 						"v1.0",
 						"cities",
-						"1",
+						"38276231-1918-452d-a3e9-6f50873a95d2",
 						"pointsofinterest",
-						"19"
+						"24fa74d3-8ec8-41d3-8bb6-8d364edeffa7"
 					]
 				}
 			},

@@ -259,7 +259,9 @@ A basic demonstration of authentication and security was implemented on the `Cit
 `https://city-info-api-demo-prod.azurewebsites.net/api/v2.0/cities/reporting/summary`
 ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/auth-sample.PNG)
 
+In order to access the V2 resource which requires authentication, you must pass along an Authentication parameter in the Request Header and the value will be `Basic Q2l0eUluZm9BUEk6Q2l0eUluZm9BUElQYXNzd29yZA==`.
 
+ 
 
 
 <a href="" id="swagger" name="swagger"></a>
