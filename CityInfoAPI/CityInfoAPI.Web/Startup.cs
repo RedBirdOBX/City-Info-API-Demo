@@ -235,6 +235,11 @@ namespace CityInfoAPI.Web
                 cfg.CreateMap<CityInfoAPI.Dtos.Models.PointOfInterestCreateDto, CityInfoAPI.Data.Entities.PointOfInterest>();
                 cfg.CreateMap<CityInfoAPI.Dtos.Models.PointOfInterestUpdateDto, CityInfoAPI.Data.Entities.PointOfInterest>();
 
+                // here's an example of doing a custom member mapping. It will use Projection.
+                // It takes CityName from entity and maps it to Name of the DTO.
+                //cfg.CreateMap<CityInfoAPI.Data.Entities.City, CityInfoAPI.Dtos.Models.CityDto>()
+                //    .ForMember(cityDto => cityDto.Name, option => option.MapFrom(cityEntity => cityEntity.CityName));
+
                 // This backwards mapping is intentional (for Patches).
                 // Find the Entity first and map it to a DTO to hide implementation details.
                 cfg.CreateMap<CityInfoAPI.Data.Entities.PointOfInterest, CityInfoAPI.Dtos.Models.PointOfInterestUpdateDto>();
