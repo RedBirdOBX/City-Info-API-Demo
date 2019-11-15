@@ -1,7 +1,7 @@
 # The City Info Demo API
   
 ----------
-*Version 1.2.0*
+*Version 1.3.0*
 
 ## Summary
 Welcome to the City Info Demo API. Imagine that you were developing for some kind of travel site and one of the requirements was you needed to be able to ask for a complete listing of cities; ask for any given city by it's ID and, if specifically asked for, you needed to be able to provide all the "touristy" things to do for that specified city (landmarks, parks, restaurants, and so on).  
@@ -300,4 +300,8 @@ Full integration of Swashbuckle (Swagger, Swagger UI), versioning, and Basic Aut
 
 **1.2.0**
 11.10.2019
-Replaced all database record identifiers in routes with guids.  Now, regardless of where or how the data is stored, the identifiers will always remain the same.  
+Replaced all database record identifiers in routes with guids.  Now, regardless of where or how the data is stored, the identifiers will always remain the same. 
+
+**1.3.0**  
+11.15.2019  
+Added `try/catches` to all Controller actions.  
