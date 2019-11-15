@@ -19,7 +19,7 @@
             <returns>a collection of CityDto</returns>
             <response code="200">returns the list of cities</response>
         </member>
-        <member name="M:CityInfoAPI.Web.Controllers.CitiesController.GetCityByKey(System.Guid,System.Boolean)">
+        <member name="M:CityInfoAPI.Web.Controllers.CitiesController.GetCityById(System.Guid,System.Boolean)">
             <summary>get a specific city by key</summary>
             <example>http://{domain}/api/v1.0/cities/{cityId}</example>
             <param name="cityId">the id of the city</param>
@@ -111,9 +111,10 @@
         <member name="T:CityInfoAPI.Web.Controllers.ReportingController">
             <summary>returns various reports. controller requires a version to be specified</summary>
         </member>
-        <member name="M:CityInfoAPI.Web.Controllers.ReportingController.#ctor(CityInfoAPI.Logic.Processors.ReportingProcessor)">
+        <member name="M:CityInfoAPI.Web.Controllers.ReportingController.#ctor(CityInfoAPI.Logic.Processors.ReportingProcessor,Microsoft.Extensions.Logging.ILogger{CityInfoAPI.Web.Controllers.ReportingController})">
             <summary>constructor</summary>
             <param name="reportingProcessor">reporting processor</param>
+            <param name="logger">logger factory to be injected</param>
         </member>
         <member name="M:CityInfoAPI.Web.Controllers.ReportingController.CitySummary">
             <summary>V2 resource. returns a list of cities and its count of points of interest</summary>

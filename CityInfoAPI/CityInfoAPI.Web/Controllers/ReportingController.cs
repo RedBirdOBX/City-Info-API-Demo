@@ -3,6 +3,7 @@ using CityInfoAPI.Logic.Processors;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 
 namespace CityInfoAPI.Web.Controllers
@@ -20,12 +21,15 @@ namespace CityInfoAPI.Web.Controllers
     {
 
         private ReportingProcessor _reportingProcessor;
+        private ILogger<ReportingController> _logger;
 
         /// <summary>constructor</summary>
         /// <param name="reportingProcessor">reporting processor</param>
-        public ReportingController(ReportingProcessor reportingProcessor)
+        /// <param name="logger">logger factory to be injected</param>
+        public ReportingController(ReportingProcessor reportingProcessor, ILogger<ReportingController> logger)
         {
             _reportingProcessor = reportingProcessor;
+            _logger = logger;
         }
 
 
@@ -38,8 +42,16 @@ namespace CityInfoAPI.Web.Controllers
         [HttpGet("summary", Name = "GetCitySummary")]
         public ActionResult<List<CitySummaryDto>> CitySummary()
         {
-            var results = _reportingProcessor.GetCitiesSummary();
-            return results;
+            try
+            {
+                var results = _reportingProcessor.GetCitiesSummary();
+                return results;
+            }
+            catch (System.Exception exception)
+            {
+                _logger.LogWarning($"**** LOGGER: An error occurred in the CitySummary action. {exception}");
+                return StatusCode(500, "An error occurred when patching the point of interest.");
+            }
         }
     }
 }
