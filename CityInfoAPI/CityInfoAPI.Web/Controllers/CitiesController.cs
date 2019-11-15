@@ -40,8 +40,16 @@ namespace CityInfoAPI.Web.Controllers
         [HttpGet("", Name = "GetCities")]
         public ActionResult<List<CityDto>> GetCities()
         {
-            var results = _cityProcessor.GetCities();
-            return Ok(results);
+            try
+            {
+                var results = _cityProcessor.GetCities();
+                return Ok(results);
+            }
+            catch (Exception exception)
+            {
+                _logger.LogCritical($"**** LOGGER: Exception encountered while getting all cities.", exception);
+                return StatusCode(500, "A problem was encountered while processing your request.");
+            }
         }
 
         /// <summary>get a specific city by key</summary>
@@ -55,17 +63,25 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
         [HttpGet("{cityId}", Name = "GetCityById")]
-        public ActionResult<CityDto> GetCityByKey([FromRoute] Guid cityId, [FromQuery] bool includePointsOfInterest = true)
+        public ActionResult<CityDto> GetCityById([FromRoute] Guid cityId, [FromQuery] bool includePointsOfInterest = true)
         {
-            if (!_cityProcessor.DoesCityExist(cityId))
+            try
             {
-                _logger.LogInformation($"**** LOGGER: City not found using cityId {cityId}.");
-                return NotFound($"City not found using cityId {cityId}.");
+                if (!_cityProcessor.DoesCityExist(cityId))
+                {
+                    _logger.LogInformation($"**** LOGGER: City not found using cityId {cityId}.");
+                    return NotFound($"City not found using cityId {cityId}.");
+                }
+                else
+                {
+                    var city = _cityProcessor.GetCityByKey(cityId, includePointsOfInterest);
+                    return Ok(city);
+                }
             }
-            else
+            catch (Exception exception)
             {
-                var city = _cityProcessor.GetCityByKey(cityId, includePointsOfInterest);
-                return Ok(city);
+                _logger.LogCritical($"**** LOGGER: Exception encountered while looking for a city: {cityId}.", exception);
+                return StatusCode(500, "A problem was encountered while processing your request.");
             }
         }
     }

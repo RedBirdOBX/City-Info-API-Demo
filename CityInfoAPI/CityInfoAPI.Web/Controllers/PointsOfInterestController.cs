@@ -92,23 +92,31 @@ namespace CityInfoAPI.Web.Controllers
         [HttpGet("pointsofinterest/{pointId}", Name = "GetPointOfInterestById")]
         public ActionResult<PointOfInterestDto> GetPointOfInterestById(Guid cityId, Guid pointId)
         {
-            if (!_cityProcessor.DoesCityExist(cityId))
+            try
             {
-                _logger.LogInformation($"**** LOGGER: No city with the cityId of {cityId} was found.");
-                return NotFound($"No city with the cityId of {cityId} was found.");
-            }
-            else
-            {
-                var pointOfInterest = _pointsOfInterestProcessor.GetPointOfInterestById(cityId, pointId);
-                if (pointOfInterest == null)
+                if (!_cityProcessor.DoesCityExist(cityId))
                 {
-                    _logger.LogInformation($"**** LOGGER: No point of interest the pointId of {pointId} was found.");
-                    return NotFound($"No point of interest with the pointId of {pointId} was found.");
+                    _logger.LogInformation($"**** LOGGER: No city with the cityId of {cityId} was found.");
+                    return NotFound($"No city with the cityId of {cityId} was found.");
                 }
                 else
                 {
-                    return Ok(pointOfInterest);
+                    var pointOfInterest = _pointsOfInterestProcessor.GetPointOfInterestById(cityId, pointId);
+                    if (pointOfInterest == null)
+                    {
+                        _logger.LogInformation($"**** LOGGER: No point of interest the pointId of {pointId} was found.");
+                        return NotFound($"No point of interest with the pointId of {pointId} was found.");
+                    }
+                    else
+                    {
+                        return Ok(pointOfInterest);
+                    }
                 }
+            }
+            catch (Exception exception)
+            {
+                _logger.LogCritical($"**** LOGGER: Exception encountered while looking for a point of interest : {pointId}.", exception);
+                return StatusCode(500, "A problem was encountered while processing your request.");
             }
         }
 
@@ -126,52 +134,60 @@ namespace CityInfoAPI.Web.Controllers
         [HttpPost("pointsofinterest", Name = "CreatePointOfInterest")]
         public ActionResult CreatePointOfInterest(Guid cityId, [FromBody] PointOfInterestCreateDto submittedPointOfInterest)
         {
-            // The framework will attempt to deserialize the body post to a PointOfInterestCreateDto type.
-            // If it can't, it will remain null and we know we have bad input.
-            if (submittedPointOfInterest == null)
+            try
             {
-                return BadRequest();
-            }
+                // The framework will attempt to deserialize the body post to a PointOfInterestCreateDto type.
+                // If it can't, it will remain null and we know we have bad input.
+                if (submittedPointOfInterest == null)
+                {
+                    return BadRequest();
+                }
 
-            // did the submitted data meet all the rules?
-            // should this be a 422?
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+                // did the submitted data meet all the rules?
+                // should this be a 422?
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
 
-            // is the name different than the description?
-            // should this be a 422?
-            if (submittedPointOfInterest.Name.ToLower().Equals(submittedPointOfInterest.Description.ToLower()))
-            {
-                ModelState.AddModelError("Description", "Name and Description cannot be the same.");
-                return BadRequest(ModelState);
-            }
+                // is the name different than the description?
+                // should this be a 422?
+                if (submittedPointOfInterest.Name.ToLower().Equals(submittedPointOfInterest.Description.ToLower()))
+                {
+                    ModelState.AddModelError("Description", "Name and Description cannot be the same.");
+                    return BadRequest(ModelState);
+                }
 
-            if (!_cityProcessor.DoesCityExist(cityId))
-            {
-                _logger.LogInformation($"**** LOGGER: No city was found for cityId {cityId}.");
-                return NotFound($"No city was found for cityId {cityId}.");
-            }
+                if (!_cityProcessor.DoesCityExist(cityId))
+                {
+                    _logger.LogInformation($"**** LOGGER: No city was found for cityId {cityId}.");
+                    return NotFound($"No city was found for cityId {cityId}.");
+                }
 
-            // each city can only have 25 points of interest.
-            if (_pointsOfInterestProcessor.GetPointsOfInterest(cityId).Count() >= 25)
-            {
-                var city = _cityProcessor.GetCityByKey(cityId, false);
-                return BadRequest($"Sorry. The city {city.Name} cannot have more that 25 points of interest.");
-            }
+                // each city can only have 25 points of interest.
+                if (_pointsOfInterestProcessor.GetPointsOfInterest(cityId).Count() >= 25)
+                {
+                    var city = _cityProcessor.GetCityByKey(cityId, false);
+                    return BadRequest($"Sorry. The city {city.Name} cannot have more that 25 points of interest.");
+                }
 
-            PointOfInterestDto newPointOfInterest = _pointsOfInterestProcessor.CreateNewPointOfInterest(cityId, submittedPointOfInterest);
+                PointOfInterestDto newPointOfInterest = _pointsOfInterestProcessor.CreateNewPointOfInterest(cityId, submittedPointOfInterest);
 
-            if (newPointOfInterest == null)
-            {
-                return StatusCode(500, $"Something went wrong when creating a point of interest for cityKey {cityId};");
+                if (newPointOfInterest == null)
+                {
+                    return StatusCode(500, $"Something went wrong when creating a point of interest for cityKey {cityId};");
+                }
+                else
+                {
+                    // Returns 201 Created Status Code.
+                    // Returns the ROUTE in the RESPONSE HEADER (http://localhost:49902/api/cities/{cityId}/pointsofinterest/{newId}) where you can see it.
+                    return CreatedAtRoute("GetPointOfInterestById", new { cityId = cityId, pointId = newPointOfInterest.PointId }, newPointOfInterest);
+                }
             }
-            else
+            catch (Exception exception)
             {
-                // Returns 201 Created Status Code.
-                // Returns the ROUTE in the RESPONSE HEADER (http://localhost:49902/api/cities/{cityId}/pointsofinterest/{newId}) where you can see it.
-                return CreatedAtRoute("GetPointOfInterestById", new { cityId = cityId, pointId = newPointOfInterest.PointId }, newPointOfInterest);
+                _logger.LogCritical($"**** LOGGER: Exception encountered while trying to create a point of interest.", exception);
+                return StatusCode(500, "A problem was encountered while processing your request.");
             }
         }
 
@@ -189,56 +205,64 @@ namespace CityInfoAPI.Web.Controllers
         [HttpPut("pointsofinterest/{pointId}", Name = "UpdatePointOfInterest")]
         public IActionResult UpdatePointOfInterest(Guid cityId, Guid pointId, [FromBody] PointOfInterestUpdateDto submittedPointOfInterest)
         {
-            // The framework will attempt to deserialize the body to a PointOnInterestCreateDto. If it can't, it will remain null and we know we have bad input.
-            if (submittedPointOfInterest == null)
+            try
             {
-                return BadRequest();
-            }
+                // The framework will attempt to deserialize the body to a PointOnInterestCreateDto. If it can't, it will remain null and we know we have bad input.
+                if (submittedPointOfInterest == null)
+                {
+                    return BadRequest();
+                }
 
-            // did the submitted data meet all the rules?
-            if (!ModelState.IsValid)
+                // did the submitted data meet all the rules?
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                // is the name different than the description?
+                // should be 422?
+                if (submittedPointOfInterest.Name.ToLower().Equals(submittedPointOfInterest.Description.ToLower()))
+                {
+                    ModelState.AddModelError("Description", "Name and Description cannot be the same.");
+                    return BadRequest(ModelState);
+                }
+
+                // does the city exist?
+                if (!_cityProcessor.DoesCityExist(cityId))
+                {
+                    _logger.LogInformation($"**** LOGGER: City of id {cityId} was not found.");
+                    return NotFound("City not found");
+                }
+
+                // are the name and description provided?
+                if (string.IsNullOrWhiteSpace(submittedPointOfInterest.Name) || string.IsNullOrWhiteSpace(submittedPointOfInterest.Description))
+                {
+                    return BadRequest(ModelState);
+                }
+
+                // does point of interest exist?
+                bool pointOfInterestExists = _pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointId);
+                if (!pointOfInterestExists)
+                {
+                    _logger.LogInformation($"**** LOGGER: An attempt was made to update a point of interest which did not exist. cityKey {cityId}. Point Of Interest Id {pointId}.");
+                    return NotFound($"Point of Interest Id {pointId} was not found.");
+                }
+
+                if (!_pointsOfInterestProcessor.UpdatePointOfInterest(cityId, pointId, submittedPointOfInterest))
+                {
+                    _logger.LogWarning($"**** LOGGER: An error occurred when updating the point of interest. cityKey {cityId}. Point Of Interest Id {pointId}.");
+                    return StatusCode(500, "An error occurred when updating the point of interest.");
+                }
+
+                // technically, returning NoContent() is a valid response type. The client is the one who sent the data so there's no reason
+                // to send them what they just sent you.  However....I like to do it just to indicate what was updated.
+                return Ok(submittedPointOfInterest);
+            }
+            catch (Exception exception)
             {
-                return BadRequest(ModelState);
+                _logger.LogCritical($"**** LOGGER: Exception encountered while trying to update a point of interest: {pointId}.", exception);
+                return StatusCode(500, "A problem was encountered while processing your request.");
             }
-
-            // is the name different than the description?
-            // should be 422?
-            if (submittedPointOfInterest.Name.ToLower().Equals(submittedPointOfInterest.Description.ToLower()))
-            {
-                ModelState.AddModelError("Description", "Name and Description cannot be the same.");
-                return BadRequest(ModelState);
-            }
-
-            // does the city exist?
-            if (!_cityProcessor.DoesCityExist(cityId))
-            {
-                _logger.LogInformation($"**** LOGGER: City of id {cityId} was not found.");
-                return NotFound("City not found");
-            }
-
-            // are the name and description provided?
-            if (string.IsNullOrWhiteSpace(submittedPointOfInterest.Name) || string.IsNullOrWhiteSpace(submittedPointOfInterest.Description))
-            {
-                return BadRequest(ModelState);
-            }
-
-            // does point of interest exist?
-            bool pointOfInterestExists = _pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointId);
-            if (!pointOfInterestExists)
-            {
-                _logger.LogInformation($"**** LOGGER: An attempt was made to update a point of interest which did not exist. cityKey {cityId}. Point Of Interest Id {pointId}.");
-                return NotFound($"Point of Interest Id {pointId} was not found.");
-            }
-
-            if (!_pointsOfInterestProcessor.UpdatePointOfInterest(cityId, pointId, submittedPointOfInterest))
-            {
-                _logger.LogWarning($"**** LOGGER: An error occurred when updating the point of interest. cityKey {cityId}. Point Of Interest Id {pointId}.");
-                return StatusCode(500, "An error occurred when updating the point of interest.");
-            }
-
-            // technically, returning NoContent() is a valid response type. The client is the one who sent the data so there's no reason
-            // to send them what they just sent you.  However....I like to do it just to indicate what was updated.
-            return Ok(submittedPointOfInterest);
         }
 
         /// <summary>PATCH endpoint for updating less than the whole point of interest</summary>
@@ -268,68 +292,76 @@ namespace CityInfoAPI.Web.Controllers
         [HttpPatch("pointsofinterest/{pointId}", Name = "PatchPointOfInterest")]
         public ActionResult<PointOfInterestUpdateDto> PatchPointOfInterest(Guid cityId, Guid pointId, [FromBody] JsonPatchDocument<PointOfInterestUpdateDto> patchDocument)
         {
-            // see if the correct properties and type was passed in
-            if (patchDocument == null)
+            try
             {
-                return BadRequest();
-            }
+                // see if the correct properties and type was passed in
+                if (patchDocument == null)
+                {
+                    return BadRequest();
+                }
 
-            // is this a valid city?
-            if (!_cityProcessor.DoesCityExist(cityId))
+                // is this a valid city?
+                if (!_cityProcessor.DoesCityExist(cityId))
+                {
+                    _logger.LogInformation($"**** LOGGER: City of cityId {cityId} was not found.");
+                    return NotFound($"City of cityId {cityId} was not found.");
+                }
+
+                // does point of interest exist?
+                bool pointOfInterestExists = _pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointId);
+                if (!pointOfInterestExists)
+                {
+                    _logger.LogInformation($"**** LOGGER: An attempt was made to update a point of interest which did not exist. cityKey {cityId}. Point Of Interest Id {pointId}.");
+                    return NotFound($"Point of Interest of Id {pointId} was not found.");
+                }
+
+                // we need to map the entity to a dto so we than can map the patch to the dto and back to the entity.
+                // <casted destination type>(source).
+                var pointOfInterestEntity = _cityInfoRepository.GetPointOfInterestById(cityId, pointId);
+                var pointOfInterestToPatch = Mapper.Map<PointOfInterestUpdateDto>(pointOfInterestEntity);
+
+                // If we include the optional ModelState argument, it will send back any potential errors.
+                // This is where we map new values to the properties.
+                // ModelState was created here when the Model Binding was applied to the input model...the JSONPatchDocument.
+                // Since the framework has no way of knowing what was required and valid in the document, it will usually have
+                // no errors and be valid.
+                patchDocument.ApplyTo(pointOfInterestToPatch, ModelState);
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                // We can solve this with some custom logic again. are the name and description provided?
+                if (string.IsNullOrWhiteSpace(pointOfInterestToPatch.Name) || string.IsNullOrWhiteSpace(pointOfInterestToPatch.Description))
+                {
+                    return BadRequest(ModelState);
+                }
+
+                // Try to validate the model again
+                TryValidateModel(pointOfInterestToPatch);
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                // all is good.  map the new values back to the entity
+                Mapper.Map(pointOfInterestToPatch, pointOfInterestEntity);
+
+                if (!_cityInfoRepository.SaveChanges())
+                {
+                    _logger.LogWarning("**** LOGGER: An error occurred when patching the point of interest.");
+                    return StatusCode(500, "An error occurred when patching the point of interest.");
+                }
+
+                return Ok(pointOfInterestToPatch);
+            }
+            catch (Exception exception)
             {
-                _logger.LogInformation($"**** LOGGER: City of cityId {cityId} was not found.");
-                return NotFound($"City of cityId {cityId} was not found.");
+                _logger.LogCritical($"**** LOGGER: Exception encountered while trying to patch a point of interest : {pointId}.", exception);
+                return StatusCode(500, "A problem was encountered while processing your request.");
             }
-
-            // does point of interest exist?
-            bool pointOfInterestExists = _pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointId);
-            if (!pointOfInterestExists)
-            {
-                _logger.LogInformation($"**** LOGGER: An attempt was made to update a point of interest which did not exist. cityKey {cityId}. Point Of Interest Id {pointId}.");
-                return NotFound($"Point of Interest of Id {pointId} was not found.");
-            }
-
-            // we need to map the entity to a dto so we than can map the patch to the dto and back to the entity.
-            // <casted destination type>(source).
-            var pointOfInterestEntity = _cityInfoRepository.GetPointOfInterestById(cityId, pointId);
-            var pointOfInterestToPatch = Mapper.Map<PointOfInterestUpdateDto>(pointOfInterestEntity);
-
-            // If we include the optional ModelState argument, it will send back any potential errors.
-            // This is where we map new values to the properties.
-            // ModelState was created here when the Model Binding was applied to the input model...the JSONPatchDocument.
-            // Since the framework has no way of knowing what was required and valid in the document, it will usually have
-            // no errors and be valid.
-            patchDocument.ApplyTo(pointOfInterestToPatch, ModelState);
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            // We can solve this with some custom logic again. are the name and description provided?
-            if (string.IsNullOrWhiteSpace(pointOfInterestToPatch.Name) || string.IsNullOrWhiteSpace(pointOfInterestToPatch.Description))
-            {
-                return BadRequest(ModelState);
-            }
-
-            // Try to validate the model again
-            TryValidateModel(pointOfInterestToPatch);
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            // all is good.  map the new values back to the entity
-            Mapper.Map(pointOfInterestToPatch, pointOfInterestEntity);
-
-            if (!_cityInfoRepository.SaveChanges())
-            {
-                _logger.LogWarning("**** LOGGER: An error occurred when patching the point of interest.");
-                return StatusCode(500, "An error occurred when patching the point of interest.");
-            }
-
-            return Ok(pointOfInterestToPatch);
         }
 
         /// <summary>DELETE operation to delete a point of interest</summary>
@@ -345,33 +377,41 @@ namespace CityInfoAPI.Web.Controllers
         [HttpDelete("pointsofinterest/{pointId}")]
         public ActionResult DeletePointOfInterest(Guid cityId, Guid pointId)
         {
-            // is this a valid city?
-            if (!_cityProcessor.DoesCityExist(cityId))
+            try
             {
-                _logger.LogInformation($"**** LOGGER: City of cityKey {cityId} was not found.");
-                return NotFound($"City of cityKey {cityId} was not found.");
-            }
+                // is this a valid city?
+                if (!_cityProcessor.DoesCityExist(cityId))
+                {
+                    _logger.LogInformation($"**** LOGGER: City of cityKey {cityId} was not found.");
+                    return NotFound($"City of cityKey {cityId} was not found.");
+                }
 
-            // does point of interest exist?
-            bool pointOfInterestExists = _pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointId);
-            if (!pointOfInterestExists)
+                // does point of interest exist?
+                bool pointOfInterestExists = _pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointId);
+                if (!pointOfInterestExists)
+                {
+                    _logger.LogInformation($"**** LOGGER: An attempt was made to delete a point of interest which did not exist. CityId {cityId}. Point Of Interest key {pointId}.");
+                    return NotFound($"Point of Interest of key {pointId} was not found.");
+                }
+
+                // get this one last time before it's removed so we can reference it in the response
+                var pointOfInterestToBeDeleted = _pointsOfInterestProcessor.GetPointOfInterestById(cityId, pointId);
+
+                if (!_pointsOfInterestProcessor.DeletePointOfInterest(cityId, pointId))
+                {
+                    _logger.LogWarning("**** LOGGER: An error occurred when deleting the point of interest.");
+                    return StatusCode(500, "An error occurred when deleting the point of interest.");
+                }
+
+                _mailService.SendMessage("**** Point of Interest deleted", $"Point of Interest {pointOfInterestToBeDeleted.PointId} {pointOfInterestToBeDeleted.Name} was deleted. ****");
+
+                return Ok(pointOfInterestToBeDeleted.Name + " has been removed");
+            }
+            catch (Exception exception)
             {
-                _logger.LogInformation($"**** LOGGER: An attempt was made to delete a point of interest which did not exist. CityId {cityId}. Point Of Interest key {pointId}.");
-                return NotFound($"Point of Interest of key {pointId} was not found.");
+                _logger.LogCritical($"**** LOGGER: Exception encountered while trying to delete a point of interest: {pointId}.", exception);
+                return StatusCode(500, "A problem was encountered while processing your request.");
             }
-
-            // get this one last time before it's removed so we can reference it in the response
-            var pointOfInterestToBeDeleted = _pointsOfInterestProcessor.GetPointOfInterestById(cityId, pointId);
-
-            if (!_pointsOfInterestProcessor.DeletePointOfInterest(cityId, pointId))
-            {
-                _logger.LogWarning("**** LOGGER: An error occurred when deleting the point of interest.");
-                return StatusCode(500, "An error occurred when deleting the point of interest.");
-            }
-
-            _mailService.SendMessage("**** Point of Interest deleted", $"Point of Interest {pointOfInterestToBeDeleted.PointId} {pointOfInterestToBeDeleted.Name} was deleted. ****");
-
-            return Ok(pointOfInterestToBeDeleted.Name + " has been removed");
         }
     }
 }
