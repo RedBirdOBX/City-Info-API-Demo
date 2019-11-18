@@ -25,6 +25,6 @@ namespace CityInfoAPI.Dtos.Models
         /// <summary>
         /// id of city this point of interest belongs to
         /// </summary>
-        public string CityId { get; set; }
+        public Guid CityId { get; set; }
     }
 }
