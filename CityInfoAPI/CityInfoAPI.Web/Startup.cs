@@ -66,8 +66,9 @@ namespace CityInfoAPI.Web
                 // disallows unsupported media type. returns a 406 error
                 setupAction.ReturnHttpNotAcceptable = true;
 
-                // allows for xml
+                // allows for xml - both options seem to work
                 setupAction.OutputFormatters.Add(new XmlSerializerOutputFormatter());
+                //setupAction.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
 
                 // this will apply an [Authorize] attribute to all controllers
                 //setupAction.Filters.Add(new AuthorizeFilter());
