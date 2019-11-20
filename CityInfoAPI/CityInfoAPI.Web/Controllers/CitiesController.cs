@@ -74,7 +74,7 @@ namespace CityInfoAPI.Web.Controllers
                 }
                 else
                 {
-                    var city = _cityProcessor.GetCityByKey(cityId, includePointsOfInterest);
+                    var city = _cityProcessor.GetCityById(cityId, includePointsOfInterest);
                     return Ok(city);
                 }
             }
@@ -84,5 +84,48 @@ namespace CityInfoAPI.Web.Controllers
                 return StatusCode(500, "A problem was encountered while processing your request.");
             }
         }
+
+        /// <summary>
+        /// creates a new city
+        /// </summary>
+        /// <param name="newCity">content for new city in body</param>
+        /// <returns>CityDto</returns>
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesDefaultResponseType]
+        [HttpPost]
+        public ActionResult<CityDto> CreateCity([FromBody] CityCreateDto newCity)
+        {
+            try
+            {
+                if (newCity == null)
+                {
+                    return BadRequest();
+                }
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                CityDto newCityDto = _cityProcessor.CreateCity(newCity);
+
+                if (newCityDto == null)
+                {
+                    return StatusCode(500, "Something went wrong when creating a city.");
+                }
+                else
+                {
+                    // Returns 201 Created Status Code.
+                    // Returns the ROUTE in the RESPONSE HEADER (http://localhost:49902/api/cities/{cityId}) where you can see it.
+                    return CreatedAtRoute("GetCityById", new { cityId = newCityDto.CityId }, newCityDto);
+                }
+            }
+            catch (Exception exception)
+            {
+                _logger.LogCritical($"**** LOGGER: Exception encountered while creating a city: {newCity}.", exception);
+                return StatusCode(500, "A problem was encountered while processing your request.");
+            }
+        }
+
     }
 }

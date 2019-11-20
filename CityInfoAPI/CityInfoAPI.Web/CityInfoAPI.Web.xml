@@ -28,6 +28,13 @@
             <response code="200">returns a city</response>
             <response code="404">city id not valid</response>
         </member>
+        <member name="M:CityInfoAPI.Web.Controllers.CitiesController.CreateCity(CityInfoAPI.Dtos.Models.CityCreateDto)">
+            <summary>
+            creates a new city
+            </summary>
+            <param name="newCity">content for new city in body</param>
+            <returns>CityDto</returns>
+        </member>
         <member name="T:CityInfoAPI.Web.Controllers.PointsOfInterestController">
             <summary>point of interest controller</summary>
             <example>http://{domain}/api/cities/{cityId}</example>

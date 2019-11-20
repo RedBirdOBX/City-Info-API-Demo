@@ -15,6 +15,8 @@ namespace CityInfoAPI.Data.Repositories
 
         bool DoesCityExist(Guid cityId);
 
+        void CreateCity(City city);
+
 
         // points of interest
         List<PointOfInterest> GetPointsOfInterest(Guid cityId);

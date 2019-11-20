@@ -66,7 +66,7 @@ namespace CityInfoAPI.Web
                 // disallows unsupported media type. returns a 406 error
                 setupAction.ReturnHttpNotAcceptable = true;
 
-                // allows for xml - both options seem to work
+                // allows for xml - both options seem to work.  add anything other than json.
                 setupAction.OutputFormatters.Add(new XmlSerializerOutputFormatter());
                 //setupAction.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
 
@@ -248,6 +248,7 @@ namespace CityInfoAPI.Web
                 cfg.CreateMap<CityInfoAPI.Data.Entities.PointOfInterest, CityInfoAPI.Dtos.Models.PointOfInterestDto>();
                 cfg.CreateMap<CityInfoAPI.Dtos.Models.PointOfInterestCreateDto, CityInfoAPI.Data.Entities.PointOfInterest>();
                 cfg.CreateMap<CityInfoAPI.Dtos.Models.PointOfInterestUpdateDto, CityInfoAPI.Data.Entities.PointOfInterest>();
+                cfg.CreateMap<CityInfoAPI.Dtos.Models.CityCreateDto, CityInfoAPI.Data.Entities.City>();
 
                 // here's an example of doing a custom member mapping. It will use Projection.
                 // It takes CityName from entity and maps it to Name of the DTO.

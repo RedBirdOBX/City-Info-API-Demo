@@ -37,11 +37,32 @@ namespace CityInfoAPI.Logic.Processors
             return _cityInfoRepository.DoesCityExist(cityId);
         }
 
-        public CityDto GetCityByKey(Guid cityId, bool includePointsOfInterest)
+        public CityDto GetCityById(Guid cityId, bool includePointsOfInterest)
         {
             var city = _cityInfoRepository.GetCityById(cityId, includePointsOfInterest);
             var results = Mapper.Map<CityDto>(city);
             return results;
+        }
+
+        public CityDto CreateCity(CityCreateDto city)
+        {
+            // destination / source
+            var newCity = Mapper.Map<CityInfoAPI.Data.Entities.City>(city);
+
+            // add it to memory.
+            _cityInfoRepository.CreateCity(newCity);
+
+            bool success = _cityInfoRepository.SaveChanges();
+
+            if (!success)
+            {
+                return null;
+            }
+
+            // map new entity to dto and return it
+            var returnedCity = Mapper.Map<CityDto>(newCity);
+            return returnedCity;
+
         }
     }
 }

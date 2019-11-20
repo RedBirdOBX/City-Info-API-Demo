@@ -167,7 +167,7 @@ namespace CityInfoAPI.Web.Controllers
                 // each city can only have 25 points of interest.
                 if (_pointsOfInterestProcessor.GetPointsOfInterest(cityId).Count() >= 25)
                 {
-                    var city = _cityProcessor.GetCityByKey(cityId, false);
+                    var city = _cityProcessor.GetCityById(cityId, false);
                     return BadRequest($"Sorry. The city {city.Name} cannot have more that 25 points of interest.");
                 }
 

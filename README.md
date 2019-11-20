@@ -298,8 +298,8 @@ Initial release
 9.4.2019  
 Full integration of Swashbuckle (Swagger, Swagger UI), versioning, and Basic Authentication on new resource called City Summary - a hypothetical secured, set of resources at `https://city-info-api-demo-prod.azurewebsites.net/api/v2.0/cities/reporting/summary`.
 
-**1.2.0**
-11.10.2019
+**1.2.0**  
+11.10.2019  
 Replaced all database record identifiers in routes with guids.  Now, regardless of where or how the data is stored, the identifiers will always remain the same. 
 
 **1.3.0**  

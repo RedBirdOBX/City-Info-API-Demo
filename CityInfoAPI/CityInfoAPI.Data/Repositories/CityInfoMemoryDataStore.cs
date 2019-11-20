@@ -98,6 +98,11 @@ namespace CityInfoAPI.Data.Repositories
             return citiesWithoutPointsOfInterest.OrderBy(c => c.Name).ToList();
         }
 
+        public void CreateCity(City city) 
+        {
+            _cities.Add(city);
+        }
+
         public List<City> GetCitiesWithPointsOfInterest()
         {
             return _cities.OrderBy(c => c.Name).ToList();
