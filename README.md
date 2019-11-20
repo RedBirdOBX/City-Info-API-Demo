@@ -305,3 +305,10 @@ Replaced all database record identifiers in routes with guids.  Now, regardless 
 **1.3.0**  
 11.15.2019  
 Added `try/catches` to all Controller actions.  
+
+**1.4.0**  
+TBD  
+Added new actions for resources:
+
+
+- Create City

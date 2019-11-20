@@ -92,7 +92,7 @@ namespace CityInfoAPI.Web.Controllers
         /// <returns>CityDto</returns>
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesDefaultResponseType]
-        [HttpPost]
+        [HttpPost(Name = "CreateCity")]
         public ActionResult<CityDto> CreateCity([FromBody] CityCreateDto newCity)
         {
             try
