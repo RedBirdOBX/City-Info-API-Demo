@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CityInfoAPI.Web.Controllers
 {
@@ -105,6 +106,16 @@ namespace CityInfoAPI.Web.Controllers
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
+                }
+
+                // if the city has any points of interest in it's creation request, we need to pass
+                // along that cityId to the points of interest.
+                if (newCity.PointsOfInterest.Any())
+                {
+                    foreach (PointOfInterestCreateDto point in newCity.PointsOfInterest)
+                    {
+                        point.CityId = newCity.CityId;
+                    }
                 }
 
                 CityDto newCityDto = _cityProcessor.CreateCity(newCity);

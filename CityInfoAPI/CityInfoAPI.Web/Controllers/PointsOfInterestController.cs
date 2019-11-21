@@ -56,7 +56,7 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        [HttpGet("pointsofinterest")]
+        [HttpGet("pointsofinterest", Name="GetPointsOfInterest")]
         public ActionResult<List<PointOfInterestDto>> GetPointsOfInterest(Guid cityId)
         {
             try

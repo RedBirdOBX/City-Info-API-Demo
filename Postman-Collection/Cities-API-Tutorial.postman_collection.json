@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "0b7651e7-3a8e-4410-986b-665d860e5c27",
+		"_postman_id": "b7a75314-a7f9-4297-8a12-d05b2d90b0c6",
 		"name": "Cities-API-Tutorial",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -44,7 +44,7 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:5000/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2",
+					"raw": "http://localhost:5000/api/v1.0/cities/f7babd68-395a-4fac-a669-9095b1d1c325",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -54,7 +54,7 @@
 						"api",
 						"v1.0",
 						"cities",
-						"38276231-1918-452d-a3e9-6f50873a95d2"
+						"f7babd68-395a-4fac-a669-9095b1d1c325"
 					]
 				}
 			},
@@ -182,6 +182,78 @@
 						"cities",
 						"reporting",
 						"summary"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Local - POST Create City",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\" : \"New City\",\n\t\"description\" : \"New city description\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1.0/cities",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1.0",
+						"cities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Local - POST Create City with Points of Interest",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\" : \"New City\",\n\t\"description\" : \"New city description\",\n\t\"pointsOfInterest\" : \n\t[\n\t\t{\n\t\t\t\"name\": \"Point of Interest for new city\",\n\t\t\t\"description\": \"Point of Interest description for new city.\"\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Point of Interest2 for new city\",\n\t\t\t\"description\": \"Point of Interest2 description for new city.\"\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Point of Interest3 for new city\",\n\t\t\t\"description\": \"Point of Interest3 description for new city.\"\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Point of Interest4 for new city\",\n\t\t\t\"description\": \"Point of Interest4 description for new city.\"\n\t\t}\n\t]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1.0/cities",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1.0",
+						"cities"
 					]
 				}
 			},
@@ -719,42 +791,6 @@
 						"cities",
 						"reporting",
 						"summary"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Local - POST Create City",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/jsonxxx",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"name\" : \"New City\",\n\t\"description\": \"description of new city\"\n}"
-				},
-				"url": {
-					"raw": "http://localhost:5000/api/v1.0/cities",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "5000",
-					"path": [
-						"api",
-						"v1.0",
-						"cities"
 					]
 				}
 			},
