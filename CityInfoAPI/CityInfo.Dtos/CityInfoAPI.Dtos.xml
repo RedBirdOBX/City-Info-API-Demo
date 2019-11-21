@@ -29,6 +29,11 @@
             the description of the city
             </summary>
         </member>
+        <member name="P:CityInfoAPI.Dtos.Models.CityCreateDto.PointsOfInterest">
+            <summary>
+            Points of Interest collection
+            </summary>
+        </member>
         <member name="T:CityInfoAPI.Dtos.Models.CityDto">
             <summary>
             city dto

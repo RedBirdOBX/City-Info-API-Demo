@@ -117,6 +117,7 @@ namespace CityInfoAPI.Web.Controllers
                 {
                     // Returns 201 Created Status Code.
                     // Returns the ROUTE in the RESPONSE HEADER (http://localhost:49902/api/cities/{cityId}) where you can see it.
+                    // pass in the name of the route, any required args as a type, and the dto to be shown in the body.
                     return CreatedAtRoute("GetCityById", new { cityId = newCityDto.CityId }, newCityDto);
                 }
             }
@@ -126,6 +127,5 @@ namespace CityInfoAPI.Web.Controllers
                 return StatusCode(500, "A problem was encountered while processing your request.");
             }
         }
-
     }
 }

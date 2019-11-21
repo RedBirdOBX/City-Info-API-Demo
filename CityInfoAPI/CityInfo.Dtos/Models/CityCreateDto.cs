@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace CityInfoAPI.Dtos.Models
@@ -14,6 +15,7 @@ namespace CityInfoAPI.Dtos.Models
         public CityCreateDto()
         {
             CityId = System.Guid.NewGuid();
+            PointsOfInterest = new List<PointOfInterestCreateDto>();
         }
 
         /// <summary>
@@ -31,5 +33,10 @@ namespace CityInfoAPI.Dtos.Models
         /// the description of the city
         /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// Points of Interest collection
+        /// </summary>
+        public List<PointOfInterestCreateDto> PointsOfInterest { get; set; }
     }
 }
