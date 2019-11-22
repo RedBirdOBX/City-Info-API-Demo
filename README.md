@@ -75,6 +75,40 @@ You can request to see a collection of the Points of Interest for any given city
 At this endpoint, you can request a specific Point of Interest for a specific City assuming you know the Ids of both resources. 
 
 
+#### Create a City
+[http://city-info-api-demo.azurewebsites.net/api/v1.0/cities](http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/ "http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/")  
+`POST`
+
+Here, you can `POST` (in the body) the `json` structure of a new city.  Optionally, you can provide a list of Points of Interest (children) and they will be created as well.
+
+Without Points of Interest
+```
+{
+	"name" : "Gotham",
+	"description" : "Gotham city - sister city of Metropolis"
+}
+```
+
+With Points of Interest
+```
+{
+	"name" : "Gotham",
+	"description" : "Gotham city - sister city of Metropolis",
+	"pointsOfInterest" : 
+	[
+		{
+			"name": "Wayne Tower",
+			"description": "Where stuff gets done."
+		},
+		{
+			"name": "Arkham Asylum",
+			"description": "You probably don't want to visit this."
+		}
+	]
+}
+```
+
+
 #### Create a Point of Interest  
 [http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest](http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest "http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest")  
 `POST`  
@@ -205,8 +239,10 @@ The `CitiesController` logs to the logger service (NLog) and it outputs to the c
 ## CICD
 This API is built with CICD (Continuous Integration, Continuous Delivery). As new features or fixes are accepted into the `development` branch, they are automatically deployed to the development instance of this app.  As feaures and fixes are promoted up to the `master` branch, they are once again automatically delivered into the production version of this app.  No publishing or FTP-ing of files is required.  Life is good.
 
-Development URI : [https://city-info-api-demo-dev.azurewebsites.net/](https://city-info-api-demo-dev.azurewebsites.net/ "https://city-info-api-demo-dev.azurewebsites.net/")  
-Production URI : [https://city-info-api-demo.azurewebsites.net/](https://city-info-api-demo.azurewebsites.net/} "https://city-info-api-demo.azurewebsites.net/")
+Development URI*: [https://city-info-api-demo-dev.azurewebsites.net/](https://city-info-api-demo-dev.azurewebsites.net/ "https://city-info-api-demo-dev.azurewebsites.net/")  
+Production URI: [https://city-info-api-demo.azurewebsites.net/](https://city-info-api-demo.azurewebsites.net/} "https://city-info-api-demo.azurewebsites.net/")
+
+**sometimes turned off to reduce hosting costs.*
 
 <a href="" id="architecture" name="architecture"></a>
 ## Architecture  
