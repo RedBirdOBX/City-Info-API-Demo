@@ -348,5 +348,7 @@ Added new actions for resources:
 
 - Create City method
 - Create City and n-number of Points of Interest in a single post
+- Create a list of authors with one post
+- 
 
 

@@ -35,6 +35,27 @@
             <param name="newCity">content for new city in body</param>
             <returns>CityDto</returns>
         </member>
+        <member name="M:CityInfoAPI.Web.Controllers.CityCollectionsController.#ctor(Microsoft.Extensions.Logging.ILogger{CityInfoAPI.Web.Controllers.CitiesController},CityInfoAPI.Logic.Processors.CityCollectionsProcessor,CityInfoAPI.Logic.Processors.CityProcessor)">
+             <summary>
+            
+             </summary>
+             <param name="logger"></param>
+             <param name="cityCollectionsProcessor"></param>
+        </member>
+        <member name="M:CityInfoAPI.Web.Controllers.CityCollectionsController.GetCitiesById(System.String)">
+             <summary>
+            
+             </summary>
+             <param name="cityIds">comma delimited list of city ids (guids)</param>
+             <returns></returns>
+        </member>
+        <member name="M:CityInfoAPI.Web.Controllers.CityCollectionsController.CreateCityCollections(System.Collections.Generic.List{CityInfoAPI.Dtos.Models.CityCreateDto})">
+             <summary>
+            
+             </summary>
+             <param name="cities"></param>
+             <returns></returns>
+        </member>
         <member name="T:CityInfoAPI.Web.Controllers.PointsOfInterestController">
             <summary>point of interest controller</summary>
             <example>http://{domain}/api/cities/{cityId}</example>
