@@ -10,8 +10,15 @@ using Microsoft.Extensions.Logging;
 
 namespace CityInfoAPI.Web.Controllers
 {
+    /// <summary>
+    /// controller for handling city collection requests
+    /// </summary>
     [Route("api/v{version:apiVersion}/citycollections")]
+    [Produces("application/json", "application/xml")]
     [ApiController]
+    [ApiVersion("1.0")]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public class CityCollectionsController : ControllerBase
     {
 
@@ -34,17 +41,18 @@ namespace CityInfoAPI.Web.Controllers
 
 
         /// <summary>
-        ///
+        /// returns a collection of cities via ids in query-string
         /// </summary>
         /// <param name="cityIds">comma delimited list of city ids (guids)</param>
-        /// <returns></returns>
-        /// http://localhost:5000/api/v1.0/citycollections?cityIds=38276231-1918-452d-a3e9-6f50873a95d2,09fdd26e-5141-416c-a590-7eaf193b9565,09fdd26e-5141-416c-a590-7eaf193b9565
+        /// <returns>collection of city dtos</returns>
         [HttpGet("", Name ="GetCitiesById")]
+        [ProducesDefaultResponseType]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<List<CityDto>> GetCitiesById([FromQuery] string cityIds)
         {
-            // to do:
-            // catch invalid guids and prevent exceptions
-            // eliminate dups in results
+            // http://localhost:5000/api/v1.0/citycollections?cityIds=38276231-1918-452d-a3e9-6f50873a95d2,09fdd26e-5141-416c-a590-7eaf193b9565,09fdd26e-5141-416c-a590-7eaf193b9565
+            // to do - move some of this logic into a processor class
 
             List<Guid> requestedGuids = new List<Guid>();
             List<CityDto> results = new List<CityDto>();
@@ -55,22 +63,37 @@ namespace CityInfoAPI.Web.Controllers
                 {
                     if (cityIds.Contains(","))
                     {
-                        // do we have more than one?
+                        // the user is asking for more than one
                         string[] qsIds = cityIds.Split(",");
 
-                        // convert each to a guid
-                        // perhaps shorten this w/ some linq
                         foreach (string id in qsIds)
                         {
-                            Guid newGuid = Guid.Parse(id);
-                            requestedGuids.Add(newGuid);
+                            // parse to an actual guid
+                            if (Guid.TryParse(id, out var newGuid))
+                            {
+                                // only add if we don't have it yet
+                                if (!requestedGuids.Contains(newGuid))
+                                {
+                                    requestedGuids.Add(newGuid);
+                                }
+                            }
+                            else
+                            {
+                                return BadRequest($"You have provided an invalid cityId: {id}.");
+                            }
                         }
                     }
                     else
                     {
-                        // we only received one
-                        Guid newGuid = Guid.Parse(cityIds);
-                        requestedGuids.Add(newGuid);
+                        // we only received one - parse to an actual guid
+                        if (Guid.TryParse(cityIds, out var newGuid))
+                        {
+                            requestedGuids.Add(newGuid);
+                        }
+                        else
+                        {
+                            return BadRequest($"You have provided an invalid cityId: {cityIds}.");
+                        }
                     }
                 }
 
@@ -90,7 +113,7 @@ namespace CityInfoAPI.Web.Controllers
                     results.Add(city);
                 }
 
-                return results;
+                return Ok(results);
             }
             catch (Exception exception)
             {

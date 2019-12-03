@@ -1,7 +1,7 @@
 # The City Info Demo API
   
 ----------
-*Version 1.3.0*
+*Version 1.4.0*
 
 ## Summary
 Welcome to the City Info Demo API. Imagine that you were developing for some kind of travel site and one of the requirements was you needed to be able to ask for a complete listing of cities; ask for any given city by it's ID and, if specifically asked for, you needed to be able to provide all the "touristy" things to do for that specified city (landmarks, parks, restaurants, and so on).  
@@ -63,6 +63,11 @@ This resource with return a collection of all cities but does not show you their
 Here, you can request a specific city and also provide an optional query string parameter to explicitly request the Points Of Interest along with the City data. If false, the points of interest collection will be intentionally empty (to lighten payload).  Otherwise, they will be included by default. 
 
 The id along with all other ids are guids.
+
+#### Get Collection of Cities by Ids  
+[http://city-info-api-demo.azurewebsites.net/api/v1.0/citycollections?cityIds={a,b,c}](http://city-info-api-demo.azurewebsites.net/api/v1.0/citycollections?cityIds={a,b,c} "http://city-info-api-demo.azurewebsites.net/api/v1.0/citycollections?cityIds={a,b,c}")     
+`GET`    
+Here, you can request a collection of cities by providing their Ids in the querystring.  Invalid ids will result in a `Bad Requerst` response. 
 
 #### Get Points of Interest for City  
 [http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest](http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest "http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest")  
@@ -344,11 +349,12 @@ Added `try/catches` to all Controller actions.
 
 **1.4.0**  
 TBD  
-Added new actions for resources:
+Added new resources:
 
-- Create City method
-- Create City and n-number of Points of Interest in a single post
-- Create a list of authors with one post
-- 
+- Create City method was added  
+- Create City and n-number of Points of Interest in a single post was added  
+- Create multiple Cities with one post was added 
+
+
 
 
