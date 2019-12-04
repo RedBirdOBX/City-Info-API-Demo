@@ -62,7 +62,6 @@ namespace CityInfoAPI.Logic.Processors
             // map new entity to dto and return it
             var returnedCity = Mapper.Map<CityDto>(newCity);
             return returnedCity;
-
         }
     }
 }

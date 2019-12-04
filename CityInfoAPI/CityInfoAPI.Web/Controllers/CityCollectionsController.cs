@@ -51,69 +51,17 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<List<CityDto>> GetCitiesById([FromQuery] string cityIds)
         {
-            // http://localhost:5000/api/v1.0/citycollections?cityIds=38276231-1918-452d-a3e9-6f50873a95d2,09fdd26e-5141-416c-a590-7eaf193b9565,09fdd26e-5141-416c-a590-7eaf193b9565
-            // to do - move some of this logic into a processor class
-
-            List<Guid> requestedGuids = new List<Guid>();
-            List<CityDto> results = new List<CityDto>();
+            List<CityDto> results = _cityCollectionsProcessor.GetCities(cityIds);
 
             try
             {
-                if (!string.IsNullOrWhiteSpace(cityIds))
+                if (results.Count < 1)
                 {
-                    if (cityIds.Contains(","))
-                    {
-                        // the user is asking for more than one
-                        string[] qsIds = cityIds.Split(",");
-
-                        foreach (string id in qsIds)
-                        {
-                            // parse to an actual guid
-                            if (Guid.TryParse(id, out var newGuid))
-                            {
-                                // only add if we don't have it yet
-                                if (!requestedGuids.Contains(newGuid))
-                                {
-                                    requestedGuids.Add(newGuid);
-                                }
-                            }
-                            else
-                            {
-                                return BadRequest($"You have provided an invalid cityId: {id}.");
-                            }
-                        }
-                    }
-                    else
-                    {
-                        // we only received one - parse to an actual guid
-                        if (Guid.TryParse(cityIds, out var newGuid))
-                        {
-                            requestedGuids.Add(newGuid);
-                        }
-                        else
-                        {
-                            return BadRequest($"You have provided an invalid cityId: {cityIds}.");
-                        }
-                    }
+                    _logger.LogInformation($"**** LOGGER: Cities not found with ids {cityIds}.");
+                    return NotFound($"Cities not found with ids {cityIds}.");
                 }
-
-                // now build the results
-                foreach (Guid id in requestedGuids)
-                {
-                    CityDto city = _cityProcessor.GetCityById(id, false);
-
-                    if (city == null)
-                    {
-                        // there was a bad guid sent
-                        _logger.LogInformation($"**** LOGGER: City not found using cityId {id}.");
-                        return NotFound($"City not found using cityId {id}.");
-                    }
-
-                    // add to results
-                    results.Add(city);
-                }
-
                 return Ok(results);
+
             }
             catch (Exception exception)
             {
@@ -128,9 +76,12 @@ namespace CityInfoAPI.Web.Controllers
         /// <param name="cities"></param>
         /// <returns></returns>
         [HttpPost("", Name = "CreateCities")]
-        public ActionResult<List<CityDto>> CreateCityCollections([FromBody] List<CityCreateDto> cities)
+        [ProducesDefaultResponseType]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public ActionResult<List<CityDto>> CreateCityCollections([FromBody] List<CityCreateDto> submittedCities)
         {
-            if (cities == null)
+            // if collection doesn't map to post
+            if (submittedCities == null)
             {
                 return BadRequest();
             }
@@ -142,7 +93,7 @@ namespace CityInfoAPI.Web.Controllers
 
             try
             {
-                List<CityDto> newCities = _cityCollectionsProcessor.CreateCities(cities);
+                List<CityDto> newCities = _cityCollectionsProcessor.CreateCities(submittedCities);
 
                 if (newCities == null)
                 {
@@ -150,17 +101,19 @@ namespace CityInfoAPI.Web.Controllers
                 }
                 else
                 {
+                    // build a string for the querystring
+                    string qsCityIds = string.Join(",", newCities.Select(c => c.CityId));
+
                     // Returns 201 Created Status Code.
-                    // Returns the ROUTE in the RESPONSE HEADER (http://localhost:49902/api/cities/{cityId}) where you can see it.
+                    // Returns the ROUTE in the RESPONSE HEADER (http://localhost:5000/api/v1.0/citycollections?cityIds={a,b,c}) where you can see it.
                     // pass in the name of the route, any required args as a type, and the dto to be shown in the body.
-                    //return CreatedAtRoute("GetCitiesById", new { cityId = newCityDto.CityId }, newCityDto);
-                    return null;
+                    return CreatedAtRoute("GetCitiesById", new { cityIds = qsCityIds }, newCities);
                 }
             }
-            catch (Exception)
+            catch (Exception exception)
             {
-
-                throw;
+                _logger.LogCritical($"**** LOGGER: Exception encountered while creating cities. {submittedCities.Select(c => c.Name).ToList()}.", exception);
+                return StatusCode(500, "A problem was encountered while processing your request.");
             }
 
         }
