@@ -73,8 +73,8 @@ namespace CityInfoAPI.Web.Controllers
         /// <summary>
         ///
         /// </summary>
-        /// <param name="cities"></param>
-        /// <returns></returns>
+        /// <param name="submittedCities"></param>
+        /// <returns>response and endpoint where new cities can be found</returns>
         [HttpPost("", Name = "CreateCities")]
         [ProducesDefaultResponseType]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -101,7 +101,7 @@ namespace CityInfoAPI.Web.Controllers
                 }
                 else
                 {
-                    // build a string for the querystring
+                    // build a string for the query-string
                     string qsCityIds = string.Join(",", newCities.Select(c => c.CityId));
 
                     // Returns 201 Created Status Code.

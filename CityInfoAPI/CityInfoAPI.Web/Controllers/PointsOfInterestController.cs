@@ -374,7 +374,7 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        [HttpDelete("pointsofinterest/{pointId}")]
+        [HttpDelete("pointsofinterest/{pointId}", Name = "DeletePointOfInterest")]
         public ActionResult DeletePointOfInterest(Guid cityId, Guid pointId)
         {
             try
