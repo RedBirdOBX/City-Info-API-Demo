@@ -35,6 +35,13 @@
             <param name="newCity">content for new city in body</param>
             <returns>CityDto</returns>
         </member>
+        <member name="M:CityInfoAPI.Web.Controllers.CitiesController.BlockPostToExistingCity(System.Guid)">
+            <summary>
+            blocks a post to a city that already exists
+            </summary>
+            <param name="cityId">id of city</param>
+            <returns>CityDto</returns>
+        </member>
         <member name="T:CityInfoAPI.Web.Controllers.CityCollectionsController">
             <summary>
             controller for handling city collection requests
@@ -58,8 +65,8 @@
              <summary>
             
              </summary>
-             <param name="cities"></param>
-             <returns></returns>
+             <param name="submittedCities"></param>
+             <returns>response and endpoint where new cities can be found</returns>
         </member>
         <member name="T:CityInfoAPI.Web.Controllers.PointsOfInterestController">
             <summary>point of interest controller</summary>

@@ -138,5 +138,36 @@ namespace CityInfoAPI.Web.Controllers
                 return StatusCode(500, "A problem was encountered while processing your request.");
             }
         }
+
+        /// <summary>
+        /// blocks a post to a city that already exists
+        /// </summary>
+        /// <param name="cityId">id of city</param>
+        /// <returns>CityDto</returns>
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesDefaultResponseType]
+        [HttpPost("{cityId}", Name = "BlockPostToExistingCity")]
+        public ActionResult BlockPostToExistingCity(Guid cityId)
+        {
+            // this is being a touch over-protective.  The idea is to not allow (and inform) the consumer
+            // that they can post to this endpoint with an id.  Anything with an id should be done with a PUT
+            // or a PATCH.
+            try
+            {
+                if (!_cityProcessor.DoesCityExist(cityId))
+                {
+                    return BadRequest("You cannot post to cities like this.");
+                }
+                else
+                {
+                    return StatusCode(409, "You cannot post to an existing city!");
+                }
+            }
+            catch (Exception exception)
+            {
+                _logger.LogCritical($"**** LOGGER: Exception encountered while posting to BlockPostToExistingCity: {cityId}.", exception);
+                return StatusCode(500, "A problem was encountered while processing your request.");
+            }
+        }
     }
 }
