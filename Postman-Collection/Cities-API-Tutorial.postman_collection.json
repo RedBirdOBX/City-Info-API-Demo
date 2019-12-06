@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "b7a75314-a7f9-4297-8a12-d05b2d90b0c6",
+		"_postman_id": "f1600460-84e6-47db-b64e-a18cbbd8cb6e",
 		"name": "Cities-API-Tutorial",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -55,6 +55,39 @@
 						"v1.0",
 						"cities",
 						"f7babd68-395a-4fac-a669-9095b1d1c325"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Local - GET Cities Collection by Ids",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5000/api/v1.0/citycollections?cityIds=38276231-1918-452d-a3e9-6f50873a95d2,09fdd26e-5141-416c-a590-7eaf193b9565,09fdd26e-5141-416c-a590-7eaf193b9565,7d6d408d-3373-4910-bc1d-505ae140d3d5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1.0",
+						"citycollections"
+					],
+					"query": [
+						{
+							"key": "cityIds",
+							"value": "38276231-1918-452d-a3e9-6f50873a95d2,09fdd26e-5141-416c-a590-7eaf193b9565,09fdd26e-5141-416c-a590-7eaf193b9565,7d6d408d-3373-4910-bc1d-505ae140d3d5"
+						}
 					]
 				}
 			},
@@ -205,7 +238,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\" : \"New City\",\n\t\"description\" : \"New city description\"\n}"
+					"raw": "{\n\t\"name\" : \"New City A\",\n\t\"description\" : \"New city description A\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:5000/api/v1.0/cities",
@@ -218,6 +251,79 @@
 						"api",
 						"v1.0",
 						"cities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Local - POST Create Multiple Cities",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n\t{\n\t\t\"name\" : \"New City B\",\n\t\t\"description\" : \"New city description B\"\n\t},\n\t{\n\t\t\"name\" : \"New City C\",\n\t\t\"description\" : \"New city description C\"\n\t}\n]"
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1.0/citycollections",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1.0",
+						"citycollections"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Local - POST Create City with Id (invalid)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\" : \"New City\",\n\t\"description\" : \"New city description\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1.0",
+						"cities",
+						"38276231-1918-452d-a3e9-6f50873a95d2"
 					]
 				}
 			},
@@ -294,6 +400,42 @@
 						"cities",
 						"38276231-1918-452d-a3e9-6f50873a95d2",
 						"pointsofinterest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Local - POST Create Cities by Collection",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n\t{\n\t\t\"Name\" : \"New City 1\",\n\t\t\"Description\" : \"New city 2 description\"\n\t},\n\t{\n\t\t\"Name\" : \"New City 2\",\n\t\t\"Description\" : \"New city 2 description\"\n\t}\n]"
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1.0/citycollections",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1.0",
+						"citycollections"
 					]
 				}
 			},

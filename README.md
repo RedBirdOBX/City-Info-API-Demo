@@ -50,13 +50,14 @@ You can `import` this collection into your Postman application for ease of testi
 
  ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/screenshot.PNG)
 
+### Cities
 
-#### Get All Cities 
+##### Get All Cities 
 [https://city-info-api-demo.azurewebsites.net/api/v1.0/cities](https://city-info-api-demo.azurewebsites.net/api/v1.0/cities "https://city-info-api-demo.azurewebsites.net/api/v1.0/cities")   
 `GET`   
 This resource with return a collection of all cities but does not show you their associated points of interest.
 
-#### Get City By Id  
+##### Get City By Id  
 [http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}](http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId} "http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}")   
 [http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}?includepointsofinterest=false](http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}?includepointsofinterest=false "http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}?includepointsofinterest=false")   
 `GET`    
@@ -64,23 +65,12 @@ Here, you can request a specific city and also provide an optional query string 
 
 The id along with all other ids are guids.
 
-#### Get Collection of Cities by Ids  
+##### Get Collection of Cities by Ids  
 [http://city-info-api-demo.azurewebsites.net/api/v1.0/citycollections?cityIds={a,b,c}](http://city-info-api-demo.azurewebsites.net/api/v1.0/citycollections?cityIds={a,b,c} "http://city-info-api-demo.azurewebsites.net/api/v1.0/citycollections?cityIds={a,b,c}")     
 `GET`    
-Here, you can request a collection of cities by providing their Ids in the querystring.  Invalid ids will result in a `Bad Requerst` response. 
+Here, you can request a collection of cities by providing their Ids in the querystring.  Invalid ids and duplicates will be ignored. This uses the `CityCollections` resources.
 
-#### Get Points of Interest for City  
-[http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest](http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest "http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest")  
-`GET`  
-You can request to see a collection of the Points of Interest for any given city by Id.
-
-#### Get Point of Interest By Id  
-[http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}](http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId} "http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}")  
-`GET`  
-At this endpoint, you can request a specific Point of Interest for a specific City assuming you know the Ids of both resources. 
-
-
-#### Create a City
+##### Create a City
 [http://city-info-api-demo.azurewebsites.net/api/v1.0/cities](http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/ "http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/")  
 `POST`
 
@@ -112,6 +102,49 @@ With Points of Interest
 	]
 }
 ```
+
+##### Create multiple Cities
+[http://city-info-api-demo.azurewebsites.net/api/v1.0/citycollections](http://city-info-api-demo.azurewebsites.net/api/v1.0/citycollections/ "http://city-info-api-demo.azurewebsites.net/api/v1.0/citycollections/")  
+`POST`
+
+Here, you can `POST` (in the body) as `json`, an array of cities. If successful, you will receieve a `201-CreatedAtRoute` response and the link to find the new cities will be in the Response Header.
+```
+[
+	{
+		"name" : "New City B",
+		"description" : "New city description B"
+	},
+	{
+		"name" : "New City C",
+		"description" : "New city description C"
+	}
+]
+```
+
+
+
+tbc....
+clean db
+release to prod
+
+
+
+
+
+
+### Points Of Interest
+
+##### Get Points of Interest for City  
+[http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest](http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest "http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest")  
+`GET`  
+You can request to see a collection of the Points of Interest for any given city by Id.
+
+##### Get Point of Interest By Id  
+[http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}](http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId} "http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}")  
+`GET`  
+At this endpoint, you can request a specific Point of Interest for a specific City assuming you know the Ids of both resources. 
+
+
 
 
 #### Create a Point of Interest  

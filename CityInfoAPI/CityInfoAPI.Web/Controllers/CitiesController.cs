@@ -10,7 +10,7 @@ using System.Linq;
 namespace CityInfoAPI.Web.Controllers
 {
     /// <summary>cities controller</summary>
-    /// <example>http://{domain}/api/cities</example>
+    /// <example>http://{domain}/api/v{version:apiVersion}/cities</example>
     [Route("api/v{version:apiVersion}/cities")]
     [Produces("application/json", "application/xml")]
     [ApiController]
@@ -86,11 +86,10 @@ namespace CityInfoAPI.Web.Controllers
             }
         }
 
-        /// <summary>
-        /// creates a new city
-        /// </summary>
+        /// <summary>creates a new city</summary>
         /// <param name="newCity">content for new city in body</param>
         /// <returns>CityDto</returns>
+        /// <response code="201">returns create at route location</response>
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesDefaultResponseType]
         [HttpPost(Name = "CreateCity")]
@@ -139,11 +138,11 @@ namespace CityInfoAPI.Web.Controllers
             }
         }
 
-        /// <summary>
-        /// blocks a post to a city that already exists
-        /// </summary>
+        /// <summary>blocks a post to a city that already exists</summary>
+        /// <example>http://localhost:5000/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2</example>
         /// <param name="cityId">id of city</param>
         /// <returns>CityDto</returns>
+        /// <response code="409">warning - cannot post with id</response>
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesDefaultResponseType]
         [HttpPost("{cityId}", Name = "BlockPostToExistingCity")]

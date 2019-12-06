@@ -76,12 +76,12 @@ namespace CityInfoAPI.Web
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // sql data store
-            //string connectionString = Startup.Configuration["ConnectionStrings:cityInfoConnectionString"];
-            //services.AddDbContext<CityInfoDbContext>(options => options.UseSqlServer(connectionString));
-            //services.AddScoped<ICityInfoRepository, CityInfoSqlDataStore>();
+            string connectionString = Startup.Configuration["ConnectionStrings:cityInfoConnectionString"];
+            services.AddDbContext<CityInfoDbContext>(options => options.UseSqlServer(connectionString));
+            services.AddScoped<ICityInfoRepository, CityInfoSqlDataStore>();
 
             // in memory data store
-            services.AddSingleton<ICityInfoRepository, CityInfoMemoryDataStore>();
+            //services.AddSingleton<ICityInfoRepository, CityInfoMemoryDataStore>();
 
             services.AddScoped<CityProcessor>();
             services.AddScoped<CityCollectionsProcessor>();
@@ -199,6 +199,7 @@ namespace CityInfoAPI.Web
 
                 // since multiple projects will have xml documentation, we will need to loop thru all the files and include
                 // all of the xml docs....not just the CityInfoAPI.Web.Xml.
+                // **for some reason, these files are not picked up on Azure.**
                 DirectoryInfo baseDirectoryInfo = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory);
                 foreach (var fileInfo in baseDirectoryInfo.EnumerateFiles("CityInfoAPI*.xml"))
                 {

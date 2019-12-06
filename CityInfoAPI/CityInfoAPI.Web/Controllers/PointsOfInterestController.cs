@@ -14,7 +14,7 @@ using System.Linq;
 namespace CityInfoAPI.Web.Controllers
 {
     /// <summary>point of interest controller</summary>
-    /// <example>http://{domain}/api/cities/{cityId}</example>
+    /// <example>http://{domain}/api/v{version:apiVersion}/cities/{cityId}</example>
     [Route("api/v{version:apiVersion}/cities/{cityId}")]
     [ApiController]
     [ApiVersion("1.0")]

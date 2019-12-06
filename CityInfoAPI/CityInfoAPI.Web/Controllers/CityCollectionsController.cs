@@ -10,9 +10,8 @@ using Microsoft.Extensions.Logging;
 
 namespace CityInfoAPI.Web.Controllers
 {
-    /// <summary>
-    /// controller for handling city collection requests
-    /// </summary>
+    /// <summary>controller for handling city collection requests</summary>
+    /// <example>http://{domain}/api/v{version:apiVersion}/citycollections</example>
     [Route("api/v{version:apiVersion}/citycollections")]
     [Produces("application/json", "application/xml")]
     [ApiController]
@@ -21,17 +20,15 @@ namespace CityInfoAPI.Web.Controllers
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public class CityCollectionsController : ControllerBase
     {
-
         // fields
         private ILogger<CitiesController> _logger;
         private CityCollectionsProcessor _cityCollectionsProcessor;
         private CityProcessor _cityProcessor;
 
-        /// <summary>
-        ///
-        /// </summary>
+        /// <summary>constructor</summary>
         /// <param name="logger"></param>
         /// <param name="cityCollectionsProcessor"></param>
+        /// <param name="cityProcessor"></param>
         public CityCollectionsController(ILogger<CitiesController> logger, CityCollectionsProcessor cityCollectionsProcessor, CityProcessor cityProcessor)
         {
             _logger = logger;
@@ -39,12 +36,12 @@ namespace CityInfoAPI.Web.Controllers
             _cityProcessor = cityProcessor;
         }
 
-
-        /// <summary>
-        /// returns a collection of cities via ids in query-string
-        /// </summary>
+        /// <summary>returns a collection of cities via ids in query-string</summary>
+        /// <example>http://localhost:5000/api/v1.0/citycollections?cityIds={guid1,guid2,guid3}</example>
         /// <param name="cityIds">comma delimited list of city ids (guids)</param>
         /// <returns>collection of city dtos</returns>
+        /// <response code="200">returns collection of cities</response>
+        /// <response code="404">returns not found</response>
         [HttpGet("", Name ="GetCitiesById")]
         [ProducesDefaultResponseType]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -70,11 +67,11 @@ namespace CityInfoAPI.Web.Controllers
             }
         }
 
-        /// <summary>
-        ///
-        /// </summary>
+        /// <summary>creates multiple cities with single post</summary>
+        /// <example>http://localhost:5000/api/v1.0/citycollections</example>
         /// <param name="submittedCities"></param>
         /// <returns>response and endpoint where new cities can be found</returns>
+        /// <response code="201">returns location of new cities</response>
         [HttpPost("", Name = "CreateCities")]
         [ProducesDefaultResponseType]
         [ProducesResponseType(StatusCodes.Status201Created)]
