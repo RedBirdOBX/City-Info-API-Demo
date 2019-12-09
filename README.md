@@ -103,7 +103,7 @@ With Points of Interest
 }
 ```
 
-##### Create multiple Cities
+##### Create Multiple Cities
 [http://city-info-api-demo.azurewebsites.net/api/v1.0/citycollections](http://city-info-api-demo.azurewebsites.net/api/v1.0/citycollections/ "http://city-info-api-demo.azurewebsites.net/api/v1.0/citycollections/")  
 `POST`
 
@@ -123,9 +123,7 @@ Here, you can `POST` (in the body) as `json`, an array of cities. If successful,
 
 
 
-tbc....
-clean db
-release to prod
+
 
 
 
@@ -147,7 +145,7 @@ At this endpoint, you can request a specific Point of Interest for a specific Ci
 
 
 
-#### Create a Point of Interest  
+##### Create a Point of Interest  
 [http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest](http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest "http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest")  
 `POST`  
 As a security measure, a city cannot have more than 25 Points of Interest. Assuming the city is under the limit, you can create a new Point of Interest for a valid city (by providing it's id). You will need to provide a name and a description as JSON data in the body of the POST.  Like so:
@@ -166,7 +164,7 @@ Furthermore, it will return the location of this new resource in the Header of t
 ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/successful-post-2.PNG)
 
 
-#### Update a Point of Interest
+##### Update a Point of Interest
 [http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}](http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId} "http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}")  
 `PUT`  
 This the endpoint where you can update an entire Point of Interest resource. You do this through a PUT and provide the whole Point of Interest with it's new values.
@@ -175,7 +173,7 @@ If successful, it will return you a 200 Success status and the values of the upd
 ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/successful-put.PNG)
 
 
-#### Patch a Point of Interest
+##### Patch a Point of Interest
 [http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}](http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId} "http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}")  
 `PATCH`  
 Instead of updated the whole resource, you can use a patch document and only update one or more properties of the resource such as passwords, emails, and so on. With this API, you can use a standard patch document and specify what part of the resource you want to update.
@@ -193,7 +191,7 @@ Instead of updated the whole resource, you can use a patch document and only upd
 If successful, it will return a 200 OK status and the new updated resource in the body.
 ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/successful-patch.PNG)
 
-#### Delete a Point of Interest
+##### Delete a Point of Interest
 [http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}](http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId} "http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}")  
 `DELETE`  
 By providing a proper City id and a Point of Interest id, you can delete a resource from the data store.  This functionality would rarely make it to production like this but here is a demonstration none the less.
@@ -202,7 +200,7 @@ By providing a proper City id and a Point of Interest id, you can delete a resou
 
 If successful, it will return a 200 OK status and a message in the body.
 
-#### City Summary Reporting Data
+##### City Summary Reporting Data
 [http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/reporting/summary](http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/reporting/summary "http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/reporting/summary")  
 `GET`  
 Version **2.0** Resource.  This endpoint provides a list of all cities the count of points of interest for each city.
@@ -381,7 +379,7 @@ Replaced all database record identifiers in routes with guids.  Now, regardless 
 Added `try/catches` to all Controller actions.  
 
 **1.4.0**  
-TBD  
+12.9.2019   
 Added new resources:
 
 - Create City method was added  
