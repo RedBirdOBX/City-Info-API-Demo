@@ -28,7 +28,7 @@ It supports and demonstrates all HTTP verbs: GET, POST, PUT, PATCH, and DELETE.
 ## Chapters
 - [How To Test](#test)
 - [Endpoints](#endpoints)
-- [Support Media Types](#content)
+- [Supported Media Types](#content)
 - [Logging](#logging)
 - [CICD](#cicd)
 - [Architecture](#architecture)
@@ -241,7 +241,7 @@ The base64 encoded string is made of a username of `CityInfoAPI` and a password 
 <a href="" id="content" name="content"></a>
 ## Support Media Types 
 
-This demo API can return either JSON data or Xml Data (content negotiation) depending on the Accept parameter you provide in your request header. JSON is the default if nothing is provided or an invalid type is provided in the request.
+This demo API can return either JSON data or Xml Data (via content negotiation) depending on the Accept parameter you provide in your request header. JSON is the default if nothing is provided or an invalid type is provided in the request.
 
 **JSON**
 ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/json-content-type.PNG)
@@ -252,6 +252,30 @@ This demo API can return either JSON data or Xml Data (content negotiation) depe
 If you provide an **unsupported** media type in the request, it will, by design, give you a `406 Not Acceptable` response.  
 ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/not-acceptable-error.PNG)
 
+Furthermore, it will also accept `Xml` and the Content-Type if specified. You can if needed, `POST` data with `Xml` instead of `JSON`.   
+
+```
+<CityCreateDto xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/CityInfoAPI.Dtos.Models">  
+    <CityId>1dbeec7c-815b-4143-a8c2-dd99f5dfba3e</CityId>  
+    <Description>New City X description</Description>  
+    <Name>CityX</Name>  
+    <PointsOfInterest>  
+        <PointOfInterestDto>  
+            <CityId>1dbeec7c-815b-4143-a8c2-dd99f5dfba3e</CityId>  
+            <Description>Point of interest A</Description>  
+            <Name>Point A</Name>  
+            <PointId>14eeaf96-9db5-4cb4-845b-06f9ad1315a9</PointId>  
+        </PointOfInterestDto>  
+        <PointOfInterestDto>  
+            <CityId>1dbeec7c-815b-4143-a8c2-dd99f5dfba3e</CityId>  
+            <Description>Point of Interest B</Description>  
+            <Name>Point B</Name>  
+            <PointId>d033d56e-d54f-4cf4-8045-376bfe7556e6</PointId>  
+        </PointOfInterestDto>  
+    </PointsOfInterest>  
+</CityCreateDto>  
+```
+![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/development/Images/post-with-xml.PNG)
 
 
 <a href="" id="logging" name="logging"></a>

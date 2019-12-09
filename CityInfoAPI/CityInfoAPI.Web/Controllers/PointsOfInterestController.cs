@@ -416,14 +416,13 @@ namespace CityInfoAPI.Web.Controllers
 
         /// <summary>blocks a post to a point of interest that already exists</summary>
         /// <example>http://{domain}/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}</example>
-        /// <param name="cityId">id of city</param>
         /// <param name="pointOfInterestId">id of point of interest</param>
         /// <returns>status codes or bad request</returns>
         /// <response code="409">warning - cannot post with id</response>
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesDefaultResponseType]
-        [HttpPost("{cityId}", Name = "BlockPostToExistingCity")]
-        public ActionResult BlockPostToExistingCity(Guid cityId, Guid pointOfInterestId)
+        [HttpPost("pointsofinterest/{pointOfInterestId}", Name = "BlockPostToExistingPointOfInterest")]
+        public ActionResult BlockPostToExistingPointOfInterest(Guid cityId, Guid pointOfInterestId)
         {
             // this is being a touch over-protective.  The idea is to not allow (and inform) the consumer
             // that they can post to this endpoint with an id.  Anything with an id should be done with a PUT
@@ -447,7 +446,7 @@ namespace CityInfoAPI.Web.Controllers
             }
             catch (Exception exception)
             {
-                _logger.LogCritical($"**** LOGGER: Exception encountered while posting to BlockPostToExistingCity: {cityId}.", exception);
+                _logger.LogCritical($"**** LOGGER: Exception encountered while posting to BlockPostToExistingPointOfInterest: {pointOfInterestId}.", exception);
                 return StatusCode(500, "A problem was encountered while processing your request.");
             }
         }
