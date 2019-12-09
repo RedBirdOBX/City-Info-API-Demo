@@ -66,8 +66,9 @@ namespace CityInfoAPI.Web
                 // disallows unsupported media type. returns a 406 error
                 setupAction.ReturnHttpNotAcceptable = true;
 
-                // allows for xml
+                // allows for xml - both options seem to work.  add anything other than json.
                 setupAction.OutputFormatters.Add(new XmlSerializerOutputFormatter());
+                //setupAction.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
 
                 // this will apply an [Authorize] attribute to all controllers
                 //setupAction.Filters.Add(new AuthorizeFilter());
@@ -83,6 +84,7 @@ namespace CityInfoAPI.Web
             //services.AddSingleton<ICityInfoRepository, CityInfoMemoryDataStore>();
 
             services.AddScoped<CityProcessor>();
+            services.AddScoped<CityCollectionsProcessor>();
             services.AddScoped<PointsOfInterestProcessor>();
             services.AddScoped<ReportingProcessor>();
 
@@ -197,6 +199,7 @@ namespace CityInfoAPI.Web
 
                 // since multiple projects will have xml documentation, we will need to loop thru all the files and include
                 // all of the xml docs....not just the CityInfoAPI.Web.Xml.
+                // **for some reason, these files are not picked up on Azure.**
                 DirectoryInfo baseDirectoryInfo = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory);
                 foreach (var fileInfo in baseDirectoryInfo.EnumerateFiles("CityInfoAPI*.xml"))
                 {
@@ -247,6 +250,7 @@ namespace CityInfoAPI.Web
                 cfg.CreateMap<CityInfoAPI.Data.Entities.PointOfInterest, CityInfoAPI.Dtos.Models.PointOfInterestDto>();
                 cfg.CreateMap<CityInfoAPI.Dtos.Models.PointOfInterestCreateDto, CityInfoAPI.Data.Entities.PointOfInterest>();
                 cfg.CreateMap<CityInfoAPI.Dtos.Models.PointOfInterestUpdateDto, CityInfoAPI.Data.Entities.PointOfInterest>();
+                cfg.CreateMap<CityInfoAPI.Dtos.Models.CityCreateDto, CityInfoAPI.Data.Entities.City>();
 
                 // here's an example of doing a custom member mapping. It will use Projection.
                 // It takes CityName from entity and maps it to Name of the DTO.

@@ -19,7 +19,7 @@ namespace CityInfoAPI.Data.Repositories
                 {
                     Id = 1,
                     CityId = new Guid("38276231-1918-452d-a3e9-6f50873a95d2"),
-                    Name = "Chicago",
+                    Name = "Chicago (in memory)",
                     Description = "Home of the blues",
                     PointsOfInterest = new List<PointOfInterest>
                     {
@@ -96,6 +96,11 @@ namespace CityInfoAPI.Data.Repositories
             }
 
             return citiesWithoutPointsOfInterest.OrderBy(c => c.Name).ToList();
+        }
+
+        public void CreateCity(City city)
+        {
+            _cities.Add(city);
         }
 
         public List<City> GetCitiesWithPointsOfInterest()

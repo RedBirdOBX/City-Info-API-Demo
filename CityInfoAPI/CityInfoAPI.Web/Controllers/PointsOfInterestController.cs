@@ -14,7 +14,7 @@ using System.Linq;
 namespace CityInfoAPI.Web.Controllers
 {
     /// <summary>point of interest controller</summary>
-    /// <example>http://{domain}/api/cities/{cityId}</example>
+    /// <example>http://{domain}/api/v{version:apiVersion}/cities/{cityId}</example>
     [Route("api/v{version:apiVersion}/cities/{cityId}")]
     [ApiController]
     [ApiVersion("1.0")]
@@ -56,7 +56,7 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        [HttpGet("pointsofinterest")]
+        [HttpGet("pointsofinterest", Name="GetPointsOfInterest")]
         public ActionResult<List<PointOfInterestDto>> GetPointsOfInterest(Guid cityId)
         {
             try
@@ -167,7 +167,7 @@ namespace CityInfoAPI.Web.Controllers
                 // each city can only have 25 points of interest.
                 if (_pointsOfInterestProcessor.GetPointsOfInterest(cityId).Count() >= 25)
                 {
-                    var city = _cityProcessor.GetCityByKey(cityId, false);
+                    var city = _cityProcessor.GetCityById(cityId, false);
                     return BadRequest($"Sorry. The city {city.Name} cannot have more that 25 points of interest.");
                 }
 
@@ -374,7 +374,7 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        [HttpDelete("pointsofinterest/{pointId}")]
+        [HttpDelete("pointsofinterest/{pointId}", Name = "DeletePointOfInterest")]
         public ActionResult DeletePointOfInterest(Guid cityId, Guid pointId)
         {
             try

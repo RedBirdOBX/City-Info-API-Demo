@@ -6,7 +6,7 @@
     <members>
         <member name="T:CityInfoAPI.Web.Controllers.CitiesController">
             <summary>cities controller</summary>
-            <example>http://{domain}/api/cities</example>
+            <example>http://{domain}/api/v{version:apiVersion}/cities</example>
         </member>
         <member name="M:CityInfoAPI.Web.Controllers.CitiesController.#ctor(Microsoft.Extensions.Logging.ILogger{CityInfoAPI.Web.Controllers.CitiesController},CityInfoAPI.Logic.Processors.CityProcessor)">
             <summary>constructor</summary>
@@ -28,9 +28,47 @@
             <response code="200">returns a city</response>
             <response code="404">city id not valid</response>
         </member>
+        <member name="M:CityInfoAPI.Web.Controllers.CitiesController.CreateCity(CityInfoAPI.Dtos.Models.CityCreateDto)">
+            <summary>creates a new city</summary>
+            <param name="newCity">content for new city in body</param>
+            <returns>CityDto</returns>
+            <response code="201">returns create at route location</response>
+        </member>
+        <member name="M:CityInfoAPI.Web.Controllers.CitiesController.BlockPostToExistingCity(System.Guid)">
+            <summary>blocks a post to a city that already exists</summary>
+            <example>http://localhost:5000/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2</example>
+            <param name="cityId">id of city</param>
+            <returns>CityDto</returns>
+            <response code="409">warning - cannot post with id</response>
+        </member>
+        <member name="T:CityInfoAPI.Web.Controllers.CityCollectionsController">
+            <summary>controller for handling city collection requests</summary>
+            <example>http://{domain}/api/v{version:apiVersion}/citycollections</example>
+        </member>
+        <member name="M:CityInfoAPI.Web.Controllers.CityCollectionsController.#ctor(Microsoft.Extensions.Logging.ILogger{CityInfoAPI.Web.Controllers.CitiesController},CityInfoAPI.Logic.Processors.CityCollectionsProcessor,CityInfoAPI.Logic.Processors.CityProcessor)">
+            <summary>constructor</summary>
+            <param name="logger"></param>
+            <param name="cityCollectionsProcessor"></param>
+            <param name="cityProcessor"></param>
+        </member>
+        <member name="M:CityInfoAPI.Web.Controllers.CityCollectionsController.GetCitiesById(System.String)">
+            <summary>returns a collection of cities via ids in query-string</summary>
+            <example>http://localhost:5000/api/v1.0/citycollections?cityIds={guid1,guid2,guid3}</example>
+            <param name="cityIds">comma delimited list of city ids (guids)</param>
+            <returns>collection of city dtos</returns>
+            <response code="200">returns collection of cities</response>
+            <response code="404">returns not found</response>
+        </member>
+        <member name="M:CityInfoAPI.Web.Controllers.CityCollectionsController.CreateCityCollections(System.Collections.Generic.List{CityInfoAPI.Dtos.Models.CityCreateDto})">
+            <summary>creates multiple cities with single post</summary>
+            <example>http://localhost:5000/api/v1.0/citycollections</example>
+            <param name="submittedCities"></param>
+            <returns>response and endpoint where new cities can be found</returns>
+            <response code="201">returns location of new cities</response>
+        </member>
         <member name="T:CityInfoAPI.Web.Controllers.PointsOfInterestController">
             <summary>point of interest controller</summary>
-            <example>http://{domain}/api/cities/{cityId}</example>
+            <example>http://{domain}/api/v{version:apiVersion}/cities/{cityId}</example>
         </member>
         <member name="M:CityInfoAPI.Web.Controllers.PointsOfInterestController.#ctor(Microsoft.Extensions.Logging.ILogger{CityInfoAPI.Web.Controllers.PointsOfInterestController},CityInfoAPI.Web.Services.IMailService,CityInfoAPI.Data.Repositories.ICityInfoRepository,CityInfoAPI.Logic.Processors.CityProcessor,CityInfoAPI.Logic.Processors.PointsOfInterestProcessor)">
             <summary>constructor</summary>

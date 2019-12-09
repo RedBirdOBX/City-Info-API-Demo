@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "0b7651e7-3a8e-4410-986b-665d860e5c27",
+		"_postman_id": "f1600460-84e6-47db-b64e-a18cbbd8cb6e",
 		"name": "Cities-API-Tutorial",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -9,7 +9,13 @@
 			"name": "Local - GET All Cities",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "http://localhost:5000/api/v1.0/cities",
 					"protocol": "http",
@@ -38,7 +44,7 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:5000/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2",
+					"raw": "http://localhost:5000/api/v1.0/cities/f7babd68-395a-4fac-a669-9095b1d1c325",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -48,7 +54,40 @@
 						"api",
 						"v1.0",
 						"cities",
-						"38276231-1918-452d-a3e9-6f50873a95d2"
+						"f7babd68-395a-4fac-a669-9095b1d1c325"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Local - GET Cities Collection by Ids",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5000/api/v1.0/citycollections?cityIds=38276231-1918-452d-a3e9-6f50873a95d2,09fdd26e-5141-416c-a590-7eaf193b9565,09fdd26e-5141-416c-a590-7eaf193b9565,7d6d408d-3373-4910-bc1d-505ae140d3d5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1.0",
+						"citycollections"
+					],
+					"query": [
+						{
+							"key": "cityIds",
+							"value": "38276231-1918-452d-a3e9-6f50873a95d2,09fdd26e-5141-416c-a590-7eaf193b9565,09fdd26e-5141-416c-a590-7eaf193b9565,7d6d408d-3373-4910-bc1d-505ae140d3d5"
+						}
 					]
 				}
 			},
@@ -58,7 +97,13 @@
 			"name": "Local - Get City w/o Points of Interest",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "http://localhost:5000/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2?includePointsOfInterest=true",
 					"protocol": "http",
@@ -150,6 +195,11 @@
 						"key": "Authorization",
 						"value": "Basic Q2l0eUluZm9BUEk6Q2l0eUluZm9BUElQYXNzd29yZA==",
 						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
 					}
 				],
 				"url": {
@@ -165,6 +215,151 @@
 						"cities",
 						"reporting",
 						"summary"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Local - POST Create City",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\" : \"New City A\",\n\t\"description\" : \"New city description A\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1.0/cities",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1.0",
+						"cities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Local - POST Create Multiple Cities",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n\t{\n\t\t\"name\" : \"New City B\",\n\t\t\"description\" : \"New city description B\"\n\t},\n\t{\n\t\t\"name\" : \"New City C\",\n\t\t\"description\" : \"New city description C\"\n\t}\n]"
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1.0/citycollections",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1.0",
+						"citycollections"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Local - POST Create City with Id (invalid)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\" : \"New City\",\n\t\"description\" : \"New city description\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1.0",
+						"cities",
+						"38276231-1918-452d-a3e9-6f50873a95d2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Local - POST Create City with Points of Interest",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\" : \"New City\",\n\t\"description\" : \"New city description\",\n\t\"pointsOfInterest\" : \n\t[\n\t\t{\n\t\t\t\"name\": \"Point of Interest for new city\",\n\t\t\t\"description\": \"Point of Interest description for new city.\"\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Point of Interest2 for new city\",\n\t\t\t\"description\": \"Point of Interest2 description for new city.\"\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Point of Interest3 for new city\",\n\t\t\t\"description\": \"Point of Interest3 description for new city.\"\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Point of Interest4 for new city\",\n\t\t\t\"description\": \"Point of Interest4 description for new city.\"\n\t\t}\n\t]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1.0/cities",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1.0",
+						"cities"
 					]
 				}
 			},
@@ -211,6 +406,42 @@
 			"response": []
 		},
 		{
+			"name": "Local - POST Create Cities by Collection",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n\t{\n\t\t\"Name\" : \"New City 1\",\n\t\t\"Description\" : \"New city 2 description\"\n\t},\n\t{\n\t\t\"Name\" : \"New City 2\",\n\t\t\"Description\" : \"New city 2 description\"\n\t}\n]"
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1.0/citycollections",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1.0",
+						"citycollections"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Local - Update Point Of Interest",
 			"request": {
 				"method": "PUT",
@@ -230,10 +461,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\": \"Central Park\",\n\t\"description\": \"Central Park....updated 3\"\n}"
+					"raw": "{\n\t\"name\": \"Updated\",\n\t\"description\": \"Updated description\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:5000/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest/e5a5f605-627d-4aec-9f5c-e9939ea0a6cf",
+					"raw": "http://localhost:5000/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest/07c2f263-8afe-4028-8c0e-7d4657ff66fc",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -245,7 +476,7 @@
 						"cities",
 						"38276231-1918-452d-a3e9-6f50873a95d2",
 						"pointsofinterest",
-						"e5a5f605-627d-4aec-9f5c-e9939ea0a6cf"
+						"07c2f263-8afe-4028-8c0e-7d4657ff66fc"
 					]
 				}
 			},
@@ -270,10 +501,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "[\n\t{\n\t\t\"op\": \"replace\",\n\t\t\"path\": \"/description\",\n\t\t\"value\": \"updated description 4\"\n\t}\n]"
+					"raw": "[\n\t{\n\t\t\"op\": \"replace\",\n\t\t\"path\": \"/description\",\n\t\t\"value\": \"updated description 2\"\n\t}\n]"
 				},
 				"url": {
-					"raw": "http://localhost:5000/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest/e5a5f605-627d-4aec-9f5c-e9939ea0a6cf",
+					"raw": "http://localhost:5000/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest/07c2f263-8afe-4028-8c0e-7d4657ff66fc",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -285,7 +516,7 @@
 						"cities",
 						"38276231-1918-452d-a3e9-6f50873a95d2",
 						"pointsofinterest",
-						"e5a5f605-627d-4aec-9f5c-e9939ea0a6cf"
+						"07c2f263-8afe-4028-8c0e-7d4657ff66fc"
 					]
 				}
 			},
@@ -307,7 +538,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:5000/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest/e5a5f605-627d-4aec-9f5c-e9939ea0a6cf",
+					"raw": "http://localhost:5000/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest/07c2f263-8afe-4028-8c0e-7d4657ff66fc",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -319,7 +550,7 @@
 						"cities",
 						"38276231-1918-452d-a3e9-6f50873a95d2",
 						"pointsofinterest",
-						"e5a5f605-627d-4aec-9f5c-e9939ea0a6cf"
+						"07c2f263-8afe-4028-8c0e-7d4657ff66fc"
 					]
 				}
 			},
@@ -329,7 +560,13 @@
 			"name": "Dev - GET All Cities",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities",
 					"protocol": "https",
@@ -380,7 +617,13 @@
 			"name": "Dev - Get City w/o Points of Interest",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2?includePointsOfInterest=true",
 					"protocol": "https",
@@ -474,6 +717,11 @@
 					{
 						"key": "Authorization",
 						"value": "Basic Q2l0eUluZm9BUEk6Q2l0eUluZm9BUElQYXNzd29yZA==",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
 						"type": "text"
 					}
 				],
@@ -663,6 +911,11 @@
 					{
 						"key": "Authorization",
 						"value": "Basic Q2l0eUluZm9BUEk6Q2l0eUluZm9BUElQYXNzd29yZA==",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
 						"type": "text"
 					}
 				],

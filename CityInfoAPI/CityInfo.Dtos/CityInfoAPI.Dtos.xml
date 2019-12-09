@@ -4,6 +4,36 @@
         <name>CityInfoAPI.Dtos</name>
     </assembly>
     <members>
+        <member name="T:CityInfoAPI.Dtos.Models.CityCreateDto">
+            <summary>
+            city create dto
+            </summary>
+        </member>
+        <member name="M:CityInfoAPI.Dtos.Models.CityCreateDto.#ctor">
+            <summary>
+            constructor
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.CityCreateDto.CityId">
+            <summary>
+            key identifier of city
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.CityCreateDto.Name">
+            <summary>
+            the name of the city
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.CityCreateDto.Description">
+            <summary>
+            the description of the city
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.CityCreateDto.PointsOfInterest">
+            <summary>
+            Points of Interest collection
+            </summary>
+        </member>
         <member name="T:CityInfoAPI.Dtos.Models.CityDto">
             <summary>
             city dto
