@@ -410,6 +410,10 @@ Added new resources:
 - Create City and n-number of Points of Interest in a single post was added  
 - Create multiple Cities with one post was added 
 
+**1.5.0**  
+TBD
 
+
+- Now accepts `xml` as content type for input.
 
 
