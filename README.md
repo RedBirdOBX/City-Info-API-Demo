@@ -121,15 +121,6 @@ Here, you can `POST` (in the body) as `json`, an array of cities. If successful,
 ]
 ```
 
-
-
-
-
-
-
-
-
-
 ### Points Of Interest
 
 ##### Get Points of Interest for City  
@@ -141,8 +132,6 @@ You can request to see a collection of the Points of Interest for any given city
 [http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}](http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId} "http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}")  
 `GET`  
 At this endpoint, you can request a specific Point of Interest for a specific City assuming you know the Ids of both resources. 
-
-
 
 
 ##### Create a Point of Interest  
@@ -275,7 +264,7 @@ Furthermore, it will also accept `Xml` and the Content-Type if specified. You ca
     </PointsOfInterest>  
 </CityCreateDto>  
 ```
-![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/development/Images/post-with-xml.PNG)
+![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/development/Images/post-with-xml.png)
 
 
 <a href="" id="logging" name="logging"></a>
