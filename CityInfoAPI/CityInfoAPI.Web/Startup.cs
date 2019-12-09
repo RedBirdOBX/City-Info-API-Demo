@@ -66,9 +66,12 @@ namespace CityInfoAPI.Web
                 // disallows unsupported media type. returns a 406 error
                 setupAction.ReturnHttpNotAcceptable = true;
 
-                // allows for xml - both options seem to work.  add anything other than json.
-                setupAction.OutputFormatters.Add(new XmlSerializerOutputFormatter());
-                //setupAction.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
+                // allows for xml - both options seem to work although the first seems to be an older method.  add anything other than json.
+                //setupAction.OutputFormatters.Add(new XmlSerializerOutputFormatter());
+                setupAction.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
+
+                // allows for xml as an input
+                setupAction.InputFormatters.Add(new XmlDataContractSerializerInputFormatter());
 
                 // this will apply an [Authorize] attribute to all controllers
                 //setupAction.Filters.Add(new AuthorizeFilter());
@@ -76,12 +79,12 @@ namespace CityInfoAPI.Web
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // sql data store
-            string connectionString = Startup.Configuration["ConnectionStrings:cityInfoConnectionString"];
-            services.AddDbContext<CityInfoDbContext>(options => options.UseSqlServer(connectionString));
-            services.AddScoped<ICityInfoRepository, CityInfoSqlDataStore>();
+            //string connectionString = Startup.Configuration["ConnectionStrings:cityInfoConnectionString"];
+            //services.AddDbContext<CityInfoDbContext>(options => options.UseSqlServer(connectionString));
+            //services.AddScoped<ICityInfoRepository, CityInfoSqlDataStore>();
 
             // in memory data store
-            //services.AddSingleton<ICityInfoRepository, CityInfoMemoryDataStore>();
+            services.AddSingleton<ICityInfoRepository, CityInfoMemoryDataStore>();
 
             services.AddScoped<CityProcessor>();
             services.AddScoped<CityCollectionsProcessor>();
