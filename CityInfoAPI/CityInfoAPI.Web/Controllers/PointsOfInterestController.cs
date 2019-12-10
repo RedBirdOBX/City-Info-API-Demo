@@ -450,6 +450,5 @@ namespace CityInfoAPI.Web.Controllers
                 return StatusCode(500, "A problem was encountered while processing your request.");
             }
         }
-
     }
 }

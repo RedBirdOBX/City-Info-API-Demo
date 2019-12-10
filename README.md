@@ -404,5 +404,8 @@ TBD
 
 
 - Now accepts `xml` as content type for input.
+- Prevents `POST` requests for cities and points of interest with provided Ids.
+
+
 
 
