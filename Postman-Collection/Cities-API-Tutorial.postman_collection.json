@@ -257,6 +257,42 @@
 			"response": []
 		},
 		{
+			"name": "Local - POST Create City with Xml",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\" : \"New City A\",\n\t\"description\" : \"New city description A\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1.0/cities",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1.0",
+						"cities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Local - POST Create Multiple Cities",
 			"request": {
 				"method": "POST",
@@ -495,7 +531,7 @@
 					{
 						"key": "Content-Type",
 						"name": "Content-Type",
-						"value": "application/json",
+						"value": "application/json-patch+json",
 						"type": "text"
 					}
 				],
@@ -608,6 +644,40 @@
 						"v1.0",
 						"cities",
 						"38276231-1918-452d-a3e9-6f50873a95d2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Dev - GET Cities Collection by Ids",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/citycollections?cityIds=38276231-1918-452d-a3e9-6f50873a95d2,09fdd26e-5141-416c-a590-7eaf193b9565,09fdd26e-5141-416c-a590-7eaf193b9565,7d6d408d-3373-4910-bc1d-505ae140d3d5",
+					"protocol": "https",
+					"host": [
+						"city-info-api-demo-dev",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"citycollections"
+					],
+					"query": [
+						{
+							"key": "cityIds",
+							"value": "38276231-1918-452d-a3e9-6f50873a95d2,09fdd26e-5141-416c-a590-7eaf193b9565,09fdd26e-5141-416c-a590-7eaf193b9565,7d6d408d-3373-4910-bc1d-505ae140d3d5"
+						}
 					]
 				}
 			},
@@ -739,6 +809,79 @@
 						"cities",
 						"reporting",
 						"summary"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Dev - POST Create City",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\" : \"New City A\",\n\t\"description\" : \"New city description A\"\n}"
+				},
+				"url": {
+					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities",
+					"protocol": "https",
+					"host": [
+						"city-info-api-demo-dev",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"cities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Dev - POST Create Multiple Cities",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n\t{\n\t\t\"name\" : \"New City B\",\n\t\t\"description\" : \"New city description B\"\n\t},\n\t{\n\t\t\"name\" : \"New City C\",\n\t\t\"description\" : \"New city description C\"\n\t}\n]"
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1.0/citycollections",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1.0",
+						"citycollections"
 					]
 				}
 			},
@@ -933,6 +1076,142 @@
 						"cities",
 						"reporting",
 						"summary"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Prod - GET All Cities",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://city-info-api-demo.azurewebsites.net/api/v1.0/cities",
+					"protocol": "https",
+					"host": [
+						"city-info-api-demo",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"cities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Prod - GET Cities Collection by Ids",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://city-info-api-demo.azurewebsites.net/api/v1.0/citycollections?cityIds=38276231-1918-452d-a3e9-6f50873a95d2,09fdd26e-5141-416c-a590-7eaf193b9565,09fdd26e-5141-416c-a590-7eaf193b9565,7d6d408d-3373-4910-bc1d-505ae140d3d5",
+					"protocol": "https",
+					"host": [
+						"city-info-api-demo",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"citycollections"
+					],
+					"query": [
+						{
+							"key": "cityIds",
+							"value": "38276231-1918-452d-a3e9-6f50873a95d2,09fdd26e-5141-416c-a590-7eaf193b9565,09fdd26e-5141-416c-a590-7eaf193b9565,7d6d408d-3373-4910-bc1d-505ae140d3d5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Prod - POST Create City",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\" : \"New City A\",\n\t\"description\" : \"New city description A\",\n\t\"pointsOfInterest\" : \n\t[\n\t\t{\n\t\t\t\"name\" : \"name1\",\n\t\t\t\"description\" : \"description1\"\n\t\t},\n\t\t{\n\t\t\t\"name\" : \"name2\",\n\t\t\t\"description\" : \"description2\"\n\t\t}\n\t]\n}"
+				},
+				"url": {
+					"raw": "https://city-info-api-demo.azurewebsites.net/api/v1.0/cities",
+					"protocol": "https",
+					"host": [
+						"city-info-api-demo",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"cities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Prod - POST Create Multiple Cities",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n\t{\n\t\t\"name\" : \"New City B\",\n\t\t\"description\" : \"New city description B\"\n\t},\n\t{\n\t\t\"name\" : \"New City C\",\n\t\t\"description\" : \"New city description C\"\n\t}\n]"
+				},
+				"url": {
+					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/citycollections",
+					"protocol": "https",
+					"host": [
+						"city-info-api-demo-dev",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"citycollections"
 					]
 				}
 			},
