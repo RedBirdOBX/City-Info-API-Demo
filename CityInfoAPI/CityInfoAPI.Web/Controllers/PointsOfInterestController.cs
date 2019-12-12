@@ -416,6 +416,7 @@ namespace CityInfoAPI.Web.Controllers
 
         /// <summary>blocks a post to a point of interest that already exists</summary>
         /// <example>http://{domain}/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}</example>
+        /// <param name="cityId">id of city</param>
         /// <param name="pointOfInterestId">id of point of interest</param>
         /// <returns>status codes or bad request</returns>
         /// <response code="409">warning - cannot post with id</response>

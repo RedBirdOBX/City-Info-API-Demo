@@ -405,6 +405,7 @@ TBD
 
 - Now accepts `xml` as content type for input.
 - Prevents `POST` requests for cities and points of interest with provided Ids.
+- Built in upserting for Point of Interest - does this conflict with the block method mentioned in the bullet above?
 
 
 
