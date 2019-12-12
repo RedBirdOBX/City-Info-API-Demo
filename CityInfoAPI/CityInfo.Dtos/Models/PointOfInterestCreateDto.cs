@@ -25,6 +25,13 @@ namespace CityInfoAPI.Dtos.Models
         /// <summary>
         /// key identifier of city
         /// </summary>
+        //[NotEmpty]
+        //https://andrewlock.net/creating-an-empty-guid-validation-attribute/
+        //https://www.c-sharpcorner.com/article/custom-data-annotation-validation-in-mvc/
+
+        // scenario:  if the user omits the cityId in the POST, it will default to '000-000-000 yadda..' which is still a value...it's just an empty guid.
+        // this should fail but doesn't.
+
         [Required(ErrorMessage = "City Id is required.")]
         public Guid CityId { get; set; }
 

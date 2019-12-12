@@ -87,6 +87,7 @@ namespace CityInfoAPI.Web.Controllers
         }
 
         /// <summary>creates a new city</summary>
+        /// <example>http://{domain}/api/v1.0/cities</example>
         /// <param name="newCity">content for new city in body</param>
         /// <returns>CityDto</returns>
         /// <response code="201">returns create at route location</response>

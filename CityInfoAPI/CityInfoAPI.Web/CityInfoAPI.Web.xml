@@ -30,6 +30,7 @@
         </member>
         <member name="M:CityInfoAPI.Web.Controllers.CitiesController.CreateCity(CityInfoAPI.Dtos.Models.CityCreateDto)">
             <summary>creates a new city</summary>
+            <example>http://{domain}/api/v1.0/cities</example>
             <param name="newCity">content for new city in body</param>
             <returns>CityDto</returns>
             <response code="201">returns create at route location</response>
@@ -149,6 +150,7 @@
         <member name="M:CityInfoAPI.Web.Controllers.PointsOfInterestController.BlockPostToExistingPointOfInterest(System.Guid,System.Guid)">
             <summary>blocks a post to a point of interest that already exists</summary>
             <example>http://{domain}/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}</example>
+            <param name="cityId">id of city</param>
             <param name="pointOfInterestId">id of point of interest</param>
             <returns>status codes or bad request</returns>
             <response code="409">warning - cannot post with id</response>
