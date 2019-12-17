@@ -1,6 +1,4 @@
-﻿using CityInfoAPI.Dtos.CustomValidations;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace CityInfoAPI.Dtos.Models
@@ -21,13 +19,12 @@ namespace CityInfoAPI.Dtos.Models
         /// <summary>
         /// key identifier of point of interest
         /// </summary>
-        [Required(ErrorMessage = "Point of Interest Id is required.")]
+        //[Required(ErrorMessage = "Point of Interest Id is required.")]
         public Guid PointId { get; set; }
 
         /// <summary>
         /// key identifier of city
         /// </summary>
-        [NotEmptyGuid]
         [Required(ErrorMessage = "City Id is required.")]
         public Guid CityId { get; set; }
 

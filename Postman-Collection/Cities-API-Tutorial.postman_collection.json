@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f1600460-84e6-47db-b64e-a18cbbd8cb6e",
+		"_postman_id": "b3738556-a425-4119-81f6-77ff868e4974",
 		"name": "Cities-API-Tutorial",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -263,18 +263,24 @@
 				"header": [
 					{
 						"key": "Accept",
-						"value": "application/json",
+						"value": "application/xml",
 						"type": "text"
 					},
 					{
 						"key": "Content-Type",
-						"value": "application/json",
+						"name": "Content-Type",
+						"value": "application/xml",
 						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\" : \"New City A\",\n\t\"description\" : \"New city description A\"\n}"
+					"raw": "<CityCreateDto xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.datacontract.org/2004/07/CityInfoAPI.Dtos.Models\">\n    <CityId>38276231-1918-452d-a3e9-6f50873a95d2</CityId>\n    <Description>Home of the blues</Description>\n    <Name>Chicago (in memory)</Name>\n    <PointsOfInterest>\n        <PointOfInterestCreateDto>\n            <CityId>38276231-1918-452d-a3e9-6f50873a95d2</CityId>\n            <Description>Walk along the lake</Description>\n            <Name>Lake Michigan</Name>\n            <PointId>e5a5f605-627d-4aec-9f5c-e9939ea0a6cf</PointId>\n        </PointOfInterestCreateDto>\n        <PointOfInterestCreateDto>\n            <CityId>38276231-1918-452d-a3e9-6f50873a95d2</CityId>\n            <Description>Rent a boat</Description>\n            <Name>Lake Docks</Name>\n            <PointId>8fb872a7-2559-44b0-b89a-aeea403f58c2</PointId>\n        </PointOfInterestCreateDto>\n    </PointsOfInterest>\n</CityCreateDto>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
 				},
 				"url": {
 					"raw": "http://localhost:5000/api/v1.0/cities",
@@ -436,42 +442,6 @@
 						"cities",
 						"38276231-1918-452d-a3e9-6f50873a95d2",
 						"pointsofinterest"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Local - POST Create Cities by Collection",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "[\n\t{\n\t\t\"Name\" : \"New City 1\",\n\t\t\"Description\" : \"New city 2 description\"\n\t},\n\t{\n\t\t\"Name\" : \"New City 2\",\n\t\t\"Description\" : \"New city 2 description\"\n\t}\n]"
-				},
-				"url": {
-					"raw": "http://localhost:5000/api/v1.0/citycollections",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "5000",
-					"path": [
-						"api",
-						"v1.0",
-						"citycollections"
 					]
 				}
 			},

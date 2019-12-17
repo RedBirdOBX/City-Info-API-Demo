@@ -158,6 +158,14 @@ namespace CityInfoAPI.Web.Controllers
                     return BadRequest(ModelState);
                 }
 
+                // the cityId can never be null. If the post excludes it, it'll simply be empty (00000000-0000-0000-0000-000000000000).
+                // check for a missing/empty guid.
+                if (submittedPointOfInterest.CityId == Guid.Empty)
+                {
+                    _logger.LogInformation($"**** LOGGER: No cityId was missing from create Point of Interest request: {submittedPointOfInterest.Name}.");
+                    return BadRequest($"The city id was missing for {submittedPointOfInterest.Name}.");
+                }
+
                 if (!_cityProcessor.DoesCityExist(cityId))
                 {
                     _logger.LogInformation($"**** LOGGER: No city was found for cityId {cityId}.");

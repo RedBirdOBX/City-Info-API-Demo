@@ -77,7 +77,8 @@ Here, you can request a collection of cities by providing their Ids in the query
 Here, you can `POST` (in the body) the `json` structure of a new city.  Optionally, you can provide a list of Points of Interest (children) and they will be created as well.
 
 Without Points of Interest
-```
+
+```json
 {
 	"name" : "Gotham",
 	"description" : "Gotham city - sister city of Metropolis"
@@ -85,7 +86,8 @@ Without Points of Interest
 ```
 
 With Points of Interest
-```
+
+```json
 {
 	"name" : "Gotham",
 	"description" : "Gotham city - sister city of Metropolis",
@@ -108,7 +110,8 @@ With Points of Interest
 `POST`
 
 Here, you can `POST` (in the body) as `json`, an array of cities. If successful, you will receieve a `201-CreatedAtRoute` response and the link to find the new cities will be in the Response Header.
-```
+
+```json
 [
 	{
 		"name" : "New City B",
@@ -139,7 +142,7 @@ At this endpoint, you can request a specific Point of Interest for a specific Ci
 `POST`  
 As a security measure, a city cannot have more than 25 Points of Interest. Assuming the city is under the limit, you can create a new Point of Interest for a valid city (by providing it's id). You will need to provide a name and a description as JSON data in the body of the POST.  Like so:
 
-```
+```json
 {
 	"name": "Gino's Famous Pizza",
 	"description": "Known all over the world for it's famous NY style pizza"
@@ -167,7 +170,7 @@ If successful, it will return you a 200 Success status and the values of the upd
 `PATCH`  
 Instead of updated the whole resource, you can use a patch document and only update one or more properties of the resource such as passwords, emails, and so on. With this API, you can use a standard patch document and specify what part of the resource you want to update.
 
-```
+```json
 [
 	{
 		"op": "replace",
@@ -196,7 +199,8 @@ Version **2.0** Resource.  This endpoint provides a list of all cities the count
 
    
 Sample Response: 
-```  
+
+```json  
 [  
     {   
         "name": "Chicago",  
@@ -216,7 +220,8 @@ Sample Response:
 
 This resource requires authorization and you must pass Authorization as part of the request header.  A sample request looks something like this:
 
-```GET /api/v2.0/cities/reporting/summary HTTP/1.1  
+```
+GET /api/v2.0/cities/reporting/summary HTTP/1.1  
 Host: localhost:5000  
 Authorization: Basic Q2l0eUluZm9BUEk6Q2l0eUluZm9BUElQYXNzd29yZA==  
 cache-control: no-cache  
@@ -243,7 +248,7 @@ If you provide an **unsupported** media type in the request, it will, by design,
 
 Furthermore, it will also accept `Xml` and the Content-Type if specified. You can if needed, `POST` data with `Xml` instead of `JSON`.   
 
-```
+```xml
 <CityCreateDto xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/CityInfoAPI.Dtos.Models">  
     <CityId>1dbeec7c-815b-4143-a8c2-dd99f5dfba3e</CityId>  
     <Description>New City X description</Description>  
@@ -400,12 +405,11 @@ Added new resources:
 - Create multiple Cities with one post was added 
 
 **1.5.0**  
-TBD
+12.18.2019
 
-
-- Now accepts `xml` as content type for input.
-- Prevents `POST` requests for cities and points of interest with provided Ids.
-- Built in upserting for Point of Interest - does this conflict with the block method mentioned in the bullet above?
+- Now accepts `xml` as content type for input.  As a test, a new Postman request was added to the collection.  It is labeled as 'Local - POST Create City with Xml'.  With this test case, you can post to this resource with valid xml and it will be processed just as it is with json.
+- Prevents `POST` requests for cities and points of interest with provided Ids. The user should never be using POST to a city or point of interest resource with an Id in the route.  These are for `PUT` and `PATCH` only. Methods were added to the controllers to prevent this.
+- If a `guid` is excluded in the body of a `POST` (create Point Of Interest) for example, it will still pass standard validation since it is invoked as an "empty guid" - a GUID type cannot be null. The `Create Point of Interest` resource was updated to check for empty guids. Prevents empty/excluded guids from being posted
 
 
 
