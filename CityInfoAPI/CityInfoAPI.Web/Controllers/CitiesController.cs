@@ -1,6 +1,9 @@
-﻿using CityInfoAPI.Dtos.Models;
+﻿using AutoMapper;
+using CityInfoAPI.Data.Repositories;
+using CityInfoAPI.Dtos.Models;
 using CityInfoAPI.Logic.Processors;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -22,17 +25,21 @@ namespace CityInfoAPI.Web.Controllers
         // fields
         private ILogger<CitiesController> _logger;
         private CityProcessor _cityProcessor;
+        private ICityInfoRepository _cityInfoRepository;
+
 
         /// <summary>constructor</summary>
         /// <param name="logger">logger factory middleware to be injected</param>
         /// <param name="cityProcessor">city processor middleware to be injected</param>
-        public CitiesController(ILogger<CitiesController> logger, CityProcessor cityProcessor)
+        /// <param name="cityInfoRepository">city repository</param>
+        public CitiesController(ILogger<CitiesController> logger, CityProcessor cityProcessor, ICityInfoRepository cityInfoRepository)
         {
             _cityProcessor = cityProcessor;
             _logger = logger;
+            _cityInfoRepository = cityInfoRepository;
         }
 
-        /// <summary>get a collection of all cities</summary>
+        /// <summary>get a collection of all cities. does not include point of interests.</summary>
         /// <example>http://{domain}/api/v1.0/cities</example>
         /// <returns>a collection of CityDto</returns>
         /// <response code="200">returns the list of cities</response>
@@ -169,5 +176,98 @@ namespace CityInfoAPI.Web.Controllers
                 return StatusCode(500, "A problem was encountered while processing your request.");
             }
         }
+
+
+
+        /// <summary>PATCH endpoint for updating city - can update name and description only</summary>
+        /// <example>http://{domain}/api/v1.0/cities/{cityId}</example>
+        /// <param name="cityId">required city key</param>
+        /// <param name="patchDocument">required patch document which indicates which part(s) will be updated</param>
+        /// <returns>returns CityUpdateDto with new value(s)</returns>
+        /// <remarks>
+        /// http://{domain}/api/{cityId}
+        /// ```
+        /// sample patch document. allows you to patch **name and/or description**
+        /// [
+        ///	    {
+        ///		    "op": "replace",
+        ///		    "path": "/description",
+        ///		    "value": "new description of city"
+        ///	    }
+        ///]
+        ///```
+        /// </remarks>
+        /// <response code="200">returns patched city</response>
+        /// <response code="404">city id not valid</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        [HttpPatch("{cityId}", Name = "PatchCity")]
+        public ActionResult<CityUpdateDto> PatchCity(Guid cityId, [FromBody] JsonPatchDocument<CityUpdateDto> patchDocument)
+        {
+            try
+            {
+                // see if the correct properties and type was passed in
+                if (patchDocument == null)
+                {
+                    return BadRequest();
+                }
+
+                // is this a valid city?
+                if (!_cityProcessor.DoesCityExist(cityId))
+                {
+                    _logger.LogInformation($"**** LOGGER: City of cityId {cityId} was not found.");
+                    return NotFound($"City of cityId {cityId} was not found.");
+                }
+
+                // we need to map the entity to a dto so we than can map the patch to the dto and back to the entity.
+                // <casted destination type>(source).
+                var cityEntity = _cityInfoRepository.GetCityById(cityId, false);
+                var cityToPatch = Mapper.Map<CityUpdateDto>(cityEntity);
+
+                // If we include the optional ModelState argument, it will send back any potential errors.
+                // This is where we map new values to the properties.
+                // ModelState was created here when the Model Binding was applied to the input model...the JSONPatchDocument.
+                // Since the framework has no way of knowing what was required and valid in the document, it will usually have
+                // no errors and be valid.
+                patchDocument.ApplyTo(cityToPatch, ModelState);
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                // We can solve this with some custom logic again. are the name and description provided?
+                if (string.IsNullOrWhiteSpace(cityToPatch.Name) || string.IsNullOrWhiteSpace(cityToPatch.Description))
+                {
+                    return BadRequest(ModelState);
+                }
+
+                // Try to validate the model again
+                TryValidateModel(cityToPatch);
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                // all is good.  map the new values back to the entity
+                Mapper.Map(cityToPatch, cityEntity);
+
+                if (!_cityInfoRepository.SaveChanges())
+                {
+                    _logger.LogWarning($"**** LOGGER: An error occurred when patching the city: {cityId}.");
+                    return StatusCode(500, $"An error occurred when patching the city: {cityId}.");
+                }
+
+                return Ok(cityToPatch);
+            }
+            catch (Exception exception)
+            {
+                _logger.LogCritical($"**** LOGGER: Exception encountered while trying to patch a city: {cityId}.", exception);
+                return StatusCode(500, "A problem was encountered while processing your request.");
+            }
+        }
+
     }
 }

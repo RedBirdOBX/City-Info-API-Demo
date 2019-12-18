@@ -26,5 +26,10 @@ namespace CityInfoAPI.Dtos.Models
         /// id of city this point of interest belongs to
         /// </summary>
         public Guid CityId { get; set; }
+
+        /// <summary>
+        /// date when record was created
+        /// </summary>
+        public DateTime CreatedOn { get; set; }
     }
 }

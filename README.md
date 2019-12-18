@@ -124,6 +124,29 @@ Here, you can `POST` (in the body) as `json`, an array of cities. If successful,
 ]
 ```
 
+##### Patch a City
+[http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}](http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId} "http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}")  
+`PATCH`  
+Instead of updated the city whole resource, you can use a patch document and only update one or more properties of the resource such as passwords, emails, and so on. With this API, you can use a standard patch document and specify what part of the resource you want to update.
+
+```json
+[
+	{
+		"op": "replace",
+		"path": "/name",
+		"value": "updated name"
+	},
+	{
+		"op": "replace",
+		"path": "/description",
+		"value": "updated description 2"
+	}
+]
+```
+
+If successful, it will return a 200 OK status and the new updated resource in the body.
+
+
 ### Points Of Interest
 
 ##### Get Points of Interest for City  
