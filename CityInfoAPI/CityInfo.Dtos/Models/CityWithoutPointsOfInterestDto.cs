@@ -1,4 +1,6 @@
-﻿namespace CityInfoAPI.Dtos.Models
+﻿using System;
+
+namespace CityInfoAPI.Dtos.Models
 {
     /// <summary>
     /// city with no point of interest property
@@ -19,5 +21,10 @@
         /// city description
         /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// when record was created
+        /// </summary>
+        public DateTime CreatedOn { get; set; }
     }
 }

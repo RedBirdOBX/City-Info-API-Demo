@@ -6,6 +6,11 @@ namespace CityInfoAPI.Data.Entities
 {
     public class PointOfInterest
     {
+        public PointOfInterest()
+        {
+            CreatedOn = DateTime.Now;
+        }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
@@ -26,5 +31,8 @@ namespace CityInfoAPI.Data.Entities
 
         [ForeignKey("CityId")]
         public City City { get; set; }
+
+        [Required(ErrorMessage = "CreatedOn is required.")]
+        public DateTime CreatedOn { get; set; }
     }
 }

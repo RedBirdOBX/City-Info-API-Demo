@@ -57,6 +57,11 @@
             the description of the city
             </summary>
         </member>
+        <member name="P:CityInfoAPI.Dtos.Models.CityDto.CreatedOn">
+            <summary>
+            when record was created
+            </summary>
+        </member>
         <member name="P:CityInfoAPI.Dtos.Models.CityDto.NumberOfPointsOfInterest">
             <summary>
             the number of points of interest the city has
@@ -100,6 +105,11 @@
         <member name="P:CityInfoAPI.Dtos.Models.CityWithoutPointsOfInterestDto.Description">
             <summary>
             city description
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.CityWithoutPointsOfInterestDto.CreatedOn">
+            <summary>
+            when record was created
             </summary>
         </member>
         <member name="T:CityInfoAPI.Dtos.Models.PointOfInterestCreateDto">
