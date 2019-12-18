@@ -249,26 +249,22 @@ If you provide an **unsupported** media type in the request, it will, by design,
 Furthermore, it will also accept `Xml` and the Content-Type if specified. You can if needed, `POST` data with `Xml` instead of `JSON`.   
 
 ```xml
-<CityCreateDto xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/CityInfoAPI.Dtos.Models">  
-    <CityId>1dbeec7c-815b-4143-a8c2-dd99f5dfba3e</CityId>  
-    <Description>New City X description</Description>  
-    <Name>CityX</Name>  
-    <PointsOfInterest>  
-        <PointOfInterestDto>  
-            <CityId>1dbeec7c-815b-4143-a8c2-dd99f5dfba3e</CityId>  
-            <Description>Point of interest A</Description>  
-            <Name>Point A</Name>  
-            <PointId>14eeaf96-9db5-4cb4-845b-06f9ad1315a9</PointId>  
-        </PointOfInterestDto>  
-        <PointOfInterestDto>  
-            <CityId>1dbeec7c-815b-4143-a8c2-dd99f5dfba3e</CityId>  
-            <Description>Point of Interest B</Description>  
-            <Name>Point B</Name>  
-            <PointId>d033d56e-d54f-4cf4-8045-376bfe7556e6</PointId>  
-        </PointOfInterestDto>  
-    </PointsOfInterest>  
-</CityCreateDto>  
+<CityCreateDto xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/CityInfoAPI.Dtos.Models">
+    <Description>Description for Alpha City</Description>
+    <Name>New Alpha City</Name>
+    <PointsOfInterest>
+        <PointOfInterestCreateDto>
+            <Description>Description for location 1</Description>
+            <Name>Location 1</Name>
+        </PointOfInterestCreateDto>
+        <PointOfInterestCreateDto>
+            <Description>Description for location 2</Description>
+            <Name>Location 2</Name>
+        </PointOfInterestCreateDto>
+    </PointsOfInterest>
+</CityCreateDto>
 ```
+
 ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/development/Images/post-with-xml.png)
 
 
@@ -314,7 +310,7 @@ Every form of data interaction (read, write) is represented by a DTO in this lay
 
 ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/dto-layer.PNG)
 
-## Logic Layer
+**Logic Layer**
 This is the business layer.  All requests from the Controllers go through this layer. Controllers do not directly interact with the Repositories from the Data Layer. This is where any and all business logic with reside in addition to all data mapping.
 
 1. Request from Controller 
@@ -325,7 +321,7 @@ This is the business layer.  All requests from the Controllers go through this l
 
 ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/processor-layer.PNG)
 
-## Web API Layer
+**Web API Layer**
 This is the layer exposed to the public. This layer contains all the typical MVC stuff - Controllers, Views (if any), Services (middleware), appSettings, and static content (in wwwroot).
 
 ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/webapi-layer.PNG)

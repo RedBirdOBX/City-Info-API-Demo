@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "b3738556-a425-4119-81f6-77ff868e4974",
+		"_postman_id": "5dc2407c-0310-40f7-b6b9-06eb23bc8cc9",
 		"name": "Cities-API-Tutorial",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -275,7 +275,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "<CityCreateDto xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.datacontract.org/2004/07/CityInfoAPI.Dtos.Models\">\n    <CityId>38276231-1918-452d-a3e9-6f50873a95d2</CityId>\n    <Description>Home of the blues</Description>\n    <Name>Chicago (in memory)</Name>\n    <PointsOfInterest>\n        <PointOfInterestCreateDto>\n            <CityId>38276231-1918-452d-a3e9-6f50873a95d2</CityId>\n            <Description>Walk along the lake</Description>\n            <Name>Lake Michigan</Name>\n            <PointId>e5a5f605-627d-4aec-9f5c-e9939ea0a6cf</PointId>\n        </PointOfInterestCreateDto>\n        <PointOfInterestCreateDto>\n            <CityId>38276231-1918-452d-a3e9-6f50873a95d2</CityId>\n            <Description>Rent a boat</Description>\n            <Name>Lake Docks</Name>\n            <PointId>8fb872a7-2559-44b0-b89a-aeea403f58c2</PointId>\n        </PointOfInterestCreateDto>\n    </PointsOfInterest>\n</CityCreateDto>",
+					"raw": "<CityCreateDto xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.datacontract.org/2004/07/CityInfoAPI.Dtos.Models\">\n    <Description>Description for Alpha City</Description>\n    <Name>New Alpha City</Name>\n    <PointsOfInterest>\n        <PointOfInterestCreateDto>\n            <Description>Description for location 1</Description>\n            <Name>Location 1</Name>\n        </PointOfInterestCreateDto>\n        <PointOfInterestCreateDto>\n            <Description>Description for location 2</Description>\n            <Name>Location 2</Name>\n        </PointOfInterestCreateDto>\n    </PointsOfInterest>\n</CityCreateDto>",
 					"options": {
 						"raw": {
 							"language": "xml"
@@ -803,6 +803,49 @@
 				"body": {
 					"mode": "raw",
 					"raw": "{\n\t\"name\" : \"New City A\",\n\t\"description\" : \"New city description A\"\n}"
+				},
+				"url": {
+					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities",
+					"protocol": "https",
+					"host": [
+						"city-info-api-demo-dev",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"cities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Dev  - POST Create City with Xml",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/xml",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<CityCreateDto xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.datacontract.org/2004/07/CityInfoAPI.Dtos.Models\">\n    <Description>Description for Alpha City</Description>\n    <Name>New Alpha City</Name>\n    <PointsOfInterest>\n        <PointOfInterestCreateDto>\n            <Description>Description for location 1</Description>\n            <Name>Location 1</Name>\n        </PointOfInterestCreateDto>\n        <PointOfInterestCreateDto>\n            <Description>Description for location 2</Description>\n            <Name>Location 2</Name>\n        </PointOfInterestCreateDto>\n    </PointsOfInterest>\n</CityCreateDto>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
 				},
 				"url": {
 					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities",
