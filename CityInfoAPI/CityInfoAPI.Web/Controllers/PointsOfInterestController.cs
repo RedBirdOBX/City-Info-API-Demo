@@ -158,6 +158,14 @@ namespace CityInfoAPI.Web.Controllers
                     return BadRequest(ModelState);
                 }
 
+                // the cityId can never be null. If the post excludes it, it'll simply be empty (00000000-0000-0000-0000-000000000000).
+                // check for a missing/empty guid.
+                if (submittedPointOfInterest.CityId == Guid.Empty)
+                {
+                    _logger.LogInformation($"**** LOGGER: No cityId was missing from create Point of Interest request: {submittedPointOfInterest.Name}.");
+                    return BadRequest($"The city id was missing for {submittedPointOfInterest.Name}.");
+                }
+
                 if (!_cityProcessor.DoesCityExist(cityId))
                 {
                     _logger.LogInformation($"**** LOGGER: No city was found for cityId {cityId}.");
@@ -410,6 +418,44 @@ namespace CityInfoAPI.Web.Controllers
             catch (Exception exception)
             {
                 _logger.LogCritical($"**** LOGGER: Exception encountered while trying to delete a point of interest: {pointId}.", exception);
+                return StatusCode(500, "A problem was encountered while processing your request.");
+            }
+        }
+
+        /// <summary>blocks a post to a point of interest that already exists</summary>
+        /// <example>http://{domain}/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}</example>
+        /// <param name="cityId">id of city</param>
+        /// <param name="pointOfInterestId">id of point of interest</param>
+        /// <returns>status codes or bad request</returns>
+        /// <response code="409">warning - cannot post with id</response>
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesDefaultResponseType]
+        [HttpPost("pointsofinterest/{pointOfInterestId}", Name = "BlockPostToExistingPointOfInterest")]
+        public ActionResult BlockPostToExistingPointOfInterest(Guid cityId, Guid pointOfInterestId)
+        {
+            // this is being a touch over-protective.  The idea is to not allow (and inform) the consumer
+            // that they can post to this endpoint with an id.  Anything with an id should be done with a PUT
+            // or a PATCH.
+            try
+            {
+                if (!_cityProcessor.DoesCityExist(cityId))
+                {
+                    return BadRequest("You cannot post to cities like this.");
+                }
+
+                if (!_pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointOfInterestId))
+                {
+                    return BadRequest("You cannot post to point of interest like this.");
+                }
+                else
+                {
+                    return StatusCode(409, "You cannot post to an point of interest city!");
+                }
+
+            }
+            catch (Exception exception)
+            {
+                _logger.LogCritical($"**** LOGGER: Exception encountered while posting to BlockPostToExistingPointOfInterest: {pointOfInterestId}.", exception);
                 return StatusCode(500, "A problem was encountered while processing your request.");
             }
         }

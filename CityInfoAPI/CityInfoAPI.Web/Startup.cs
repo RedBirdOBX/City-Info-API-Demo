@@ -25,7 +25,7 @@ using System.Linq;
 namespace CityInfoAPI.Web
 {
 
-#pragma warning disable CS1591
+    #pragma warning disable CS1591
 
     public class Startup
     {
@@ -66,9 +66,12 @@ namespace CityInfoAPI.Web
                 // disallows unsupported media type. returns a 406 error
                 setupAction.ReturnHttpNotAcceptable = true;
 
-                // allows for xml - both options seem to work.  add anything other than json.
-                setupAction.OutputFormatters.Add(new XmlSerializerOutputFormatter());
-                //setupAction.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
+                // allows for xml - both options seem to work although the first seems to be an older method.  add anything other than json.
+                //setupAction.OutputFormatters.Add(new XmlSerializerOutputFormatter());
+                setupAction.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
+
+                // allows for xml as an input
+                setupAction.InputFormatters.Add(new XmlDataContractSerializerInputFormatter());
 
                 // this will apply an [Authorize] attribute to all controllers
                 //setupAction.Filters.Add(new AuthorizeFilter());

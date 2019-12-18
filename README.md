@@ -1,7 +1,7 @@
 # The City Info Demo API
   
 ----------
-*Version 1.4.0*
+*Version 1.5.0*
 
 ## Summary
 Welcome to the City Info Demo API. Imagine that you were developing for some kind of travel site and one of the requirements was you needed to be able to ask for a complete listing of cities; ask for any given city by it's ID and, if specifically asked for, you needed to be able to provide all the "touristy" things to do for that specified city (landmarks, parks, restaurants, and so on).  
@@ -28,7 +28,7 @@ It supports and demonstrates all HTTP verbs: GET, POST, PUT, PATCH, and DELETE.
 ## Chapters
 - [How To Test](#test)
 - [Endpoints](#endpoints)
-- [Support Media Types](#content)
+- [Supported Media Types](#content)
 - [Logging](#logging)
 - [CICD](#cicd)
 - [Architecture](#architecture)
@@ -77,7 +77,8 @@ Here, you can request a collection of cities by providing their Ids in the query
 Here, you can `POST` (in the body) the `json` structure of a new city.  Optionally, you can provide a list of Points of Interest (children) and they will be created as well.
 
 Without Points of Interest
-```
+
+```json
 {
 	"name" : "Gotham",
 	"description" : "Gotham city - sister city of Metropolis"
@@ -85,7 +86,8 @@ Without Points of Interest
 ```
 
 With Points of Interest
-```
+
+```json
 {
 	"name" : "Gotham",
 	"description" : "Gotham city - sister city of Metropolis",
@@ -108,7 +110,8 @@ With Points of Interest
 `POST`
 
 Here, you can `POST` (in the body) as `json`, an array of cities. If successful, you will receieve a `201-CreatedAtRoute` response and the link to find the new cities will be in the Response Header.
-```
+
+```json
 [
 	{
 		"name" : "New City B",
@@ -120,15 +123,6 @@ Here, you can `POST` (in the body) as `json`, an array of cities. If successful,
 	}
 ]
 ```
-
-
-
-
-
-
-
-
-
 
 ### Points Of Interest
 
@@ -143,14 +137,12 @@ You can request to see a collection of the Points of Interest for any given city
 At this endpoint, you can request a specific Point of Interest for a specific City assuming you know the Ids of both resources. 
 
 
-
-
 ##### Create a Point of Interest  
 [http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest](http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest "http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest")  
 `POST`  
 As a security measure, a city cannot have more than 25 Points of Interest. Assuming the city is under the limit, you can create a new Point of Interest for a valid city (by providing it's id). You will need to provide a name and a description as JSON data in the body of the POST.  Like so:
 
-```
+```json
 {
 	"name": "Gino's Famous Pizza",
 	"description": "Known all over the world for it's famous NY style pizza"
@@ -178,7 +170,7 @@ If successful, it will return you a 200 Success status and the values of the upd
 `PATCH`  
 Instead of updated the whole resource, you can use a patch document and only update one or more properties of the resource such as passwords, emails, and so on. With this API, you can use a standard patch document and specify what part of the resource you want to update.
 
-```
+```json
 [
 	{
 		"op": "replace",
@@ -207,7 +199,8 @@ Version **2.0** Resource.  This endpoint provides a list of all cities the count
 
    
 Sample Response: 
-```  
+
+```json  
 [  
     {   
         "name": "Chicago",  
@@ -227,7 +220,8 @@ Sample Response:
 
 This resource requires authorization and you must pass Authorization as part of the request header.  A sample request looks something like this:
 
-```GET /api/v2.0/cities/reporting/summary HTTP/1.1  
+```
+GET /api/v2.0/cities/reporting/summary HTTP/1.1  
 Host: localhost:5000  
 Authorization: Basic Q2l0eUluZm9BUEk6Q2l0eUluZm9BUElQYXNzd29yZA==  
 cache-control: no-cache  
@@ -241,7 +235,7 @@ The base64 encoded string is made of a username of `CityInfoAPI` and a password 
 <a href="" id="content" name="content"></a>
 ## Support Media Types 
 
-This demo API can return either JSON data or Xml Data (content negotiation) depending on the Accept parameter you provide in your request header. JSON is the default if nothing is provided or an invalid type is provided in the request.
+This demo API can return either JSON data or Xml Data (via content negotiation) depending on the Accept parameter you provide in your request header. JSON is the default if nothing is provided or an invalid type is provided in the request.
 
 **JSON**
 ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/json-content-type.PNG)
@@ -252,6 +246,26 @@ This demo API can return either JSON data or Xml Data (content negotiation) depe
 If you provide an **unsupported** media type in the request, it will, by design, give you a `406 Not Acceptable` response.  
 ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/not-acceptable-error.PNG)
 
+Furthermore, it will also accept `Xml` and the Content-Type if specified. You can if needed, `POST` data with `Xml` instead of `JSON`.   
+
+```xml
+<CityCreateDto xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/CityInfoAPI.Dtos.Models">
+    <Description>Description for Alpha City</Description>
+    <Name>New Alpha City</Name>
+    <PointsOfInterest>
+        <PointOfInterestCreateDto>
+            <Description>Description for location 1</Description>
+            <Name>Location 1</Name>
+        </PointOfInterestCreateDto>
+        <PointOfInterestCreateDto>
+            <Description>Description for location 2</Description>
+            <Name>Location 2</Name>
+        </PointOfInterestCreateDto>
+    </PointsOfInterest>
+</CityCreateDto>
+```
+
+![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/development/Images/post-with-xml.png)
 
 
 <a href="" id="logging" name="logging"></a>
@@ -296,7 +310,7 @@ Every form of data interaction (read, write) is represented by a DTO in this lay
 
 ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/dto-layer.PNG)
 
-## Logic Layer
+**Logic Layer**
 This is the business layer.  All requests from the Controllers go through this layer. Controllers do not directly interact with the Repositories from the Data Layer. This is where any and all business logic with reside in addition to all data mapping.
 
 1. Request from Controller 
@@ -307,7 +321,7 @@ This is the business layer.  All requests from the Controllers go through this l
 
 ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/processor-layer.PNG)
 
-## Web API Layer
+**Web API Layer**
 This is the layer exposed to the public. This layer contains all the typical MVC stuff - Controllers, Views (if any), Services (middleware), appSettings, and static content (in wwwroot).
 
 ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/webapi-layer.PNG)
@@ -385,6 +399,13 @@ Added new resources:
 - Create City method was added  
 - Create City and n-number of Points of Interest in a single post was added  
 - Create multiple Cities with one post was added 
+
+**1.5.0**  
+12.18.2019
+
+- Now accepts `xml` as content type for input.  As a test, a new Postman request was added to the collection.  It is labeled as 'Local - POST Create City with Xml'.  With this test case, you can post to this resource with valid xml and it will be processed just as it is with json.
+- Prevents `POST` requests for cities and points of interest with provided Ids. The user should never be using POST to a city or point of interest resource with an Id in the route.  These are for `PUT` and `PATCH` only. Methods were added to the controllers to prevent this.
+- If a `guid` is excluded in the body of a `POST` (create Point Of Interest) for example, it will still pass standard validation since it is invoked as an "empty guid" - a GUID type cannot be null. The `Create Point of Interest` resource was updated to check for empty guids. Prevents empty/excluded guids from being posted
 
 
 

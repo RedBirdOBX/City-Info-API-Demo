@@ -19,7 +19,7 @@ namespace CityInfoAPI.Dtos.Models
         /// <summary>
         /// key identifier of point of interest
         /// </summary>
-        [Required(ErrorMessage = "Point of Interest Id is required.")]
+        //[Required(ErrorMessage = "Point of Interest Id is required.")]
         public Guid PointId { get; set; }
 
         /// <summary>

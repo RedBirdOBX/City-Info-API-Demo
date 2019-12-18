@@ -87,6 +87,7 @@ namespace CityInfoAPI.Web.Controllers
         }
 
         /// <summary>creates a new city</summary>
+        /// <example>http://{domain}/api/v1.0/cities</example>
         /// <param name="newCity">content for new city in body</param>
         /// <returns>CityDto</returns>
         /// <response code="201">returns create at route location</response>
@@ -141,7 +142,7 @@ namespace CityInfoAPI.Web.Controllers
         /// <summary>blocks a post to a city that already exists</summary>
         /// <example>http://localhost:5000/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2</example>
         /// <param name="cityId">id of city</param>
-        /// <returns>CityDto</returns>
+        /// <returns>status codes or bad request</returns>
         /// <response code="409">warning - cannot post with id</response>
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesDefaultResponseType]
