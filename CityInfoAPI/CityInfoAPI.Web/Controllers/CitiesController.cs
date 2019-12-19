@@ -177,8 +177,6 @@ namespace CityInfoAPI.Web.Controllers
             }
         }
 
-
-
         /// <summary>PATCH endpoint for updating city - can update name and description only</summary>
         /// <example>http://{domain}/api/v1.0/cities/{cityId}</example>
         /// <param name="cityId">required city key</param>
@@ -268,6 +266,5 @@ namespace CityInfoAPI.Web.Controllers
                 return StatusCode(500, "A problem was encountered while processing your request.");
             }
         }
-
     }
 }
