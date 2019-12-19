@@ -103,8 +103,13 @@ namespace CityInfoAPI.Web.Controllers
         [HttpPost(Name = "CreateCity")]
         public ActionResult<CityDto> CreateCity([FromBody] CityCreateDto newCity)
         {
+
+            // here's a potential issue.  The new city is NEVER null.  It contains a guid CityId.
+            // should a 'create dto' really contain this?  Shouldn't this be done at an entity/db level?
+
             try
             {
+                // as it, this will NEVER hit
                 if (newCity == null)
                 {
                     return BadRequest();
@@ -113,6 +118,7 @@ namespace CityInfoAPI.Web.Controllers
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
+                    //return UnprocessableEntity(); // 422
                 }
 
                 // if the city has any points of interest in it's creation request, we need to pass
@@ -121,7 +127,7 @@ namespace CityInfoAPI.Web.Controllers
                 {
                     foreach (PointOfInterestCreateDto point in newCity.PointsOfInterest)
                     {
-                        point.CityId = newCity.CityId;
+                        //point.CityId = newCity.CityId;
                     }
                 }
 

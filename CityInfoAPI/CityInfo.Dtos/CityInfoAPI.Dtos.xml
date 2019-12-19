@@ -14,11 +14,6 @@
             constructor
             </summary>
         </member>
-        <member name="P:CityInfoAPI.Dtos.Models.CityCreateDto.CityId">
-            <summary>
-            key identifier of city
-            </summary>
-        </member>
         <member name="P:CityInfoAPI.Dtos.Models.CityCreateDto.Name">
             <summary>
             the name of the city
