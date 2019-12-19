@@ -489,6 +489,44 @@
 			"response": []
 		},
 		{
+			"name": "Local - Patch a City",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json-patch+json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n\t{\r\n\t\t\"op\": \"replace\",\r\n\t\t\"path\": \"/name\",\r\n\t\t\"value\": \"updated name\"\r\n\t},\r\n\t{\r\n\t\t\"op\": \"replace\",\r\n\t\t\"path\": \"/description\",\r\n\t\t\"value\": \"updated description 2\"\r\n\t}\r\n]"
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1.0",
+						"cities",
+						"38276231-1918-452d-a3e9-6f50873a95d2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Local - Patch a Point Of Interest",
 			"request": {
 				"method": "PATCH",
@@ -510,7 +548,7 @@
 					"raw": "[\n\t{\n\t\t\"op\": \"replace\",\n\t\t\"path\": \"/description\",\n\t\t\"value\": \"updated description 2\"\n\t}\n]"
 				},
 				"url": {
-					"raw": "http://localhost:5000/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest/07c2f263-8afe-4028-8c0e-7d4657ff66fc",
+					"raw": "http://localhost:5000/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest/e5a5f605-627d-4aec-9f5c-e9939ea0a6cf",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -522,7 +560,7 @@
 						"cities",
 						"38276231-1918-452d-a3e9-6f50873a95d2",
 						"pointsofinterest",
-						"07c2f263-8afe-4028-8c0e-7d4657ff66fc"
+						"e5a5f605-627d-4aec-9f5c-e9939ea0a6cf"
 					]
 				}
 			},
@@ -920,7 +958,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\": \"New Point of Interest\",\n\t\"description\": \"New Point of Interest description.\"\n}"
+					"raw": "{\n\t\"cityId\" : \"38276231-1918-452d-a3e9-6f50873a95d2\",\n\t\"name\": \"New Point of Interest\",\n\t\"description\": \"New Point of Interest description.\"\n}"
 				},
 				"url": {
 					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest",
@@ -936,6 +974,81 @@
 						"cities",
 						"38276231-1918-452d-a3e9-6f50873a95d2",
 						"pointsofinterest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Dev - POST Create City with Id (invalid)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\" : \"New City\",\n\t\"description\" : \"New city description\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1.0",
+						"cities",
+						"38276231-1918-452d-a3e9-6f50873a95d2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Dev - POST Create City with Id (invalid)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\" : \"New City\",\n\t\"description\" : \"New city description\"\n}"
+				},
+				"url": {
+					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2",
+					"protocol": "https",
+					"host": [
+						"city-info-api-demo-dev",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"cities",
+						"38276231-1918-452d-a3e9-6f50873a95d2"
 					]
 				}
 			},
@@ -1040,7 +1153,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest/24fa74d3-8ec8-41d3-8bb6-8d364edeffa7",
+					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest/34e33473-5c62-4b14-8e3e-5ee8e43276ad",
 					"protocol": "https",
 					"host": [
 						"city-info-api-demo-dev",
@@ -1053,7 +1166,7 @@
 						"cities",
 						"38276231-1918-452d-a3e9-6f50873a95d2",
 						"pointsofinterest",
-						"24fa74d3-8ec8-41d3-8bb6-8d364edeffa7"
+						"34e33473-5c62-4b14-8e3e-5ee8e43276ad"
 					]
 				}
 			},
