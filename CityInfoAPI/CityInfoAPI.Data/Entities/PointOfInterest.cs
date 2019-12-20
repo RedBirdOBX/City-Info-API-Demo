@@ -8,6 +8,7 @@ namespace CityInfoAPI.Data.Entities
     {
         public PointOfInterest()
         {
+            PointId = System.Guid.NewGuid();
             CreatedOn = DateTime.Now;
         }
 

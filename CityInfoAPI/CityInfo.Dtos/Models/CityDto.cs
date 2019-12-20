@@ -17,7 +17,7 @@ namespace CityInfoAPI.Dtos.Models
         /// <summary>
         /// identifier of city
         /// </summary>
-        public string CityId { get; set; }
+        public Guid CityId { get; set; }
 
         /// <summary>
         /// the name of the city

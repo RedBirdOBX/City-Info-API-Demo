@@ -25,6 +25,7 @@ namespace CityInfoAPI.Web.Controllers
         // fields
         private ILogger<CitiesController> _logger;
         private CityProcessor _cityProcessor;
+        private PointsOfInterestProcessor _pointsOfInterestProcessor;
         private ICityInfoRepository _cityInfoRepository;
 
 
@@ -32,11 +33,12 @@ namespace CityInfoAPI.Web.Controllers
         /// <param name="logger">logger factory middleware to be injected</param>
         /// <param name="cityProcessor">city processor middleware to be injected</param>
         /// <param name="cityInfoRepository">city repository</param>
-        public CitiesController(ILogger<CitiesController> logger, CityProcessor cityProcessor, ICityInfoRepository cityInfoRepository)
+        public CitiesController(ILogger<CitiesController> logger, CityProcessor cityProcessor, PointsOfInterestProcessor pointsOfInterestProcessor, ICityInfoRepository cityInfoRepository)
         {
             _cityProcessor = cityProcessor;
             _logger = logger;
             _cityInfoRepository = cityInfoRepository;
+            _pointsOfInterestProcessor = pointsOfInterestProcessor;
         }
 
         /// <summary>get a collection of all cities. does not include point of interests.</summary>
@@ -103,13 +105,8 @@ namespace CityInfoAPI.Web.Controllers
         [HttpPost(Name = "CreateCity")]
         public ActionResult<CityDto> CreateCity([FromBody] CityCreateDto newCity)
         {
-
-            // here's a potential issue.  The new city is NEVER null.  It contains a guid CityId.
-            // should a 'create dto' really contain this?  Shouldn't this be done at an entity/db level?
-
             try
             {
-                // as it, this will NEVER hit
                 if (newCity == null)
                 {
                     return BadRequest();
@@ -118,17 +115,7 @@ namespace CityInfoAPI.Web.Controllers
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
-                    //return UnprocessableEntity(); // 422
-                }
-
-                // if the city has any points of interest in it's creation request, we need to pass
-                // along that cityId to the points of interest.
-                if (newCity.PointsOfInterest.Any())
-                {
-                    foreach (PointOfInterestCreateDto point in newCity.PointsOfInterest)
-                    {
-                        //point.CityId = newCity.CityId;
-                    }
+                    //return UnprocessableEntity();
                 }
 
                 CityDto newCityDto = _cityProcessor.CreateCity(newCity);
@@ -137,13 +124,29 @@ namespace CityInfoAPI.Web.Controllers
                 {
                     return StatusCode(500, "Something went wrong when creating a city.");
                 }
-                else
+
+                // if the city has any points of interest in it's creation request, we need to create those as well.
+                if (newCity.PointsOfInterest.Any())
                 {
-                    // Returns 201 Created Status Code.
-                    // Returns the ROUTE in the RESPONSE HEADER (http://localhost:49902/api/cities/{cityId}) where you can see it.
-                    // pass in the name of the route, any required args as a type, and the dto to be shown in the body.
-                    return CreatedAtRoute("GetCityById", new { cityId = newCityDto.CityId }, newCityDto);
+                    try
+                    {
+                        foreach (PointOfInterestCreateDto point in newCity.PointsOfInterest)
+                        {
+                            point.CityId = newCityDto.CityId;
+                            _pointsOfInterestProcessor.CreateNewPointOfInterest(newCityDto.CityId, point);
+                        }
+                    }
+                    catch (Exception exception)
+                    {
+                        _logger.LogCritical($"**** LOGGER: Exception encountered while creating a city with points of interest: {newCity.Name}.", exception);
+                        return StatusCode(500, "An error was encountered while creating a city with points of interest.");
+                    }
                 }
+
+                // Returns 201 Created Status Code.
+                // Returns the ROUTE in the RESPONSE HEADER (http://localhost:49902/api/cities/{cityId}) where you can see it.
+                // pass in the name of the route, any required args as a type, and the dto to be shown in the body.
+                return CreatedAtRoute("GetCityById", new { cityId = newCityDto.CityId }, newCityDto);
             }
             catch (Exception exception)
             {

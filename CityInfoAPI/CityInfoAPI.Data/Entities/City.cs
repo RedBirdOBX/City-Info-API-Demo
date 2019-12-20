@@ -10,6 +10,7 @@ namespace CityInfoAPI.Data.Entities
         // constructor
         public City()
         {
+            CityId = System.Guid.NewGuid();
             CreatedOn = DateTime.Now;
             PointsOfInterest = new List<PointOfInterest>();
         }
