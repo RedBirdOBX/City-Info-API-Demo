@@ -136,28 +136,15 @@ namespace CityInfoAPI.Web.Controllers
         {
             try
             {
-                // The framework will attempt to deserialize the body post to a PointOfInterestCreateDto type.
-                // If it can't, it will remain null and we know we have bad input.
-                if (submittedPointOfInterest == null)
-                {
-                    return BadRequest();
-                }
-
-                // did the submitted data meet all the rules?
-                // should this be a 422?
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                // is the name different than the description?
-                // should this be a 422?
                 if (submittedPointOfInterest.Name.ToLower().Equals(submittedPointOfInterest.Description.ToLower()))
                 {
                     ModelState.AddModelError("Description", "Name and Description cannot be the same.");
                     return BadRequest(ModelState);
                 }
 
+                // normally, we would grab the cityId out of the route and not duplicate it in the body of the post.  however, we want to
+                // make it easy to map to a true entity without having to create yet another dto.  otherwise, we would have to do this:
+                // create request dto (name & description) >> create point of interest dto (with cityguid) >> automapper entity.
                 // the cityId can never be null. If the post excludes it, it'll simply be empty (00000000-0000-0000-0000-000000000000).
                 // check for a missing/empty guid.
                 if (submittedPointOfInterest.CityId == Guid.Empty)
@@ -185,12 +172,10 @@ namespace CityInfoAPI.Web.Controllers
                 {
                     return StatusCode(500, $"Something went wrong when creating a point of interest for cityKey {cityId};");
                 }
-                else
-                {
-                    // Returns 201 Created Status Code.
-                    // Returns the ROUTE in the RESPONSE HEADER (http://localhost:49902/api/cities/{cityId}/pointsofinterest/{newId}) where you can see it.
-                    return CreatedAtRoute("GetPointOfInterestById", new { cityId = cityId, pointId = newPointOfInterest.PointId }, newPointOfInterest);
-                }
+
+                // Returns 201 Created Status Code.
+                // Returns the ROUTE in the RESPONSE HEADER (http://localhost:49902/api/cities/{cityId}/pointsofinterest/{newId}) where you can see it.
+                return CreatedAtRoute("GetPointOfInterestById", new { cityId = cityId, pointId = newPointOfInterest.PointId }, newPointOfInterest);
             }
             catch (Exception exception)
             {
@@ -215,20 +200,6 @@ namespace CityInfoAPI.Web.Controllers
         {
             try
             {
-                // The framework will attempt to deserialize the body to a PointOnInterestCreateDto. If it can't, it will remain null and we know we have bad input.
-                if (submittedPointOfInterest == null)
-                {
-                    return BadRequest();
-                }
-
-                // did the submitted data meet all the rules?
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                // is the name different than the description?
-                // should be 422?
                 if (submittedPointOfInterest.Name.ToLower().Equals(submittedPointOfInterest.Description.ToLower()))
                 {
                     ModelState.AddModelError("Description", "Name and Description cannot be the same.");
@@ -302,6 +273,12 @@ namespace CityInfoAPI.Web.Controllers
         {
             try
             {
+                // problem: is we send a malformed patch document, it still will not be null?  Even worse, the final response code of 200
+                // will be returned...which is not correct.
+                // how do we ensure a VALID patch document is sent in?
+
+
+
                 // see if the correct properties and type was passed in
                 if (patchDocument == null)
                 {
