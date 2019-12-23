@@ -438,3 +438,5 @@ TBD
 - Improved Model Validation code...
 
 
+-- start at:
+compare city Patch operation to POI. Check POST, PUT, PATCH operations for City.

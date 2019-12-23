@@ -5,6 +5,7 @@ using CityInfoAPI.Logic.Processors;
 using CityInfoAPI.Web.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.JsonPatch.Operations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -213,9 +214,9 @@ namespace CityInfoAPI.Web.Controllers
                     return NotFound("City not found");
                 }
 
-                // are the name and description provided?
-                if (string.IsNullOrWhiteSpace(submittedPointOfInterest.Name) || string.IsNullOrWhiteSpace(submittedPointOfInterest.Description))
+                if (submittedPointOfInterest.Name.ToLower().Equals(submittedPointOfInterest.Description.ToLower()))
                 {
+                    ModelState.AddModelError("Description", "Name and Description cannot be the same.");
                     return BadRequest(ModelState);
                 }
 
@@ -273,74 +274,92 @@ namespace CityInfoAPI.Web.Controllers
         {
             try
             {
-                // problem: is we send a malformed patch document, it still will not be null?  Even worse, the final response code of 200
-                // will be returned...which is not correct.
-                // how do we ensure a VALID patch document is sent in?
-
-
-
-                // see if the correct properties and type was passed in
-                if (patchDocument == null)
+                if (patchDocument != null)
                 {
-                    return BadRequest();
-                }
+                    if (patchDocument.Operations.Count > 0)
+                    {
+                        Operation operation = patchDocument.Operations[0];
+                        if (operation.op == null)
+                        {
+                            ModelState.AddModelError("Description", "The operation is missing (replace, add, remove, etc).");
+                            return BadRequest(ModelState);
+                        }
 
-                // is this a valid city?
-                if (!_cityProcessor.DoesCityExist(cityId))
-                {
-                    _logger.LogInformation($"**** LOGGER: City of cityId {cityId} was not found.");
-                    return NotFound($"City of cityId {cityId} was not found.");
-                }
+                        if (operation.path == null)
+                        {
+                            ModelState.AddModelError("Description", "The path is missing. What do you want to update?");
+                            return BadRequest(ModelState);
+                        }
 
-                // does point of interest exist?
-                bool pointOfInterestExists = _pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointId);
-                if (!pointOfInterestExists)
-                {
-                    _logger.LogInformation($"**** LOGGER: An attempt was made to update a point of interest which did not exist. cityKey {cityId}. Point Of Interest Id {pointId}.");
-                    return NotFound($"Point of Interest of Id {pointId} was not found.");
-                }
+                        // is this a valid city?
+                        if (!_cityProcessor.DoesCityExist(cityId))
+                        {
+                            _logger.LogInformation($"**** LOGGER: City of cityId {cityId} was not found.");
+                            return NotFound($"City of cityId {cityId} was not found.");
+                        }
 
-                // we need to map the entity to a dto so we than can map the patch to the dto and back to the entity.
-                // <casted destination type>(source).
-                var pointOfInterestEntity = _cityInfoRepository.GetPointOfInterestById(cityId, pointId);
-                var pointOfInterestToPatch = Mapper.Map<PointOfInterestUpdateDto>(pointOfInterestEntity);
+                        // does point of interest exist?
+                        bool pointOfInterestExists = _pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointId);
+                        if (!pointOfInterestExists)
+                        {
+                            _logger.LogInformation($"**** LOGGER: An attempt was made to update a point of interest which did not exist. cityKey {cityId}. Point Of Interest Id {pointId}.");
+                            return NotFound($"Point of Interest of Id {pointId} was not found.");
+                        }
 
-                // If we include the optional ModelState argument, it will send back any potential errors.
-                // This is where we map new values to the properties.
-                // ModelState was created here when the Model Binding was applied to the input model...the JSONPatchDocument.
-                // Since the framework has no way of knowing what was required and valid in the document, it will usually have
-                // no errors and be valid.
-                patchDocument.ApplyTo(pointOfInterestToPatch, ModelState);
+                        // we need to map the entity to a dto so we than can map the patch to the dto and back to the entity.
+                        // <casted destination type>(source).
+                        var pointOfInterestEntity = _cityInfoRepository.GetPointOfInterestById(cityId, pointId);
+                        var pointOfInterestToPatch = Mapper.Map<PointOfInterestUpdateDto>(pointOfInterestEntity);
 
-                if (!ModelState.IsValid)
-                {
+                        // If we include the optional ModelState argument, it will send back any potential errors.
+                        // This is where we map new values to the properties.
+                        // ModelState was created here when the Model Binding was applied to the input model...the JSONPatchDocument.
+                        // Since the framework has no way of knowing what was required and valid in the document, it will usually have
+                        // no errors and be valid.
+                        patchDocument.ApplyTo(pointOfInterestToPatch, ModelState);
+
+                        if (!ModelState.IsValid)
+                        {
+                            return BadRequest(ModelState);
+                        }
+
+                        if (string.IsNullOrWhiteSpace(pointOfInterestToPatch.Name))
+                        {
+                            ModelState.AddModelError("Description", "Name is missing.");
+                            return BadRequest(ModelState);
+                        }
+
+                        if (string.IsNullOrWhiteSpace(pointOfInterestToPatch.Description))
+                        {
+                            ModelState.AddModelError("Description", "Description is missing.");
+                            return BadRequest(ModelState);
+                        }
+
+                        // Try to validate the model again
+                        TryValidateModel(pointOfInterestToPatch);
+
+                        if (!ModelState.IsValid)
+                        {
+                            return BadRequest(ModelState);
+                        }
+
+                        // all is good.  map the new values back to the entity
+                        Mapper.Map(pointOfInterestToPatch, pointOfInterestEntity);
+
+                        if (!_cityInfoRepository.SaveChanges())
+                        {
+                            _logger.LogWarning("**** LOGGER: An error occurred when patching the point of interest.");
+                            return StatusCode(500, "An error occurred when patching the point of interest.");
+                        }
+
+                        return Ok(pointOfInterestToPatch);
+                    }
+
+                    ModelState.AddModelError("Description", "The patch document is not correct.");
                     return BadRequest(ModelState);
                 }
 
-                // We can solve this with some custom logic again. are the name and description provided?
-                if (string.IsNullOrWhiteSpace(pointOfInterestToPatch.Name) || string.IsNullOrWhiteSpace(pointOfInterestToPatch.Description))
-                {
-                    return BadRequest(ModelState);
-                }
-
-                // Try to validate the model again
-                TryValidateModel(pointOfInterestToPatch);
-
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                // all is good.  map the new values back to the entity
-                Mapper.Map(pointOfInterestToPatch, pointOfInterestEntity);
-
-                if (!_cityInfoRepository.SaveChanges())
-                {
-                    _logger.LogWarning("**** LOGGER: An error occurred when patching the point of interest.");
-                    return StatusCode(500, "An error occurred when patching the point of interest.");
-                }
-
-                return Ok(pointOfInterestToPatch);
+                return BadRequest(ModelState);
             }
             catch (Exception exception)
             {
