@@ -107,16 +107,16 @@ namespace CityInfoAPI.Web.Controllers
         {
             try
             {
-                if (newCity == null)
-                {
-                    return BadRequest();
-                }
+                //if (newCity == null)
+                //{
+                //    return BadRequest();
+                //}
 
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                    //return UnprocessableEntity();
-                }
+                //if (!ModelState.IsValid)
+                //{
+                //    return BadRequest(ModelState);
+                //    //return UnprocessableEntity();
+                //}
 
                 CityDto newCityDto = _cityProcessor.CreateCity(newCity);
 
