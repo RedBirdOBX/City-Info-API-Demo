@@ -436,7 +436,8 @@ TBD
 - Added `CreatedOn` properties to output Dtos.
 - Created a `UpdateCity` action in CityController. 
 - Improved Model Validation code...
+- Removed need for city guids in posts/puts/patches
 
 
 -- start at:
-compare city Patch operation to POI. Check POST, PUT, PATCH operations for City.
+create city seems to be ok.  recheck all other posts/puts/patches for newer cleaner code
