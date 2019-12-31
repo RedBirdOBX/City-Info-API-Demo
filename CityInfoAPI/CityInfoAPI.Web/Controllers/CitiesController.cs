@@ -97,60 +97,72 @@ namespace CityInfoAPI.Web.Controllers
 
         /// <summary>creates a new city</summary>
         /// <example>http://{domain}/api/v1.0/cities</example>
-        /// <param name="newCity">content for new city in body</param>
+        /// <param name="submittedNewCity">content for new city in body</param>
         /// <returns>CityDto</returns>
         /// <response code="201">returns create at route location</response>
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesDefaultResponseType]
         [HttpPost(Name = "CreateCity")]
-        public ActionResult<CityDto> CreateCity([FromBody] CityCreateDto newCity)
+        public ActionResult<CityDto> CreateCity([FromBody] CityCreateDto submittedNewCity)
         {
             try
             {
-                //if (newCity == null)
-                //{
-                //    return BadRequest();
-                //}
+                // Does a city with this name already exist?
+                List<CityWithoutPointsOfInterestDto> allCities = _cityProcessor.GetCities();
+                if (allCities.Where(c => c.Name.ToLower() == submittedNewCity.Name.Trim().ToLower()).Count() > 0)
+                {
+                    ModelState.AddModelError("Description", "A city with this name already exists.");
+                    return BadRequest(ModelState);
+                }
 
-                //if (!ModelState.IsValid)
-                //{
-                //    return BadRequest(ModelState);
-                //    //return UnprocessableEntity();
-                //}
+                // make sure name and description are unique
+                if (submittedNewCity.Name.ToLower().Equals(submittedNewCity.Description.ToLower()))
+                {
+                    ModelState.AddModelError("Description", "Name and Description cannot be the same.");
+                    return BadRequest(ModelState);
+                }
 
-                CityDto newCityDto = _cityProcessor.CreateCity(newCity);
+                // create the new city
+                CityDto newCityDto = _cityProcessor.CreateCity(submittedNewCity);
 
                 if (newCityDto == null)
                 {
                     return StatusCode(500, "Something went wrong when creating a city.");
                 }
 
-                // if the city has any points of interest in it's creation request, we need to create those as well.
-                if (newCity.PointsOfInterest.Any())
+                // if the city has any points of interest in the request. if so, we need to create those as well.
+                if (submittedNewCity.PointsOfInterest.Any())
                 {
                     try
                     {
-                        foreach (PointOfInterestCreateDto point in newCity.PointsOfInterest)
+                        foreach (PointOfInterestCreateDto point in submittedNewCity.PointsOfInterest)
                         {
+                            // the cityid guids will be 'empty' when instantiated.
+                            // reassign these values to have the new cityid from the newly created city.
                             point.CityId = newCityDto.CityId;
+
+                            // create the point of interest
                             _pointsOfInterestProcessor.CreateNewPointOfInterest(newCityDto.CityId, point);
                         }
                     }
                     catch (Exception exception)
                     {
-                        _logger.LogCritical($"**** LOGGER: Exception encountered while creating a city with points of interest: {newCity.Name}.", exception);
+                        _logger.LogCritical($"**** LOGGER: Exception encountered while creating a city with points of interest: {submittedNewCity.Name}.", exception);
                         return StatusCode(500, "An error was encountered while creating a city with points of interest.");
                     }
                 }
 
+                // now get the complete city with any points of interest
+                CityDto newCompleteCity = _cityProcessor.GetCityById(newCityDto.CityId, true);
+
                 // Returns 201 Created Status Code.
                 // Returns the ROUTE in the RESPONSE HEADER (http://localhost:49902/api/cities/{cityId}) where you can see it.
                 // pass in the name of the route, any required args as a type, and the dto to be shown in the body.
-                return CreatedAtRoute("GetCityById", new { cityId = newCityDto.CityId }, newCityDto);
+                return CreatedAtRoute("GetCityById", new { cityId = newCityDto.CityId }, newCompleteCity);
             }
             catch (Exception exception)
             {
-                _logger.LogCritical($"**** LOGGER: Exception encountered while creating a city: {newCity}.", exception);
+                _logger.LogCritical($"**** LOGGER: Exception encountered while creating a city: {submittedNewCity}.", exception);
                 return StatusCode(500, "A problem was encountered while processing your request.");
             }
         }

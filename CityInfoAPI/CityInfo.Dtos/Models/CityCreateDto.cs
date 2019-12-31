@@ -14,15 +14,14 @@ namespace CityInfoAPI.Dtos.Models
         /// </summary>
         public CityCreateDto()
         {
-            //CityId = System.Guid.NewGuid();
+            CityId = System.Guid.NewGuid();
             PointsOfInterest = new List<PointOfInterestCreateDto>();
         }
 
         /// <summary>
         /// key identifier of city
         /// </summary>
-        //[Required(ErrorMessage = "City Id is required.")]
-        //public Guid CityId { get; set; }
+        public Guid CityId { get; set; }
 
         /// <summary>
         /// the name of the city

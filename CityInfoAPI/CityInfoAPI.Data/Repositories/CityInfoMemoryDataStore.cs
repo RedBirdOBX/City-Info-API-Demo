@@ -118,6 +118,7 @@ namespace CityInfoAPI.Data.Repositories
         {
             if (includePointsOfInterest)
             {
+                // look here.  this seems to be called multiple times
                 var city =  _cities
                             .Where(c => c.CityId == cityId)
                             .FirstOrDefault();

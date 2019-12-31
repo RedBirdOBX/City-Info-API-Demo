@@ -44,14 +44,18 @@ namespace CityInfoAPI.Logic.Processors
             return results;
         }
 
-        public CityDto CreateCity(CityCreateDto city)
+        public CityDto CreateCity(CityCreateDto newSubmittedCity)
         {
             // destination / source
-            var newCity = Mapper.Map<CityInfoAPI.Data.Entities.City>(city);
+            var newCityEntity = Mapper.Map<CityInfoAPI.Data.Entities.City>(newSubmittedCity);
+
+            // clear out any attached points of interest.  they will be handled separately.
+            newCityEntity.PointsOfInterest.Clear();
 
             // add it to memory.
-            _cityInfoRepository.CreateCity(newCity);
+            _cityInfoRepository.CreateCity(newCityEntity);
 
+            // save it
             bool success = _cityInfoRepository.SaveChanges();
 
             if (!success)
@@ -60,8 +64,9 @@ namespace CityInfoAPI.Logic.Processors
             }
 
             // map new entity to dto and return it
-            var returnedCity = Mapper.Map<CityDto>(newCity);
-            return returnedCity;
+            CityDto newCityDto = Mapper.Map<CityDto>(newCityEntity);
+
+            return newCityDto;
         }
     }
 }
