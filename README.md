@@ -440,4 +440,4 @@ TBD
 
 
 -- start at:
-create city seems to be ok.  recheck all other posts/puts/patches for newer cleaner code
+...POST create city w/ xml....

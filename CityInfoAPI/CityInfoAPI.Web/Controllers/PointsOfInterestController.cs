@@ -133,7 +133,7 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesDefaultResponseType]
         [Consumes("application/json")]
         [HttpPost("pointsofinterest", Name = "CreatePointOfInterest")]
-        public ActionResult CreatePointOfInterest(Guid cityId, [FromBody] PointOfInterestCreateDto submittedPointOfInterest)
+        public ActionResult CreatePointOfInterest(Guid cityId, [FromBody] PointOfInterestCreateRequestDto submittedPointOfInterest)
         {
             try
             {
@@ -143,16 +143,16 @@ namespace CityInfoAPI.Web.Controllers
                     return BadRequest(ModelState);
                 }
 
-                // normally, we would grab the cityId out of the route and not duplicate it in the body of the post.  however, we want to
-                // make it easy to map to a true entity without having to create yet another dto.  otherwise, we would have to do this:
-                // create request dto (name & description) >> create point of interest dto (with cityguid) >> automapper entity.
-                // the cityId can never be null. If the post excludes it, it'll simply be empty (00000000-0000-0000-0000-000000000000).
-                // check for a missing/empty guid.
-                if (submittedPointOfInterest.CityId == Guid.Empty)
-                {
-                    _logger.LogInformation($"**** LOGGER: No cityId was missing from create Point of Interest request: {submittedPointOfInterest.Name}.");
-                    return BadRequest($"The city id was missing for {submittedPointOfInterest.Name}.");
-                }
+                //// normally, we would grab the cityId out of the route and not duplicate it in the body of the post.  however, we want to
+                //// make it easy to map to a true entity without having to create yet another dto.  otherwise, we would have to do this:
+                //// create request dto (name & description) >> create point of interest dto (with cityguid) >> automapper entity.
+                //// the cityId can never be null. If the post excludes it, it'll simply be empty (00000000-0000-0000-0000-000000000000).
+                //// check for a missing/empty guid.
+                //if (submittedPointOfInterest.CityId == Guid.Empty)
+                //{
+                //    _logger.LogInformation($"**** LOGGER: No cityId was missing from create Point of Interest request: {submittedPointOfInterest.Name}.");
+                //    return BadRequest($"The city id was missing for {submittedPointOfInterest.Name}.");
+                //}
 
                 if (!_cityProcessor.DoesCityExist(cityId))
                 {

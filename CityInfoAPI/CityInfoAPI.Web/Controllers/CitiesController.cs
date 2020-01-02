@@ -4,6 +4,7 @@ using CityInfoAPI.Dtos.Models;
 using CityInfoAPI.Logic.Processors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.JsonPatch.Operations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -135,11 +136,11 @@ namespace CityInfoAPI.Web.Controllers
                 {
                     try
                     {
-                        foreach (PointOfInterestCreateDto point in submittedNewCity.PointsOfInterest)
+                        foreach (PointOfInterestCreateRequestDto point in submittedNewCity.PointsOfInterest)
                         {
                             // the cityid guids will be 'empty' when instantiated.
                             // reassign these values to have the new cityid from the newly created city.
-                            point.CityId = newCityDto.CityId;
+                            //point.CityId = newCityDto.CityId;
 
                             // create the point of interest
                             _pointsOfInterestProcessor.CreateNewPointOfInterest(newCityDto.CityId, point);
@@ -226,60 +227,84 @@ namespace CityInfoAPI.Web.Controllers
         {
             try
             {
-                // see if the correct properties and type was passed in
-                if (patchDocument == null)
+                if (patchDocument != null)
                 {
-                    return BadRequest();
-                }
+                    if (patchDocument.Operations.Count > 0)
+                    {
+                        Operation operation = patchDocument.Operations[0];
+                        if (operation.op == null)
+                        {
+                            ModelState.AddModelError("Description", "The operation is missing (replace, add, remove, etc).");
+                            return BadRequest(ModelState);
+                        }
 
-                // is this a valid city?
-                if (!_cityProcessor.DoesCityExist(cityId))
-                {
-                    _logger.LogInformation($"**** LOGGER: City of cityId {cityId} was not found.");
-                    return NotFound($"City of cityId {cityId} was not found.");
-                }
+                        if (operation.path == null)
+                        {
+                            ModelState.AddModelError("Description", "The path is missing. What do you want to update?");
+                            return BadRequest(ModelState);
+                        }
 
-                // we need to map the entity to a dto so we than can map the patch to the dto and back to the entity.
-                // <casted destination type>(source).
-                var cityEntity = _cityInfoRepository.GetCityById(cityId, false);
-                var cityToPatch = Mapper.Map<CityUpdateDto>(cityEntity);
+                        // is this a valid city?
+                        if (!_cityProcessor.DoesCityExist(cityId))
+                        {
+                            _logger.LogInformation($"**** LOGGER: City of cityId {cityId} was not found.");
+                            return NotFound($"City of cityId {cityId} was not found.");
+                        }
 
-                // If we include the optional ModelState argument, it will send back any potential errors.
-                // This is where we map new values to the properties.
-                // ModelState was created here when the Model Binding was applied to the input model...the JSONPatchDocument.
-                // Since the framework has no way of knowing what was required and valid in the document, it will usually have
-                // no errors and be valid.
-                patchDocument.ApplyTo(cityToPatch, ModelState);
+                        // we need to map the entity to a dto so we than can map the patch to the dto and back to the entity.
+                        // <casted destination type>(source).
+                        var cityEntity = _cityInfoRepository.GetCityById(cityId, false);
+                        var cityToPatch = Mapper.Map<CityUpdateDto>(cityEntity);
 
-                if (!ModelState.IsValid)
-                {
+                        // If we include the optional ModelState argument, it will send back any potential errors.
+                        // This is where we map new values to the properties.
+                        // ModelState was created here when the Model Binding was applied to the input model...the JSONPatchDocument.
+                        // Since the framework has no way of knowing what was required and valid in the document, it will usually have
+                        // no errors and be valid.
+                        patchDocument.ApplyTo(cityToPatch, ModelState);
+
+                        if (!ModelState.IsValid)
+                        {
+                            return BadRequest(ModelState);
+                        }
+
+                        if (string.IsNullOrWhiteSpace(cityToPatch.Name))
+                        {
+                            ModelState.AddModelError("Description", "Name is missing.");
+                            return BadRequest(ModelState);
+                        }
+
+                        if (string.IsNullOrWhiteSpace(cityToPatch.Description))
+                        {
+                            ModelState.AddModelError("Description", "Description is missing.");
+                            return BadRequest(ModelState);
+                        }
+
+                        // Try to validate the model again
+                        TryValidateModel(cityToPatch);
+
+                        if (!ModelState.IsValid)
+                        {
+                            return BadRequest(ModelState);
+                        }
+
+                        // all is good.  map the new values back to the entity
+                        Mapper.Map(cityToPatch, cityEntity);
+
+                        if (!_cityInfoRepository.SaveChanges())
+                        {
+                            _logger.LogWarning($"**** LOGGER: An error occurred when patching the city: {cityId}.");
+                            return StatusCode(500, $"An error occurred when patching the city: {cityId}.");
+                        }
+
+                        return Ok(cityToPatch);
+                    }
+
+                    ModelState.AddModelError("Description", "The patch document is not correct.");
                     return BadRequest(ModelState);
                 }
 
-                // We can solve this with some custom logic again. are the name and description provided?
-                if (string.IsNullOrWhiteSpace(cityToPatch.Name) || string.IsNullOrWhiteSpace(cityToPatch.Description))
-                {
-                    return BadRequest(ModelState);
-                }
-
-                // Try to validate the model again
-                TryValidateModel(cityToPatch);
-
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                // all is good.  map the new values back to the entity
-                Mapper.Map(cityToPatch, cityEntity);
-
-                if (!_cityInfoRepository.SaveChanges())
-                {
-                    _logger.LogWarning($"**** LOGGER: An error occurred when patching the city: {cityId}.");
-                    return StatusCode(500, $"An error occurred when patching the city: {cityId}.");
-                }
-
-                return Ok(cityToPatch);
+                return BadRequest(ModelState);
             }
             catch (Exception exception)
             {

@@ -6,6 +6,7 @@ using CityInfoAPI.Dtos.Models;
 using CityInfoAPI.Logic.Processors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Logging;
 
 namespace CityInfoAPI.Web.Controllers
@@ -48,6 +49,12 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<List<CityDto>> GetCitiesById([FromQuery] string cityIds)
         {
+            if (cityIds == null)
+            {
+                ModelState.AddModelError("Description", "CityIds parameter is missing.");
+                return BadRequest(ModelState);
+            }
+
             List<CityDto> results = _cityCollectionsProcessor.GetCities(cityIds);
 
             try

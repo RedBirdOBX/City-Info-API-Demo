@@ -157,6 +157,21 @@
             point of interest description
             </summary>
         </member>
+        <member name="T:CityInfoAPI.Dtos.Models.PointOfInterestCreateRequestDto">
+            <summary>
+            point of interest create dto
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.PointOfInterestCreateRequestDto.Name">
+            <summary>
+            point of interest name
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.PointOfInterestCreateRequestDto.Description">
+            <summary>
+            point of interest description
+            </summary>
+        </member>
         <member name="T:CityInfoAPI.Dtos.Models.PointOfInterestDto">
             <summary>
             point of interest for city

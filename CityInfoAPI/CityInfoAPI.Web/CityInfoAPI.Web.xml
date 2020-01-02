@@ -119,7 +119,7 @@
             <response code="200">returns point of interest for city</response>
             <response code="404">city id not valid</response>
         </member>
-        <member name="M:CityInfoAPI.Web.Controllers.PointsOfInterestController.CreatePointOfInterest(System.Guid,CityInfoAPI.Dtos.Models.PointOfInterestCreateDto)">
+        <member name="M:CityInfoAPI.Web.Controllers.PointsOfInterestController.CreatePointOfInterest(System.Guid,CityInfoAPI.Dtos.Models.PointOfInterestCreateRequestDto)">
             <summary>POST endpoint for creating a new point of interest</summary>
             <example>http://{domain}/api/v1.0/cities/{cityId}/pointsofinterest</example>
             <param name="cityId">required city id</param>
