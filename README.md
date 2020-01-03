@@ -436,8 +436,13 @@ TBD
 - Added `CreatedOn` properties to output Dtos.
 - Created a `UpdateCity` action in CityController. 
 - Improved Model Validation code...
+- Cities cannot be created with same name & description
+- Dup cities cannot be added
 - Removed need for city guids in posts/puts/patches
 
 
--- start at:
-...POST create city w/ xml....
+BUG:  When you patch a city, it clears out the points of interest.  Not good.
+
+<!--
+1.7.0 - add environment variables, cityId, and point of interest id variables to postman collection
+-->

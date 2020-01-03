@@ -33,6 +33,7 @@ namespace CityInfoAPI.Web.Controllers
         /// <summary>constructor</summary>
         /// <param name="logger">logger factory middleware to be injected</param>
         /// <param name="cityProcessor">city processor middleware to be injected</param>
+        /// <param name="pointsOfInterestProcessor">points of interest processor middleware to be injected</param>
         /// <param name="cityInfoRepository">city repository</param>
         public CitiesController(ILogger<CitiesController> logger, CityProcessor cityProcessor, PointsOfInterestProcessor pointsOfInterestProcessor, ICityInfoRepository cityInfoRepository)
         {
@@ -98,57 +99,61 @@ namespace CityInfoAPI.Web.Controllers
 
         /// <summary>creates a new city</summary>
         /// <example>http://{domain}/api/v1.0/cities</example>
-        /// <param name="submittedNewCity">content for new city in body</param>
+        /// <param name="newCityRequest">content for new city in body</param>
         /// <returns>CityDto</returns>
         /// <response code="201">returns create at route location</response>
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesDefaultResponseType]
         [HttpPost(Name = "CreateCity")]
-        public ActionResult<CityDto> CreateCity([FromBody] CityCreateDto submittedNewCity)
+        public ActionResult<CityDto> CreateCity([FromBody] CityCreateDto newCityRequest)
         {
             try
             {
                 // Does a city with this name already exist?
                 List<CityWithoutPointsOfInterestDto> allCities = _cityProcessor.GetCities();
-                if (allCities.Where(c => c.Name.ToLower() == submittedNewCity.Name.Trim().ToLower()).Count() > 0)
+                if (allCities.Where(c => c.Name.ToLower() == newCityRequest.Name.Trim().ToLower()).Count() > 0)
                 {
                     ModelState.AddModelError("Description", "A city with this name already exists.");
                     return BadRequest(ModelState);
                 }
 
                 // make sure name and description are unique
-                if (submittedNewCity.Name.ToLower().Equals(submittedNewCity.Description.ToLower()))
+                if (newCityRequest.Name.ToLower().Equals(newCityRequest.Description.ToLower()))
                 {
                     ModelState.AddModelError("Description", "Name and Description cannot be the same.");
                     return BadRequest(ModelState);
                 }
 
+                // **only** create the city.  ignore points of interest for now
+                CityCreateDto createCityDto = new CityCreateDto()
+                {
+                    CityId = newCityRequest.CityId,
+                    Name = newCityRequest.Name,
+                    Description = newCityRequest.Description
+                };
+
                 // create the new city
-                CityDto newCityDto = _cityProcessor.CreateCity(submittedNewCity);
+                CityDto newCityDto = _cityProcessor.CreateCity(createCityDto);
 
                 if (newCityDto == null)
                 {
                     return StatusCode(500, "Something went wrong when creating a city.");
                 }
 
-                // if the city has any points of interest in the request. if so, we need to create those as well.
-                if (submittedNewCity.PointsOfInterest.Any())
+                // if the city request has any points of interest in the request. if so, we need to create those as well.
+                if (newCityRequest.PointsOfInterest.Any())
                 {
                     try
                     {
-                        foreach (PointOfInterestCreateRequestDto point in submittedNewCity.PointsOfInterest)
+                        foreach (PointOfInterestCreateRequestDto point in newCityRequest.PointsOfInterest)
                         {
-                            // the cityid guids will be 'empty' when instantiated.
-                            // reassign these values to have the new cityid from the newly created city.
-                            //point.CityId = newCityDto.CityId;
-
                             // create the point of interest
                             _pointsOfInterestProcessor.CreateNewPointOfInterest(newCityDto.CityId, point);
                         }
                     }
                     catch (Exception exception)
                     {
-                        _logger.LogCritical($"**** LOGGER: Exception encountered while creating a city with points of interest: {submittedNewCity.Name}.", exception);
+                        _logger.LogCritical($"**** LOGGER: Exception encountered while creating a city with points of interest: {newCityRequest.Name}.", exception);
                         return StatusCode(500, "An error was encountered while creating a city with points of interest.");
                     }
                 }
@@ -163,7 +168,7 @@ namespace CityInfoAPI.Web.Controllers
             }
             catch (Exception exception)
             {
-                _logger.LogCritical($"**** LOGGER: Exception encountered while creating a city: {submittedNewCity}.", exception);
+                _logger.LogCritical($"**** LOGGER: Exception encountered while creating a city: {newCityRequest}.", exception);
                 return StatusCode(500, "A problem was encountered while processing your request.");
             }
         }

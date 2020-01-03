@@ -12,6 +12,7 @@
             <summary>constructor</summary>
             <param name="logger">logger factory middleware to be injected</param>
             <param name="cityProcessor">city processor middleware to be injected</param>
+            <param name="pointsOfInterestProcessor">points of interest processor middleware to be injected</param>
             <param name="cityInfoRepository">city repository</param>
         </member>
         <member name="M:CityInfoAPI.Web.Controllers.CitiesController.GetCities">
@@ -32,7 +33,7 @@
         <member name="M:CityInfoAPI.Web.Controllers.CitiesController.CreateCity(CityInfoAPI.Dtos.Models.CityCreateDto)">
             <summary>creates a new city</summary>
             <example>http://{domain}/api/v1.0/cities</example>
-            <param name="submittedNewCity">content for new city in body</param>
+            <param name="newCityRequest">content for new city in body</param>
             <returns>CityDto</returns>
             <response code="201">returns create at route location</response>
         </member>
@@ -86,7 +87,7 @@
         <member name="M:CityInfoAPI.Web.Controllers.CityCollectionsController.CreateCityCollections(System.Collections.Generic.List{CityInfoAPI.Dtos.Models.CityCreateDto})">
             <summary>creates multiple cities with single post</summary>
             <example>http://localhost:5000/api/v1.0/citycollections</example>
-            <param name="submittedCities"></param>
+            <param name="newCitiesRequest"></param>
             <returns>response and endpoint where new cities can be found</returns>
             <response code="201">returns location of new cities</response>
         </member>

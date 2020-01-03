@@ -76,28 +76,31 @@ namespace CityInfoAPI.Web.Controllers
 
         /// <summary>creates multiple cities with single post</summary>
         /// <example>http://localhost:5000/api/v1.0/citycollections</example>
-        /// <param name="submittedCities"></param>
+        /// <param name="newCitiesRequest"></param>
         /// <returns>response and endpoint where new cities can be found</returns>
         /// <response code="201">returns location of new cities</response>
         [HttpPost("", Name = "CreateCities")]
         [ProducesDefaultResponseType]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public ActionResult<List<CityDto>> CreateCityCollections([FromBody] List<CityCreateDto> submittedCities)
+        public ActionResult<List<CityDto>> CreateCityCollections([FromBody] List<CityCreateDto> newCitiesRequest)
         {
-            // if collection doesn't map to post
-            if (submittedCities == null)
-            {
-                return BadRequest();
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             try
             {
-                List<CityDto> newCities = _cityCollectionsProcessor.CreateCities(submittedCities);
+                // does a city with this name already exist? loop thru each submitted city and see if the name exists already.
+                List<CityWithoutPointsOfInterestDto> allCities = _cityProcessor.GetCities();
+                foreach (CityCreateDto newCity in newCitiesRequest)
+                {
+                    if (allCities.Where(c => c.Name.ToLower() == newCity.Name.Trim().ToLower()).Count() > 0)
+                    {
+                        ModelState.AddModelError("Description", $"A city with the name {newCity.Name} already exists.");
+                    }
+                }
+                if (ModelState.ErrorCount > 0)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                List<CityDto> newCities = _cityCollectionsProcessor.CreateCities(newCitiesRequest);
 
                 if (newCities == null)
                 {
@@ -116,10 +119,9 @@ namespace CityInfoAPI.Web.Controllers
             }
             catch (Exception exception)
             {
-                _logger.LogCritical($"**** LOGGER: Exception encountered while creating cities. {submittedCities.Select(c => c.Name).ToList()}.", exception);
+                _logger.LogCritical($"**** LOGGER: Exception encountered while creating cities. {newCitiesRequest.Select(c => c.Name).ToList()}.", exception);
                 return StatusCode(500, "A problem was encountered while processing your request.");
             }
-
         }
     }
 }

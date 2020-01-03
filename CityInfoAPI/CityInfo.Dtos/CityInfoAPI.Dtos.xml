@@ -129,7 +129,8 @@
         </member>
         <member name="T:CityInfoAPI.Dtos.Models.PointOfInterestCreateDto">
             <summary>
-            point of interest create dto
+            data is passed to the dto from the PointOfInterestCreateRequestDto
+            this dto is responsible for creating the guid
             </summary>
         </member>
         <member name="M:CityInfoAPI.Dtos.Models.PointOfInterestCreateDto.#ctor">
