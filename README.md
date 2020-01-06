@@ -439,6 +439,7 @@ Added new resources:
 - Cities cannot be created or updated with same name and description.
 - Duplicate cities can no longer be added.
 - Removed need for city guids in posts/puts/patches.  All guids will now be pulled from the route and are not required in any POST body as it was redundant.
+- The create DTOs are now responsible for creating the GUIDs - not the database or entity. 
 
 
 
