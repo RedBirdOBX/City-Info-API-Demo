@@ -430,7 +430,7 @@ Added new resources:
 - Prevents `POST` requests for cities and points of interest with provided Ids. The user should never be using POST to a city or point of interest resource with an Id in the route.  These are for `PUT` and `PATCH` only. Methods were added to the controllers to prevent this.
 - If a `guid` is excluded in the body of a `POST` (create Point Of Interest) for example, it will still pass standard validation since it is invoked as an "empty guid" - a GUID type cannot be null. The `Create Point of Interest` resource was updated to check for empty guids. Prevents empty/excluded guids from being posted
 
-**1.6.0**
+**1.6.0**  
 1.7.2020
 
 - Added `CreatedOn` properties to all output Dtos.
