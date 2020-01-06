@@ -62,6 +62,8 @@
             	    }
             ]
             ```
+             also - when testing this action with the in-memory data, it will clear out the points of interest in memory.
+             this is normal.  the actual implementation using the db will not do this.
              </remarks>
              <response code="200">returns patched city</response>
              <response code="404">city id not valid</response>
