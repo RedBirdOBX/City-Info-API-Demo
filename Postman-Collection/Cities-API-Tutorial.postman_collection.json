@@ -44,7 +44,7 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:5000/api/v1.0/cities/f7babd68-395a-4fac-a669-9095b1d1c325",
+					"raw": "http://localhost:5000/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -54,7 +54,7 @@
 						"api",
 						"v1.0",
 						"cities",
-						"f7babd68-395a-4fac-a669-9095b1d1c325"
+						"38276231-1918-452d-a3e9-6f50873a95d2"
 					]
 				}
 			},
@@ -72,7 +72,7 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:5000/api/v1.0/citycollections?cityIds=38276231-1918-452d-a3e9-6f50873a95d2,09fdd26e-5141-416c-a590-7eaf193b9565,09fdd26e-5141-416c-a590-7eaf193b9565,7d6d408d-3373-4910-bc1d-505ae140d3d5",
+					"raw": "http://localhost:5000/api/v1.0/citycollections?cityIds=38276231-1918-452d-a3e9-6f50873a95d2,09fdd26e-5141-416c-a590-7eaf193b9565",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -86,7 +86,7 @@
 					"query": [
 						{
 							"key": "cityIds",
-							"value": "38276231-1918-452d-a3e9-6f50873a95d2,09fdd26e-5141-416c-a590-7eaf193b9565,09fdd26e-5141-416c-a590-7eaf193b9565,7d6d408d-3373-4910-bc1d-505ae140d3d5"
+							"value": "38276231-1918-452d-a3e9-6f50873a95d2,09fdd26e-5141-416c-a590-7eaf193b9565"
 						}
 					]
 				}
@@ -105,7 +105,7 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:5000/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2?includePointsOfInterest=true",
+					"raw": "http://localhost:5000/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2?includePointsOfInterest=false",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -120,7 +120,7 @@
 					"query": [
 						{
 							"key": "includePointsOfInterest",
-							"value": "true"
+							"value": "false"
 						}
 					]
 				}
@@ -257,6 +257,42 @@
 			"response": []
 		},
 		{
+			"name": "Local - POST Create City with Points of Interest",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\" : \"New City\",\n\t\"description\" : \"New city description\",\n\t\"pointsOfInterest\" : \n\t[\n\t\t{\n\t\t\t\"name\": \"Point of Interest for new city\",\n\t\t\t\"description\": \"Point of Interest description for new city.\"\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Point of Interest2 for new city\",\n\t\t\t\"description\": \"Point of Interest2 description for new city.\"\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Point of Interest3 for new city\",\n\t\t\t\"description\": \"Point of Interest3 description for new city.\"\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Point of Interest4 for new city\",\n\t\t\t\"description\": \"Point of Interest4 description for new city.\"\n\t\t}\n\t]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1.0/cities",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1.0",
+						"cities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Local - POST Create City with Xml",
 			"request": {
 				"method": "POST",
@@ -275,7 +311,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "<CityCreateDto xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.datacontract.org/2004/07/CityInfoAPI.Dtos.Models\">\n    <Description>Description for Alpha City</Description>\n    <Name>New Alpha City</Name>\n    <PointsOfInterest>\n        <PointOfInterestCreateDto>\n            <Description>Description for location 1</Description>\n            <Name>Location 1</Name>\n        </PointOfInterestCreateDto>\n        <PointOfInterestCreateDto>\n            <Description>Description for location 2</Description>\n            <Name>Location 2</Name>\n        </PointOfInterestCreateDto>\n    </PointsOfInterest>\n</CityCreateDto>",
+					"raw": "<CityCreateDto xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.datacontract.org/2004/07/CityInfoAPI.Dtos.Models\">\n    <Description>Description for Alpha City</Description>\n    <Name>New Alpha City</Name>\n    <PointsOfInterest>\n        <PointOfInterestCreateRequestDto>\n            <Description>Description for location 1</Description>\n            <Name>Location 1</Name>\n        </PointOfInterestCreateRequestDto>\n        <PointOfInterestCreateRequestDto>\n            <Description>Description for location 2</Description>\n            <Name>Location 2</Name>\n        </PointOfInterestCreateRequestDto>\n    </PointsOfInterest>\n</CityCreateDto>",
 					"options": {
 						"raw": {
 							"language": "xml"
@@ -335,7 +371,7 @@
 			"response": []
 		},
 		{
-			"name": "Local - POST Create City with Id (invalid)",
+			"name": "Local - POST Create City WITH a Id (illegal)",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -372,42 +408,6 @@
 			"response": []
 		},
 		{
-			"name": "Local - POST Create City with Points of Interest",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"name\" : \"New City\",\n\t\"description\" : \"New city description\",\n\t\"pointsOfInterest\" : \n\t[\n\t\t{\n\t\t\t\"name\": \"Point of Interest for new city\",\n\t\t\t\"description\": \"Point of Interest description for new city.\"\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Point of Interest2 for new city\",\n\t\t\t\"description\": \"Point of Interest2 description for new city.\"\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Point of Interest3 for new city\",\n\t\t\t\"description\": \"Point of Interest3 description for new city.\"\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Point of Interest4 for new city\",\n\t\t\t\"description\": \"Point of Interest4 description for new city.\"\n\t\t}\n\t]\n}"
-				},
-				"url": {
-					"raw": "http://localhost:5000/api/v1.0/cities",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "5000",
-					"path": [
-						"api",
-						"v1.0",
-						"cities"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Local - Create Point Of Interest",
 			"request": {
 				"method": "POST",
@@ -427,7 +427,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"cityId\" : \"38276231-1918-452d-a3e9-6f50873a95d2\",\n\t\"name\": \"New Point of Interest2\",\n\t\"description\": \"New Point of Interest description 3.\"\n}"
+					"raw": "{\n\t\"name\": \"New Point of Interest2\",\n\t\"description\": \"New Point of Interest description 3.\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:5000/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest",
@@ -669,7 +669,7 @@
 					}
 				],
 				"url": {
-					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/citycollections?cityIds=38276231-1918-452d-a3e9-6f50873a95d2,09fdd26e-5141-416c-a590-7eaf193b9565,09fdd26e-5141-416c-a590-7eaf193b9565,7d6d408d-3373-4910-bc1d-505ae140d3d5",
+					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/citycollections?cityIds=38276231-1918-452d-a3e9-6f50873a95d2,09fdd26e-5141-416c-a590-7eaf193b9565",
 					"protocol": "https",
 					"host": [
 						"city-info-api-demo-dev",
@@ -684,7 +684,7 @@
 					"query": [
 						{
 							"key": "cityIds",
-							"value": "38276231-1918-452d-a3e9-6f50873a95d2,09fdd26e-5141-416c-a590-7eaf193b9565,09fdd26e-5141-416c-a590-7eaf193b9565,7d6d408d-3373-4910-bc1d-505ae140d3d5"
+							"value": "38276231-1918-452d-a3e9-6f50873a95d2,09fdd26e-5141-416c-a590-7eaf193b9565"
 						}
 					]
 				}
@@ -703,7 +703,7 @@
 					}
 				],
 				"url": {
-					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2?includePointsOfInterest=true",
+					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2?includePointsOfInterest=false",
 					"protocol": "https",
 					"host": [
 						"city-info-api-demo-dev",
@@ -719,7 +719,7 @@
 					"query": [
 						{
 							"key": "includePointsOfInterest",
-							"value": "true"
+							"value": "false"
 						}
 					]
 				}
@@ -860,6 +860,43 @@
 			"response": []
 		},
 		{
+			"name": "Dev - Create City with Points of Interest",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\" : \"New City\",\n\t\"description\" : \"New city description\",\n\t\"pointsOfInterest\" : \n\t[\n\t\t{\n\t\t\t\"name\": \"Point of Interest for new city\",\n\t\t\t\"description\": \"Point of Interest description for new city.\"\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Point of Interest2 for new city\",\n\t\t\t\"description\": \"Point of Interest2 description for new city.\"\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Point of Interest3 for new city\",\n\t\t\t\"description\": \"Point of Interest3 description for new city.\"\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Point of Interest4 for new city\",\n\t\t\t\"description\": \"Point of Interest4 description for new city.\"\n\t\t}\n\t]\n}"
+				},
+				"url": {
+					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities",
+					"protocol": "https",
+					"host": [
+						"city-info-api-demo-dev",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"cities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Dev  - POST Create City with Xml",
 			"request": {
 				"method": "POST",
@@ -878,7 +915,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "<CityCreateDto xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.datacontract.org/2004/07/CityInfoAPI.Dtos.Models\">\n    <Description>Description for Alpha City</Description>\n    <Name>New Alpha City</Name>\n    <PointsOfInterest>\n        <PointOfInterestCreateDto>\n            <Description>Description for location 1</Description>\n            <Name>Location 1</Name>\n        </PointOfInterestCreateDto>\n        <PointOfInterestCreateDto>\n            <Description>Description for location 2</Description>\n            <Name>Location 2</Name>\n        </PointOfInterestCreateDto>\n    </PointsOfInterest>\n</CityCreateDto>",
+					"raw": "<CityCreateDto xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.datacontract.org/2004/07/CityInfoAPI.Dtos.Models\">\n    <Description>Description for Alpha City2</Description>\n    <Name>New Alpha City2</Name>\n    <PointsOfInterest>\n        <PointOfInterestCreateRequestDto>\n            <Description>Description for location 1</Description>\n            <Name>Location 1</Name>\n        </PointOfInterestCreateRequestDto>\n        <PointOfInterestCreateRequestDto>\n            <Description>Description for location 2</Description>\n            <Name>Location 2</Name>\n        </PointOfInterestCreateRequestDto>\n    </PointsOfInterest>\n</CityCreateDto>",
 					"options": {
 						"raw": {
 							"language": "xml"
@@ -920,15 +957,16 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "[\n\t{\n\t\t\"name\" : \"New City B\",\n\t\t\"description\" : \"New city description B\"\n\t},\n\t{\n\t\t\"name\" : \"New City C\",\n\t\t\"description\" : \"New city description C\"\n\t}\n]"
+					"raw": "[\n\t{\n\t\t\"name\" : \"New City Bb\",\n\t\t\"description\" : \"New city description B\"\n\t},\n\t{\n\t\t\"name\" : \"New City Cc\",\n\t\t\"description\" : \"New city description C\"\n\t}\n]"
 				},
 				"url": {
-					"raw": "http://localhost:5000/api/v1.0/citycollections",
-					"protocol": "http",
+					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/citycollections",
+					"protocol": "https",
 					"host": [
-						"localhost"
+						"city-info-api-demo-dev",
+						"azurewebsites",
+						"net"
 					],
-					"port": "5000",
 					"path": [
 						"api",
 						"v1.0",
@@ -939,85 +977,7 @@
 			"response": []
 		},
 		{
-			"name": "Dev - Create Point Of Interest",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text",
-						"disabled": true
-					},
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"cityId\" : \"38276231-1918-452d-a3e9-6f50873a95d2\",\n\t\"name\": \"New Point of Interest\",\n\t\"description\": \"New Point of Interest description.\"\n}"
-				},
-				"url": {
-					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest",
-					"protocol": "https",
-					"host": [
-						"city-info-api-demo-dev",
-						"azurewebsites",
-						"net"
-					],
-					"path": [
-						"api",
-						"v1.0",
-						"cities",
-						"38276231-1918-452d-a3e9-6f50873a95d2",
-						"pointsofinterest"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Dev - POST Create City with Id (invalid)",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"name\" : \"New City\",\n\t\"description\" : \"New city description\"\n}"
-				},
-				"url": {
-					"raw": "http://localhost:5000/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "5000",
-					"path": [
-						"api",
-						"v1.0",
-						"cities",
-						"38276231-1918-452d-a3e9-6f50873a95d2"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Dev - POST Create City with Id (invalid)",
+			"name": "Dev - POST Create City WITH a Id (illegal)",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -1055,6 +1015,47 @@
 			"response": []
 		},
 		{
+			"name": "Dev - Create Point Of Interest",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"New Point of Interest\",\n\t\"description\": \"New Point of Interest description.\"\n}"
+				},
+				"url": {
+					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest",
+					"protocol": "https",
+					"host": [
+						"city-info-api-demo-dev",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"cities",
+						"38276231-1918-452d-a3e9-6f50873a95d2",
+						"pointsofinterest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Dev - Update Point Of Interest",
 			"request": {
 				"method": "PUT",
@@ -1077,7 +1078,7 @@
 					"raw": "{\n\t\"name\": \"Point of Interest revised\",\n\t\"description\": \"Point of Interest revised....updated\"\n}"
 				},
 				"url": {
-					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest/24fa74d3-8ec8-41d3-8bb6-8d364edeffa7",
+					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest/a2c0d842-797c-46fc-8254-45cb4e2588af",
 					"protocol": "https",
 					"host": [
 						"city-info-api-demo-dev",
@@ -1090,7 +1091,7 @@
 						"cities",
 						"38276231-1918-452d-a3e9-6f50873a95d2",
 						"pointsofinterest",
-						"24fa74d3-8ec8-41d3-8bb6-8d364edeffa7"
+						"a2c0d842-797c-46fc-8254-45cb4e2588af"
 					]
 				}
 			},
@@ -1118,7 +1119,7 @@
 					"raw": "[\n\t{\n\t\t\"op\": \"replace\",\n\t\t\"path\": \"/description\",\n\t\t\"value\": \"updated description\"\n\t}\n]"
 				},
 				"url": {
-					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest/24fa74d3-8ec8-41d3-8bb6-8d364edeffa7",
+					"raw": "https://city-info-api-demo-dev.azurewebsites.net/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest/a2c0d842-797c-46fc-8254-45cb4e2588af",
 					"protocol": "https",
 					"host": [
 						"city-info-api-demo-dev",
@@ -1131,7 +1132,7 @@
 						"cities",
 						"38276231-1918-452d-a3e9-6f50873a95d2",
 						"pointsofinterest",
-						"24fa74d3-8ec8-41d3-8bb6-8d364edeffa7"
+						"a2c0d842-797c-46fc-8254-45cb4e2588af"
 					]
 				}
 			},
