@@ -8,10 +8,11 @@
             <summary>cities controller</summary>
             <example>http://{domain}/api/v{version:apiVersion}/cities</example>
         </member>
-        <member name="M:CityInfoAPI.Web.Controllers.CitiesController.#ctor(Microsoft.Extensions.Logging.ILogger{CityInfoAPI.Web.Controllers.CitiesController},CityInfoAPI.Logic.Processors.CityProcessor,CityInfoAPI.Data.Repositories.ICityInfoRepository)">
+        <member name="M:CityInfoAPI.Web.Controllers.CitiesController.#ctor(Microsoft.Extensions.Logging.ILogger{CityInfoAPI.Web.Controllers.CitiesController},CityInfoAPI.Logic.Processors.CityProcessor,CityInfoAPI.Logic.Processors.PointsOfInterestProcessor,CityInfoAPI.Data.Repositories.ICityInfoRepository)">
             <summary>constructor</summary>
             <param name="logger">logger factory middleware to be injected</param>
             <param name="cityProcessor">city processor middleware to be injected</param>
+            <param name="pointsOfInterestProcessor">points of interest processor middleware to be injected</param>
             <param name="cityInfoRepository">city repository</param>
         </member>
         <member name="M:CityInfoAPI.Web.Controllers.CitiesController.GetCities">
@@ -32,7 +33,7 @@
         <member name="M:CityInfoAPI.Web.Controllers.CitiesController.CreateCity(CityInfoAPI.Dtos.Models.CityCreateDto)">
             <summary>creates a new city</summary>
             <example>http://{domain}/api/v1.0/cities</example>
-            <param name="newCity">content for new city in body</param>
+            <param name="newCityRequest">content for new city in body</param>
             <returns>CityDto</returns>
             <response code="201">returns create at route location</response>
         </member>
@@ -61,6 +62,8 @@
             	    }
             ]
             ```
+             also - when testing this action with the in-memory data, it will clear out the points of interest in memory.
+             this is normal.  the actual implementation using the db will not do this.
              </remarks>
              <response code="200">returns patched city</response>
              <response code="404">city id not valid</response>
@@ -86,7 +89,7 @@
         <member name="M:CityInfoAPI.Web.Controllers.CityCollectionsController.CreateCityCollections(System.Collections.Generic.List{CityInfoAPI.Dtos.Models.CityCreateDto})">
             <summary>creates multiple cities with single post</summary>
             <example>http://localhost:5000/api/v1.0/citycollections</example>
-            <param name="submittedCities"></param>
+            <param name="newCitiesRequest"></param>
             <returns>response and endpoint where new cities can be found</returns>
             <response code="201">returns location of new cities</response>
         </member>
@@ -119,7 +122,7 @@
             <response code="200">returns point of interest for city</response>
             <response code="404">city id not valid</response>
         </member>
-        <member name="M:CityInfoAPI.Web.Controllers.PointsOfInterestController.CreatePointOfInterest(System.Guid,CityInfoAPI.Dtos.Models.PointOfInterestCreateDto)">
+        <member name="M:CityInfoAPI.Web.Controllers.PointsOfInterestController.CreatePointOfInterest(System.Guid,CityInfoAPI.Dtos.Models.PointOfInterestCreateRequestDto)">
             <summary>POST endpoint for creating a new point of interest</summary>
             <example>http://{domain}/api/v1.0/cities/{cityId}/pointsofinterest</example>
             <param name="cityId">required city id</param>

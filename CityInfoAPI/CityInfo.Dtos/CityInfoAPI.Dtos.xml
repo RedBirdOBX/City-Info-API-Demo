@@ -14,6 +14,11 @@
             constructor
             </summary>
         </member>
+        <member name="P:CityInfoAPI.Dtos.Models.CityCreateDto.CityId">
+            <summary>
+            key identifier of city
+            </summary>
+        </member>
         <member name="P:CityInfoAPI.Dtos.Models.CityCreateDto.Name">
             <summary>
             the name of the city
@@ -124,7 +129,8 @@
         </member>
         <member name="T:CityInfoAPI.Dtos.Models.PointOfInterestCreateDto">
             <summary>
-            point of interest create dto
+            data is passed to the dto from the PointOfInterestCreateRequestDto
+            this dto is responsible for creating the guid
             </summary>
         </member>
         <member name="M:CityInfoAPI.Dtos.Models.PointOfInterestCreateDto.#ctor">
@@ -148,6 +154,21 @@
             </summary>
         </member>
         <member name="P:CityInfoAPI.Dtos.Models.PointOfInterestCreateDto.Description">
+            <summary>
+            point of interest description
+            </summary>
+        </member>
+        <member name="T:CityInfoAPI.Dtos.Models.PointOfInterestCreateRequestDto">
+            <summary>
+            point of interest create dto
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.PointOfInterestCreateRequestDto.Name">
+            <summary>
+            point of interest name
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.PointOfInterestCreateRequestDto.Description">
             <summary>
             point of interest description
             </summary>

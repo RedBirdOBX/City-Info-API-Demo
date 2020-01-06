@@ -40,13 +40,19 @@ namespace CityInfoAPI.Logic.Processors
             return result;
         }
 
-        public PointOfInterestDto CreateNewPointOfInterest(Guid cityId, PointOfInterestCreateDto submittedPointOfInterest)
+        public PointOfInterestDto CreateNewPointOfInterest(Guid cityId, PointOfInterestCreateRequestDto newPointOfInterestRequest)
         {
-            // destination / source
-            var newPointOfInterest = Mapper.Map<CityInfoAPI.Data.Entities.PointOfInterest>(submittedPointOfInterest);
+            // map the request to a create dto that contains a auto-generated guid
+            var newPointOfInterestDto = Mapper.Map<CityInfoAPI.Dtos.Models.PointOfInterestCreateDto>(newPointOfInterestRequest);
+
+            // add the cityId
+            newPointOfInterestDto.CityId = cityId;
+
+            // map the completed dto to the entity
+            var newPointOfInterestEntity = Mapper.Map<CityInfoAPI.Data.Entities.PointOfInterest>(newPointOfInterestDto);
 
             // add it to memory.
-            _cityInfoRepository.CreatePointOfInterest(cityId, newPointOfInterest);
+            _cityInfoRepository.CreatePointOfInterest(cityId, newPointOfInterestEntity);
 
             bool success = _cityInfoRepository.SaveChanges();
 
@@ -56,7 +62,7 @@ namespace CityInfoAPI.Logic.Processors
             }
 
             // map new entity to dto and return it
-            var returnedPointOfInterest = Mapper.Map<PointOfInterestDto>(newPointOfInterest);
+            var returnedPointOfInterest = Mapper.Map<PointOfInterestDto>(newPointOfInterestEntity);
             return returnedPointOfInterest;
         }
 

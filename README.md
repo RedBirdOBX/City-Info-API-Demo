@@ -1,7 +1,7 @@
 # The City Info Demo API
   
 ----------
-*Version 1.5.0*
+*Version 1.6.0*
 
 ## Summary
 Welcome to the City Info Demo API. Imagine that you were developing for some kind of travel site and one of the requirements was you needed to be able to ask for a complete listing of cities; ask for any given city by it's ID and, if specifically asked for, you needed to be able to provide all the "touristy" things to do for that specified city (landmarks, parks, restaurants, and so on).  
@@ -430,10 +430,20 @@ Added new resources:
 - Prevents `POST` requests for cities and points of interest with provided Ids. The user should never be using POST to a city or point of interest resource with an Id in the route.  These are for `PUT` and `PATCH` only. Methods were added to the controllers to prevent this.
 - If a `guid` is excluded in the body of a `POST` (create Point Of Interest) for example, it will still pass standard validation since it is invoked as an "empty guid" - a GUID type cannot be null. The `Create Point of Interest` resource was updated to check for empty guids. Prevents empty/excluded guids from being posted
 
-**1.6.0**
-TBD
+**1.6.0**  
+1.7.2020
 
-- Added `CreatedOn` properties to output Dtos.
-- Created a `UpdateCity` action in CityController. 
+- Added `CreatedOn` properties to all output Dtos.
+- Created a `UpdateCity` action in CityController with uses a `PATCH` transaction. 
+- Improved Model Validation code in Controllers.  Removed unnecessary code Controller actions as improvements made to the .NET Core Framework eliminate the need for this code such as checking the ModelState as one of the first actions in the method.  If the validation rules fail, it will **never** even invoke the controller action. 
+- Cities cannot be created or updated with same name and description.
+- Duplicate cities can no longer be added.
+- Removed need for city guids in posts/puts/patches.  All guids will now be pulled from the route and are not required in any POST body as it was redundant.
+- The create DTOs are now responsible for creating the GUIDs - not the database or entity. 
 
 
+
+
+<!--
+1.7.0 - add environment variables, cityId, and point of interest id variables to postman collection
+-->
