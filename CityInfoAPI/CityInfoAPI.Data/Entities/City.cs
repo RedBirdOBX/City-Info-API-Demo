@@ -10,6 +10,7 @@ namespace CityInfoAPI.Data.Entities
         // constructor
         public City()
         {
+            CreatedOn = DateTime.Now;
             PointsOfInterest = new List<PointOfInterest>();
         }
 
@@ -28,6 +29,9 @@ namespace CityInfoAPI.Data.Entities
         [Required(ErrorMessage = "Description is required.")]
         [MaxLength(200, ErrorMessage = "Description cannot exceed 200 characters.")]
         public string Description { get; set; }
+
+        [Required(ErrorMessage = "CreatedOn is required.")]
+        public DateTime CreatedOn { get; set; }
 
         public List<PointOfInterest> PointsOfInterest { get; set;  }
     }

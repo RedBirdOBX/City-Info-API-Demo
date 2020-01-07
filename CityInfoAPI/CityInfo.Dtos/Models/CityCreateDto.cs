@@ -15,13 +15,12 @@ namespace CityInfoAPI.Dtos.Models
         public CityCreateDto()
         {
             CityId = System.Guid.NewGuid();
-            PointsOfInterest = new List<PointOfInterestCreateDto>();
+            PointsOfInterest = new List<PointOfInterestCreateRequestDto>();
         }
 
         /// <summary>
         /// key identifier of city
         /// </summary>
-        [Required(ErrorMessage = "City Id is required.")]
         public Guid CityId { get; set; }
 
         /// <summary>
@@ -41,6 +40,6 @@ namespace CityInfoAPI.Dtos.Models
         /// <summary>
         /// Points of Interest collection
         /// </summary>
-        public List<PointOfInterestCreateDto> PointsOfInterest { get; set; }
+        public List<PointOfInterestCreateRequestDto> PointsOfInterest { get; set; }
     }
 }

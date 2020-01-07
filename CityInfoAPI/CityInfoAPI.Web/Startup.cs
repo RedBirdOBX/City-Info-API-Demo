@@ -78,13 +78,13 @@ namespace CityInfoAPI.Web
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            // sql data store
+            // LOCAL - in memory data
+            //services.AddSingleton<ICityInfoRepository, CityInfoMemoryDataStore>();
+
+            // DEV and PROD - sql data store
             string connectionString = Startup.Configuration["ConnectionStrings:cityInfoConnectionString"];
             services.AddDbContext<CityInfoDbContext>(options => options.UseSqlServer(connectionString));
             services.AddScoped<ICityInfoRepository, CityInfoSqlDataStore>();
-
-            // in memory data store
-            //services.AddSingleton<ICityInfoRepository, CityInfoMemoryDataStore>();
 
             services.AddScoped<CityProcessor>();
             services.AddScoped<CityCollectionsProcessor>();
@@ -252,8 +252,10 @@ namespace CityInfoAPI.Web
                 cfg.CreateMap<CityInfoAPI.Data.Entities.City, CityInfoAPI.Dtos.Models.CityDto>();
                 cfg.CreateMap<CityInfoAPI.Data.Entities.PointOfInterest, CityInfoAPI.Dtos.Models.PointOfInterestDto>();
                 cfg.CreateMap<CityInfoAPI.Dtos.Models.PointOfInterestCreateDto, CityInfoAPI.Data.Entities.PointOfInterest>();
+                cfg.CreateMap<CityInfoAPI.Dtos.Models.PointOfInterestCreateRequestDto, CityInfoAPI.Dtos.Models.PointOfInterestCreateDto>();
                 cfg.CreateMap<CityInfoAPI.Dtos.Models.PointOfInterestUpdateDto, CityInfoAPI.Data.Entities.PointOfInterest>();
                 cfg.CreateMap<CityInfoAPI.Dtos.Models.CityCreateDto, CityInfoAPI.Data.Entities.City>();
+                cfg.CreateMap<CityInfoAPI.Dtos.Models.CityUpdateDto, CityInfoAPI.Data.Entities.City>();
 
                 // here's an example of doing a custom member mapping. It will use Projection.
                 // It takes CityName from entity and maps it to Name of the DTO.
@@ -263,6 +265,7 @@ namespace CityInfoAPI.Web
                 // This backwards mapping is intentional (for Patches).
                 // Find the Entity first and map it to a DTO to hide implementation details.
                 cfg.CreateMap<CityInfoAPI.Data.Entities.PointOfInterest, CityInfoAPI.Dtos.Models.PointOfInterestUpdateDto>();
+                cfg.CreateMap<CityInfoAPI.Data.Entities.City, CityInfoAPI.Dtos.Models.CityUpdateDto>();
             });
 
             appBuilder.UseSwagger();

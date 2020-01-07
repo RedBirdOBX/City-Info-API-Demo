@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace CityInfoAPI.Dtos.Models
 {
@@ -16,7 +17,7 @@ namespace CityInfoAPI.Dtos.Models
         /// <summary>
         /// identifier of city
         /// </summary>
-        public string CityId { get; set; }
+        public Guid CityId { get; set; }
 
         /// <summary>
         /// the name of the city
@@ -27,6 +28,11 @@ namespace CityInfoAPI.Dtos.Models
         /// the description of the city
         /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// when record was created
+        /// </summary>
+        public DateTime CreatedOn { get; set; }
 
         /// <summary>
         /// the number of points of interest the city has

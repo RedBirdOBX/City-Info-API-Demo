@@ -57,6 +57,11 @@
             the description of the city
             </summary>
         </member>
+        <member name="P:CityInfoAPI.Dtos.Models.CityDto.CreatedOn">
+            <summary>
+            when record was created
+            </summary>
+        </member>
         <member name="P:CityInfoAPI.Dtos.Models.CityDto.NumberOfPointsOfInterest">
             <summary>
             the number of points of interest the city has
@@ -82,6 +87,21 @@
             total number of points of interest for city
             </summary>
         </member>
+        <member name="T:CityInfoAPI.Dtos.Models.CityUpdateDto">
+            <summary>
+            city update dto
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.CityUpdateDto.Name">
+            <summary>
+            the name of the city
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.CityUpdateDto.Description">
+            <summary>
+            the description of the city
+            </summary>
+        </member>
         <member name="T:CityInfoAPI.Dtos.Models.CityWithoutPointsOfInterestDto">
             <summary>
             city with no point of interest property
@@ -102,9 +122,15 @@
             city description
             </summary>
         </member>
+        <member name="P:CityInfoAPI.Dtos.Models.CityWithoutPointsOfInterestDto.CreatedOn">
+            <summary>
+            when record was created
+            </summary>
+        </member>
         <member name="T:CityInfoAPI.Dtos.Models.PointOfInterestCreateDto">
             <summary>
-            point of interest create dto
+            data is passed to the dto from the PointOfInterestCreateRequestDto
+            this dto is responsible for creating the guid
             </summary>
         </member>
         <member name="M:CityInfoAPI.Dtos.Models.PointOfInterestCreateDto.#ctor">
@@ -132,6 +158,21 @@
             point of interest description
             </summary>
         </member>
+        <member name="T:CityInfoAPI.Dtos.Models.PointOfInterestCreateRequestDto">
+            <summary>
+            point of interest create dto
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.PointOfInterestCreateRequestDto.Name">
+            <summary>
+            point of interest name
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.PointOfInterestCreateRequestDto.Description">
+            <summary>
+            point of interest description
+            </summary>
+        </member>
         <member name="T:CityInfoAPI.Dtos.Models.PointOfInterestDto">
             <summary>
             point of interest for city
@@ -155,6 +196,11 @@
         <member name="P:CityInfoAPI.Dtos.Models.PointOfInterestDto.CityId">
             <summary>
             id of city this point of interest belongs to
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.PointOfInterestDto.CreatedOn">
+            <summary>
+            date when record was created
             </summary>
         </member>
         <member name="T:CityInfoAPI.Dtos.Models.PointOfInterestUpdateDto">

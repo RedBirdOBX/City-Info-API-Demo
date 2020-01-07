@@ -5,6 +5,7 @@ using CityInfoAPI.Logic.Processors;
 using CityInfoAPI.Web.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.JsonPatch.Operations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -132,39 +133,26 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesDefaultResponseType]
         [Consumes("application/json")]
         [HttpPost("pointsofinterest", Name = "CreatePointOfInterest")]
-        public ActionResult CreatePointOfInterest(Guid cityId, [FromBody] PointOfInterestCreateDto submittedPointOfInterest)
+        public ActionResult CreatePointOfInterest(Guid cityId, [FromBody] PointOfInterestCreateRequestDto submittedPointOfInterest)
         {
             try
             {
-                // The framework will attempt to deserialize the body post to a PointOfInterestCreateDto type.
-                // If it can't, it will remain null and we know we have bad input.
-                if (submittedPointOfInterest == null)
-                {
-                    return BadRequest();
-                }
-
-                // did the submitted data meet all the rules?
-                // should this be a 422?
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                // is the name different than the description?
-                // should this be a 422?
                 if (submittedPointOfInterest.Name.ToLower().Equals(submittedPointOfInterest.Description.ToLower()))
                 {
                     ModelState.AddModelError("Description", "Name and Description cannot be the same.");
                     return BadRequest(ModelState);
                 }
 
-                // the cityId can never be null. If the post excludes it, it'll simply be empty (00000000-0000-0000-0000-000000000000).
-                // check for a missing/empty guid.
-                if (submittedPointOfInterest.CityId == Guid.Empty)
-                {
-                    _logger.LogInformation($"**** LOGGER: No cityId was missing from create Point of Interest request: {submittedPointOfInterest.Name}.");
-                    return BadRequest($"The city id was missing for {submittedPointOfInterest.Name}.");
-                }
+                //// normally, we would grab the cityId out of the route and not duplicate it in the body of the post.  however, we want to
+                //// make it easy to map to a true entity without having to create yet another dto.  otherwise, we would have to do this:
+                //// create request dto (name & description) >> create point of interest dto (with cityguid) >> automapper entity.
+                //// the cityId can never be null. If the post excludes it, it'll simply be empty (00000000-0000-0000-0000-000000000000).
+                //// check for a missing/empty guid.
+                //if (submittedPointOfInterest.CityId == Guid.Empty)
+                //{
+                //    _logger.LogInformation($"**** LOGGER: No cityId was missing from create Point of Interest request: {submittedPointOfInterest.Name}.");
+                //    return BadRequest($"The city id was missing for {submittedPointOfInterest.Name}.");
+                //}
 
                 if (!_cityProcessor.DoesCityExist(cityId))
                 {
@@ -185,12 +173,10 @@ namespace CityInfoAPI.Web.Controllers
                 {
                     return StatusCode(500, $"Something went wrong when creating a point of interest for cityKey {cityId};");
                 }
-                else
-                {
-                    // Returns 201 Created Status Code.
-                    // Returns the ROUTE in the RESPONSE HEADER (http://localhost:49902/api/cities/{cityId}/pointsofinterest/{newId}) where you can see it.
-                    return CreatedAtRoute("GetPointOfInterestById", new { cityId = cityId, pointId = newPointOfInterest.PointId }, newPointOfInterest);
-                }
+
+                // Returns 201 Created Status Code.
+                // Returns the ROUTE in the RESPONSE HEADER (http://localhost:49902/api/cities/{cityId}/pointsofinterest/{newId}) where you can see it.
+                return CreatedAtRoute("GetPointOfInterestById", new { cityId = cityId, pointId = newPointOfInterest.PointId }, newPointOfInterest);
             }
             catch (Exception exception)
             {
@@ -215,20 +201,6 @@ namespace CityInfoAPI.Web.Controllers
         {
             try
             {
-                // The framework will attempt to deserialize the body to a PointOnInterestCreateDto. If it can't, it will remain null and we know we have bad input.
-                if (submittedPointOfInterest == null)
-                {
-                    return BadRequest();
-                }
-
-                // did the submitted data meet all the rules?
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                // is the name different than the description?
-                // should be 422?
                 if (submittedPointOfInterest.Name.ToLower().Equals(submittedPointOfInterest.Description.ToLower()))
                 {
                     ModelState.AddModelError("Description", "Name and Description cannot be the same.");
@@ -242,9 +214,9 @@ namespace CityInfoAPI.Web.Controllers
                     return NotFound("City not found");
                 }
 
-                // are the name and description provided?
-                if (string.IsNullOrWhiteSpace(submittedPointOfInterest.Name) || string.IsNullOrWhiteSpace(submittedPointOfInterest.Description))
+                if (submittedPointOfInterest.Name.ToLower().Equals(submittedPointOfInterest.Description.ToLower()))
                 {
+                    ModelState.AddModelError("Description", "Name and Description cannot be the same.");
                     return BadRequest(ModelState);
                 }
 
@@ -302,68 +274,92 @@ namespace CityInfoAPI.Web.Controllers
         {
             try
             {
-                // see if the correct properties and type was passed in
-                if (patchDocument == null)
+                if (patchDocument != null)
                 {
-                    return BadRequest();
-                }
+                    if (patchDocument.Operations.Count > 0)
+                    {
+                        Operation operation = patchDocument.Operations[0];
+                        if (operation.op == null)
+                        {
+                            ModelState.AddModelError("Description", "The operation is missing (replace, add, remove, etc).");
+                            return BadRequest(ModelState);
+                        }
 
-                // is this a valid city?
-                if (!_cityProcessor.DoesCityExist(cityId))
-                {
-                    _logger.LogInformation($"**** LOGGER: City of cityId {cityId} was not found.");
-                    return NotFound($"City of cityId {cityId} was not found.");
-                }
+                        if (operation.path == null)
+                        {
+                            ModelState.AddModelError("Description", "The path is missing. What do you want to update?");
+                            return BadRequest(ModelState);
+                        }
 
-                // does point of interest exist?
-                bool pointOfInterestExists = _pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointId);
-                if (!pointOfInterestExists)
-                {
-                    _logger.LogInformation($"**** LOGGER: An attempt was made to update a point of interest which did not exist. cityKey {cityId}. Point Of Interest Id {pointId}.");
-                    return NotFound($"Point of Interest of Id {pointId} was not found.");
-                }
+                        // is this a valid city?
+                        if (!_cityProcessor.DoesCityExist(cityId))
+                        {
+                            _logger.LogInformation($"**** LOGGER: City of cityId {cityId} was not found.");
+                            return NotFound($"City of cityId {cityId} was not found.");
+                        }
 
-                // we need to map the entity to a dto so we than can map the patch to the dto and back to the entity.
-                // <casted destination type>(source).
-                var pointOfInterestEntity = _cityInfoRepository.GetPointOfInterestById(cityId, pointId);
-                var pointOfInterestToPatch = Mapper.Map<PointOfInterestUpdateDto>(pointOfInterestEntity);
+                        // does point of interest exist?
+                        bool pointOfInterestExists = _pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointId);
+                        if (!pointOfInterestExists)
+                        {
+                            _logger.LogInformation($"**** LOGGER: An attempt was made to update a point of interest which did not exist. cityKey {cityId}. Point Of Interest Id {pointId}.");
+                            return NotFound($"Point of Interest of Id {pointId} was not found.");
+                        }
 
-                // If we include the optional ModelState argument, it will send back any potential errors.
-                // This is where we map new values to the properties.
-                // ModelState was created here when the Model Binding was applied to the input model...the JSONPatchDocument.
-                // Since the framework has no way of knowing what was required and valid in the document, it will usually have
-                // no errors and be valid.
-                patchDocument.ApplyTo(pointOfInterestToPatch, ModelState);
+                        // we need to map the entity to a dto so we than can map the patch to the dto and back to the entity.
+                        // <casted destination type>(source).
+                        var pointOfInterestEntity = _cityInfoRepository.GetPointOfInterestById(cityId, pointId);
+                        var pointOfInterestToPatch = Mapper.Map<PointOfInterestUpdateDto>(pointOfInterestEntity);
 
-                if (!ModelState.IsValid)
-                {
+                        // If we include the optional ModelState argument, it will send back any potential errors.
+                        // This is where we map new values to the properties.
+                        // ModelState was created here when the Model Binding was applied to the input model...the JSONPatchDocument.
+                        // Since the framework has no way of knowing what was required and valid in the document, it will usually have
+                        // no errors and be valid.
+                        patchDocument.ApplyTo(pointOfInterestToPatch, ModelState);
+
+                        if (!ModelState.IsValid)
+                        {
+                            return BadRequest(ModelState);
+                        }
+
+                        if (string.IsNullOrWhiteSpace(pointOfInterestToPatch.Name))
+                        {
+                            ModelState.AddModelError("Description", "Name is missing.");
+                            return BadRequest(ModelState);
+                        }
+
+                        if (string.IsNullOrWhiteSpace(pointOfInterestToPatch.Description))
+                        {
+                            ModelState.AddModelError("Description", "Description is missing.");
+                            return BadRequest(ModelState);
+                        }
+
+                        // Try to validate the model again
+                        TryValidateModel(pointOfInterestToPatch);
+
+                        if (!ModelState.IsValid)
+                        {
+                            return BadRequest(ModelState);
+                        }
+
+                        // all is good.  map the new values back to the entity
+                        Mapper.Map(pointOfInterestToPatch, pointOfInterestEntity);
+
+                        if (!_cityInfoRepository.SaveChanges())
+                        {
+                            _logger.LogWarning("**** LOGGER: An error occurred when patching the point of interest.");
+                            return StatusCode(500, "An error occurred when patching the point of interest.");
+                        }
+
+                        return Ok(pointOfInterestToPatch);
+                    }
+
+                    ModelState.AddModelError("Description", "The patch document is not correct.");
                     return BadRequest(ModelState);
                 }
 
-                // We can solve this with some custom logic again. are the name and description provided?
-                if (string.IsNullOrWhiteSpace(pointOfInterestToPatch.Name) || string.IsNullOrWhiteSpace(pointOfInterestToPatch.Description))
-                {
-                    return BadRequest(ModelState);
-                }
-
-                // Try to validate the model again
-                TryValidateModel(pointOfInterestToPatch);
-
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                // all is good.  map the new values back to the entity
-                Mapper.Map(pointOfInterestToPatch, pointOfInterestEntity);
-
-                if (!_cityInfoRepository.SaveChanges())
-                {
-                    _logger.LogWarning("**** LOGGER: An error occurred when patching the point of interest.");
-                    return StatusCode(500, "An error occurred when patching the point of interest.");
-                }
-
-                return Ok(pointOfInterestToPatch);
+                return BadRequest(ModelState);
             }
             catch (Exception exception)
             {
