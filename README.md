@@ -46,11 +46,11 @@ You can `import` this collection into your Postman application for ease of testi
 
 The Postman collection in this repo uses Postman "Global Variables" which you will notice in the URL of the request.
 
-![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/global-variable-example1.PNG)
+![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/global-variable-example1.png)
 
 You can access these variables in Postman by clicking this icon:
 
-![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/postman-global-variables-icon.PNG)
+![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/postman-global-variables-icon.png)
 
 However, you should not need to change these.  To indicate which instance of this API you wish to test (locally running, DEV, or PROD), just change the variable name in thew URL.
 
