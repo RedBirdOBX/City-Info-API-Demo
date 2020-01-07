@@ -40,7 +40,7 @@ It supports and demonstrates all HTTP verbs: GET, POST, PUT, PATCH, and DELETE.
 
 <a href="" id="test" name="test"></a>
 ## How To Test
-One easy way to test this API is to download and use Postman, a popular API development testing tool. It can be downloaded here: [https://www.getpostman.com/](https://www.getpostman.com/ "https://www.getpostman.com") .  In this repository, you will find a Postman Collection in a folder named `Postman-Collection`.  The collection has most, if not all test requests used by this API. It contains many GET, POST, PUT, PATCH, and DELETE requests. 
+One easy way to test this API is to download and use Postman, a popular API development testing tool. It can be downloaded here: [https://www.getpostman.com/](https://www.getpostman.com "https://www.getpostman.com") .  In this repository, you will find a Postman Collection in a folder named `Postman-Collection`.  The collection has most, if not all, test requests used by this API. It contains many GET, POST, PUT, PATCH, and DELETE requests. 
 
 You can `import` this collection into your Postman application for ease of testing.  Or, you can simply manually call the endpoints below in your Postman application.
 
