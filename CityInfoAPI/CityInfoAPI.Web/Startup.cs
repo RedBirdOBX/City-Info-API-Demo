@@ -78,13 +78,13 @@ namespace CityInfoAPI.Web
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            // sql data store
+            // LOCAL - in memory data
+            //services.AddSingleton<ICityInfoRepository, CityInfoMemoryDataStore>();
+
+            // DEV and PROD - sql data store
             string connectionString = Startup.Configuration["ConnectionStrings:cityInfoConnectionString"];
             services.AddDbContext<CityInfoDbContext>(options => options.UseSqlServer(connectionString));
             services.AddScoped<ICityInfoRepository, CityInfoSqlDataStore>();
-
-            // in memory data store
-            //services.AddSingleton<ICityInfoRepository, CityInfoMemoryDataStore>();
 
             services.AddScoped<CityProcessor>();
             services.AddScoped<CityCollectionsProcessor>();

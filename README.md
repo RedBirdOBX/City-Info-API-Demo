@@ -1,7 +1,7 @@
 # The City Info Demo API
   
 ----------
-*Version 1.6.0*
+*Version 1.7.0*
 
 ## Summary
 Welcome to the City Info Demo API. Imagine that you were developing for some kind of travel site and one of the requirements was you needed to be able to ask for a complete listing of cities; ask for any given city by it's ID and, if specifically asked for, you needed to be able to provide all the "touristy" things to do for that specified city (landmarks, parks, restaurants, and so on).  
@@ -40,9 +40,24 @@ It supports and demonstrates all HTTP verbs: GET, POST, PUT, PATCH, and DELETE.
 
 <a href="" id="test" name="test"></a>
 ## How To Test
-One easy way to test this is to download Postman, a popular API development testing tool. It can be downloaded here: [https://www.getpostman.com/](https://www.getpostman.com/ "https://www.getpostman.com/") .  In this repository, you will find a Postman Collection in a folder named `Postman-Collection`.  The collection has all requests URLs pointing for local, devlopment, and product urls. 
+One easy way to test this API is to download and use Postman, a popular API development testing tool. It can be downloaded here: [https://www.getpostman.com/](https://www.getpostman.com/ "https://www.getpostman.com") .  In this repository, you will find a Postman Collection in a folder named `Postman-Collection`.  The collection has most, if not all test requests used by this API. It contains many GET, POST, PUT, PATCH, and DELETE requests. 
 
 You can `import` this collection into your Postman application for ease of testing.  Or, you can simply manually call the endpoints below in your Postman application.
+
+The Postman collection in this repo uses Postman "Global Variables" which you will notice in the URL of the request.
+
+![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/global-variable-example1.PNG)
+
+You can access these variables in Postman by clicking this icon:
+
+![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/postman-global-variables-icon.PNG)
+
+However, you should not need to change these.  To indicate which instance of this API you wish to test (locally running, DEV, or PROD), just change the variable name in thew URL.
+
+Valid options:  
+`{{domain-local}}`  
+`{{domain-dev}}`  
+`{{domain-prod}}`  
 
 
 <a href="" id="endpoints" name="endpoints"></a>
@@ -442,8 +457,7 @@ Added new resources:
 - The create DTOs are now responsible for creating the GUIDs - not the database or entity. 
 
 
+**1.7.0**  
+1.8.2020  
+- Updated Postman collection to use Global Variables to store the different domains (local, development, and production). Now, we have just one set of requests in our Postman collection instead of three.  See [#test](#test "How To Test").  
 
-
-<!--
-1.7.0 - add environment variables, cityId, and point of interest id variables to postman collection
--->
