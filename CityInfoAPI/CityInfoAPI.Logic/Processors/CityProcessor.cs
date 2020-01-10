@@ -4,6 +4,7 @@ using CityInfoAPI.Dtos.Models;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CityInfoAPI.Logic.Processors
 {
@@ -21,9 +22,9 @@ namespace CityInfoAPI.Logic.Processors
         }
 
 
-        public List<CityWithoutPointsOfInterestDto> GetCities()
+        public async Task<List<CityWithoutPointsOfInterestDto>> GetCities()
         {
-            var cityEntities = _cityInfoRepository.GetCities();
+            var cityEntities = await _cityInfoRepository.GetCities();
             var results = Mapper.Map<List<CityWithoutPointsOfInterestDto>>(cityEntities);
             return results;
         }

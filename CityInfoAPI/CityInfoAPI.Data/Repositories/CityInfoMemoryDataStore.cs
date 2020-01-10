@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+
 
 namespace CityInfoAPI.Data.Repositories
 {
@@ -84,7 +86,7 @@ namespace CityInfoAPI.Data.Repositories
             };
         }
 
-        public List<City> GetCities()
+        public async Task<List<City>> GetCities()
         {
             List<City> citiesWithoutPointsOfInterest = new List<City>();
             foreach (var completeCity in _cities)

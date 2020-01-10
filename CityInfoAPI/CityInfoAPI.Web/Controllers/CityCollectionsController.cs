@@ -82,12 +82,12 @@ namespace CityInfoAPI.Web.Controllers
         [HttpPost("", Name = "CreateCities")]
         [ProducesDefaultResponseType]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public ActionResult<List<CityDto>> CreateCityCollections([FromBody] List<CityCreateDto> newCitiesRequest)
+        public async Task<ActionResult<List<CityDto>>> CreateCityCollections([FromBody] List<CityCreateDto> newCitiesRequest)
         {
             try
             {
                 // does a city with this name already exist? loop thru each submitted city and see if the name exists already.
-                List<CityWithoutPointsOfInterestDto> allCities = _cityProcessor.GetCities();
+                List<CityWithoutPointsOfInterestDto> allCities = await _cityProcessor.GetCities();
                 foreach (CityCreateDto newCity in newCitiesRequest)
                 {
                     if (allCities.Where(c => c.Name.ToLower() == newCity.Name.Trim().ToLower()).Count() > 0)

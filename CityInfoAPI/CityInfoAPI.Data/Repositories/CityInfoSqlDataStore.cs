@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CityInfoAPI.Data.Repositories
 {
@@ -20,9 +21,9 @@ namespace CityInfoAPI.Data.Repositories
 
 
         // cities
-        public List<City> GetCities()
+        public Task<List<City>> GetCities()
         {
-            return _cityInfoDbContext.Cities.OrderBy(c => c.Name).ToList();
+            return _cityInfoDbContext.Cities.OrderBy(c => c.Name).ToListAsync();
         }
 
         public void CreateCity(City city)

@@ -1,13 +1,14 @@
 ﻿using CityInfoAPI.Data.Entities;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CityInfoAPI.Data.Repositories
 {
     public interface ICityInfoRepository
     {
         // cities
-        List<City> GetCities();
+        Task<List<City>> GetCities();
 
         List<City> GetCitiesWithPointsOfInterest();
 

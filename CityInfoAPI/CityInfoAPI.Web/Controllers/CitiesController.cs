@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CityInfoAPI.Web.Controllers
 {
@@ -50,11 +51,11 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesDefaultResponseType]
         [HttpGet("", Name = "GetCities")]
-        public ActionResult<List<CityDto>> GetCities()
+        public async Task<ActionResult<List<CityDto>>> GetCities()
         {
             try
             {
-                var results = _cityProcessor.GetCities();
+                var results = await _cityProcessor.GetCities();
                 return Ok(results);
             }
             catch (Exception exception)
@@ -105,12 +106,12 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesDefaultResponseType]
         [HttpPost(Name = "CreateCity")]
-        public ActionResult<CityDto> CreateCity([FromBody] CityCreateDto newCityRequest)
+        public async Task<ActionResult<CityDto>> CreateCity([FromBody] CityCreateDto newCityRequest)
         {
             try
             {
                 // Does a city with this name already exist?
-                List<CityWithoutPointsOfInterestDto> allCities = _cityProcessor.GetCities();
+                List<CityWithoutPointsOfInterestDto> allCities = await _cityProcessor.GetCities();
                 if (allCities.Where(c => c.Name.ToLower() == newCityRequest.Name.Trim().ToLower()).Count() > 0)
                 {
                     ModelState.AddModelError("Description", "A city with this name already exists.");
