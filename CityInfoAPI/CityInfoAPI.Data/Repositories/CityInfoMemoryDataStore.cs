@@ -139,7 +139,7 @@ namespace CityInfoAPI.Data.Repositories
             }
         }
 
-        public bool DoesCityExist(Guid cityId)
+        public async Task<bool> DoesCityExist(Guid cityId)
         {
             return _cities.Any(c => c.CityId == cityId);
         }

@@ -55,9 +55,10 @@ namespace CityInfoAPI.Data.Repositories
             }
         }
 
-        public bool DoesCityExist(Guid cityId)
+        public async Task<bool> DoesCityExist(Guid cityId)
         {
-            return _cityInfoDbContext.Cities.Any(c => c.CityId == cityId);
+            City city = await _cityInfoDbContext.Cities.Where(c => c.CityId == cityId).FirstOrDefaultAsync();
+            return city != null;
         }
 
 

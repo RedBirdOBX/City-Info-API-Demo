@@ -36,9 +36,9 @@ namespace CityInfoAPI.Logic.Processors
             return results;
         }
 
-        public bool DoesCityExist(Guid cityId)
+        public async Task<bool> DoesCityExist(Guid cityId)
         {
-            return _cityInfoRepository.DoesCityExist(cityId);
+            return await _cityInfoRepository.DoesCityExist(cityId);
         }
 
         public async Task<CityDto> GetCityById(Guid cityId, bool includePointsOfInterest)

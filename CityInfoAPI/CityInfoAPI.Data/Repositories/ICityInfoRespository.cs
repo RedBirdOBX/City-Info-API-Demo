@@ -14,7 +14,7 @@ namespace CityInfoAPI.Data.Repositories
 
         Task<City> GetCityById(Guid cityId, bool includePointsOfInterest);
 
-        bool DoesCityExist(Guid cityId);
+        Task<bool> DoesCityExist(Guid cityId);
 
         void CreateCity(City city);
 

@@ -80,7 +80,8 @@ namespace CityInfoAPI.Web.Controllers
         {
             try
             {
-                if (!_cityProcessor.DoesCityExist(cityId))
+                bool doesCityExist = await _cityProcessor.DoesCityExist(cityId);
+                if (!doesCityExist)
                 {
                     _logger.LogInformation($"**** LOGGER: City not found using cityId {cityId}.");
                     return NotFound($"City not found using cityId {cityId}.");
@@ -182,14 +183,15 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesDefaultResponseType]
         [HttpPost("{cityId}", Name = "BlockPostToExistingCity")]
-        public ActionResult BlockPostToExistingCity(Guid cityId)
+        public async Task<ActionResult> BlockPostToExistingCity(Guid cityId)
         {
             // this is being a touch over-protective.  The idea is to not allow (and inform) the consumer
             // that they can post to this endpoint with an id.  Anything with an id should be done with a PUT
             // or a PATCH.
             try
             {
-                if (!_cityProcessor.DoesCityExist(cityId))
+                bool doesCityExist = await _cityProcessor.DoesCityExist(cityId);
+                if (!doesCityExist)
                 {
                     return BadRequest("You cannot post to cities like this.");
                 }
@@ -231,7 +233,7 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
         [HttpPatch("{cityId}", Name = "PatchCity")]
-        public ActionResult<CityUpdateDto> PatchCity(Guid cityId, [FromBody] JsonPatchDocument<CityUpdateDto> patchDocument)
+        public async Task<ActionResult<CityUpdateDto>> PatchCity(Guid cityId, [FromBody] JsonPatchDocument<CityUpdateDto> patchDocument)
         {
             try
             {
@@ -253,7 +255,8 @@ namespace CityInfoAPI.Web.Controllers
                         }
 
                         // is this a valid city?
-                        if (!_cityProcessor.DoesCityExist(cityId))
+                        bool doesCityExist = await _cityProcessor.DoesCityExist(cityId);
+                        if (!doesCityExist)
                         {
                             _logger.LogInformation($"**** LOGGER: City of cityId {cityId} was not found.");
                             return NotFound($"City of cityId {cityId} was not found.");
