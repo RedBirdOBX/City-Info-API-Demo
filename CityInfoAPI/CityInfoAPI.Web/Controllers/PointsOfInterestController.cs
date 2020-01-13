@@ -59,11 +59,12 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
         [HttpGet("pointsofinterest", Name="GetPointsOfInterest")]
-        public ActionResult<List<PointOfInterestDto>> GetPointsOfInterest(Guid cityId)
+        public async Task<ActionResult<List<PointOfInterestDto>>> GetPointsOfInterest(Guid cityId)
         {
             try
             {
-                if (!_cityProcessor.DoesCityExist(cityId))
+                var doesCityExist = await _cityProcessor.DoesCityExist(cityId);
+                if (!doesCityExist)
                 {
                     _logger.LogInformation($"**** LOGGER: No city with the cityId of {cityId} was found.");
                     return NotFound($"No city with the cityKey of {cityId} was found.");
@@ -92,11 +93,12 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
         [HttpGet("pointsofinterest/{pointId}", Name = "GetPointOfInterestById")]
-        public ActionResult<PointOfInterestDto> GetPointOfInterestById(Guid cityId, Guid pointId)
+        public async Task<ActionResult<PointOfInterestDto>> GetPointOfInterestById(Guid cityId, Guid pointId)
         {
             try
             {
-                if (!_cityProcessor.DoesCityExist(cityId))
+                var doesCityExist = await _cityProcessor.DoesCityExist(cityId);
+                if (!doesCityExist)
                 {
                     _logger.LogInformation($"**** LOGGER: No city with the cityId of {cityId} was found.");
                     return NotFound($"No city with the cityId of {cityId} was found.");
@@ -155,7 +157,8 @@ namespace CityInfoAPI.Web.Controllers
                 //    return BadRequest($"The city id was missing for {submittedPointOfInterest.Name}.");
                 //}
 
-                if (!_cityProcessor.DoesCityExist(cityId))
+                var doesCityExist = await _cityProcessor.DoesCityExist(cityId);
+                if (!doesCityExist)
                 {
                     _logger.LogInformation($"**** LOGGER: No city was found for cityId {cityId}.");
                     return NotFound($"No city was found for cityId {cityId}.");
@@ -198,7 +201,7 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
         [HttpPut("pointsofinterest/{pointId}", Name = "UpdatePointOfInterest")]
-        public IActionResult UpdatePointOfInterest(Guid cityId, Guid pointId, [FromBody] PointOfInterestUpdateDto submittedPointOfInterest)
+        public async Task<ActionResult> UpdatePointOfInterest(Guid cityId, Guid pointId, [FromBody] PointOfInterestUpdateDto submittedPointOfInterest)
         {
             try
             {
@@ -209,7 +212,8 @@ namespace CityInfoAPI.Web.Controllers
                 }
 
                 // does the city exist?
-                if (!_cityProcessor.DoesCityExist(cityId))
+                var doesCityExist = await _cityProcessor.DoesCityExist(cityId);
+                if (!doesCityExist)
                 {
                     _logger.LogInformation($"**** LOGGER: City of id {cityId} was not found.");
                     return NotFound("City not found");
@@ -273,7 +277,7 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
         [HttpPatch("pointsofinterest/{pointId}", Name = "PatchPointOfInterest")]
-        public ActionResult<PointOfInterestUpdateDto> PatchPointOfInterest(Guid cityId, Guid pointId, [FromBody] JsonPatchDocument<PointOfInterestUpdateDto> patchDocument)
+        public async Task<ActionResult<PointOfInterestUpdateDto>> PatchPointOfInterest(Guid cityId, Guid pointId, [FromBody] JsonPatchDocument<PointOfInterestUpdateDto> patchDocument)
         {
             try
             {
@@ -295,7 +299,8 @@ namespace CityInfoAPI.Web.Controllers
                         }
 
                         // is this a valid city?
-                        if (!_cityProcessor.DoesCityExist(cityId))
+                        var doesCityExist = await _cityProcessor.DoesCityExist(cityId);
+                        if (!doesCityExist)
                         {
                             _logger.LogInformation($"**** LOGGER: City of cityId {cityId} was not found.");
                             return NotFound($"City of cityId {cityId} was not found.");
@@ -390,7 +395,8 @@ namespace CityInfoAPI.Web.Controllers
             try
             {
                 // is this a valid city?
-                if (!_cityProcessor.DoesCityExist(cityId))
+                var doesCityExist = await _cityProcessor.DoesCityExist(cityId);
+                if (!doesCityExist)
                 {
                     _logger.LogInformation($"**** LOGGER: City of cityKey {cityId} was not found.");
                     return NotFound($"City of cityKey {cityId} was not found.");
@@ -436,14 +442,15 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesDefaultResponseType]
         [HttpPost("pointsofinterest/{pointOfInterestId}", Name = "BlockPostToExistingPointOfInterest")]
-        public ActionResult BlockPostToExistingPointOfInterest(Guid cityId, Guid pointOfInterestId)
+        public async Task<ActionResult> BlockPostToExistingPointOfInterest(Guid cityId, Guid pointOfInterestId)
         {
             // this is being a touch over-protective.  The idea is to not allow (and inform) the consumer
             // that they can post to this endpoint with an id.  Anything with an id should be done with a PUT
             // or a PATCH.
             try
             {
-                if (!_cityProcessor.DoesCityExist(cityId))
+                var doesCityExist = await _cityProcessor.DoesCityExist(cityId);
+                if (!doesCityExist)
                 {
                     return BadRequest("You cannot post to cities like this.");
                 }

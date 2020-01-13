@@ -29,9 +29,9 @@ namespace CityInfoAPI.Logic.Processors
             return results;
         }
 
-        public List<CityDto> GetCitiesWithPointOfInterest()
+        public async Task<List<CityDto>> GetCitiesWithPointOfInterest()
         {
-            var cities = _cityInfoRepository.GetCitiesWithPointsOfInterest();
+            var cities = await _cityInfoRepository.GetCitiesWithPointsOfInterest();
             var results = Mapper.Map<List<CityDto>>(cities);
             return results;
         }

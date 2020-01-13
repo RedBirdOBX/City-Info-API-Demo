@@ -10,7 +10,7 @@ namespace CityInfoAPI.Data.Repositories
         // cities
         Task<List<City>> GetCities();
 
-        List<City> GetCitiesWithPointsOfInterest();
+        Task<List<City>> GetCitiesWithPointsOfInterest();
 
         Task<City> GetCityById(Guid cityId, bool includePointsOfInterest);
 

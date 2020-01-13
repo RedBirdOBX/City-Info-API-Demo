@@ -31,11 +31,11 @@ namespace CityInfoAPI.Data.Repositories
             _cityInfoDbContext.Cities.Add(city);
         }
 
-        public List<City> GetCitiesWithPointsOfInterest()
+        public async Task<List<City>> GetCitiesWithPointsOfInterest()
         {
-            return _cityInfoDbContext.Cities
+            return await _cityInfoDbContext.Cities
                     .Include(c => c.PointsOfInterest)
-                    .OrderBy(c => c.Name).ToList();
+                    .OrderBy(c => c.Name).ToListAsync();
         }
 
         public Task<City> GetCityById(Guid cityId, bool includePointsOfInterest)
