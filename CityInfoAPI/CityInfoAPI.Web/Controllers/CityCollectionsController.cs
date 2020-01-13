@@ -47,7 +47,7 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesDefaultResponseType]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<List<CityDto>> GetCitiesById([FromQuery] string cityIds)
+        public async Task<ActionResult<List<CityDto>>> GetCitiesById([FromQuery] string cityIds)
         {
             if (cityIds == null)
             {
@@ -55,7 +55,7 @@ namespace CityInfoAPI.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            List<CityDto> results = _cityCollectionsProcessor.GetCities(cityIds);
+            var results = await _cityCollectionsProcessor.GetCities(cityIds);
 
             try
             {

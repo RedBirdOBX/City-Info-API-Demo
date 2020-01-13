@@ -33,9 +33,9 @@ namespace CityInfoAPI.Logic.Processors
             return results;
         }
 
-        public PointOfInterestDto GetPointOfInterestById(Guid cityId, Guid pointId)
+        public async Task<PointOfInterestDto> GetPointOfInterestById(Guid cityId, Guid pointId)
         {
-            var pointOfInterest = _cityInfoRepository.GetPointOfInterestById(cityId, pointId);
+            var pointOfInterest = await _cityInfoRepository.GetPointOfInterestById(cityId, pointId);
             var result = Mapper.Map<PointOfInterestDto>(pointOfInterest);
             return result;
         }

@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CityInfoAPI.Web.Controllers
 {
@@ -133,7 +134,7 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesDefaultResponseType]
         [Consumes("application/json")]
         [HttpPost("pointsofinterest", Name = "CreatePointOfInterest")]
-        public ActionResult CreatePointOfInterest(Guid cityId, [FromBody] PointOfInterestCreateRequestDto submittedPointOfInterest)
+        public async Task<ActionResult> CreatePointOfInterest(Guid cityId, [FromBody] PointOfInterestCreateRequestDto submittedPointOfInterest)
         {
             try
             {
@@ -163,7 +164,7 @@ namespace CityInfoAPI.Web.Controllers
                 // each city can only have 25 points of interest.
                 if (_pointsOfInterestProcessor.GetPointsOfInterest(cityId).Count() >= 25)
                 {
-                    var city = _cityProcessor.GetCityById(cityId, false);
+                    var city = await _cityProcessor.GetCityById(cityId, false);
                     return BadRequest($"Sorry. The city {city.Name} cannot have more that 25 points of interest.");
                 }
 
@@ -221,14 +222,16 @@ namespace CityInfoAPI.Web.Controllers
                 }
 
                 // does point of interest exist?
-                bool pointOfInterestExists = _pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointId);
-                if (!pointOfInterestExists)
+                //bool pointOfInterestExists = _pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointId);
+                var pointOfInterestExistsTask = _pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointId);
+                if (!pointOfInterestExistsTask.Result)
                 {
                     _logger.LogInformation($"**** LOGGER: An attempt was made to update a point of interest which did not exist. cityKey {cityId}. Point Of Interest Id {pointId}.");
                     return NotFound($"Point of Interest Id {pointId} was not found.");
                 }
 
-                if (!_pointsOfInterestProcessor.UpdatePointOfInterest(cityId, pointId, submittedPointOfInterest))
+                var pointOfInterestUpdateTask = _pointsOfInterestProcessor.UpdatePointOfInterest(cityId, pointId, submittedPointOfInterest);
+                if (!pointOfInterestUpdateTask.Result)
                 {
                     _logger.LogWarning($"**** LOGGER: An error occurred when updating the point of interest. cityKey {cityId}. Point Of Interest Id {pointId}.");
                     return StatusCode(500, "An error occurred when updating the point of interest.");
@@ -299,7 +302,10 @@ namespace CityInfoAPI.Web.Controllers
                         }
 
                         // does point of interest exist?
-                        bool pointOfInterestExists = _pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointId);
+                        //bool pointOfInterestExists = _pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointId);
+                        var pointOfInterestExistsTask = _pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointId);
+                        bool pointOfInterestExists = pointOfInterestExistsTask.Result;
+
                         if (!pointOfInterestExists)
                         {
                             _logger.LogInformation($"**** LOGGER: An attempt was made to update a point of interest which did not exist. cityKey {cityId}. Point Of Interest Id {pointId}.");
@@ -379,7 +385,7 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
         [HttpDelete("pointsofinterest/{pointId}", Name = "DeletePointOfInterest")]
-        public ActionResult DeletePointOfInterest(Guid cityId, Guid pointId)
+        public async Task<ActionResult> DeletePointOfInterest(Guid cityId, Guid pointId)
         {
             try
             {
@@ -391,7 +397,9 @@ namespace CityInfoAPI.Web.Controllers
                 }
 
                 // does point of interest exist?
-                bool pointOfInterestExists = _pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointId);
+                //bool pointOfInterestExists = _pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointId);
+                Task<bool> pointOfInterestExistsTask = _pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointId);
+                bool pointOfInterestExists = pointOfInterestExistsTask.Result;
                 if (!pointOfInterestExists)
                 {
                     _logger.LogInformation($"**** LOGGER: An attempt was made to delete a point of interest which did not exist. CityId {cityId}. Point Of Interest key {pointId}.");
@@ -399,9 +407,10 @@ namespace CityInfoAPI.Web.Controllers
                 }
 
                 // get this one last time before it's removed so we can reference it in the response
-                var pointOfInterestToBeDeleted = _pointsOfInterestProcessor.GetPointOfInterestById(cityId, pointId);
+                var pointOfInterestToBeDeleted = await _pointsOfInterestProcessor.GetPointOfInterestById(cityId, pointId);
+                var deleteTask = _pointsOfInterestProcessor.DeletePointOfInterest(cityId, pointId);
 
-                if (!_pointsOfInterestProcessor.DeletePointOfInterest(cityId, pointId))
+                if (!deleteTask.Result)
                 {
                     _logger.LogWarning("**** LOGGER: An error occurred when deleting the point of interest.");
                     return StatusCode(500, "An error occurred when deleting the point of interest.");
@@ -439,7 +448,8 @@ namespace CityInfoAPI.Web.Controllers
                     return BadRequest("You cannot post to cities like this.");
                 }
 
-                if (!_pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointOfInterestId))
+                var checkPointOfInterestTask = _pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointOfInterestId);
+                if (!checkPointOfInterestTask.Result)
                 {
                     return BadRequest("You cannot post to point of interest like this.");
                 }
