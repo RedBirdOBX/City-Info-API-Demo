@@ -4,6 +4,7 @@ using CityInfoAPI.Data.Repositories;
 using CityInfoAPI.Dtos.Models;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CityInfoAPI.Logic.Processors
 {
@@ -20,7 +21,7 @@ namespace CityInfoAPI.Logic.Processors
             _cityProcessor = cityProcessor;
         }
 
-        public List<CityDto> GetCities(string cityIds)
+        public async Task<List<CityDto>> GetCities(string cityIds)
         {
             List<Guid> requestedGuids = new List<Guid>();
             List<CityDto> results = new List<CityDto>();
@@ -58,7 +59,7 @@ namespace CityInfoAPI.Logic.Processors
             // now build the results
             foreach (Guid id in requestedGuids)
             {
-                CityDto city = _cityProcessor.GetCityById(id, false);
+                CityDto city = await _cityProcessor.GetCityById(id, false);
 
                 if (city != null)
                 {

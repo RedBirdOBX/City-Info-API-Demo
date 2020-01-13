@@ -38,20 +38,20 @@ namespace CityInfoAPI.Data.Repositories
                     .OrderBy(c => c.Name).ToList();
         }
 
-        public City GetCityById(Guid cityId, bool includePointsOfInterest)
+        public Task<City> GetCityById(Guid cityId, bool includePointsOfInterest)
         {
             if (includePointsOfInterest)
             {
                 return _cityInfoDbContext.Cities
                         .Include(c => c.PointsOfInterest)
                         .Where(c => c.CityId == cityId)
-                        .FirstOrDefault();
+                        .FirstOrDefaultAsync();
             }
             else
             {
                 return _cityInfoDbContext.Cities
                         .Where(c => c.CityId == cityId)
-                        .FirstOrDefault();
+                        .FirstOrDefaultAsync();
             }
         }
 
@@ -62,24 +62,24 @@ namespace CityInfoAPI.Data.Repositories
 
 
         // points of interest
-        public List<PointOfInterest> GetPointsOfInterest(Guid cityId)
+        public Task<List<PointOfInterest>> GetPointsOfInterest(Guid cityId)
         {
             return _cityInfoDbContext.PointsOfInterest
                     .Where(p => p.CityId == cityId)
-                    .ToList();
+                    .ToListAsync();
         }
 
-        public PointOfInterest GetPointOfInterestById(Guid cityId, Guid pointId)
+        public Task<PointOfInterest> GetPointOfInterestById(Guid cityId, Guid pointId)
         {
             return _cityInfoDbContext.PointsOfInterest
                     .Where(p => p.PointId == pointId && p.City.CityId == cityId)
                     .OrderBy(p => p.Name)
-                    .FirstOrDefault();
+                    .FirstOrDefaultAsync();
         }
 
-        public void CreatePointOfInterest(Guid cityId, PointOfInterest pointOfInterest)
+        public async void CreatePointOfInterest(Guid cityId, PointOfInterest pointOfInterest)
         {
-            var city = GetCityById(cityId, false);
+            var city = await GetCityById(cityId, false);
             city.PointsOfInterest.Add(pointOfInterest);
         }
 

@@ -12,7 +12,7 @@ namespace CityInfoAPI.Data.Repositories
 
         List<City> GetCitiesWithPointsOfInterest();
 
-        City GetCityById(Guid cityId, bool includePointsOfInterest);
+        Task<City> GetCityById(Guid cityId, bool includePointsOfInterest);
 
         bool DoesCityExist(Guid cityId);
 
@@ -20,9 +20,9 @@ namespace CityInfoAPI.Data.Repositories
 
 
         // points of interest
-        List<PointOfInterest> GetPointsOfInterest(Guid cityId);
+        Task<List<PointOfInterest>> GetPointsOfInterest(Guid cityId);
 
-        PointOfInterest GetPointOfInterestById(Guid cityId, Guid pointId);
+        Task<PointOfInterest> GetPointOfInterestById(Guid cityId, Guid pointId);
 
         void CreatePointOfInterest(Guid cityId, PointOfInterest pointOfInterest);
 

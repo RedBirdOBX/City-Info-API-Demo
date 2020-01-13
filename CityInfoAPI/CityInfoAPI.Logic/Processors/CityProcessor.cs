@@ -41,9 +41,9 @@ namespace CityInfoAPI.Logic.Processors
             return _cityInfoRepository.DoesCityExist(cityId);
         }
 
-        public CityDto GetCityById(Guid cityId, bool includePointsOfInterest)
+        public async Task<CityDto> GetCityById(Guid cityId, bool includePointsOfInterest)
         {
-            var city = _cityInfoRepository.GetCityById(cityId, includePointsOfInterest);
+            var city = await _cityInfoRepository.GetCityById(cityId, includePointsOfInterest);
             var results = Mapper.Map<CityDto>(city);
             return results;
         }

@@ -76,7 +76,7 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
         [HttpGet("{cityId}", Name = "GetCityById")]
-        public ActionResult<CityDto> GetCityById([FromRoute] Guid cityId, [FromQuery] bool includePointsOfInterest = true)
+        public async Task<ActionResult<CityDto>> GetCityById([FromRoute] Guid cityId, [FromQuery] bool includePointsOfInterest = true)
         {
             try
             {
@@ -87,7 +87,7 @@ namespace CityInfoAPI.Web.Controllers
                 }
                 else
                 {
-                    var city = _cityProcessor.GetCityById(cityId, includePointsOfInterest);
+                    var city = await _cityProcessor.GetCityById(cityId, includePointsOfInterest);
                     return Ok(city);
                 }
             }
@@ -160,7 +160,7 @@ namespace CityInfoAPI.Web.Controllers
                 }
 
                 // now get the complete city with any points of interest
-                CityDto newCompleteCity = _cityProcessor.GetCityById(newCityDto.CityId, true);
+                CityDto newCompleteCity = await _cityProcessor.GetCityById(newCityDto.CityId, true);
 
                 // Returns 201 Created Status Code.
                 // Returns the ROUTE in the RESPONSE HEADER (http://localhost:49902/api/cities/{cityId}) where you can see it.
