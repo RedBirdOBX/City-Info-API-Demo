@@ -78,7 +78,7 @@ namespace CityInfoAPI.Data.Repositories
                     .FirstOrDefaultAsync();
         }
 
-        public async void CreatePointOfInterest(Guid cityId, PointOfInterest pointOfInterest)
+        public async Task CreatePointOfInterest(Guid cityId, PointOfInterest pointOfInterest)
         {
             var city = await GetCityById(cityId, false);
             city.PointsOfInterest.Add(pointOfInterest);

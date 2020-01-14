@@ -165,13 +165,14 @@ namespace CityInfoAPI.Web.Controllers
                 }
 
                 // each city can only have 25 points of interest.
-                if (_pointsOfInterestProcessor.GetPointsOfInterest(cityId).Count() >= 25)
+                List<PointOfInterestDto> pointsOfInterest = await _pointsOfInterestProcessor.GetPointsOfInterest(cityId);
+                if (pointsOfInterest.Count() >= 25)
                 {
                     var city = await _cityProcessor.GetCityById(cityId, false);
                     return BadRequest($"Sorry. The city {city.Name} cannot have more that 25 points of interest.");
                 }
 
-                PointOfInterestDto newPointOfInterest = _pointsOfInterestProcessor.CreateNewPointOfInterest(cityId, submittedPointOfInterest);
+                PointOfInterestDto newPointOfInterest = await _pointsOfInterestProcessor.CreateNewPointOfInterest(cityId, submittedPointOfInterest);
 
                 if (newPointOfInterest == null)
                 {

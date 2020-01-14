@@ -111,7 +111,7 @@ namespace CityInfoAPI.Data.Repositories
             _cities.Add(city);
         }
 
-        public List<City> GetCitiesWithPointsOfInterest()
+        public async Task<List<City>> GetCitiesWithPointsOfInterest()
         {
             return _cities.OrderBy(c => c.Name).ToList();
         }
@@ -170,7 +170,7 @@ namespace CityInfoAPI.Data.Repositories
 
         }
 
-        public async void CreatePointOfInterest(Guid cityId, PointOfInterest pointOfInterest)
+        public async Task CreatePointOfInterest(Guid cityId, PointOfInterest pointOfInterest)
         {
             var city = await GetCityById(cityId, true);
             city.PointsOfInterest.Add(pointOfInterest);

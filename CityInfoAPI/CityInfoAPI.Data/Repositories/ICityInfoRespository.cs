@@ -24,7 +24,7 @@ namespace CityInfoAPI.Data.Repositories
 
         Task<PointOfInterest> GetPointOfInterestById(Guid cityId, Guid pointId);
 
-        void CreatePointOfInterest(Guid cityId, PointOfInterest pointOfInterest);
+        Task CreatePointOfInterest(Guid cityId, PointOfInterest pointOfInterest);
 
         void DeletePointOfInterest(PointOfInterest pointOfInterest);
 
