@@ -16,7 +16,7 @@ namespace CityInfoAPI.Data.Repositories
 
         Task<bool> DoesCityExist(Guid cityId);
 
-        void CreateCity(City city);
+        Task CreateCity(City city);
 
 
         // points of interest

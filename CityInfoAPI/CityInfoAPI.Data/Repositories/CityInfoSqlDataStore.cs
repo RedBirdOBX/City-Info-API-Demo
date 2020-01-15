@@ -26,7 +26,7 @@ namespace CityInfoAPI.Data.Repositories
             return _cityInfoDbContext.Cities.OrderBy(c => c.Name).ToListAsync();
         }
 
-        public void CreateCity(City city)
+        public async Task CreateCity(City city)
         {
             _cityInfoDbContext.Cities.Add(city);
         }

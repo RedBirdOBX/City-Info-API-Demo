@@ -71,7 +71,7 @@ namespace CityInfoAPI.Web.Controllers
                 }
                 else
                 {
-                    var results = _pointsOfInterestProcessor.GetPointsOfInterest(cityId);
+                    var results = await _pointsOfInterestProcessor.GetPointsOfInterest(cityId);
                     return Ok(results);
                 }
             }
@@ -105,7 +105,7 @@ namespace CityInfoAPI.Web.Controllers
                 }
                 else
                 {
-                    var pointOfInterest = _pointsOfInterestProcessor.GetPointOfInterestById(cityId, pointId);
+                    var pointOfInterest = await _pointsOfInterestProcessor.GetPointOfInterestById(cityId, pointId);
                     if (pointOfInterest == null)
                     {
                         _logger.LogInformation($"**** LOGGER: No point of interest the pointId of {pointId} was found.");

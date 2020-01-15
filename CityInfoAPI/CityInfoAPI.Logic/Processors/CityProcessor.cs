@@ -48,14 +48,14 @@ namespace CityInfoAPI.Logic.Processors
             return results;
         }
 
-        public CityDto CreateCity(CityCreateDto newCityRequest)
+        public async Task<CityDto> CreateCity(CityCreateDto newCityRequest)
         {
             try
             {
                 var newCityEntity = Mapper.Map<CityInfoAPI.Data.Entities.City>(newCityRequest);
 
                 // add it to memory.
-                _cityInfoRepository.CreateCity(newCityEntity);
+                await _cityInfoRepository.CreateCity(newCityEntity);
 
                 // save it
                 bool success = _cityInfoRepository.SaveChanges();

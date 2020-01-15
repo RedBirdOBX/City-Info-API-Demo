@@ -135,7 +135,7 @@ namespace CityInfoAPI.Web.Controllers
                 };
 
                 // create the new city
-                CityDto newCityDto = _cityProcessor.CreateCity(createCityDto);
+                CityDto newCityDto = await _cityProcessor.CreateCity(createCityDto);
 
                 if (newCityDto == null)
                 {
@@ -150,7 +150,7 @@ namespace CityInfoAPI.Web.Controllers
                         foreach (PointOfInterestCreateRequestDto point in newCityRequest.PointsOfInterest)
                         {
                             // create the point of interest
-                            _pointsOfInterestProcessor.CreateNewPointOfInterest(newCityDto.CityId, point);
+                            await _pointsOfInterestProcessor.CreateNewPointOfInterest(newCityDto.CityId, point);
                         }
                     }
                     catch (Exception exception)

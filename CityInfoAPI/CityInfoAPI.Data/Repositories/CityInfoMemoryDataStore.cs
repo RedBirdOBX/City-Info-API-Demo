@@ -106,7 +106,7 @@ namespace CityInfoAPI.Data.Repositories
             return citiesWithoutPointsOfInterest.OrderBy(c => c.Name).ToList();
         }
 
-        public void CreateCity(City city)
+        public async Task CreateCity(City city)
         {
             _cities.Add(city);
         }
@@ -167,7 +167,6 @@ namespace CityInfoAPI.Data.Repositories
 
                 throw exception;
             }
-
         }
 
         public async Task CreatePointOfInterest(Guid cityId, PointOfInterest pointOfInterest)
