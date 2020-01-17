@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+
 
 namespace CityInfoAPI.Data.Repositories
 {
@@ -84,7 +86,7 @@ namespace CityInfoAPI.Data.Repositories
             };
         }
 
-        public List<City> GetCities()
+        public async Task<List<City>> GetCities()
         {
             List<City> citiesWithoutPointsOfInterest = new List<City>();
             foreach (var completeCity in _cities)
@@ -104,17 +106,17 @@ namespace CityInfoAPI.Data.Repositories
             return citiesWithoutPointsOfInterest.OrderBy(c => c.Name).ToList();
         }
 
-        public void CreateCity(City city)
+        public async Task CreateCity(City city)
         {
             _cities.Add(city);
         }
 
-        public List<City> GetCitiesWithPointsOfInterest()
+        public async Task<List<City>> GetCitiesWithPointsOfInterest()
         {
             return _cities.OrderBy(c => c.Name).ToList();
         }
 
-        public City GetCityById(Guid cityId, bool includePointsOfInterest)
+        public async Task<City> GetCityById(Guid cityId, bool includePointsOfInterest)
         {
             if (includePointsOfInterest)
             {
@@ -137,19 +139,20 @@ namespace CityInfoAPI.Data.Repositories
             }
         }
 
-        public bool DoesCityExist(Guid cityId)
+        public async Task<bool> DoesCityExist(Guid cityId)
         {
             return _cities.Any(c => c.CityId == cityId);
         }
 
-        public List<PointOfInterest> GetPointsOfInterest(Guid cityId)
+        public async Task<List<PointOfInterest>> GetPointsOfInterest(Guid cityId)
         {
-            return GetCityById(cityId, true).PointsOfInterest;
+            var city = await GetCityById(cityId, true);
+            return city.PointsOfInterest;
         }
 
-        public PointOfInterest GetPointOfInterestById(Guid cityId, Guid pointId)
+        public async Task<PointOfInterest> GetPointOfInterestById(Guid cityId, Guid pointId)
         {
-            var city = GetCityById(cityId, true);
+            var city = await GetCityById(cityId, true);
 
             try
             {
@@ -164,18 +167,17 @@ namespace CityInfoAPI.Data.Repositories
 
                 throw exception;
             }
-
         }
 
-        public void CreatePointOfInterest(Guid cityId, PointOfInterest pointOfInterest)
+        public async Task CreatePointOfInterest(Guid cityId, PointOfInterest pointOfInterest)
         {
-            var city = GetCityById(cityId, true);
+            var city = await GetCityById(cityId, true);
             city.PointsOfInterest.Add(pointOfInterest);
         }
 
-        public void DeletePointOfInterest(PointOfInterest pointOfInterest)
+        public async void DeletePointOfInterest(PointOfInterest pointOfInterest)
         {
-            var city = GetCityById(pointOfInterest.CityId, true);
+            var city = await GetCityById(pointOfInterest.CityId, true);
             city.PointsOfInterest.Remove(pointOfInterest);
         }
 
