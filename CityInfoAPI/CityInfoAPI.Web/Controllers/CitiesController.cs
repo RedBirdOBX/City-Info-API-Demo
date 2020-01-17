@@ -264,7 +264,7 @@ namespace CityInfoAPI.Web.Controllers
 
                         // we need to map the entity to a dto so we than can map the patch to the dto and back to the entity.
                         // <casted destination type>(source).
-                        var cityEntity = _cityInfoRepository.GetCityById(cityId, false);
+                        var cityEntity = await _cityInfoRepository.GetCityById(cityId, false);
                         var cityToPatch = Mapper.Map<CityUpdateDto>(cityEntity);
 
                         // If we include the optional ModelState argument, it will send back any potential errors.

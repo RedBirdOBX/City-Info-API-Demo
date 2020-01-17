@@ -308,9 +308,7 @@ namespace CityInfoAPI.Web.Controllers
                         }
 
                         // does point of interest exist?
-                        //bool pointOfInterestExists = _pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointId);
-                        var pointOfInterestExistsTask = _pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointId);
-                        bool pointOfInterestExists = pointOfInterestExistsTask.Result;
+                        var pointOfInterestExists = await _pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointId);
 
                         if (!pointOfInterestExists)
                         {
@@ -320,7 +318,7 @@ namespace CityInfoAPI.Web.Controllers
 
                         // we need to map the entity to a dto so we than can map the patch to the dto and back to the entity.
                         // <casted destination type>(source).
-                        var pointOfInterestEntity = _cityInfoRepository.GetPointOfInterestById(cityId, pointId);
+                        var pointOfInterestEntity = await _cityInfoRepository.GetPointOfInterestById(cityId, pointId);
                         var pointOfInterestToPatch = Mapper.Map<PointOfInterestUpdateDto>(pointOfInterestEntity);
 
                         // If we include the optional ModelState argument, it will send back any potential errors.
