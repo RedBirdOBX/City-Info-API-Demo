@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CityInfoAPI.Data.Repositories
 {
@@ -20,65 +21,66 @@ namespace CityInfoAPI.Data.Repositories
 
 
         // cities
-        public List<City> GetCities()
+        public Task<List<City>> GetCities()
         {
-            return _cityInfoDbContext.Cities.OrderBy(c => c.Name).ToList();
+            return _cityInfoDbContext.Cities.OrderBy(c => c.Name).ToListAsync();
         }
 
-        public void CreateCity(City city)
+        public async Task CreateCity(City city)
         {
             _cityInfoDbContext.Cities.Add(city);
         }
 
-        public List<City> GetCitiesWithPointsOfInterest()
+        public async Task<List<City>> GetCitiesWithPointsOfInterest()
         {
-            return _cityInfoDbContext.Cities
+            return await _cityInfoDbContext.Cities
                     .Include(c => c.PointsOfInterest)
-                    .OrderBy(c => c.Name).ToList();
+                    .OrderBy(c => c.Name).ToListAsync();
         }
 
-        public City GetCityById(Guid cityId, bool includePointsOfInterest)
+        public Task<City> GetCityById(Guid cityId, bool includePointsOfInterest)
         {
             if (includePointsOfInterest)
             {
                 return _cityInfoDbContext.Cities
                         .Include(c => c.PointsOfInterest)
                         .Where(c => c.CityId == cityId)
-                        .FirstOrDefault();
+                        .FirstOrDefaultAsync();
             }
             else
             {
                 return _cityInfoDbContext.Cities
                         .Where(c => c.CityId == cityId)
-                        .FirstOrDefault();
+                        .FirstOrDefaultAsync();
             }
         }
 
-        public bool DoesCityExist(Guid cityId)
+        public async Task<bool> DoesCityExist(Guid cityId)
         {
-            return _cityInfoDbContext.Cities.Any(c => c.CityId == cityId);
+            City city = await _cityInfoDbContext.Cities.Where(c => c.CityId == cityId).FirstOrDefaultAsync();
+            return city != null;
         }
 
 
         // points of interest
-        public List<PointOfInterest> GetPointsOfInterest(Guid cityId)
+        public Task<List<PointOfInterest>> GetPointsOfInterest(Guid cityId)
         {
             return _cityInfoDbContext.PointsOfInterest
                     .Where(p => p.CityId == cityId)
-                    .ToList();
+                    .ToListAsync();
         }
 
-        public PointOfInterest GetPointOfInterestById(Guid cityId, Guid pointId)
+        public Task<PointOfInterest> GetPointOfInterestById(Guid cityId, Guid pointId)
         {
             return _cityInfoDbContext.PointsOfInterest
                     .Where(p => p.PointId == pointId && p.City.CityId == cityId)
                     .OrderBy(p => p.Name)
-                    .FirstOrDefault();
+                    .FirstOrDefaultAsync();
         }
 
-        public void CreatePointOfInterest(Guid cityId, PointOfInterest pointOfInterest)
+        public async Task CreatePointOfInterest(Guid cityId, PointOfInterest pointOfInterest)
         {
-            var city = GetCityById(cityId, false);
+            var city = await GetCityById(cityId, false);
             city.PointsOfInterest.Add(pointOfInterest);
         }
 

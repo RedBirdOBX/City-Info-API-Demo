@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CityInfoAPI.Web.Controllers
 {
@@ -50,11 +51,11 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesDefaultResponseType]
         [HttpGet("", Name = "GetCities")]
-        public ActionResult<List<CityDto>> GetCities()
+        public async Task<ActionResult<List<CityDto>>> GetCities()
         {
             try
             {
-                var results = _cityProcessor.GetCities();
+                var results = await _cityProcessor.GetCities();
                 return Ok(results);
             }
             catch (Exception exception)
@@ -75,18 +76,19 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
         [HttpGet("{cityId}", Name = "GetCityById")]
-        public ActionResult<CityDto> GetCityById([FromRoute] Guid cityId, [FromQuery] bool includePointsOfInterest = true)
+        public async Task<ActionResult<CityDto>> GetCityById([FromRoute] Guid cityId, [FromQuery] bool includePointsOfInterest = true)
         {
             try
             {
-                if (!_cityProcessor.DoesCityExist(cityId))
+                bool doesCityExist = await _cityProcessor.DoesCityExist(cityId);
+                if (!doesCityExist)
                 {
                     _logger.LogInformation($"**** LOGGER: City not found using cityId {cityId}.");
                     return NotFound($"City not found using cityId {cityId}.");
                 }
                 else
                 {
-                    var city = _cityProcessor.GetCityById(cityId, includePointsOfInterest);
+                    var city = await _cityProcessor.GetCityById(cityId, includePointsOfInterest);
                     return Ok(city);
                 }
             }
@@ -105,12 +107,12 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesDefaultResponseType]
         [HttpPost(Name = "CreateCity")]
-        public ActionResult<CityDto> CreateCity([FromBody] CityCreateDto newCityRequest)
+        public async Task<ActionResult<CityDto>> CreateCity([FromBody] CityCreateDto newCityRequest)
         {
             try
             {
                 // Does a city with this name already exist?
-                List<CityWithoutPointsOfInterestDto> allCities = _cityProcessor.GetCities();
+                List<CityWithoutPointsOfInterestDto> allCities = await _cityProcessor.GetCities();
                 if (allCities.Where(c => c.Name.ToLower() == newCityRequest.Name.Trim().ToLower()).Count() > 0)
                 {
                     ModelState.AddModelError("Description", "A city with this name already exists.");
@@ -133,7 +135,7 @@ namespace CityInfoAPI.Web.Controllers
                 };
 
                 // create the new city
-                CityDto newCityDto = _cityProcessor.CreateCity(createCityDto);
+                CityDto newCityDto = await _cityProcessor.CreateCity(createCityDto);
 
                 if (newCityDto == null)
                 {
@@ -148,7 +150,7 @@ namespace CityInfoAPI.Web.Controllers
                         foreach (PointOfInterestCreateRequestDto point in newCityRequest.PointsOfInterest)
                         {
                             // create the point of interest
-                            _pointsOfInterestProcessor.CreateNewPointOfInterest(newCityDto.CityId, point);
+                            await _pointsOfInterestProcessor.CreateNewPointOfInterest(newCityDto.CityId, point);
                         }
                     }
                     catch (Exception exception)
@@ -159,7 +161,7 @@ namespace CityInfoAPI.Web.Controllers
                 }
 
                 // now get the complete city with any points of interest
-                CityDto newCompleteCity = _cityProcessor.GetCityById(newCityDto.CityId, true);
+                CityDto newCompleteCity = await _cityProcessor.GetCityById(newCityDto.CityId, true);
 
                 // Returns 201 Created Status Code.
                 // Returns the ROUTE in the RESPONSE HEADER (http://localhost:49902/api/cities/{cityId}) where you can see it.
@@ -181,14 +183,15 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesDefaultResponseType]
         [HttpPost("{cityId}", Name = "BlockPostToExistingCity")]
-        public ActionResult BlockPostToExistingCity(Guid cityId)
+        public async Task<ActionResult> BlockPostToExistingCity(Guid cityId)
         {
             // this is being a touch over-protective.  The idea is to not allow (and inform) the consumer
             // that they can post to this endpoint with an id.  Anything with an id should be done with a PUT
             // or a PATCH.
             try
             {
-                if (!_cityProcessor.DoesCityExist(cityId))
+                bool doesCityExist = await _cityProcessor.DoesCityExist(cityId);
+                if (!doesCityExist)
                 {
                     return BadRequest("You cannot post to cities like this.");
                 }
@@ -230,7 +233,7 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
         [HttpPatch("{cityId}", Name = "PatchCity")]
-        public ActionResult<CityUpdateDto> PatchCity(Guid cityId, [FromBody] JsonPatchDocument<CityUpdateDto> patchDocument)
+        public async Task<ActionResult<CityUpdateDto>> PatchCity(Guid cityId, [FromBody] JsonPatchDocument<CityUpdateDto> patchDocument)
         {
             try
             {
@@ -252,7 +255,8 @@ namespace CityInfoAPI.Web.Controllers
                         }
 
                         // is this a valid city?
-                        if (!_cityProcessor.DoesCityExist(cityId))
+                        bool doesCityExist = await _cityProcessor.DoesCityExist(cityId);
+                        if (!doesCityExist)
                         {
                             _logger.LogInformation($"**** LOGGER: City of cityId {cityId} was not found.");
                             return NotFound($"City of cityId {cityId} was not found.");
@@ -260,7 +264,7 @@ namespace CityInfoAPI.Web.Controllers
 
                         // we need to map the entity to a dto so we than can map the patch to the dto and back to the entity.
                         // <casted destination type>(source).
-                        var cityEntity = _cityInfoRepository.GetCityById(cityId, false);
+                        var cityEntity = await _cityInfoRepository.GetCityById(cityId, false);
                         var cityToPatch = Mapper.Map<CityUpdateDto>(cityEntity);
 
                         // If we include the optional ModelState argument, it will send back any potential errors.

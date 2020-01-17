@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CityInfoAPI.Web.Controllers
 {
@@ -58,18 +59,19 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
         [HttpGet("pointsofinterest", Name="GetPointsOfInterest")]
-        public ActionResult<List<PointOfInterestDto>> GetPointsOfInterest(Guid cityId)
+        public async Task<ActionResult<List<PointOfInterestDto>>> GetPointsOfInterest(Guid cityId)
         {
             try
             {
-                if (!_cityProcessor.DoesCityExist(cityId))
+                var doesCityExist = await _cityProcessor.DoesCityExist(cityId);
+                if (!doesCityExist)
                 {
                     _logger.LogInformation($"**** LOGGER: No city with the cityId of {cityId} was found.");
                     return NotFound($"No city with the cityKey of {cityId} was found.");
                 }
                 else
                 {
-                    var results = _pointsOfInterestProcessor.GetPointsOfInterest(cityId);
+                    var results = await _pointsOfInterestProcessor.GetPointsOfInterest(cityId);
                     return Ok(results);
                 }
             }
@@ -91,18 +93,19 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
         [HttpGet("pointsofinterest/{pointId}", Name = "GetPointOfInterestById")]
-        public ActionResult<PointOfInterestDto> GetPointOfInterestById(Guid cityId, Guid pointId)
+        public async Task<ActionResult<PointOfInterestDto>> GetPointOfInterestById(Guid cityId, Guid pointId)
         {
             try
             {
-                if (!_cityProcessor.DoesCityExist(cityId))
+                var doesCityExist = await _cityProcessor.DoesCityExist(cityId);
+                if (!doesCityExist)
                 {
                     _logger.LogInformation($"**** LOGGER: No city with the cityId of {cityId} was found.");
                     return NotFound($"No city with the cityId of {cityId} was found.");
                 }
                 else
                 {
-                    var pointOfInterest = _pointsOfInterestProcessor.GetPointOfInterestById(cityId, pointId);
+                    var pointOfInterest = await _pointsOfInterestProcessor.GetPointOfInterestById(cityId, pointId);
                     if (pointOfInterest == null)
                     {
                         _logger.LogInformation($"**** LOGGER: No point of interest the pointId of {pointId} was found.");
@@ -133,7 +136,7 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesDefaultResponseType]
         [Consumes("application/json")]
         [HttpPost("pointsofinterest", Name = "CreatePointOfInterest")]
-        public ActionResult CreatePointOfInterest(Guid cityId, [FromBody] PointOfInterestCreateRequestDto submittedPointOfInterest)
+        public async Task<ActionResult> CreatePointOfInterest(Guid cityId, [FromBody] PointOfInterestCreateRequestDto submittedPointOfInterest)
         {
             try
             {
@@ -154,20 +157,22 @@ namespace CityInfoAPI.Web.Controllers
                 //    return BadRequest($"The city id was missing for {submittedPointOfInterest.Name}.");
                 //}
 
-                if (!_cityProcessor.DoesCityExist(cityId))
+                var doesCityExist = await _cityProcessor.DoesCityExist(cityId);
+                if (!doesCityExist)
                 {
                     _logger.LogInformation($"**** LOGGER: No city was found for cityId {cityId}.");
                     return NotFound($"No city was found for cityId {cityId}.");
                 }
 
                 // each city can only have 25 points of interest.
-                if (_pointsOfInterestProcessor.GetPointsOfInterest(cityId).Count() >= 25)
+                List<PointOfInterestDto> pointsOfInterest = await _pointsOfInterestProcessor.GetPointsOfInterest(cityId);
+                if (pointsOfInterest.Count() >= 25)
                 {
-                    var city = _cityProcessor.GetCityById(cityId, false);
+                    var city = await _cityProcessor.GetCityById(cityId, false);
                     return BadRequest($"Sorry. The city {city.Name} cannot have more that 25 points of interest.");
                 }
 
-                PointOfInterestDto newPointOfInterest = _pointsOfInterestProcessor.CreateNewPointOfInterest(cityId, submittedPointOfInterest);
+                PointOfInterestDto newPointOfInterest = await _pointsOfInterestProcessor.CreateNewPointOfInterest(cityId, submittedPointOfInterest);
 
                 if (newPointOfInterest == null)
                 {
@@ -197,7 +202,7 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
         [HttpPut("pointsofinterest/{pointId}", Name = "UpdatePointOfInterest")]
-        public IActionResult UpdatePointOfInterest(Guid cityId, Guid pointId, [FromBody] PointOfInterestUpdateDto submittedPointOfInterest)
+        public async Task<ActionResult> UpdatePointOfInterest(Guid cityId, Guid pointId, [FromBody] PointOfInterestUpdateDto submittedPointOfInterest)
         {
             try
             {
@@ -208,7 +213,8 @@ namespace CityInfoAPI.Web.Controllers
                 }
 
                 // does the city exist?
-                if (!_cityProcessor.DoesCityExist(cityId))
+                var doesCityExist = await _cityProcessor.DoesCityExist(cityId);
+                if (!doesCityExist)
                 {
                     _logger.LogInformation($"**** LOGGER: City of id {cityId} was not found.");
                     return NotFound("City not found");
@@ -221,14 +227,16 @@ namespace CityInfoAPI.Web.Controllers
                 }
 
                 // does point of interest exist?
-                bool pointOfInterestExists = _pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointId);
-                if (!pointOfInterestExists)
+                //bool pointOfInterestExists = _pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointId);
+                var pointOfInterestExistsTask = _pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointId);
+                if (!pointOfInterestExistsTask.Result)
                 {
                     _logger.LogInformation($"**** LOGGER: An attempt was made to update a point of interest which did not exist. cityKey {cityId}. Point Of Interest Id {pointId}.");
                     return NotFound($"Point of Interest Id {pointId} was not found.");
                 }
 
-                if (!_pointsOfInterestProcessor.UpdatePointOfInterest(cityId, pointId, submittedPointOfInterest))
+                var pointOfInterestUpdateTask = _pointsOfInterestProcessor.UpdatePointOfInterest(cityId, pointId, submittedPointOfInterest);
+                if (!pointOfInterestUpdateTask.Result)
                 {
                     _logger.LogWarning($"**** LOGGER: An error occurred when updating the point of interest. cityKey {cityId}. Point Of Interest Id {pointId}.");
                     return StatusCode(500, "An error occurred when updating the point of interest.");
@@ -270,7 +278,7 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
         [HttpPatch("pointsofinterest/{pointId}", Name = "PatchPointOfInterest")]
-        public ActionResult<PointOfInterestUpdateDto> PatchPointOfInterest(Guid cityId, Guid pointId, [FromBody] JsonPatchDocument<PointOfInterestUpdateDto> patchDocument)
+        public async Task<ActionResult<PointOfInterestUpdateDto>> PatchPointOfInterest(Guid cityId, Guid pointId, [FromBody] JsonPatchDocument<PointOfInterestUpdateDto> patchDocument)
         {
             try
             {
@@ -292,14 +300,16 @@ namespace CityInfoAPI.Web.Controllers
                         }
 
                         // is this a valid city?
-                        if (!_cityProcessor.DoesCityExist(cityId))
+                        var doesCityExist = await _cityProcessor.DoesCityExist(cityId);
+                        if (!doesCityExist)
                         {
                             _logger.LogInformation($"**** LOGGER: City of cityId {cityId} was not found.");
                             return NotFound($"City of cityId {cityId} was not found.");
                         }
 
                         // does point of interest exist?
-                        bool pointOfInterestExists = _pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointId);
+                        var pointOfInterestExists = await _pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointId);
+
                         if (!pointOfInterestExists)
                         {
                             _logger.LogInformation($"**** LOGGER: An attempt was made to update a point of interest which did not exist. cityKey {cityId}. Point Of Interest Id {pointId}.");
@@ -308,7 +318,7 @@ namespace CityInfoAPI.Web.Controllers
 
                         // we need to map the entity to a dto so we than can map the patch to the dto and back to the entity.
                         // <casted destination type>(source).
-                        var pointOfInterestEntity = _cityInfoRepository.GetPointOfInterestById(cityId, pointId);
+                        var pointOfInterestEntity = await _cityInfoRepository.GetPointOfInterestById(cityId, pointId);
                         var pointOfInterestToPatch = Mapper.Map<PointOfInterestUpdateDto>(pointOfInterestEntity);
 
                         // If we include the optional ModelState argument, it will send back any potential errors.
@@ -379,19 +389,22 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
         [HttpDelete("pointsofinterest/{pointId}", Name = "DeletePointOfInterest")]
-        public ActionResult DeletePointOfInterest(Guid cityId, Guid pointId)
+        public async Task<ActionResult> DeletePointOfInterest(Guid cityId, Guid pointId)
         {
             try
             {
                 // is this a valid city?
-                if (!_cityProcessor.DoesCityExist(cityId))
+                var doesCityExist = await _cityProcessor.DoesCityExist(cityId);
+                if (!doesCityExist)
                 {
                     _logger.LogInformation($"**** LOGGER: City of cityKey {cityId} was not found.");
                     return NotFound($"City of cityKey {cityId} was not found.");
                 }
 
                 // does point of interest exist?
-                bool pointOfInterestExists = _pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointId);
+                //bool pointOfInterestExists = _pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointId);
+                Task<bool> pointOfInterestExistsTask = _pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointId);
+                bool pointOfInterestExists = pointOfInterestExistsTask.Result;
                 if (!pointOfInterestExists)
                 {
                     _logger.LogInformation($"**** LOGGER: An attempt was made to delete a point of interest which did not exist. CityId {cityId}. Point Of Interest key {pointId}.");
@@ -399,9 +412,10 @@ namespace CityInfoAPI.Web.Controllers
                 }
 
                 // get this one last time before it's removed so we can reference it in the response
-                var pointOfInterestToBeDeleted = _pointsOfInterestProcessor.GetPointOfInterestById(cityId, pointId);
+                var pointOfInterestToBeDeleted = await _pointsOfInterestProcessor.GetPointOfInterestById(cityId, pointId);
+                var deleteTask = _pointsOfInterestProcessor.DeletePointOfInterest(cityId, pointId);
 
-                if (!_pointsOfInterestProcessor.DeletePointOfInterest(cityId, pointId))
+                if (!deleteTask.Result)
                 {
                     _logger.LogWarning("**** LOGGER: An error occurred when deleting the point of interest.");
                     return StatusCode(500, "An error occurred when deleting the point of interest.");
@@ -427,19 +441,21 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         [ProducesDefaultResponseType]
         [HttpPost("pointsofinterest/{pointOfInterestId}", Name = "BlockPostToExistingPointOfInterest")]
-        public ActionResult BlockPostToExistingPointOfInterest(Guid cityId, Guid pointOfInterestId)
+        public async Task<ActionResult> BlockPostToExistingPointOfInterest(Guid cityId, Guid pointOfInterestId)
         {
             // this is being a touch over-protective.  The idea is to not allow (and inform) the consumer
             // that they can post to this endpoint with an id.  Anything with an id should be done with a PUT
             // or a PATCH.
             try
             {
-                if (!_cityProcessor.DoesCityExist(cityId))
+                var doesCityExist = await _cityProcessor.DoesCityExist(cityId);
+                if (!doesCityExist)
                 {
                     return BadRequest("You cannot post to cities like this.");
                 }
 
-                if (!_pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointOfInterestId))
+                var checkPointOfInterestTask = _pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointOfInterestId);
+                if (!checkPointOfInterestTask.Result)
                 {
                     return BadRequest("You cannot post to point of interest like this.");
                 }

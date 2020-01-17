@@ -4,6 +4,7 @@ using CityInfoAPI.Dtos.Models;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CityInfoAPI.Logic.Processors
 {
@@ -21,40 +22,40 @@ namespace CityInfoAPI.Logic.Processors
         }
 
 
-        public List<CityWithoutPointsOfInterestDto> GetCities()
+        public async Task<List<CityWithoutPointsOfInterestDto>> GetCities()
         {
-            var cityEntities = _cityInfoRepository.GetCities();
+            var cityEntities = await _cityInfoRepository.GetCities();
             var results = Mapper.Map<List<CityWithoutPointsOfInterestDto>>(cityEntities);
             return results;
         }
 
-        public List<CityDto> GetCitiesWithPointOfInterest()
+        public async Task<List<CityDto>> GetCitiesWithPointOfInterest()
         {
-            var cities = _cityInfoRepository.GetCitiesWithPointsOfInterest();
+            var cities = await _cityInfoRepository.GetCitiesWithPointsOfInterest();
             var results = Mapper.Map<List<CityDto>>(cities);
             return results;
         }
 
-        public bool DoesCityExist(Guid cityId)
+        public async Task<bool> DoesCityExist(Guid cityId)
         {
-            return _cityInfoRepository.DoesCityExist(cityId);
+            return await _cityInfoRepository.DoesCityExist(cityId);
         }
 
-        public CityDto GetCityById(Guid cityId, bool includePointsOfInterest)
+        public async Task<CityDto> GetCityById(Guid cityId, bool includePointsOfInterest)
         {
-            var city = _cityInfoRepository.GetCityById(cityId, includePointsOfInterest);
+            var city = await _cityInfoRepository.GetCityById(cityId, includePointsOfInterest);
             var results = Mapper.Map<CityDto>(city);
             return results;
         }
 
-        public CityDto CreateCity(CityCreateDto newCityRequest)
+        public async Task<CityDto> CreateCity(CityCreateDto newCityRequest)
         {
             try
             {
                 var newCityEntity = Mapper.Map<CityInfoAPI.Data.Entities.City>(newCityRequest);
 
                 // add it to memory.
-                _cityInfoRepository.CreateCity(newCityEntity);
+                await _cityInfoRepository.CreateCity(newCityEntity);
 
                 // save it
                 bool success = _cityInfoRepository.SaveChanges();

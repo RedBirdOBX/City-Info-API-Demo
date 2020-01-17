@@ -4,7 +4,7 @@ using CityInfoAPI.Data.Repositories;
 using CityInfoAPI.Dtos.Models;
 using System;
 using System.Collections.Generic;
-
+using System.Threading.Tasks;
 
 namespace CityInfoAPI.Logic.Processors
 {
@@ -20,27 +20,27 @@ namespace CityInfoAPI.Logic.Processors
         }
 
 
-        public bool DoesPointOfInterestExistForCity(Guid cityId, Guid pointId)
+        public async Task<bool> DoesPointOfInterestExistForCity(Guid cityId, Guid pointId)
         {
-            PointOfInterest pointOfInterest = _cityInfoRepository.GetPointOfInterestById(cityId, pointId);
+            PointOfInterest pointOfInterest = await _cityInfoRepository.GetPointOfInterestById(cityId, pointId);
             return pointOfInterest != null;
         }
 
-        public List<PointOfInterestDto> GetPointsOfInterest(Guid cityId)
+        public async Task<List<PointOfInterestDto>> GetPointsOfInterest(Guid cityId)
         {
-            var pointsOfInterest = _cityInfoRepository.GetPointsOfInterest(cityId);
+            var pointsOfInterest = await _cityInfoRepository.GetPointsOfInterest(cityId);
             var results = Mapper.Map<List<PointOfInterestDto>>(pointsOfInterest);
             return results;
         }
 
-        public PointOfInterestDto GetPointOfInterestById(Guid cityId, Guid pointId)
+        public async Task<PointOfInterestDto> GetPointOfInterestById(Guid cityId, Guid pointId)
         {
-            var pointOfInterest = _cityInfoRepository.GetPointOfInterestById(cityId, pointId);
+            var pointOfInterest = await _cityInfoRepository.GetPointOfInterestById(cityId, pointId);
             var result = Mapper.Map<PointOfInterestDto>(pointOfInterest);
             return result;
         }
 
-        public PointOfInterestDto CreateNewPointOfInterest(Guid cityId, PointOfInterestCreateRequestDto newPointOfInterestRequest)
+        public async Task<PointOfInterestDto> CreateNewPointOfInterest(Guid cityId, PointOfInterestCreateRequestDto newPointOfInterestRequest)
         {
             // map the request to a create dto that contains a auto-generated guid
             var newPointOfInterestDto = Mapper.Map<CityInfoAPI.Dtos.Models.PointOfInterestCreateDto>(newPointOfInterestRequest);
@@ -52,7 +52,7 @@ namespace CityInfoAPI.Logic.Processors
             var newPointOfInterestEntity = Mapper.Map<CityInfoAPI.Data.Entities.PointOfInterest>(newPointOfInterestDto);
 
             // add it to memory.
-            _cityInfoRepository.CreatePointOfInterest(cityId, newPointOfInterestEntity);
+            await _cityInfoRepository.CreatePointOfInterest(cityId, newPointOfInterestEntity);
 
             bool success = _cityInfoRepository.SaveChanges();
 
@@ -66,9 +66,9 @@ namespace CityInfoAPI.Logic.Processors
             return returnedPointOfInterest;
         }
 
-        public bool UpdatePointOfInterest(Guid cityId, Guid pointId, PointOfInterestUpdateDto submittedPointOfInterest)
+        public async Task<bool> UpdatePointOfInterest(Guid cityId, Guid pointId, PointOfInterestUpdateDto submittedPointOfInterest)
         {
-            PointOfInterest entityPointOfInterest = _cityInfoRepository.GetPointOfInterestById(cityId, pointId);
+            PointOfInterest entityPointOfInterest = await _cityInfoRepository.GetPointOfInterestById(cityId, pointId);
 
             // This is an overload. (source object >> destination object).
             // This overload will overwrite the values in the destination obj with the values in the source object.
@@ -76,10 +76,10 @@ namespace CityInfoAPI.Logic.Processors
             return _cityInfoRepository.SaveChanges();
         }
 
-        public bool DeletePointOfInterest(Guid cityId, Guid pointId)
+        public async Task<bool> DeletePointOfInterest(Guid cityId, Guid pointId)
         {
             // get the entity
-            var pointOfInterest = _cityInfoRepository.GetPointOfInterestById(cityId, pointId);
+            var pointOfInterest = await _cityInfoRepository.GetPointOfInterestById(cityId, pointId);
 
             // all is good.  Remove the Point of Interest
             _cityInfoRepository.DeletePointOfInterest(pointOfInterest);

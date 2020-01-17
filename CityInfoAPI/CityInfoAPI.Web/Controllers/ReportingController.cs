@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CityInfoAPI.Web.Controllers
 {
@@ -40,11 +41,11 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesDefaultResponseType]
         [HttpGet("summary", Name = "GetCitySummary")]
-        public ActionResult<List<CitySummaryDto>> CitySummary()
+        public async Task<ActionResult<List<CitySummaryDto>>> CitySummary()
         {
             try
             {
-                var results = _reportingProcessor.GetCitiesSummary();
+                var results = await _reportingProcessor.GetCitiesSummary();
                 return results;
             }
             catch (System.Exception exception)
