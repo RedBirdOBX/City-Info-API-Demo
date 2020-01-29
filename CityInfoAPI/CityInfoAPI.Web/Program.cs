@@ -36,16 +36,13 @@ namespace CityInfoAPI.Web
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-
-                // https://johan.driessen.se/posts/Properly-configuring-NLog-and-ILogger-in-ASP-NET-Core-2-2/
                 .ConfigureAppConfiguration((hostingContext, config) =>
                 {
                     var env = hostingContext.HostingEnvironment;
 
                     //Read configuration from appsettings.json
-                    config
-                        .AddJsonFile("appSettings.json", optional: false, reloadOnChange: true)
-                        .AddJsonFile($"appSettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
+                    config.AddJsonFile("appSettings.json", optional: false, reloadOnChange: true)
+                            .AddJsonFile($"appSettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
 
                     //Add environment variables to config
                     config.AddEnvironmentVariables();
@@ -60,9 +57,8 @@ namespace CityInfoAPI.Web
                     logging.AddDebug();
                     logging.AddConsole();
                     logging.AddNLog();
-                    logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+                    logging.SetMinimumLevel(LogLevel.Information);
                 });
-
     }
 
     #pragma warning restore CS1591

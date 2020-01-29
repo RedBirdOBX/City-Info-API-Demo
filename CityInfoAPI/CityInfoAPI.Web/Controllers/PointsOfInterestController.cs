@@ -402,7 +402,6 @@ namespace CityInfoAPI.Web.Controllers
                 }
 
                 // does point of interest exist?
-                //bool pointOfInterestExists = _pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointId);
                 Task<bool> pointOfInterestExistsTask = _pointsOfInterestProcessor.DoesPointOfInterestExistForCity(cityId, pointId);
                 bool pointOfInterestExists = pointOfInterestExistsTask.Result;
                 if (!pointOfInterestExists)
@@ -422,7 +421,7 @@ namespace CityInfoAPI.Web.Controllers
                 }
 
                 _mailService.SendMessage("**** Point of Interest deleted", $"Point of Interest {pointOfInterestToBeDeleted.PointId} {pointOfInterestToBeDeleted.Name} was deleted. ****");
-
+                _logger.LogInformation($"**** LOGGER: Point of Interest {pointOfInterestToBeDeleted.PointId} {pointOfInterestToBeDeleted.Name} was deleted.");
                 return Ok(pointOfInterestToBeDeleted.Name + " has been removed");
             }
             catch (Exception exception)
