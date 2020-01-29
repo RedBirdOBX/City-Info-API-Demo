@@ -82,8 +82,149 @@ namespace CityInfoAPI.Data.Repositories
                         new PointOfInterest { Id = 10, CityId = new Guid("5c53812d-b75f-4cd5-88b6-ce06f1ab65e1"), PointId =  new Guid("07d8119c-2a38-4f07-a257-09d0735069f3"), Name = "Kings Dominion", Description = "Good amusement park", CreatedOn = new DateTime(2019, 5, 1) },
                         new PointOfInterest { Id = 11, CityId = new Guid("5c53812d-b75f-4cd5-88b6-ce06f1ab65e1"), PointId =  new Guid("81d19a67-35a2-4d2b-91ae-c4d295af1020"), Name = "Statues", Description = "A bunch of confederate statues", CreatedOn = new DateTime(2019, 5, 1) }
                     }
-                }
-            };
+                },
+                new City
+                {
+                    Id = 6,
+                    CityId = new Guid("993384d7-e5ed-468e-ba18-3c12aa7e4b97"),
+                    Name = "Pittsburgh",
+                    Description = "Pittsburgh, Pennsylvania",
+                    CreatedOn = new DateTime(2020, 1, 20),
+                    PointsOfInterest = new List<PointOfInterest>
+                    {
+                        new PointOfInterest { Id = 12, CityId = new Guid("993384d7-e5ed-468e-ba18-3c12aa7e4b97"), PointId =  new Guid("38862556-c9b4-4413-880f-77a6d0ce37af"), Name = "Attraction 1", Description = "Attraction 1 for Pittsburgh", CreatedOn = new DateTime(2020, 1, 20) },
+                        new PointOfInterest { Id = 13, CityId = new Guid("993384d7-e5ed-468e-ba18-3c12aa7e4b97"), PointId =  new Guid("fe06cc0e-47d2-4541-ac13-47472a1114cc"), Name = "Attraction 2", Description = "Attraction 2 for Pittsburgh", CreatedOn = new DateTime(2020, 1, 20) }
+                    }
+                },
+                new City
+                {
+                    Id = 7,
+                    CityId = new Guid("67c461e3-75ed-4c27-a9ff-a940f394e294"),
+                    Name = "Kansas City",
+                    Description = "Major metropolis with more than 2 million residents",
+                    CreatedOn = new DateTime(2020, 1, 20),
+                    PointsOfInterest = new List<PointOfInterest>
+                    {
+                        new PointOfInterest { Id = 14, CityId = new Guid("67c461e3-75ed-4c27-a9ff-a940f394e294"), PointId =  new Guid("f8be704c-b1e0-41b4-9930-f4077ca6f021"), Name = "American Jazz Museum", Description = "The nationally known American Jazz Museum.", CreatedOn = new DateTime(2020, 1, 20) }
+                    }
+                },
+                new City
+                {
+                    Id = 8,
+                    CityId = new Guid("197ab6b1-1983-4fb5-af94-13c1302d907e"),
+                    Name = "Knoxville",
+                    Description = "For sports enthusiasts and outdoor enthusiasts",
+                    CreatedOn = new DateTime(2020, 1, 20),
+                    PointsOfInterest = new List<PointOfInterest>
+                    {
+                        new PointOfInterest { Id = 15, CityId = new Guid("197ab6b1-1983-4fb5-af94-13c1302d907e"), PointId =  new Guid("27226f5a-c778-4255-83a3-4453dca5c4c4"), Name = "Smoky Mountains National Park", Description = "The great Smoky Mountains National Park", CreatedOn = new DateTime(2020, 1, 20) },
+                        new PointOfInterest { Id = 16, CityId = new Guid("197ab6b1-1983-4fb5-af94-13c1302d907e"), PointId =  new Guid("ab35ae85-1fb4-437a-8ecf-fa718c6021fc"), Name = "Ijams Nature Center", Description = "The Ijams Nature Center", CreatedOn = new DateTime(2020, 1, 20) }
+                    }
+                },
+                new City
+                {
+                    Id = 9,
+                    CityId = new Guid("ce09626b-e19e-47f5-82f3-2bbf60866a47"),
+                    Name = "Charleston",
+                    Description = "Historic, and sophisticated ambiance is exemplary of southern culture",
+                    CreatedOn = new DateTime(2020, 1, 20),
+                    PointsOfInterest = new List<PointOfInterest>
+                    {
+                        new PointOfInterest { Id = 17, CityId = new Guid("ce09626b-e19e-47f5-82f3-2bbf60866a47"), PointId =  new Guid("7abc9c58-f9b4-4326-bf46-2acd45f15ad5"), Name = "Charleston Boat Tours", Description = "Charleston Boat Tours", CreatedOn = new DateTime(2020, 1, 20) },
+                        new PointOfInterest { Id = 18, CityId = new Guid("ce09626b-e19e-47f5-82f3-2bbf60866a47"), PointId =  new Guid("e7e6aa0a-5d60-42f3-b4b0-e3fc43190d14"), Name = "Aiken-Rhett House Museum", Description = "The Aiken-Rhett House Museum", CreatedOn = new DateTime(2020, 1, 20) }
+                    }
+                },
+                new City
+                {
+                    Id = 10,
+                    CityId = new Guid("7b042e31-f85d-4500-b616-3ac094945610"),
+                    Name = "Orlando",
+                    Description = "Home of DisneyWorld",
+                    CreatedOn = new DateTime(2020, 1, 20),
+                    PointsOfInterest = new List<PointOfInterest>
+                    {
+                        new PointOfInterest { Id = 19, CityId = new Guid("7b042e31-f85d-4500-b616-3ac094945610"), PointId =  new Guid("7d043ece-438c-4da6-83c5-497dbbf9c60d"), Name = "DisneyWorld", Description = "All the major DisneyWorld parks", CreatedOn = new DateTime(2020, 1, 20) },
+                        new PointOfInterest { Id = 20, CityId = new Guid("7b042e31-f85d-4500-b616-3ac094945610"), PointId =  new Guid("766a2321-f8a2-4c2a-8bc1-1c301466076b"), Name = "Universal Studios", Description = "Another great park", CreatedOn = new DateTime(2020, 1, 20) }
+                    }
+                },
+                new City
+                {
+                    Id = 11,
+                    CityId = new Guid("7d043ece-438c-4da6-83c5-497dbbf9c60d"),
+                    Name = "Harrisburg",
+                    Description = "Offers residents unlimited access to the outdoors",
+                    CreatedOn = new DateTime(2020, 1, 20),
+                    PointsOfInterest = new List<PointOfInterest>
+                    {
+                        new PointOfInterest { Id = 21, CityId = new Guid("7d043ece-438c-4da6-83c5-497dbbf9c60d"), PointId =  new Guid("48dc5487-567c-4158-8131-2e00466317ba"), Name = "Appalachian Trail", Description = "The great Appalachian Trail", CreatedOn = new DateTime(2020, 1, 20) },
+                        new PointOfInterest { Id = 22, CityId = new Guid("7d043ece-438c-4da6-83c5-497dbbf9c60d"), PointId =  new Guid("5887231d-5480-4f8f-ab10-83024fdc4601"), Name = "Hershey's Park", Description = "Hershey's Amusement Park", CreatedOn = new DateTime(2020, 1, 20) }
+                    }
+                },
+                new City
+                {
+                    Id = 12,
+                    CityId = new Guid("3f587eb0-686e-467a-962d-54c3596b1e76"),
+                    Name = "Manchester",
+                    Description = "Strong culture, youthful vibe, and political character",
+                    CreatedOn = new DateTime(2020, 1, 20),
+                    PointsOfInterest = new List<PointOfInterest>
+                    {
+                        new PointOfInterest { Id = 23, CityId = new Guid("3f587eb0-686e-467a-962d-54c3596b1e76"), PointId =  new Guid("3e9ffdf1-3261-4c93-b867-1af9812519e6"), Name = "Lake Massabesic", Description = "The great Lake Massabesic", CreatedOn = new DateTime(2020, 1, 20) },
+                        new PointOfInterest { Id = 24, CityId = new Guid("3f587eb0-686e-467a-962d-54c3596b1e76"), PointId =  new Guid("0321c587-9826-47b3-be26-4ffe8781b05a"), Name = "SEE Science Center", Description = "The SEE Science Center", CreatedOn = new DateTime(2020, 1, 20) }
+                    }
+                },
+                new City
+                {
+                    Id = 13,
+                    CityId = new Guid("1e2e0301-0477-41b0-aaae-ad00ae69716d"),
+                    Name = "Jacksonville",
+                    Description = "Beach-adjacent location makes it ideal for outdoor activities",
+                    CreatedOn = new DateTime(2020, 1, 20),
+                    PointsOfInterest = new List<PointOfInterest>
+                    {
+                        new PointOfInterest { Id = 25, CityId = new Guid("1e2e0301-0477-41b0-aaae-ad00ae69716d"), PointId =  new Guid("0ab68194-481f-40bf-bd36-467de0d27457"), Name = "The Jacksonville Zoo & Gardens", Description = "Jacksonville Zoo & Gardens", CreatedOn = new DateTime(2020, 1, 20) },
+                        new PointOfInterest { Id = 26, CityId = new Guid("1e2e0301-0477-41b0-aaae-ad00ae69716d"), PointId =  new Guid("bcba6f5c-a5fc-4992-bfe0-69906ab4a70c"), Name = "The Catty Shack Ranch Wildlife Sanctuary", Description = "Catty Shack Ranch Wildlife Sanctuary", CreatedOn = new DateTime(2020, 1, 20) }
+                    }
+                },
+                new City
+                {
+                    Id = 14,
+                    CityId = new Guid("14b4c650-31dd-4a82-b0ec-0371d43e8fa0"),
+                    Name = "Cincinnati",
+                    Description = "City that loves its food, sports, and culture",
+                    CreatedOn = new DateTime(2020, 1, 20),
+                    PointsOfInterest = new List<PointOfInterest>
+                    {
+                        new PointOfInterest { Id = 27, CityId = new Guid("14b4c650-31dd-4a82-b0ec-0371d43e8fa0"), PointId =  new Guid("7af52b1e-45b9-4ef6-85a6-ebd85ac9b30d"), Name = "Cincinnati Zoo & Botanical Garden", Description = "The Cincinnati Zoo & Botanical Garden", CreatedOn = new DateTime(2020, 1, 20) },
+                        new PointOfInterest { Id = 28, CityId = new Guid("14b4c650-31dd-4a82-b0ec-0371d43e8fa0"), PointId =  new Guid("cacad59c-1667-4943-9b16-8a7f3f9dd99e"), Name = "Smale Riverfront Park", Description = "The Smale Riverfront Park", CreatedOn = new DateTime(2020, 1, 20) }
+                    }
+                },
+                new City
+                {
+                    Id = 15,
+                    CityId = new Guid("775ed85d-a5cb-4737-bd7b-e3706c5d8c17"),
+                    Name = "Pensacola",
+                    Description = "Great areas for fishing",
+                    CreatedOn = new DateTime(2020, 1, 20),
+                    PointsOfInterest = new List<PointOfInterest>
+                    {
+                        new PointOfInterest { Id = 29, CityId = new Guid("775ed85d-a5cb-4737-bd7b-e3706c5d8c17"), PointId =  new Guid("75ac2114-ce43-4d0a-998f-cbcb90f8a7dc"), Name = "Pensacola Attraction 1", Description = "Pensacola Attraction 1 description.", CreatedOn = new DateTime(2020, 1, 20) },
+                        new PointOfInterest { Id = 30, CityId = new Guid("775ed85d-a5cb-4737-bd7b-e3706c5d8c17"), PointId =  new Guid("3e8b9d6d-f443-4c84-b9cb-06a36d3ee030"), Name = "Pensacola Attraction 2", Description = "Pensacola Attraction 2 description.", CreatedOn = new DateTime(2020, 1, 20) }
+                    }
+                },
+                new City
+                {
+                    Id = 16,
+                    CityId = new Guid("68b290cc-c4bf-49cc-a923-67ea7f676a4f"),
+                    Name = "San Antonio",
+                    Description = "San Antonio, Texas",
+                    CreatedOn = new DateTime(2020, 1, 20),
+                    PointsOfInterest = new List<PointOfInterest>
+                    {
+                        new PointOfInterest { Id = 31, CityId = new Guid("68b290cc-c4bf-49cc-a923-67ea7f676a4f"), PointId =  new Guid("9e67fe51-16b9-4765-a048-1a36e13d53a2"), Name = "Natural Bridge Caverns", Description = "The Natural Bridge Caverns.", CreatedOn = new DateTime(2020, 1, 20) },
+                        new PointOfInterest { Id = 32, CityId = new Guid("68b290cc-c4bf-49cc-a923-67ea7f676a4f"), PointId =  new Guid("9a137f85-803e-482c-83ee-31895c29d334"), Name = "The Alamo", Description = "Don't forget this one.", CreatedOn = new DateTime(2020, 1, 20) }
+                    }
+                }            };
         }
 
         public async Task<List<City>> GetCities()
