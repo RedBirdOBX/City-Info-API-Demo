@@ -464,3 +464,10 @@ Added new resources:
 **1.8.0**  
 1.17.2020  
 - Converted all Controller, Processor, and Repository methods to be `asynchronous`. Controller actions and processor methods return `Task<T>` and calls to these services are annotated with `async` and `await`.
+
+
+<!--
+**1.9.0**
+TBD
+- Added more test cities in the `in memory datastore`. More will be needed for the upcoming pagination development.
+-->
