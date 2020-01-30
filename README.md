@@ -1,7 +1,7 @@
 # The City Info Demo API
   
 ----------
-*Version 1.8.0*
+*Version 1.8.1*
 
 ## Summary
 Welcome to the City Info Demo API. Imagine that you were developing for some kind of travel site and one of the requirements was you needed to be able to ask for a complete listing of cities; ask for any given city by it's ID and, if specifically asked for, you needed to be able to provide all the "touristy" things to do for that specified city (landmarks, parks, restaurants, and so on).  
@@ -464,3 +464,10 @@ Added new resources:
 **1.8.0**  
 1.17.2020  
 - Converted all Controller, Processor, and Repository methods to be `asynchronous`. Controller actions and processor methods return `Task<T>` and calls to these services are annotated with `async` and `await`.
+
+
+**1.8.1**
+1.30.2019
+- Added more test cities in the `in memory datastore`. More will be needed for the upcoming pagination development.
+- Minor logging improvements and general clean up.
+- Added pull request template.
