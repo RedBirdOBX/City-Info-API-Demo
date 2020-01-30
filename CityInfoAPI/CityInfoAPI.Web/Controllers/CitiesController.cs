@@ -88,6 +88,7 @@ namespace CityInfoAPI.Web.Controllers
                 }
                 else
                 {
+                    _logger.LogInformation($"**** LOGGER: Consumer looking for cityId {cityId}.");
                     var city = await _cityProcessor.GetCityById(cityId, includePointsOfInterest);
                     return Ok(city);
                 }
