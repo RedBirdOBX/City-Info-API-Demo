@@ -2,6 +2,7 @@
 using CityInfoAPI.Data.Repositories;
 using CityInfoAPI.Dtos.Models;
 using CityInfoAPI.Logic.Processors;
+using CityInfoAPI.Web.Controllers.RequestHelpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.JsonPatch.Operations;
@@ -51,10 +52,14 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesDefaultResponseType]
         [HttpGet("", Name = "GetCities")]
-        public async Task<ActionResult<List<CityDto>>> GetCities()
+        public async Task<ActionResult<List<CityDto>>> GetCities([FromQuery] CitiesPagingParameters citiesPagingParameters)
         {
             try
             {
+                //https://app.pluralsight.com/course-player?clipId=7fa4bcd0-3d29-44ff-bb9b-e7382ae2c55a
+                // start at 3:20
+                var x = citiesPagingParameters;
+
                 var results = await _cityProcessor.GetCities();
                 return Ok(results);
             }
