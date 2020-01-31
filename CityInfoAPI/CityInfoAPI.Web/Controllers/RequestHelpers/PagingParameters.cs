@@ -2,13 +2,15 @@
 {
     #pragma warning disable CS1591
 
-    public class CitiesPagingParameters
+    public class PagingParameters
     {
         private const int _minPageNumber = 1;
+        private const int _defaultPageNumber = 1;
         private const int _minPageSize = 1;
         private const int _maxPageSize = 10;
+        private const int _defaultPageSize = 10;
 
-        private int _pageNumber;
+        private int _pageNumber = _defaultPageNumber;
         public int PageNumber
         {
             get
@@ -23,7 +25,7 @@
             }
         }
 
-        private int _pageSize;
+        private int _pageSize = _defaultPageSize;
         public int PageSize
         {
             get

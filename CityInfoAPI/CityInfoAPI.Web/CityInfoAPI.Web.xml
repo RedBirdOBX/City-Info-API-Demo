@@ -15,7 +15,7 @@
             <param name="pointsOfInterestProcessor">points of interest processor middleware to be injected</param>
             <param name="cityInfoRepository">city repository</param>
         </member>
-        <member name="M:CityInfoAPI.Web.Controllers.CitiesController.GetCities(CityInfoAPI.Web.Controllers.RequestHelpers.CitiesPagingParameters)">
+        <member name="M:CityInfoAPI.Web.Controllers.CitiesController.GetCities(CityInfoAPI.Web.Controllers.RequestHelpers.PagingParameters)">
             <summary>get a collection of all cities. does not include point of interests.</summary>
             <example>http://{domain}/api/v1.0/cities</example>
             <returns>a collection of CityDto</returns>

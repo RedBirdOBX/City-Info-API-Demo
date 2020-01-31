@@ -52,15 +52,12 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesDefaultResponseType]
         [HttpGet("", Name = "GetCities")]
-        public async Task<ActionResult<List<CityDto>>> GetCities([FromQuery] CitiesPagingParameters citiesPagingParameters)
+        public async Task<ActionResult<List<CityDto>>> GetCities([FromQuery] PagingParameters pagingParameters)
         {
             try
             {
-                //https://app.pluralsight.com/course-player?clipId=7fa4bcd0-3d29-44ff-bb9b-e7382ae2c55a
-                // start at 3:20
-                var x = citiesPagingParameters;
-
-                var results = await _cityProcessor.GetCities();
+                // to do: validate that the page number isn't too large...
+                var results = await _cityProcessor.GetCities(pagingParameters.PageNumber, pagingParameters.PageSize);
                 return Ok(results);
             }
             catch (Exception exception)
@@ -118,7 +115,7 @@ namespace CityInfoAPI.Web.Controllers
             try
             {
                 // Does a city with this name already exist?
-                List<CityWithoutPointsOfInterestDto> allCities = await _cityProcessor.GetCities();
+                List<CityWithoutPointsOfInterestDto> allCities = await _cityProcessor.GetAllCities();
                 if (allCities.Where(c => c.Name.ToLower() == newCityRequest.Name.Trim().ToLower()).Count() > 0)
                 {
                     ModelState.AddModelError("Description", "A city with this name already exists.");

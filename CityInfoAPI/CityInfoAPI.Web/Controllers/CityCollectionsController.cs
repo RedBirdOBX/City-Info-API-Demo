@@ -87,7 +87,7 @@ namespace CityInfoAPI.Web.Controllers
             try
             {
                 // does a city with this name already exist? loop thru each submitted city and see if the name exists already.
-                List<CityWithoutPointsOfInterestDto> allCities = await _cityProcessor.GetCities();
+                List<CityWithoutPointsOfInterestDto> allCities = await _cityProcessor.GetAllCities();
                 foreach (CityCreateDto newCity in newCitiesRequest)
                 {
                     if (allCities.Where(c => c.Name.ToLower() == newCity.Name.Trim().ToLower()).Count() > 0)

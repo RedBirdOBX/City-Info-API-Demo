@@ -21,10 +21,17 @@ namespace CityInfoAPI.Logic.Processors
             _logger = logger;
         }
 
-
-        public async Task<List<CityWithoutPointsOfInterestDto>> GetCities()
+        public async Task<List<CityWithoutPointsOfInterestDto>> GetAllCities()
         {
-            var cityEntities = await _cityInfoRepository.GetCities();
+            // sometimes we need to return all cities without paging.  To check to see if it exists for example.
+            var cityEntities = await _cityInfoRepository.GetAllCities();
+            var results = Mapper.Map<List<CityWithoutPointsOfInterestDto>>(cityEntities);
+            return results;
+        }
+
+        public async Task<List<CityWithoutPointsOfInterestDto>> GetCities(int pageNumber, int pageSize)
+        {
+            var cityEntities = await _cityInfoRepository.GetCities(pageNumber, pageSize);
             var results = Mapper.Map<List<CityWithoutPointsOfInterestDto>>(cityEntities);
             return results;
         }
