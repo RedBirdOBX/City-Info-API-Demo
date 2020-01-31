@@ -1,12 +1,12 @@
 {
 	"info": {
-		"_postman_id": "da80775b-a9b3-4fe0-ae33-66dc6e2b5235",
+		"_postman_id": "9742e068-0eb9-452f-a662-129646339e2c",
 		"name": "Cities-API-Tutorial",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "GET All Cities",
+			"name": "GET Cities (with paging)",
 			"request": {
 				"method": "GET",
 				"header": [
@@ -17,7 +17,7 @@
 					}
 				],
 				"url": {
-					"raw": "{{domain-local}}/api/v1.0/cities",
+					"raw": "{{domain-local}}/api/v1.0/cities?pageNumber=4&pageSize=2",
 					"host": [
 						"{{domain-local}}"
 					],
@@ -25,6 +25,16 @@
 						"api",
 						"v1.0",
 						"cities"
+					],
+					"query": [
+						{
+							"key": "pageNumber",
+							"value": "4"
+						},
+						{
+							"key": "pageSize",
+							"value": "2"
+						}
 					]
 				}
 			},
