@@ -70,7 +70,7 @@ Valid options:
 ##### Get Cities 
 [https://city-info-api-demo.azurewebsites.net/api/v1.0/cities?pagenumber={n}&pagesize={n}](https://city-info-api-demo.azurewebsites.net/api/v1.0/cities?pagenumber={n}&pagesize={n} "https://city-info-api-demo.azurewebsites.net/api/v1.0/cities?pagenumber={n}&pagesize={n}")   
 `GET`   
-This resource with return a collection of all cities but does not show you their associated points of interest. Furthermore, it implements paging and you must specify the page number (`pagenumber`)you are requesting and number of results per page (`pagesize`) in the querystring. 
+This resource with return a collection of all cities but does not show you their associated points of interest. Furthermore, it implements paging and you must specify the page number (`pagenumber`) you are requesting and number of results per page (`pagesize`) in the querystring. 
 
 Both parameters have default values should the consumer forget to provide them and minimum and maximum limits should the consumer exceed those limits.  If the limits are exceed, it will will fall back to default values.
 
