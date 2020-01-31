@@ -1,7 +1,7 @@
 # The City Info Demo API
   
 ----------
-*Version 1.8.1*
+*Version 1.9.0*
 
 ## Summary
 Welcome to the City Info Demo API. Imagine that you were developing for some kind of travel site and one of the requirements was you needed to be able to ask for a complete listing of cities; ask for any given city by it's ID and, if specifically asked for, you needed to be able to provide all the "touristy" things to do for that specified city (landmarks, parks, restaurants, and so on).  
@@ -67,10 +67,19 @@ Valid options:
 
 ### Cities
 
-##### Get All Cities 
-[https://city-info-api-demo.azurewebsites.net/api/v1.0/cities](https://city-info-api-demo.azurewebsites.net/api/v1.0/cities "https://city-info-api-demo.azurewebsites.net/api/v1.0/cities")   
+##### Get Cities 
+[https://city-info-api-demo.azurewebsites.net/api/v1.0/cities?pagenumber={n}&pagesize={n}](https://city-info-api-demo.azurewebsites.net/api/v1.0/cities?pagenumber={n}&pagesize={n} "https://city-info-api-demo.azurewebsites.net/api/v1.0/cities?pagenumber={n}&pagesize={n}")   
 `GET`   
-This resource with return a collection of all cities but does not show you their associated points of interest.
+This resource with return a collection of all cities but does not show you their associated points of interest. Furthermore, it implements paging and you must specify the page number (`pagenumber`) you are requesting and number of results per page (`pagesize`) in the querystring. 
+
+Both parameters have default values should the consumer forget to provide them and minimum and maximum limits should the consumer exceed those limits.  If the limits are exceed, it will will fall back to default values.
+
+| Parameter  | Default | Min Value | Max Value |
+| ---------  |---------| --------- | ----------|
+| pageNumber | 1       | 1         | n/a       |
+| pageSize   | 10      | 1         | 10        |
+
+
 
 ##### Get City By Id  
 [http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}](http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId} "http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}")   
@@ -471,3 +480,9 @@ Added new resources:
 - Added more test cities in the `in memory datastore`. More will be needed for the upcoming pagination development.
 - Minor logging improvements and general clean up.
 - Added pull request template.
+
+**1.9.0**
+2.3.2020
+- Add paging to `GetCities` endpoint.  
+- Updated Postman collection.
+

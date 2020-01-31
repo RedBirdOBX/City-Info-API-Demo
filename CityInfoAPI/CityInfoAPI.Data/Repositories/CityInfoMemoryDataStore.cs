@@ -34,7 +34,7 @@ namespace CityInfoAPI.Data.Repositories
                 {
                     Id = 2,
                     CityId = new Guid("09fdd26e-5141-416c-a590-7eaf193b9565"),
-                    Name = "Dallas",
+                    Name = "Dallas (in memory)",
                     Description = "Cowboys live here",
                     CreatedOn = new DateTime(2019, 2, 1),
                     PointsOfInterest = new List<PointOfInterest>
@@ -47,7 +47,7 @@ namespace CityInfoAPI.Data.Repositories
                 {
                     Id = 3,
                     CityId = new Guid("1add03e4-d532-4811-977e-14038d7d4751"),
-                    Name = "New York",
+                    Name = "New York (in memory)",
                     Description = "The Big Apple",
                     CreatedOn = new DateTime(2019, 3, 1),
                     PointsOfInterest = new List<PointOfInterest>
@@ -61,7 +61,7 @@ namespace CityInfoAPI.Data.Repositories
                 {
                     Id = 4,
                     CityId = new Guid("04074509-d937-47a2-bad1-fa3a4ec4b122"),
-                    Name = "Los Angeles",
+                    Name = "Los Angeles (in memory)",
                     Description = "City of Angels",
                     CreatedOn = new DateTime(2019, 4, 1),
                     PointsOfInterest = new List<PointOfInterest>
@@ -74,7 +74,7 @@ namespace CityInfoAPI.Data.Repositories
                 {
                     Id = 5,
                     CityId = new Guid("5c53812d-b75f-4cd5-88b6-ce06f1ab65e1"),
-                    Name = "Richmond",
+                    Name = "Richmond (in memory)",
                     Description = "Home of the politically correct",
                     CreatedOn = new DateTime(2019, 5, 1),
                     PointsOfInterest = new List<PointOfInterest>
@@ -87,7 +87,7 @@ namespace CityInfoAPI.Data.Repositories
                 {
                     Id = 6,
                     CityId = new Guid("993384d7-e5ed-468e-ba18-3c12aa7e4b97"),
-                    Name = "Pittsburgh",
+                    Name = "Pittsburgh (in memory)",
                     Description = "Pittsburgh, Pennsylvania",
                     CreatedOn = new DateTime(2020, 1, 20),
                     PointsOfInterest = new List<PointOfInterest>
@@ -100,7 +100,7 @@ namespace CityInfoAPI.Data.Repositories
                 {
                     Id = 7,
                     CityId = new Guid("67c461e3-75ed-4c27-a9ff-a940f394e294"),
-                    Name = "Kansas City",
+                    Name = "Kansas City (in memory)",
                     Description = "Major metropolis with more than 2 million residents",
                     CreatedOn = new DateTime(2020, 1, 20),
                     PointsOfInterest = new List<PointOfInterest>
@@ -112,7 +112,7 @@ namespace CityInfoAPI.Data.Repositories
                 {
                     Id = 8,
                     CityId = new Guid("197ab6b1-1983-4fb5-af94-13c1302d907e"),
-                    Name = "Knoxville",
+                    Name = "Knoxville (in memory)",
                     Description = "For sports enthusiasts and outdoor enthusiasts",
                     CreatedOn = new DateTime(2020, 1, 20),
                     PointsOfInterest = new List<PointOfInterest>
@@ -125,7 +125,7 @@ namespace CityInfoAPI.Data.Repositories
                 {
                     Id = 9,
                     CityId = new Guid("ce09626b-e19e-47f5-82f3-2bbf60866a47"),
-                    Name = "Charleston",
+                    Name = "Charleston (in memory)",
                     Description = "Historic, and sophisticated ambiance is exemplary of southern culture",
                     CreatedOn = new DateTime(2020, 1, 20),
                     PointsOfInterest = new List<PointOfInterest>
@@ -138,7 +138,7 @@ namespace CityInfoAPI.Data.Repositories
                 {
                     Id = 10,
                     CityId = new Guid("7b042e31-f85d-4500-b616-3ac094945610"),
-                    Name = "Orlando",
+                    Name = "Orlando (in memory)",
                     Description = "Home of DisneyWorld",
                     CreatedOn = new DateTime(2020, 1, 20),
                     PointsOfInterest = new List<PointOfInterest>
@@ -151,7 +151,7 @@ namespace CityInfoAPI.Data.Repositories
                 {
                     Id = 11,
                     CityId = new Guid("7d043ece-438c-4da6-83c5-497dbbf9c60d"),
-                    Name = "Harrisburg",
+                    Name = "Harrisburg (in memory)",
                     Description = "Offers residents unlimited access to the outdoors",
                     CreatedOn = new DateTime(2020, 1, 20),
                     PointsOfInterest = new List<PointOfInterest>
@@ -164,7 +164,7 @@ namespace CityInfoAPI.Data.Repositories
                 {
                     Id = 12,
                     CityId = new Guid("3f587eb0-686e-467a-962d-54c3596b1e76"),
-                    Name = "Manchester",
+                    Name = "Manchester (in memory)",
                     Description = "Strong culture, youthful vibe, and political character",
                     CreatedOn = new DateTime(2020, 1, 20),
                     PointsOfInterest = new List<PointOfInterest>
@@ -177,7 +177,7 @@ namespace CityInfoAPI.Data.Repositories
                 {
                     Id = 13,
                     CityId = new Guid("1e2e0301-0477-41b0-aaae-ad00ae69716d"),
-                    Name = "Jacksonville",
+                    Name = "Jacksonville (in memory)",
                     Description = "Beach-adjacent location makes it ideal for outdoor activities",
                     CreatedOn = new DateTime(2020, 1, 20),
                     PointsOfInterest = new List<PointOfInterest>
@@ -190,7 +190,7 @@ namespace CityInfoAPI.Data.Repositories
                 {
                     Id = 14,
                     CityId = new Guid("14b4c650-31dd-4a82-b0ec-0371d43e8fa0"),
-                    Name = "Cincinnati",
+                    Name = "Cincinnati (in memory)",
                     Description = "City that loves its food, sports, and culture",
                     CreatedOn = new DateTime(2020, 1, 20),
                     PointsOfInterest = new List<PointOfInterest>
@@ -203,7 +203,7 @@ namespace CityInfoAPI.Data.Repositories
                 {
                     Id = 15,
                     CityId = new Guid("775ed85d-a5cb-4737-bd7b-e3706c5d8c17"),
-                    Name = "Pensacola",
+                    Name = "Pensacola (in memory)",
                     Description = "Great areas for fishing",
                     CreatedOn = new DateTime(2020, 1, 20),
                     PointsOfInterest = new List<PointOfInterest>
@@ -216,7 +216,7 @@ namespace CityInfoAPI.Data.Repositories
                 {
                     Id = 16,
                     CityId = new Guid("68b290cc-c4bf-49cc-a923-67ea7f676a4f"),
-                    Name = "San Antonio",
+                    Name = "San Antonio (in memory)",
                     Description = "San Antonio, Texas",
                     CreatedOn = new DateTime(2020, 1, 20),
                     PointsOfInterest = new List<PointOfInterest>
@@ -227,7 +227,30 @@ namespace CityInfoAPI.Data.Repositories
                 }            };
         }
 
-        public async Task<List<City>> GetCities()
+        public async Task<List<City>> GetCities(int pageNumber, int pageSize)
+        {
+            List<City> citiesWithoutPointsOfInterest = new List<City>();
+            foreach (var completeCity in _cities)
+            {
+                var city = new City
+                {
+                    Id = completeCity.Id,
+                    CityId = completeCity.CityId,
+                    Name = completeCity.Name,
+                    Description = completeCity.Description,
+                    CreatedOn = completeCity.CreatedOn,
+                    PointsOfInterest = new List<PointOfInterest>()
+                };
+                citiesWithoutPointsOfInterest.Add(city);
+            }
+
+            // get the whole list first and sort it.
+            var allCities = citiesWithoutPointsOfInterest.OrderBy(c => c.Name).ToList();
+            var pagedCities = allCities.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+            return pagedCities;
+        }
+
+        public async Task<List<City>> GetAllCities()
         {
             List<City> citiesWithoutPointsOfInterest = new List<City>();
             foreach (var completeCity in _cities)
