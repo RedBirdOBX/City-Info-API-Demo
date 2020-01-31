@@ -79,12 +79,12 @@ namespace CityInfoAPI.Web
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // LOCAL - in memory data
-            services.AddSingleton<ICityInfoRepository, CityInfoMemoryDataStore>();
+            //services.AddSingleton<ICityInfoRepository, CityInfoMemoryDataStore>();
 
             // DEV and PROD - sql data store
-            //string connectionString = Startup.Configuration["ConnectionStrings:cityInfoConnectionString"];
-            //services.AddDbContext<CityInfoDbContext>(options => options.UseSqlServer(connectionString));
-            //services.AddScoped<ICityInfoRepository, CityInfoSqlDataStore>();
+            string connectionString = Startup.Configuration["ConnectionStrings:cityInfoConnectionString"];
+            services.AddDbContext<CityInfoDbContext>(options => options.UseSqlServer(connectionString));
+            services.AddScoped<ICityInfoRepository, CityInfoSqlDataStore>();
 
             services.AddScoped<CityProcessor>();
             services.AddScoped<CityCollectionsProcessor>();
