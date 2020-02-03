@@ -31,6 +31,9 @@ namespace CityInfoAPI.Logic.Processors
 
         public async Task<List<CityWithoutPointsOfInterestDto>> GetCities(int pageNumber, int pageSize)
         {
+            // challenge - instead of returning a List<CityWithoutPointsOfInterestDto>, we want to return a PagedList<CityWithoutPointsOfInterestDto>
+            // https://app.pluralsight.com/course-player?clipId=56acd15d-2218-4050-b6e2-622c9f75b3c2 4:50
+
             var cityEntities = await _cityInfoRepository.GetCities(pageNumber, pageSize);
             var results = Mapper.Map<List<CityWithoutPointsOfInterestDto>>(cityEntities);
             return results;

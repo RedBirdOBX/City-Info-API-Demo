@@ -486,3 +486,7 @@ Added new resources:
 - Add paging to `GetCities` endpoint.  
 - Updated Postman collection.
 
+1.9.1
+TBD
+Add custom paging meta data to the response header.  Tell consumer if there is a previous page, if there is a next page, and how many total results there are.
+
