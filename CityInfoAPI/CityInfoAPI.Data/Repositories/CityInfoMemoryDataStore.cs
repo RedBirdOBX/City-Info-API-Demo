@@ -227,7 +227,7 @@ namespace CityInfoAPI.Data.Repositories
                 }            };
         }
 
-        public async Task<List<City>> GetCities(int pageNumber, int pageSize)
+        public async Task<List<City>> GetCities()
         {
             List<City> citiesWithoutPointsOfInterest = new List<City>();
             foreach (var completeCity in _cities)
@@ -245,30 +245,30 @@ namespace CityInfoAPI.Data.Repositories
             }
 
             // get the whole list first and sort it.
-            var allCities = citiesWithoutPointsOfInterest.OrderBy(c => c.Name).ToList();
-            var pagedCities = allCities.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
-            return pagedCities;
+            var cities = citiesWithoutPointsOfInterest.OrderBy(c => c.Name).ToList();
+            //var pagedCities = allCities.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+            return cities;
         }
 
-        public async Task<List<City>> GetAllCities()
-        {
-            List<City> citiesWithoutPointsOfInterest = new List<City>();
-            foreach (var completeCity in _cities)
-            {
-                var city = new City
-                {
-                    Id = completeCity.Id,
-                    CityId = completeCity.CityId,
-                    Name = completeCity.Name,
-                    Description = completeCity.Description,
-                    CreatedOn = completeCity.CreatedOn,
-                    PointsOfInterest = new List<PointOfInterest>()
-                };
-                citiesWithoutPointsOfInterest.Add(city);
-            }
+        //public async Task<List<City>> GetAllCities()
+        //{
+        //    List<City> citiesWithoutPointsOfInterest = new List<City>();
+        //    foreach (var completeCity in _cities)
+        //    {
+        //        var city = new City
+        //        {
+        //            Id = completeCity.Id,
+        //            CityId = completeCity.CityId,
+        //            Name = completeCity.Name,
+        //            Description = completeCity.Description,
+        //            CreatedOn = completeCity.CreatedOn,
+        //            PointsOfInterest = new List<PointOfInterest>()
+        //        };
+        //        citiesWithoutPointsOfInterest.Add(city);
+        //    }
 
-            return citiesWithoutPointsOfInterest.OrderBy(c => c.Name).ToList();
-        }
+        //    return citiesWithoutPointsOfInterest.OrderBy(c => c.Name).ToList();
+        //}
 
         public async Task CreateCity(City city)
         {

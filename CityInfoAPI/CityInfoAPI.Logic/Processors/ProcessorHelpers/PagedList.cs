@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CityInfoAPI.Web.Controllers.RequestHelpers
+namespace CityInfoAPI.Logic.Processors
 {
 
     #pragma warning disable CS1591
@@ -47,10 +47,10 @@ namespace CityInfoAPI.Web.Controllers.RequestHelpers
             AddRange(items);
         }
 
-        public static PagedList<T> Create(IQueryable<T> source, int pageNumber, int pageSize)
+        public static PagedList<T> Create(List<T> source, int pageNumber, int pageSize)
         {
             int count = source.Count();
-            List<T> items = source.Skip((pageNumber - 1) + pageSize).Take(pageSize).ToList();
+            List<T> items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
             return new PagedList<T>(items, count, pageNumber, pageSize);
         }
     }

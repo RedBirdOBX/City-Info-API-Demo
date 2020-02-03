@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using CityInfoAPI.Data.Entities;
 using CityInfoAPI.Data.Repositories;
 using CityInfoAPI.Dtos.Models;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CityInfoAPI.Logic.Processors
@@ -24,19 +26,26 @@ namespace CityInfoAPI.Logic.Processors
         public async Task<List<CityWithoutPointsOfInterestDto>> GetAllCities()
         {
             // sometimes we need to return all cities without paging.  To check to see if it exists for example.
-            var cityEntities = await _cityInfoRepository.GetAllCities();
+            var cityEntities = await _cityInfoRepository.GetCities();
             var results = Mapper.Map<List<CityWithoutPointsOfInterestDto>>(cityEntities);
             return results;
         }
 
-        public async Task<List<CityWithoutPointsOfInterestDto>> GetCities(int pageNumber, int pageSize)
+        public async Task<PagedList<CityWithoutPointsOfInterestDto>> GetPagedCities(int pageNumber, int pageSize)
         {
-            // challenge - instead of returning a List<CityWithoutPointsOfInterestDto>, we want to return a PagedList<CityWithoutPointsOfInterestDto>
-            // https://app.pluralsight.com/course-player?clipId=56acd15d-2218-4050-b6e2-622c9f75b3c2 4:50
+            // to do: validate that the page number isn't too large...<-- should be done in a validator layer? //
 
-            var cityEntities = await _cityInfoRepository.GetCities(pageNumber, pageSize);
-            var results = Mapper.Map<List<CityWithoutPointsOfInterestDto>>(cityEntities);
-            return results;
+            // 1) send ALL cities to PagedList.Create method so it can calculate
+            var cityEntities = await _cityInfoRepository.GetCities();
+            var citiesWithPagedCalculations = PagedList<City>.Create(cityEntities, pageNumber, pageSize);
+
+            // 2) map them
+            var cityDtos = Mapper.Map<PagedList<CityWithoutPointsOfInterestDto>>(citiesWithPagedCalculations);
+
+            // 3) apply the slip/take
+            var pagedCities = cityDtos.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+
+            return (PagedList<CityWithoutPointsOfInterestDto>)pagedCities;
         }
 
         public async Task<List<CityDto>> GetCitiesWithPointOfInterest()

@@ -15,12 +15,7 @@
             <param name="pointsOfInterestProcessor">points of interest processor middleware to be injected</param>
             <param name="cityInfoRepository">city repository</param>
         </member>
-        <member name="M:CityInfoAPI.Web.Controllers.CitiesController.GetCities(CityInfoAPI.Web.Controllers.RequestHelpers.PagingParameters)">
-            <summary>get a collection of all cities. does not include point of interests.</summary>
-            <example>http://{domain}/api/v1.0/cities</example>
-            <returns>a collection of CityDto</returns>
-            <response code="200">returns the list of cities</response>
-        </member>
+        <!-- Badly formed XML comment ignored for member "M:CityInfoAPI.Web.Controllers.CitiesController.GetPagedCities(CityInfoAPI.Web.Controllers.RequestHelpers.PagingParameters)" -->
         <member name="M:CityInfoAPI.Web.Controllers.CitiesController.GetCityById(System.Guid,System.Boolean)">
             <summary>get a specific city by key</summary>
             <example>http://{domain}/api/v1.0/cities/{cityId}</example>

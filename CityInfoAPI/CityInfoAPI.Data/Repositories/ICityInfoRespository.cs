@@ -8,9 +8,9 @@ namespace CityInfoAPI.Data.Repositories
     public interface ICityInfoRepository
     {
         // cities
-        Task<List<City>> GetCities(int pageNumber, int pageSize);
+        Task<List<City>> GetCities();
 
-        Task<List<City>> GetAllCities();
+        //Task<List<City>> GetAllCities();
 
         Task<List<City>> GetCitiesWithPointsOfInterest();
 

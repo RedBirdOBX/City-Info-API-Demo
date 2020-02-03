@@ -45,19 +45,21 @@ namespace CityInfoAPI.Web.Controllers
             _pointsOfInterestProcessor = pointsOfInterestProcessor;
         }
 
-        /// <summary>get a collection of all cities. does not include point of interests.</summary>
-        /// <example>http://{domain}/api/v1.0/cities</example>
+        /// <summary>
+        /// get a collection of cities. does not include point of interests. results are paged.
+        /// user needs to specify page size and page number.
+        /// </summary>
+        /// <example>http://{domain}/api/v1.0/cities?pageNumber={n}&pageSize={n}</example>
         /// <returns>a collection of CityDto</returns>
         /// <response code="200">returns the list of cities</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesDefaultResponseType]
-        [HttpGet("", Name = "GetCities")]
-        public async Task<ActionResult<List<CityDto>>> GetCities([FromQuery] PagingParameters pagingParameters)
+        [HttpGet("", Name = "GetPagedCities")]
+        public async Task<ActionResult<PagedList<CityDto>>> GetPagedCities([FromQuery] PagingParameters pagingParameters)
         {
             try
             {
-                // to do: validate that the page number isn't too large...
-                var results = await _cityProcessor.GetCities(pagingParameters.PageNumber, pagingParameters.PageSize);
+                var results = await _cityProcessor.GetPagedCities(pagingParameters.PageNumber, pagingParameters.PageSize);
                 return Ok(results);
             }
             catch (Exception exception)
