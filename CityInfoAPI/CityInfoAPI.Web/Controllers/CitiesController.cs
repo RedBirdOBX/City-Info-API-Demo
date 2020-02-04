@@ -31,31 +31,21 @@ namespace CityInfoAPI.Web.Controllers
         private CityProcessor _cityProcessor;
         private PointsOfInterestProcessor _pointsOfInterestProcessor;
         private ICityInfoRepository _cityInfoRepository;
-
-
-
-        //private IUrlHelper _urlHelper;
+        private IUrlHelper _urlHelper;
 
 
         /// <summary>constructor</summary>
         /// <param name="logger">logger factory middleware to be injected</param>
         /// <param name="cityProcessor">city processor middleware to be injected</param>
-        /// <param name="pointsOfInterestProcessor">points of interest processor middleware to be injected</param>
-        /// <param name="cityInfoRepository">city repository</param>
-        public CitiesController(ILogger<CitiesController> logger, CityProcessor cityProcessor,
-            PointsOfInterestProcessor pointsOfInterestProcessor, ICityInfoRepository cityInfoRepository
-
-            //IUrlHelper urlHelper
-
-            )
+        /// <param name="poiProcessor">points of interest processor middleware to be injected</param>
+        /// <param name="cityRepository">city repository</param>
+        public CitiesController(ILogger<CitiesController> logger, CityProcessor cityProcessor, PointsOfInterestProcessor poiProcessor, ICityInfoRepository cityRepository, IUrlHelper urlHelper)
         {
             _cityProcessor = cityProcessor;
             _logger = logger;
-            _cityInfoRepository = cityInfoRepository;
-            _pointsOfInterestProcessor = pointsOfInterestProcessor;
-
-            //_urlHelper = urlHelper;
-
+            _cityInfoRepository = cityRepository;
+            _pointsOfInterestProcessor = poiProcessor;
+            _urlHelper = urlHelper;
         }
 
         /// <summary>
@@ -73,16 +63,15 @@ namespace CityInfoAPI.Web.Controllers
             try
             {
                 // get only the cities we need
-                var results = await _cityProcessor.GetPagedCities(pagingParameters.PageNumber, pagingParameters.PageSize);
+                var pagedCities = await _cityProcessor.GetPagedCities(pagingParameters.PageNumber, pagingParameters.PageSize);
 
                 // build the metadata
-                MetaDataHelper metaDataHelper = new MetaDataHelper(_cityProcessor);
-                var metaData = metaDataHelper.BuildCitiesMetaData(pagingParameters);
+                var metaData = MetaDataHelper.BuildCitiesMetaData(pagingParameters, _cityProcessor, _urlHelper);
 
                 // add as custom header
                 Response.Headers.Add("X-Pagination", Newtonsoft.Json.JsonConvert.SerializeObject(metaData));
 
-                return Ok(results);
+                return Ok(pagedCities);
             }
             catch (Exception exception)
             {
@@ -90,28 +79,6 @@ namespace CityInfoAPI.Web.Controllers
                 return StatusCode(500, "A problem was encountered while processing your request.");
             }
         }
-
-
-
-        //private string CreateCitiesResourceUri(PagingParameters pagingParameters, ResourceUriType type)
-        //{
-        //    switch (type)
-        //    {
-        //        case ResourceUriType.PreviousPage:
-        //            return _urlHelper.Link("GetCities", new { pageNumber = pagingParameters.PageNumber - 1, pageSize = pagingParameters.PageSize });
-        //        case ResourceUriType.NextPage:
-        //            return _urlHelper.Link("GetCities", new { pageNumber = pagingParameters.PageNumber + 1, pageSize = pagingParameters.PageSize });
-        //        default:
-        //            return _urlHelper.Link("GetCities", new { pageNumber = pagingParameters.PageNumber, pageSize = pagingParameters.PageSize });
-        //    }
-        //}
-
-
-
-
-
-
-
 
         /// <summary>get a specific city by key</summary>
         /// <example>http://{domain}/api/v1.0/cities/{cityId}</example>

@@ -35,13 +35,8 @@ namespace CityInfoAPI.Logic.Processors
         {
             // to do: validate that the page number isn't too large...<-- should be done in a validator layer? //
 
-            // get only the cities we need
             var pagedCityEntities = await _cityInfoRepository.GetPagedCities(pageNumber, pageSize);
-            var cityDtos = Mapper.Map<List<CityWithoutPointsOfInterestDto>>(pagedCityEntities);
-
-            // apply the skip/take
-            var pagedCities = cityDtos.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
-
+            var pagedCities = Mapper.Map<List<CityWithoutPointsOfInterestDto>>(pagedCityEntities);
             return pagedCities;
         }
 

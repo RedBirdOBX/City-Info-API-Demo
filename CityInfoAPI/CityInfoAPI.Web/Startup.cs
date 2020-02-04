@@ -77,6 +77,9 @@ namespace CityInfoAPI.Web
 
                 // this will apply an [Authorize] attribute to all controllers
                 //setupAction.Filters.Add(new AuthorizeFilter());
+
+                setupAction.EnableEndpointRouting = false;
+
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 

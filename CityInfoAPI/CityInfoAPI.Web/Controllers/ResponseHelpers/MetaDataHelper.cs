@@ -3,43 +3,73 @@ using CityInfoAPI.Web.Controllers.RequestHelpers;
 using System.Threading.Tasks;
 using System.Linq;
 using System;
+using System.Collections.Generic;
+using CityInfoAPI.Dtos.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CityInfoAPI.Web.Controllers.ResponseHelpers
 {
-    public class MetaDataHelper
+    public static class MetaDataHelper
     {
 
         // to do:
-        // shouldn't the cityProcessor be injected already?  Do I really need to pass it in?
-        // can I make this a statis class and method?
         // build the previous and next urls
         // does the output of BuildCitiesMetaData really have to be a Task?  What a PITA!!
 
-        private readonly CityProcessor _cityProcessor;
 
-        public MetaDataHelper(CityProcessor cityProcessor)
+        public static PaginationMetaDataDto BuildCitiesMetaData(PagingParameters pagingParameters, CityProcessor _cityProcessor, IUrlHelper urlHelper)
         {
-            _cityProcessor = cityProcessor;
-        }
-
-        public async Task<PaginationMetaDataDto> BuildCitiesMetaData(PagingParameters pagingParameters)
-        {
-            var allCities = await _cityProcessor.GetAllCities();
+            var allCities = _cityProcessor.GetAllCities().Result;
             int totalPages = (int)Math.Ceiling(allCities.Count() / (double)pagingParameters.PageSize);
+            int totalCount = allCities.Count();
+            bool hasNextPage = pagingParameters.PageNumber < totalPages;
+            bool hasPrevPage = pagingParameters.PageNumber > 1;
+            string nextUrl = (pagingParameters.PageNumber < totalPages) ? CreateCitiesResourceUri(pagingParameters, ResourceUriType.NextPage, urlHelper) : string.Empty;
+            string prevUrl = (pagingParameters.PageNumber > 1) ? CreateCitiesResourceUri(pagingParameters, ResourceUriType.PreviousPage, urlHelper) : string.Empty;
 
             PaginationMetaDataDto results = new PaginationMetaDataDto
             {
                 CurrentPage = pagingParameters.PageNumber,
                 TotalPages = totalPages,
                 PageSize = pagingParameters.PageSize,
-                TotalCount = allCities.Count(),
-                HasNextPage = pagingParameters.PageNumber < totalPages,
-                HasPreviousPage = pagingParameters.PageNumber < totalPages,
-                PreviousPageUrl = "back...",
-                NextPageUrl = "next..."
+                TotalCount = totalCount,
+                HasNextPage = hasNextPage,
+                HasPreviousPage = hasPrevPage,
+                NextPageUrl = nextUrl,
+                PreviousPageUrl = prevUrl
             };
 
             return results;
         }
+
+        private static string CreateCitiesResourceUri(PagingParameters pagingParameters, ResourceUriType type, IUrlHelper urlHelper)
+        {
+            // it the f*ing urlHelper!!
+            // https://github.com/dotnet/aspnetcore/issues/5135
+            try
+            {
+                string results = string.Empty;
+
+                switch (type)
+                {
+                    case ResourceUriType.NextPage:
+                        results = urlHelper.Link("GetPagedCities", new { pageNumber = pagingParameters.PageNumber + 1, pageSize = pagingParameters.PageSize });
+                        break;
+                    case ResourceUriType.PreviousPage:
+                        results = urlHelper.Link("GetPagedCities", new { pageNumber = pagingParameters.PageNumber - 1, pageSize = pagingParameters.PageSize });
+                        break;
+                    default:
+                        results = urlHelper.Link("GetPagedCities", new { pageNumber = pagingParameters.PageNumber, pageSize = pagingParameters.PageSize });
+                        break;
+                }
+
+                return results;
+            }
+            catch (Exception exception)
+            {
+                throw exception;
+            }
+        }
+
     }
 }
