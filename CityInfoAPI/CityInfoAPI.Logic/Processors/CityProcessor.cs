@@ -31,21 +31,18 @@ namespace CityInfoAPI.Logic.Processors
             return results;
         }
 
-        public async Task<PagedList<CityWithoutPointsOfInterestDto>> GetPagedCities(int pageNumber, int pageSize)
+        public async Task<List<CityWithoutPointsOfInterestDto>> GetPagedCities(int pageNumber, int pageSize)
         {
             // to do: validate that the page number isn't too large...<-- should be done in a validator layer? //
 
-            // 1) send ALL cities to PagedList.Create method so it can calculate
-            var cityEntities = await _cityInfoRepository.GetCities();
-            var citiesWithPagedCalculations = PagedList<City>.Create(cityEntities, pageNumber, pageSize);
+            // get only the cities we need
+            var pagedCityEntities = await _cityInfoRepository.GetPagedCities(pageNumber, pageSize);
+            var cityDtos = Mapper.Map<List<CityWithoutPointsOfInterestDto>>(pagedCityEntities);
 
-            // 2) map them
-            var cityDtos = Mapper.Map<PagedList<CityWithoutPointsOfInterestDto>>(citiesWithPagedCalculations);
-
-            // 3) apply the slip/take
+            // apply the skip/take
             var pagedCities = cityDtos.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
 
-            return (PagedList<CityWithoutPointsOfInterestDto>)pagedCities;
+            return pagedCities;
         }
 
         public async Task<List<CityDto>> GetCitiesWithPointOfInterest()

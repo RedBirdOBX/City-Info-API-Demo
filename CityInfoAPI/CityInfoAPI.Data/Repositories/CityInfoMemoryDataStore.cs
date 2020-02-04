@@ -244,31 +244,29 @@ namespace CityInfoAPI.Data.Repositories
                 citiesWithoutPointsOfInterest.Add(city);
             }
 
-            // get the whole list first and sort it.
             var cities = citiesWithoutPointsOfInterest.OrderBy(c => c.Name).ToList();
-            //var pagedCities = allCities.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
             return cities;
         }
 
-        //public async Task<List<City>> GetAllCities()
-        //{
-        //    List<City> citiesWithoutPointsOfInterest = new List<City>();
-        //    foreach (var completeCity in _cities)
-        //    {
-        //        var city = new City
-        //        {
-        //            Id = completeCity.Id,
-        //            CityId = completeCity.CityId,
-        //            Name = completeCity.Name,
-        //            Description = completeCity.Description,
-        //            CreatedOn = completeCity.CreatedOn,
-        //            PointsOfInterest = new List<PointOfInterest>()
-        //        };
-        //        citiesWithoutPointsOfInterest.Add(city);
-        //    }
+        public async Task<List<City>> GetPagedCities(int pageNumber, int pageSize)
+        {
+            List<City> citiesWithoutPointsOfInterest = new List<City>();
+            foreach (var completeCity in _cities)
+            {
+                var city = new City
+                {
+                    Id = completeCity.Id,
+                    CityId = completeCity.CityId,
+                    Name = completeCity.Name,
+                    Description = completeCity.Description,
+                    CreatedOn = completeCity.CreatedOn,
+                    PointsOfInterest = new List<PointOfInterest>()
+                };
+                citiesWithoutPointsOfInterest.Add(city);
+            }
 
-        //    return citiesWithoutPointsOfInterest.OrderBy(c => c.Name).ToList();
-        //}
+            return citiesWithoutPointsOfInterest.OrderBy(c => c.Name).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+        }
 
         public async Task CreateCity(City city)
         {

@@ -21,6 +21,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace CityInfoAPI.Web
 {
@@ -90,6 +92,21 @@ namespace CityInfoAPI.Web
             services.AddScoped<CityCollectionsProcessor>();
             services.AddScoped<PointsOfInterestProcessor>();
             services.AddScoped<ReportingProcessor>();
+
+
+
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+
+            services.AddScoped<IUrlHelper, UrlHelper>(implementationFactory =>
+            {
+                var actionContext = implementationFactory.GetService<IActionContextAccessor>().ActionContext;
+                return new UrlHelper(actionContext);
+            });
+
+
+
+
+
 
             // it will look for the letter "v" followed by major and potential minor version
             services.AddVersionedApiExplorer(setupAction =>
