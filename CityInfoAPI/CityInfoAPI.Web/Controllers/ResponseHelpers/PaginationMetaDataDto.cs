@@ -1,5 +1,7 @@
 ﻿namespace CityInfoAPI.Web.Controllers.ResponseHelpers
 {
+    #pragma warning disable CS1591
+
     public class PaginationMetaDataDto
     {
         public int CurrentPage { get; set; }
@@ -18,4 +20,6 @@
 
         public string NextPageUrl { get; set; }
     }
+
+    #pragma warning restore CS1591
 }

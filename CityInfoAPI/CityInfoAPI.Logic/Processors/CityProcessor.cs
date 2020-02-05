@@ -33,8 +33,6 @@ namespace CityInfoAPI.Logic.Processors
 
         public async Task<List<CityWithoutPointsOfInterestDto>> GetPagedCities(int pageNumber, int pageSize)
         {
-            // to do: validate that the page number isn't too large...<-- should be done in a validator layer? //
-
             var pagedCityEntities = await _cityInfoRepository.GetPagedCities(pageNumber, pageSize);
             var pagedCities = Mapper.Map<List<CityWithoutPointsOfInterestDto>>(pagedCityEntities);
             return pagedCities;

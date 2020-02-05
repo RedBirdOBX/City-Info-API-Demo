@@ -1,33 +1,25 @@
 ﻿using CityInfoAPI.Logic.Processors;
 using CityInfoAPI.Web.Controllers.RequestHelpers;
-using System.Threading.Tasks;
-using System.Linq;
-using System;
-using System.Collections.Generic;
-using CityInfoAPI.Dtos.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
+using System;
+using System.Linq;
 
 namespace CityInfoAPI.Web.Controllers.ResponseHelpers
 {
+    #pragma warning disable CS1591
+
     public static class MetaDataHelper
     {
-
-        // to do:
-        // build the previous and next urls
-        // does the output of BuildCitiesMetaData really have to be a Task?  What a PITA!!
-
-
-        public static PaginationMetaDataDto BuildCitiesMetaData(PagingParameters pagingParameters, CityProcessor _cityProcessor, LinkGenerator linkGenerator, IHttpContextAccessor httpContextAccessor)
+        public static PaginationMetaDataDto BuildCitiesMetaData(PagingParameters pagingParameters, CityProcessor _cityProcessor, IHttpContextAccessor httpContextAccessor, LinkGenerator linkGenerator)
         {
             var allCities = _cityProcessor.GetAllCities().Result;
             int totalPages = (int)Math.Ceiling(allCities.Count() / (double)pagingParameters.PageSize);
             int totalCount = allCities.Count();
             bool hasNextPage = pagingParameters.PageNumber < totalPages;
             bool hasPrevPage = pagingParameters.PageNumber > 1;
-            string nextUrl = (pagingParameters.PageNumber < totalPages) ? CreateCitiesResourceUri(pagingParameters, ResourceUriType.NextPage, linkGenerator, httpContextAccessor) : string.Empty;
-            string prevUrl = (pagingParameters.PageNumber > 1) ? CreateCitiesResourceUri(pagingParameters, ResourceUriType.PreviousPage, linkGenerator, httpContextAccessor) : string.Empty;
+            string nextUrl = (pagingParameters.PageNumber < totalPages) ? CreateCitiesResourceUri(pagingParameters, ResourceUriType.NextPage, httpContextAccessor, linkGenerator) : string.Empty;
+            string prevUrl = (pagingParameters.PageNumber > 1) ? CreateCitiesResourceUri(pagingParameters, ResourceUriType.PreviousPage, httpContextAccessor, linkGenerator) : string.Empty;
 
             PaginationMetaDataDto results = new PaginationMetaDataDto
             {
@@ -44,42 +36,26 @@ namespace CityInfoAPI.Web.Controllers.ResponseHelpers
             return results;
         }
 
-        private static string CreateCitiesResourceUri(PagingParameters pagingParameters, ResourceUriType type, LinkGenerator linkGenerator, IHttpContextAccessor httpContextAccessor)
+        private static string CreateCitiesResourceUri(PagingParameters pagingParameters, ResourceUriType type, IHttpContextAccessor httpContextAccessor, LinkGenerator linkGenerator)
         {
-            // it the f*ing urlHelper!!
-            // https://github.com/dotnet/aspnetcore/issues/5135
-            // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/routing?view=aspnetcore-2.2#url-generation
-            // https://stackoverflow.com/questions/54299423/using-linkgenerator-outside-of-controller
             try
             {
-                //string results = string.Empty;
-
                 switch (type)
                 {
                     case ResourceUriType.NextPage:
-                        //results = urlHelper.Link("GetPagedCities", new { pageNumber = pagingParameters.PageNumber + 1, pageSize = pagingParameters.PageSize });
-                        //return linkGenerator.GetUriByAction(httpContextAccessor.HttpContext, action: "GetPagedCities", controller: "Cities", values: new { pageNumber = pagingParameters.PageNumber + 1, pageSize = pagingParameters.PageSize  });
                         return linkGenerator.GetUriByAction(httpContextAccessor.HttpContext, action: "GetPagedCities", controller: "Cities", values: new { pageNumber = pagingParameters.PageNumber + 1, pageSize = pagingParameters.PageSize });
-                    //break;
                     case ResourceUriType.PreviousPage:
-                        //results = urlHelper.Link("GetPagedCities", new { pageNumber = pagingParameters.PageNumber - 1, pageSize = pagingParameters.PageSize });
-                        //return linkGenerator.GetUriByAction(httpContextAccessor.HttpContext, action: "GetPagedCities", values: new { pageNumber = pagingParameters.PageNumber - 1, pageSize = pagingParameters.PageSize });
-                        //break;
-                        return "pre";
+                        return linkGenerator.GetUriByAction(httpContextAccessor.HttpContext, action: "GetPagedCities", controller: "Cities", values: new { pageNumber = pagingParameters.PageNumber - 1, pageSize = pagingParameters.PageSize });
                     default:
-                        //results = urlHelper.Link("GetPagedCities", new { pageNumber = pagingParameters.PageNumber, pageSize = pagingParameters.PageSize });
-                        //return linkGenerator.GetUriByAction(httpContextAccessor.HttpContext, action: "GetPagedCities", values: new { pageNumber = pagingParameters.PageNumber, pageSize = pagingParameters.PageSize });
-                        //break;
-                        return "default";
+                        return linkGenerator.GetUriByAction(httpContextAccessor.HttpContext, action: "GetPagedCities", controller: "Cities", values: new { pageNumber = pagingParameters.PageNumber, pageSize = pagingParameters.PageSize });
                 }
-
-                //return results;
             }
             catch (Exception exception)
             {
                 throw exception;
             }
         }
-
     }
+
+    #pragma warning restore CS1591
 }

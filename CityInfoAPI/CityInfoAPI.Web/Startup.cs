@@ -43,8 +43,7 @@ namespace CityInfoAPI.Web
                 .SetBasePath(environment.ContentRootPath)
                 .AddJsonFile($"appSettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appSettings.{environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
-                // add environ variable to configuration chain
-                .AddEnvironmentVariables();
+                .AddEnvironmentVariables();         // add environ variable to configuration chain
             Configuration = builder.Build();
         }
 
@@ -77,9 +76,6 @@ namespace CityInfoAPI.Web
 
                 // this will apply an [Authorize] attribute to all controllers
                 //setupAction.Filters.Add(new AuthorizeFilter());
-
-                setupAction.EnableEndpointRouting = false;
-
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
@@ -95,23 +91,7 @@ namespace CityInfoAPI.Web
             services.AddScoped<CityCollectionsProcessor>();
             services.AddScoped<PointsOfInterestProcessor>();
             services.AddScoped<ReportingProcessor>();
-
-
-
-            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-            // crap
-            services.AddScoped<IUrlHelper, UrlHelper>(implementationFactory =>
-            {
-                var actionContext = implementationFactory.GetService<IActionContextAccessor>().ActionContext;
-                return new UrlHelper(actionContext);
-            });
-
-
-
-
-
 
             // it will look for the letter "v" followed by major and potential minor version
             services.AddVersionedApiExplorer(setupAction =>
