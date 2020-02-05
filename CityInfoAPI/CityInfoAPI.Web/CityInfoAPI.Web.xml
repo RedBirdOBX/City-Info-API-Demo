@@ -8,7 +8,7 @@
             <summary>cities controller</summary>
             <example>http://{domain}/api/v{version:apiVersion}/cities</example>
         </member>
-        <member name="M:CityInfoAPI.Web.Controllers.CitiesController.#ctor(Microsoft.Extensions.Logging.ILogger{CityInfoAPI.Web.Controllers.CitiesController},CityInfoAPI.Logic.Processors.CityProcessor,CityInfoAPI.Logic.Processors.PointsOfInterestProcessor,CityInfoAPI.Data.Repositories.ICityInfoRepository,Microsoft.AspNetCore.Mvc.IUrlHelper)">
+        <member name="M:CityInfoAPI.Web.Controllers.CitiesController.#ctor(Microsoft.Extensions.Logging.ILogger{CityInfoAPI.Web.Controllers.CitiesController},CityInfoAPI.Logic.Processors.CityProcessor,CityInfoAPI.Logic.Processors.PointsOfInterestProcessor,CityInfoAPI.Data.Repositories.ICityInfoRepository,Microsoft.AspNetCore.Http.IHttpContextAccessor,Microsoft.AspNetCore.Routing.LinkGenerator)">
             <summary>constructor</summary>
             <param name="logger">logger factory middleware to be injected</param>
             <param name="cityProcessor">city processor middleware to be injected</param>

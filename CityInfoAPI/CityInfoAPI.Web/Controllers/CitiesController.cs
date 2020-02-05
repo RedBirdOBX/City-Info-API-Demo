@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.JsonPatch.Operations;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -31,7 +32,9 @@ namespace CityInfoAPI.Web.Controllers
         private CityProcessor _cityProcessor;
         private PointsOfInterestProcessor _pointsOfInterestProcessor;
         private ICityInfoRepository _cityInfoRepository;
-        private IUrlHelper _urlHelper;
+        //private IUrlHelper _urlHelper;
+        private LinkGenerator _linkGenerator;
+        private IHttpContextAccessor _httpContextAccessor;
 
 
         /// <summary>constructor</summary>
@@ -39,13 +42,19 @@ namespace CityInfoAPI.Web.Controllers
         /// <param name="cityProcessor">city processor middleware to be injected</param>
         /// <param name="poiProcessor">points of interest processor middleware to be injected</param>
         /// <param name="cityRepository">city repository</param>
-        public CitiesController(ILogger<CitiesController> logger, CityProcessor cityProcessor, PointsOfInterestProcessor poiProcessor, ICityInfoRepository cityRepository, IUrlHelper urlHelper)
+        public CitiesController(ILogger<CitiesController> logger, CityProcessor cityProcessor, PointsOfInterestProcessor poiProcessor,
+            ICityInfoRepository cityRepository,
+            //IUrlHelper urlHelper,
+            IHttpContextAccessor httpContextAccessor,
+            LinkGenerator linkGenerator)
         {
             _cityProcessor = cityProcessor;
             _logger = logger;
             _cityInfoRepository = cityRepository;
             _pointsOfInterestProcessor = poiProcessor;
-            _urlHelper = urlHelper;
+            //_urlHelper = urlHelper;
+            _httpContextAccessor = httpContextAccessor;
+            _linkGenerator = linkGenerator;
         }
 
         /// <summary>
@@ -65,11 +74,21 @@ namespace CityInfoAPI.Web.Controllers
                 // get only the cities we need
                 var pagedCities = await _cityProcessor.GetPagedCities(pagingParameters.PageNumber, pagingParameters.PageSize);
 
-                // build the metadata
-                var metaData = MetaDataHelper.BuildCitiesMetaData(pagingParameters, _cityProcessor, _urlHelper);
+                // build the meta-data
+                var metaData = MetaDataHelper.BuildCitiesMetaData(pagingParameters, _cityProcessor, _linkGenerator, _httpContextAccessor);
 
                 // add as custom header
                 Response.Headers.Add("X-Pagination", Newtonsoft.Json.JsonConvert.SerializeObject(metaData));
+
+                // how many total pages do we have?
+                // this should go in a validator class
+                int allCities = _cityProcessor.GetAllCities().Result.Count();
+                int totalPages = (int)Math.Ceiling(allCities / (double)pagingParameters.PageSize);
+
+                if (pagingParameters.PageNumber > totalPages)
+                {
+                    return BadRequest("You have requested more pages that are available.");
+                }
 
                 return Ok(pagedCities);
             }

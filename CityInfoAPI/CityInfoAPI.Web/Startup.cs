@@ -99,7 +99,9 @@ namespace CityInfoAPI.Web
 
 
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+            // crap
             services.AddScoped<IUrlHelper, UrlHelper>(implementationFactory =>
             {
                 var actionContext = implementationFactory.GetService<IActionContextAccessor>().ActionContext;
