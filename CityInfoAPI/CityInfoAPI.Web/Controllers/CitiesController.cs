@@ -2,10 +2,13 @@
 using CityInfoAPI.Data.Repositories;
 using CityInfoAPI.Dtos.Models;
 using CityInfoAPI.Logic.Processors;
+using CityInfoAPI.Web.Controllers.RequestHelpers;
+using CityInfoAPI.Web.Controllers.ResponseHelpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.JsonPatch.Operations;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -29,34 +32,58 @@ namespace CityInfoAPI.Web.Controllers
         private CityProcessor _cityProcessor;
         private PointsOfInterestProcessor _pointsOfInterestProcessor;
         private ICityInfoRepository _cityInfoRepository;
+        private LinkGenerator _linkGenerator;
+        private IHttpContextAccessor _httpContextAccessor;
 
 
         /// <summary>constructor</summary>
         /// <param name="logger">logger factory middleware to be injected</param>
         /// <param name="cityProcessor">city processor middleware to be injected</param>
-        /// <param name="pointsOfInterestProcessor">points of interest processor middleware to be injected</param>
-        /// <param name="cityInfoRepository">city repository</param>
-        public CitiesController(ILogger<CitiesController> logger, CityProcessor cityProcessor, PointsOfInterestProcessor pointsOfInterestProcessor, ICityInfoRepository cityInfoRepository)
+        /// <param name="poiProcessor">points of interest processor middleware to be injected</param>
+        /// <param name="cityRepository">city repository</param>
+        /// <param name="httpContextAccessor">httpContextAccessor needed for LinkGenerator</param>
+        /// <param name="linkGenerator">link generator</param>
+        public CitiesController(ILogger<CitiesController> logger, CityProcessor cityProcessor, PointsOfInterestProcessor poiProcessor, ICityInfoRepository cityRepository, IHttpContextAccessor httpContextAccessor, LinkGenerator linkGenerator)
         {
             _cityProcessor = cityProcessor;
             _logger = logger;
-            _cityInfoRepository = cityInfoRepository;
-            _pointsOfInterestProcessor = pointsOfInterestProcessor;
+            _cityInfoRepository = cityRepository;
+            _pointsOfInterestProcessor = poiProcessor;
+            _httpContextAccessor = httpContextAccessor;
+            _linkGenerator = linkGenerator;
         }
 
-        /// <summary>get a collection of all cities. does not include point of interests.</summary>
-        /// <example>http://{domain}/api/v1.0/cities</example>
-        /// <returns>a collection of CityDto</returns>
-        /// <response code="200">returns the list of cities</response>
+        /// <summary>gets collection of cities - results are paged</summary>
+        /// <example>http://{domain}/api/v1.0/cities?pageNumber=1{n}_and_pageSize={n}</example>
+        /// <param name="pagingParameters"></param>
+        /// <returns>collection of cities w/ no points of interest</returns>
+        /// <response code="200">returns collection of cities</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesDefaultResponseType]
-        [HttpGet("", Name = "GetCities")]
-        public async Task<ActionResult<List<CityDto>>> GetCities()
+        [HttpGet("", Name = "GetPagedCities")]
+        public async Task<ActionResult<List<CityDto>>> GetPagedCities([FromQuery] PagingParameters pagingParameters)
         {
             try
             {
-                var results = await _cityProcessor.GetCities();
-                return Ok(results);
+                // get only the cities we need
+                var pagedCities = await _cityProcessor.GetPagedCities(pagingParameters.PageNumber, pagingParameters.PageSize);
+
+                // how many total pages do we have?
+                int allCities = _cityProcessor.GetAllCities().Result.Count();
+                int totalPages = (int)Math.Ceiling(allCities / (double)pagingParameters.PageSize);
+
+                if (pagingParameters.PageNumber > totalPages)
+                {
+                    return BadRequest("You have requested more pages that are available.");
+                }
+
+                // build the meta-data to return in header
+                var metaData = MetaDataHelper.BuildCitiesMetaData(pagingParameters, _cityProcessor, _httpContextAccessor, _linkGenerator);
+
+                // add as custom header
+                Response.Headers.Add("X-Pagination", Newtonsoft.Json.JsonConvert.SerializeObject(metaData));
+
+                return Ok(pagedCities);
             }
             catch (Exception exception)
             {
@@ -113,7 +140,7 @@ namespace CityInfoAPI.Web.Controllers
             try
             {
                 // Does a city with this name already exist?
-                List<CityWithoutPointsOfInterestDto> allCities = await _cityProcessor.GetCities();
+                List<CityWithoutPointsOfInterestDto> allCities = await _cityProcessor.GetAllCities();
                 if (allCities.Where(c => c.Name.ToLower() == newCityRequest.Name.Trim().ToLower()).Count() > 0)
                 {
                     ModelState.AddModelError("Description", "A city with this name already exists.");

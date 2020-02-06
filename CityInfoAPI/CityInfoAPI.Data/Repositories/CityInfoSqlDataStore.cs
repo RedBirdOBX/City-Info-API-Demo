@@ -23,7 +23,13 @@ namespace CityInfoAPI.Data.Repositories
         // cities
         public Task<List<City>> GetCities()
         {
-            return _cityInfoDbContext.Cities.OrderBy(c => c.Name).ToListAsync();
+            var cities = _cityInfoDbContext.Cities.OrderBy(c => c.Name).ToListAsync();
+            return cities;
+        }
+
+        public Task<List<City>> GetPagedCities(int pageNumber, int pageSize)
+        {
+            return _cityInfoDbContext.Cities.OrderBy(c => c.Name).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
         }
 
         public async Task CreateCity(City city)

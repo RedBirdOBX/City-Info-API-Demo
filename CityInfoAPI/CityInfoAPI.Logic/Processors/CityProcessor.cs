@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using CityInfoAPI.Data.Entities;
 using CityInfoAPI.Data.Repositories;
 using CityInfoAPI.Dtos.Models;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CityInfoAPI.Logic.Processors
@@ -21,12 +23,19 @@ namespace CityInfoAPI.Logic.Processors
             _logger = logger;
         }
 
-
-        public async Task<List<CityWithoutPointsOfInterestDto>> GetCities()
+        public async Task<List<CityWithoutPointsOfInterestDto>> GetAllCities()
         {
+            // sometimes we need to return all cities without paging.  To check to see if it exists for example.
             var cityEntities = await _cityInfoRepository.GetCities();
             var results = Mapper.Map<List<CityWithoutPointsOfInterestDto>>(cityEntities);
             return results;
+        }
+
+        public async Task<List<CityWithoutPointsOfInterestDto>> GetPagedCities(int pageNumber, int pageSize)
+        {
+            var pagedCityEntities = await _cityInfoRepository.GetPagedCities(pageNumber, pageSize);
+            var pagedCities = Mapper.Map<List<CityWithoutPointsOfInterestDto>>(pagedCityEntities);
+            return pagedCities;
         }
 
         public async Task<List<CityDto>> GetCitiesWithPointOfInterest()
