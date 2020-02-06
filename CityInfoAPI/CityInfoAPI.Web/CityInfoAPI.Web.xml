@@ -8,18 +8,21 @@
             <summary>cities controller</summary>
             <example>http://{domain}/api/v{version:apiVersion}/cities</example>
         </member>
-        <member name="M:CityInfoAPI.Web.Controllers.CitiesController.#ctor(Microsoft.Extensions.Logging.ILogger{CityInfoAPI.Web.Controllers.CitiesController},CityInfoAPI.Logic.Processors.CityProcessor,CityInfoAPI.Logic.Processors.PointsOfInterestProcessor,CityInfoAPI.Data.Repositories.ICityInfoRepository)">
+        <member name="M:CityInfoAPI.Web.Controllers.CitiesController.#ctor(Microsoft.Extensions.Logging.ILogger{CityInfoAPI.Web.Controllers.CitiesController},CityInfoAPI.Logic.Processors.CityProcessor,CityInfoAPI.Logic.Processors.PointsOfInterestProcessor,CityInfoAPI.Data.Repositories.ICityInfoRepository,Microsoft.AspNetCore.Http.IHttpContextAccessor,Microsoft.AspNetCore.Routing.LinkGenerator)">
             <summary>constructor</summary>
             <param name="logger">logger factory middleware to be injected</param>
             <param name="cityProcessor">city processor middleware to be injected</param>
-            <param name="pointsOfInterestProcessor">points of interest processor middleware to be injected</param>
-            <param name="cityInfoRepository">city repository</param>
+            <param name="poiProcessor">points of interest processor middleware to be injected</param>
+            <param name="cityRepository">city repository</param>
+            <param name="httpContextAccessor">httpContextAccessor needed for LinkGenerator</param>
+            <param name="linkGenerator">link generator</param>
         </member>
-        <member name="M:CityInfoAPI.Web.Controllers.CitiesController.GetCities(CityInfoAPI.Web.Controllers.RequestHelpers.PagingParameters)">
-            <summary>get a collection of all cities. does not include point of interests.</summary>
-            <example>http://{domain}/api/v1.0/cities</example>
-            <returns>a collection of CityDto</returns>
-            <response code="200">returns the list of cities</response>
+        <member name="M:CityInfoAPI.Web.Controllers.CitiesController.GetPagedCities(CityInfoAPI.Web.Controllers.RequestHelpers.PagingParameters)">
+            <summary>gets collection of cities - results are paged</summary>
+            <example>http://{domain}/api/v1.0/cities?pageNumber=1{n}_and_pageSize={n}</example>
+            <param name="pagingParameters"></param>
+            <returns>collection of cities w/ no points of interest</returns>
+            <response code="200">returns collection of cities</response>
         </member>
         <member name="M:CityInfoAPI.Web.Controllers.CitiesController.GetCityById(System.Guid,System.Boolean)">
             <summary>get a specific city by key</summary>

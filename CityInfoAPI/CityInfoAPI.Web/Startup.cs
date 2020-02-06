@@ -21,6 +21,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace CityInfoAPI.Web
 {
@@ -41,8 +43,7 @@ namespace CityInfoAPI.Web
                 .SetBasePath(environment.ContentRootPath)
                 .AddJsonFile($"appSettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appSettings.{environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
-                // add environ variable to configuration chain
-                .AddEnvironmentVariables();
+                .AddEnvironmentVariables();         // add environ variable to configuration chain
             Configuration = builder.Build();
         }
 
@@ -90,6 +91,7 @@ namespace CityInfoAPI.Web
             services.AddScoped<CityCollectionsProcessor>();
             services.AddScoped<PointsOfInterestProcessor>();
             services.AddScoped<ReportingProcessor>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             // it will look for the letter "v" followed by major and potential minor version
             services.AddVersionedApiExplorer(setupAction =>
@@ -256,6 +258,7 @@ namespace CityInfoAPI.Web
                 cfg.CreateMap<CityInfoAPI.Dtos.Models.PointOfInterestUpdateDto, CityInfoAPI.Data.Entities.PointOfInterest>();
                 cfg.CreateMap<CityInfoAPI.Dtos.Models.CityCreateDto, CityInfoAPI.Data.Entities.City>();
                 cfg.CreateMap<CityInfoAPI.Dtos.Models.CityUpdateDto, CityInfoAPI.Data.Entities.City>();
+
 
                 // here's an example of doing a custom member mapping. It will use Projection.
                 // It takes CityName from entity and maps it to Name of the DTO.

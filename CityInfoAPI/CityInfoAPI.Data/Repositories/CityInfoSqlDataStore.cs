@@ -21,17 +21,15 @@ namespace CityInfoAPI.Data.Repositories
 
 
         // cities
-        public Task<List<City>> GetCities(int pageNumber, int pageSize)
+        public Task<List<City>> GetCities()
         {
-            // get all cities at first and sort them
-            var allCities = _cityInfoDbContext.Cities.OrderBy(c => c.Name).ToListAsync();
-            var pagedCities = _cityInfoDbContext.Cities.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
-            return pagedCities;
+            var cities = _cityInfoDbContext.Cities.OrderBy(c => c.Name).ToListAsync();
+            return cities;
         }
 
-        public Task<List<City>> GetAllCities()
+        public Task<List<City>> GetPagedCities(int pageNumber, int pageSize)
         {
-            return _cityInfoDbContext.Cities.OrderBy(c => c.Name).ToListAsync();
+            return _cityInfoDbContext.Cities.OrderBy(c => c.Name).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
         }
 
         public async Task CreateCity(City city)

@@ -1,7 +1,7 @@
 # The City Info Demo API
   
 ----------
-*Version 1.9.0*
+*Version 1.9.1*
 
 ## Summary
 Welcome to the City Info Demo API. Imagine that you were developing for some kind of travel site and one of the requirements was you needed to be able to ask for a complete listing of cities; ask for any given city by it's ID and, if specifically asked for, you needed to be able to provide all the "touristy" things to do for that specified city (landmarks, parks, restaurants, and so on).  
@@ -52,7 +52,7 @@ You can access these variables in Postman by clicking this icon:
 
 ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/postman-global-variables-icon.png)
 
-However, you should not need to change these.  To indicate which instance of this API you wish to test (locally running, DEV, or PROD), just change the variable name in thew URL.
+However, you should not need to change these.  To indicate which instance of this API you wish to test (locally running, DEV, or PROD), just change the variable name in the URL.
 
 Valid options:  
 `{{domain-local}}`  
@@ -79,6 +79,9 @@ Both parameters have default values should the consumer forget to provide them a
 | pageNumber | 1       | 1         | n/a       |
 | pageSize   | 10      | 1         | 10        |
 
+
+The Response Header will provide the requestor helpful information in a custom item known as `X-Pagination`.  It returns links to the next page (if applicable), previous page (if applicable), and total city count.    
+![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/development/Images/x-pagination.PNG)
 
 
 ##### Get City By Id  
@@ -476,13 +479,17 @@ Added new resources:
 
 
 **1.8.1**
-1.30.2019
+1.30.2019  
 - Added more test cities in the `in memory datastore`. More will be needed for the upcoming pagination development.
 - Minor logging improvements and general clean up.
 - Added pull request template.
 
-**1.9.0**
-2.3.2020
+**1.9.0**  
+2.3.2020  
 - Add paging to `GetCities` endpoint.  
 - Updated Postman collection.
+
+**1.9.1**  
+2.6.2020  
+Add custom paging meta data to the response header.  Tell consumer if there is a previous page, if there is a next page, and how many total results there are. Custom Header item is known as `X-Pagination`.
 

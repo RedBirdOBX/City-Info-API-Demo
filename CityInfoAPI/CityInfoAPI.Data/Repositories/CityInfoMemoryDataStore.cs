@@ -227,7 +227,7 @@ namespace CityInfoAPI.Data.Repositories
                 }            };
         }
 
-        public async Task<List<City>> GetCities(int pageNumber, int pageSize)
+        public async Task<List<City>> GetCities()
         {
             List<City> citiesWithoutPointsOfInterest = new List<City>();
             foreach (var completeCity in _cities)
@@ -244,13 +244,11 @@ namespace CityInfoAPI.Data.Repositories
                 citiesWithoutPointsOfInterest.Add(city);
             }
 
-            // get the whole list first and sort it.
-            var allCities = citiesWithoutPointsOfInterest.OrderBy(c => c.Name).ToList();
-            var pagedCities = allCities.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
-            return pagedCities;
+            var cities = citiesWithoutPointsOfInterest.OrderBy(c => c.Name).ToList();
+            return cities;
         }
 
-        public async Task<List<City>> GetAllCities()
+        public async Task<List<City>> GetPagedCities(int pageNumber, int pageSize)
         {
             List<City> citiesWithoutPointsOfInterest = new List<City>();
             foreach (var completeCity in _cities)
@@ -267,7 +265,7 @@ namespace CityInfoAPI.Data.Repositories
                 citiesWithoutPointsOfInterest.Add(city);
             }
 
-            return citiesWithoutPointsOfInterest.OrderBy(c => c.Name).ToList();
+            return citiesWithoutPointsOfInterest.OrderBy(c => c.Name).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
         }
 
         public async Task CreateCity(City city)
