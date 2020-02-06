@@ -81,7 +81,7 @@ Both parameters have default values should the consumer forget to provide them a
 
 
 The Response Header will provide the requestor helpful information in a custom item known as `X-Pagination`.  It returns links to the next page (if applicable), previous page (if applicable), and total city count.    
-![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/x-pagination.PNG)
+![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/x-pagination.png)
 
 
 ##### Get City By Id  
