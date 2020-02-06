@@ -14,6 +14,8 @@
             <param name="cityProcessor">city processor middleware to be injected</param>
             <param name="poiProcessor">points of interest processor middleware to be injected</param>
             <param name="cityRepository">city repository</param>
+            <param name="httpContextAccessor">httpContextAccessor needed for LinkGenerator</param>
+            <param name="linkGenerator">link generator</param>
         </member>
         <!-- Badly formed XML comment ignored for member "M:CityInfoAPI.Web.Controllers.CitiesController.GetPagedCities(CityInfoAPI.Web.Controllers.RequestHelpers.PagingParameters)" -->
         <member name="M:CityInfoAPI.Web.Controllers.CitiesController.GetCityById(System.Guid,System.Boolean)">
