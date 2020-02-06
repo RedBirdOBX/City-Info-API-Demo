@@ -80,7 +80,7 @@ Both parameters have default values should the consumer forget to provide them a
 | pageSize   | 10      | 1         | 10        |
 
 
-The Response Header will provide the requestor helpful information in a custom item known as `X-Pagination`.  It returns links to the next page (if applicable), previous page (if applicable), and total count.    
+The Response Header will provide the requestor helpful information in a custom item known as `X-Pagination`.  It returns links to the next page (if applicable), previous page (if applicable), and total city count.    
 ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/development/Images/x-pagination.PNG)
 
 
