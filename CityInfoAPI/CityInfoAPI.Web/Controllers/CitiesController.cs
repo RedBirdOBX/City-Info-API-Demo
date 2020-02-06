@@ -53,13 +53,11 @@ namespace CityInfoAPI.Web.Controllers
             _linkGenerator = linkGenerator;
         }
 
-        /// <summary>
-        /// get a collection of cities. does not include point of interests. results are paged.
-        /// user needs to specify page size and page number.
-        /// </summary>
-        /// <example>http://{domain}/api/v1.0/cities?pageNumber={n}&pageSize={n}</example>
-        /// <returns>a collection of CityDto</returns>
-        /// <response code="200">returns the list of cities</response>
+        /// <summary>gets collection of cities - results are paged</summary>
+        /// <example>http://{domain}/api/v1.0/cities?pageNumber=1{n}_and_pageSize={n}</example>
+        /// <param name="pagingParameters"></param>
+        /// <returns>collection of cities w/ no points of interest</returns>
+        /// <response code="200">returns collection of cities</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesDefaultResponseType]
         [HttpGet("", Name = "GetPagedCities")]
