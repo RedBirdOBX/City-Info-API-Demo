@@ -52,7 +52,7 @@ You can access these variables in Postman by clicking this icon:
 
 ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/postman-global-variables-icon.png)
 
-However, you should not need to change these.  To indicate which instance of this API you wish to test (locally running, DEV, or PROD), just change the variable name in thew URL.
+However, you should not need to change these.  To indicate which instance of this API you wish to test (locally running, DEV, or PROD), just change the variable name in the URL.
 
 Valid options:  
 `{{domain-local}}`  
@@ -80,7 +80,7 @@ Both parameters have default values should the consumer forget to provide them a
 | pageSize   | 10      | 1         | 10        |
 
 
-The Response Header will provide the requestor helpful information in a custom items known as `X-Pagination`.  
+The Response Header will provide the requestor helpful information in a custom item known as `X-Pagination`.  It returns links to the next page (if applicable), previous page (if applicable), and total count.    
 ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/development/Images/x-pagination.PNG)
 
 
