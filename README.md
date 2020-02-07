@@ -1,7 +1,7 @@
 # The City Info Demo API
   
 ----------
-*Version 1.9.1*
+*Version 1.10.0*
 
 ## Summary
 Welcome to the City Info Demo API. Imagine that you were developing for some kind of travel site and one of the requirements was you needed to be able to ask for a complete listing of cities; ask for any given city by it's ID and, if specifically asked for, you needed to be able to provide all the "touristy" things to do for that specified city (landmarks, parks, restaurants, and so on).  
@@ -493,3 +493,6 @@ Added new resources:
 2.6.2020  
 Add custom paging meta data to the response header.  Tell consumer if there is a previous page, if there is a next page, and how many total results there are. Custom Header item is known as `X-Pagination`.
 
+**1.10.0**  
+2.10.2020
+Filtering

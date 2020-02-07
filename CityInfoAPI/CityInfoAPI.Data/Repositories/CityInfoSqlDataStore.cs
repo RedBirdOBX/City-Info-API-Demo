@@ -27,8 +27,17 @@ namespace CityInfoAPI.Data.Repositories
             return cities;
         }
 
-        public Task<List<City>> GetPagedCities(int pageNumber, int pageSize)
+        public Task<List<City>> GetPagedCities(int pageNumber, int pageSize, string name)
         {
+            if (!string.IsNullOrEmpty(name))
+            {
+                return _cityInfoDbContext.Cities.Where(c => c.Name.Contains(name.ToLower()))
+                                                .OrderBy(c => c.Name)
+                                                .Skip((pageNumber - 1) * pageSize)
+                                                .Take(pageSize)
+                                                .ToListAsync();
+            }
+
             return _cityInfoDbContext.Cities.OrderBy(c => c.Name).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
         }
 
