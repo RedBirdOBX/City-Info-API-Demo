@@ -66,16 +66,16 @@ namespace CityInfoAPI.Web.Controllers
             try
             {
                 // get only the cities we need
-                var pagedCities = await _cityProcessor.GetPagedCities(requestParameters.PageNumber, requestParameters.PageSize, requestParameters.Name);
+                var pagedCities = await _cityProcessor.GetPagedCities(requestParameters.PageNumber, requestParameters.PageSize, requestParameters.NameFilter);
 
                 // how many total pages do we have?
                 int allPossibleCities = 0;
 
                 // did they use a name filter? count all possible results
-                if (!string.IsNullOrEmpty(requestParameters.Name))
+                if (!string.IsNullOrEmpty(requestParameters.NameFilter))
                 {
                     var allCities = await _cityProcessor.GetAllCities();
-                    var filteredCities = allCities.Where(c => c.Name.ToLower().Contains(requestParameters.Name.ToLower()));
+                    var filteredCities = allCities.Where(c => c.Name.ToLower().Contains(requestParameters.NameFilter.ToLower()));
                     allPossibleCities = filteredCities.Count();
                 }
                 else

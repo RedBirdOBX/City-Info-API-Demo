@@ -49,7 +49,7 @@ namespace CityInfoAPI.Web.Controllers.ResponseHelpers
                                                                 values: new {
                                                                                 pageNumber = requestParameters.PageNumber + 1,
                                                                                 pageSize = requestParameters.PageSize ,
-                                                                                name = requestParameters.Name
+                                                                    nameFilter = requestParameters.NameFilter
                                                                             });
                     case ResourceUriType.PreviousPage:
                         return linkGenerator.GetUriByAction(httpContextAccessor.HttpContext,
@@ -58,8 +58,8 @@ namespace CityInfoAPI.Web.Controllers.ResponseHelpers
                                                                 values: new {
                                                                                 pageNumber = requestParameters.PageNumber - 1,
                                                                                 pageSize = requestParameters.PageSize,
-                                                                                name = requestParameters.Name
-                                                                            });
+                                                                    nameFilter = requestParameters.NameFilter
+                                                                });
                     default:
                         return linkGenerator.GetUriByAction(httpContextAccessor.HttpContext,
                                                                 action: "GetPagedCities",
@@ -67,8 +67,8 @@ namespace CityInfoAPI.Web.Controllers.ResponseHelpers
                                                                 values: new {
                                                                                 pageNumber = requestParameters.PageNumber,
                                                                                 pageSize = requestParameters.PageSize,
-                                                                                name = requestParameters.Name
-                                                                            });
+                                                                                nameFilter = requestParameters.NameFilter
+                                                                });
                 }
             }
             catch (Exception exception)

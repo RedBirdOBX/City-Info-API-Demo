@@ -42,7 +42,7 @@
         }
 
         // name to filter by
-        public string Name { get; set; }
+        public string NameFilter { get; set; }
     }
 
     #pragma warning restore CS1591
