@@ -77,6 +77,12 @@ namespace CityInfoAPI.Web.Controllers
                     var allCities = await _cityProcessor.GetAllCities();
                     var filteredCities = allCities.Where(c => c.Name.ToLower().Contains(requestParameters.NameFilter.ToLower()));
                     allPossibleCities = filteredCities.Count();
+
+                    // bad filter was used
+                    if (allPossibleCities == 0)
+                    {
+                        return Ok($"No cities found with the name containing {requestParameters.NameFilter}.");
+                    }
                 }
                 else
                 {
