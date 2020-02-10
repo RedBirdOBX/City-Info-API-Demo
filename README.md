@@ -1,7 +1,7 @@
 # The City Info Demo API
   
 ----------
-*Version 1.9.1*
+*Version 1.10.0*
 
 ## Summary
 Welcome to the City Info Demo API. Imagine that you were developing for some kind of travel site and one of the requirements was you needed to be able to ask for a complete listing of cities; ask for any given city by it's ID and, if specifically asked for, you needed to be able to provide all the "touristy" things to do for that specified city (landmarks, parks, restaurants, and so on).  
@@ -70,7 +70,10 @@ Valid options:
 ##### Get Cities 
 [https://city-info-api-demo.azurewebsites.net/api/v1.0/cities?pagenumber={n}&pagesize={n}](https://city-info-api-demo.azurewebsites.net/api/v1.0/cities?pagenumber={n}&pagesize={n} "https://city-info-api-demo.azurewebsites.net/api/v1.0/cities?pagenumber={n}&pagesize={n}")   
 `GET`   
-This resource with return a collection of all cities but does not show you their associated points of interest. Furthermore, it implements paging and you must specify the page number (`pagenumber`) you are requesting and number of results per page (`pagesize`) in the querystring. 
+This resource with return a collection of all cities but does not show you their associated points of interest. 
+
+**Paging:**
+This endpoint implements paging and you **must** specify the page number (`pagenumber`) you are requesting **and** the number of results per page (`pagesize`) in the querystring. These two parameters are required.
 
 Both parameters have default values should the consumer forget to provide them and minimum and maximum limits should the consumer exceed those limits.  If the limits are exceed, it will will fall back to default values.
 
@@ -80,7 +83,14 @@ Both parameters have default values should the consumer forget to provide them a
 | pageSize   | 10      | 1         | 10        |
 
 
-The Response Header will provide the requestor helpful information in a custom item known as `X-Pagination`.  It returns links to the next page (if applicable), previous page (if applicable), and total city count.    
+**Name Filtering:** 
+an optional parameter you can provide in this request is a Name filter which looks like this:
+`http://city-info-api-demo.azurewebsites.net/api/v1.0/cities?pageNumber=1&pageSize=10&name=chica`
+
+In this example, it will return up to 10 results per page for any city with a name containing "chica" such as Chicago.  It is not case-sensitive.
+
+
+The Response Header will provide the requestor helpful information in a custom item known as `X-Pagination`.  It returns links to the next page (if applicable), previous page (if applicable), the name filter (if used), and total city count.    
 ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/x-pagination.png)
 
 
@@ -493,3 +503,6 @@ Added new resources:
 2.6.2020  
 Add custom paging meta data to the response header.  Tell consumer if there is a previous page, if there is a next page, and how many total results there are. Custom Header item is known as `X-Pagination`.
 
+**1.10.0**  
+2.10.2020
+- Name filtering was introduced. You can now filter on city names.

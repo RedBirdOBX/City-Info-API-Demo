@@ -303,12 +303,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "<CityCreateDto xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.datacontract.org/2004/07/CityInfoAPI.Dtos.Models\">\n    <Description>Description for Alpha City</Description>\n    <Name>New Alpha City</Name>\n    <PointsOfInterest>\n        <PointOfInterestCreateRequestDto>\n            <Description>Description for location 1</Description>\n            <Name>Location 1</Name>\n        </PointOfInterestCreateRequestDto>\n        <PointOfInterestCreateRequestDto>\n            <Description>Description for location 2</Description>\n            <Name>Location 2</Name>\n        </PointOfInterestCreateRequestDto>\n    </PointsOfInterest>\n</CityCreateDto>",
-					"options": {
-						"raw": {
-							"language": "xml"
-						}
-					}
+					"raw": "<CityCreateDto xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.datacontract.org/2004/07/CityInfoAPI.Dtos.Models\">\n    <Description>Description for Alpha City</Description>\n    <Name>New Alpha City</Name>\n    <PointsOfInterest>\n        <PointOfInterestCreateRequestDto>\n            <Description>Description for location 1</Description>\n            <Name>Location 1</Name>\n        </PointOfInterestCreateRequestDto>\n        <PointOfInterestCreateRequestDto>\n            <Description>Description for location 2</Description>\n            <Name>Location 2</Name>\n        </PointOfInterestCreateRequestDto>\n    </PointsOfInterest>\n</CityCreateDto>"
 				},
 				"url": {
 					"raw": "{{domain-local}}/api/v1.0/cities",
@@ -571,6 +566,45 @@
 						"38276231-1918-452d-a3e9-6f50873a95d2",
 						"pointsofinterest",
 						"07c2f263-8afe-4028-8c0e-7d4657ff66fc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Cities (with paging and name filter)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{domain-local}}/api/v1.0/cities?pageNumber=1&pageSize=10&name=chica",
+					"host": [
+						"{{domain-local}}"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"cities"
+					],
+					"query": [
+						{
+							"key": "pageNumber",
+							"value": "1"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						},
+						{
+							"key": "name",
+							"value": "chica"
+						}
 					]
 				}
 			},
