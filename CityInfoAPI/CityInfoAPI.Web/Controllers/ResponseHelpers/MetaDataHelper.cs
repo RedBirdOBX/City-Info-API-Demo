@@ -11,21 +11,21 @@ namespace CityInfoAPI.Web.Controllers.ResponseHelpers
 
     public static class MetaDataHelper
     {
-        public static PaginationMetaDataDto BuildCitiesMetaData(PagingParameters pagingParameters, CityProcessor _cityProcessor, IHttpContextAccessor httpContextAccessor, LinkGenerator linkGenerator)
+        public static PaginationMetaDataDto BuildCitiesMetaData(RequestParameters requestParameters, CityProcessor _cityProcessor, IHttpContextAccessor httpContextAccessor, LinkGenerator linkGenerator)
         {
             var allCities = _cityProcessor.GetAllCities().Result;
-            int totalPages = (int)Math.Ceiling(allCities.Count() / (double)pagingParameters.PageSize);
+            int totalPages = (int)Math.Ceiling(allCities.Count() / (double)requestParameters.PageSize);
             int totalCount = allCities.Count();
-            bool hasNextPage = pagingParameters.PageNumber < totalPages;
-            bool hasPrevPage = pagingParameters.PageNumber > 1;
-            string nextUrl = (pagingParameters.PageNumber < totalPages) ? CreateCitiesResourceUri(pagingParameters, ResourceUriType.NextPage, httpContextAccessor, linkGenerator) : string.Empty;
-            string prevUrl = (pagingParameters.PageNumber > 1) ? CreateCitiesResourceUri(pagingParameters, ResourceUriType.PreviousPage, httpContextAccessor, linkGenerator) : string.Empty;
+            bool hasNextPage = requestParameters.PageNumber < totalPages;
+            bool hasPrevPage = requestParameters.PageNumber > 1;
+            string nextUrl = (requestParameters.PageNumber < totalPages) ? CreateCitiesResourceUri(requestParameters, ResourceUriType.NextPage, httpContextAccessor, linkGenerator) : string.Empty;
+            string prevUrl = (requestParameters.PageNumber > 1) ? CreateCitiesResourceUri(requestParameters, ResourceUriType.PreviousPage, httpContextAccessor, linkGenerator) : string.Empty;
 
             PaginationMetaDataDto results = new PaginationMetaDataDto
             {
-                CurrentPage = pagingParameters.PageNumber,
+                CurrentPage = requestParameters.PageNumber,
                 TotalPages = totalPages,
-                PageSize = pagingParameters.PageSize,
+                PageSize = requestParameters.PageSize,
                 TotalCount = totalCount,
                 HasNextPage = hasNextPage,
                 HasPreviousPage = hasPrevPage,
@@ -36,18 +36,39 @@ namespace CityInfoAPI.Web.Controllers.ResponseHelpers
             return results;
         }
 
-        private static string CreateCitiesResourceUri(PagingParameters pagingParameters, ResourceUriType type, IHttpContextAccessor httpContextAccessor, LinkGenerator linkGenerator)
+        private static string CreateCitiesResourceUri(RequestParameters requestParameters, ResourceUriType type, IHttpContextAccessor httpContextAccessor, LinkGenerator linkGenerator)
         {
             try
             {
                 switch (type)
                 {
                     case ResourceUriType.NextPage:
-                        return linkGenerator.GetUriByAction(httpContextAccessor.HttpContext, action: "GetPagedCities", controller: "Cities", values: new { pageNumber = pagingParameters.PageNumber + 1, pageSize = pagingParameters.PageSize });
+                        return linkGenerator.GetUriByAction(httpContextAccessor.HttpContext,
+                                                                action: "GetPagedCities",
+                                                                controller: "Cities",
+                                                                values: new {
+                                                                                pageNumber = requestParameters.PageNumber + 1,
+                                                                                pageSize = requestParameters.PageSize ,
+                                                                    nameFilter = requestParameters.NameFilter
+                                                                            });
                     case ResourceUriType.PreviousPage:
-                        return linkGenerator.GetUriByAction(httpContextAccessor.HttpContext, action: "GetPagedCities", controller: "Cities", values: new { pageNumber = pagingParameters.PageNumber - 1, pageSize = pagingParameters.PageSize });
+                        return linkGenerator.GetUriByAction(httpContextAccessor.HttpContext,
+                                                                action: "GetPagedCities",
+                                                                controller: "Cities",
+                                                                values: new {
+                                                                                pageNumber = requestParameters.PageNumber - 1,
+                                                                                pageSize = requestParameters.PageSize,
+                                                                    nameFilter = requestParameters.NameFilter
+                                                                });
                     default:
-                        return linkGenerator.GetUriByAction(httpContextAccessor.HttpContext, action: "GetPagedCities", controller: "Cities", values: new { pageNumber = pagingParameters.PageNumber, pageSize = pagingParameters.PageSize });
+                        return linkGenerator.GetUriByAction(httpContextAccessor.HttpContext,
+                                                                action: "GetPagedCities",
+                                                                controller: "Cities",
+                                                                values: new {
+                                                                                pageNumber = requestParameters.PageNumber,
+                                                                                pageSize = requestParameters.PageSize,
+                                                                                nameFilter = requestParameters.NameFilter
+                                                                });
                 }
             }
             catch (Exception exception)

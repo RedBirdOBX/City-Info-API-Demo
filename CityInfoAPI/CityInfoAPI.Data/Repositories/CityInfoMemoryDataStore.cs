@@ -248,7 +248,7 @@ namespace CityInfoAPI.Data.Repositories
             return cities;
         }
 
-        public async Task<List<City>> GetPagedCities(int pageNumber, int pageSize)
+        public async Task<List<City>> GetPagedCities(int pageNumber, int pageSize, string name)
         {
             List<City> citiesWithoutPointsOfInterest = new List<City>();
             foreach (var completeCity in _cities)
@@ -263,6 +263,16 @@ namespace CityInfoAPI.Data.Repositories
                     PointsOfInterest = new List<PointOfInterest>()
                 };
                 citiesWithoutPointsOfInterest.Add(city);
+            }
+
+            // is user used a name filter
+            if (!string.IsNullOrEmpty(name))
+            {
+                return citiesWithoutPointsOfInterest.Where(c => c.Name.ToLower().Contains(name.ToLower()))
+                                                    .OrderBy(c => c.Name)
+                                                    .Skip((pageNumber - 1) * pageSize)
+                                                    .Take(pageSize)
+                                                    .ToList();
             }
 
             return citiesWithoutPointsOfInterest.OrderBy(c => c.Name).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();

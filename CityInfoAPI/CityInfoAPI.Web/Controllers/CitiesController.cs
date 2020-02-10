@@ -55,30 +55,50 @@ namespace CityInfoAPI.Web.Controllers
 
         /// <summary>gets collection of cities - results are paged</summary>
         /// <example>http://{domain}/api/v1.0/cities?pageNumber=1{n}_and_pageSize={n}</example>
-        /// <param name="pagingParameters"></param>
+        /// <param name="requestParameters"></param>
         /// <returns>collection of cities w/ no points of interest</returns>
         /// <response code="200">returns collection of cities</response>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesDefaultResponseType]
         [HttpGet("", Name = "GetPagedCities")]
-        public async Task<ActionResult<List<CityDto>>> GetPagedCities([FromQuery] PagingParameters pagingParameters)
+        public async Task<ActionResult<List<CityDto>>> GetPagedCities([FromQuery] RequestParameters requestParameters)
         {
             try
             {
                 // get only the cities we need
-                var pagedCities = await _cityProcessor.GetPagedCities(pagingParameters.PageNumber, pagingParameters.PageSize);
+                var pagedCities = await _cityProcessor.GetPagedCities(requestParameters.PageNumber, requestParameters.PageSize, requestParameters.NameFilter);
 
                 // how many total pages do we have?
-                int allCities = _cityProcessor.GetAllCities().Result.Count();
-                int totalPages = (int)Math.Ceiling(allCities / (double)pagingParameters.PageSize);
+                int allPossibleCities = 0;
 
-                if (pagingParameters.PageNumber > totalPages)
+                // did they use a name filter? count all possible results
+                if (!string.IsNullOrEmpty(requestParameters.NameFilter))
+                {
+                    var allCities = await _cityProcessor.GetAllCities();
+                    var filteredCities = allCities.Where(c => c.Name.ToLower().Contains(requestParameters.NameFilter.ToLower()));
+                    allPossibleCities = filteredCities.Count();
+
+                    // bad filter was used
+                    if (allPossibleCities == 0)
+                    {
+                        return Ok($"No cities found with the name containing {requestParameters.NameFilter}.");
+                    }
+                }
+                else
+                {
+                    // count all
+                    allPossibleCities = _cityProcessor.GetAllCities().Result.Count();
+                }
+
+                int totalPages = (int)Math.Ceiling(allPossibleCities / (double)requestParameters.PageSize);
+
+                if (requestParameters.PageNumber > totalPages)
                 {
                     return BadRequest("You have requested more pages that are available.");
                 }
 
                 // build the meta-data to return in header
-                var metaData = MetaDataHelper.BuildCitiesMetaData(pagingParameters, _cityProcessor, _httpContextAccessor, _linkGenerator);
+                var metaData = MetaDataHelper.BuildCitiesMetaData(requestParameters, _cityProcessor, _httpContextAccessor, _linkGenerator);
 
                 // add as custom header
                 Response.Headers.Add("X-Pagination", Newtonsoft.Json.JsonConvert.SerializeObject(metaData));

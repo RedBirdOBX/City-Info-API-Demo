@@ -17,10 +17,10 @@
             <param name="httpContextAccessor">httpContextAccessor needed for LinkGenerator</param>
             <param name="linkGenerator">link generator</param>
         </member>
-        <member name="M:CityInfoAPI.Web.Controllers.CitiesController.GetPagedCities(CityInfoAPI.Web.Controllers.RequestHelpers.PagingParameters)">
+        <member name="M:CityInfoAPI.Web.Controllers.CitiesController.GetPagedCities(CityInfoAPI.Web.Controllers.RequestHelpers.RequestParameters)">
             <summary>gets collection of cities - results are paged</summary>
             <example>http://{domain}/api/v1.0/cities?pageNumber=1{n}_and_pageSize={n}</example>
-            <param name="pagingParameters"></param>
+            <param name="requestParameters"></param>
             <returns>collection of cities w/ no points of interest</returns>
             <response code="200">returns collection of cities</response>
         </member>

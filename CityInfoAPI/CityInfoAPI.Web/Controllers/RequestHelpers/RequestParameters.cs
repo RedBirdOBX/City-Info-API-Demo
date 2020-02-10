@@ -2,7 +2,7 @@
 {
     #pragma warning disable CS1591
 
-    public class PagingParameters
+    public class RequestParameters
     {
         private const int _minPageNumber = 1;
         private const int _defaultPageNumber = 1;
@@ -40,6 +40,9 @@
                 _pageSize = (_pageSize < _minPageSize) ? _minPageSize : _pageSize;
             }
         }
+
+        // name to filter by
+        public string NameFilter { get; set; }
     }
 
     #pragma warning restore CS1591
