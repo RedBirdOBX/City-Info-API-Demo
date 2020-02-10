@@ -85,7 +85,7 @@ Both parameters have default values should the consumer forget to provide them a
 
 **Name Filtering:** 
 an optional parameter you can provide in this request is a Name filter which looks like this:
-`http://city-info-api-demo.azurewebsites.net/api/v1.0/cities?pageNumber=1&pageSize=10&name=chica`
+`http://city-info-api-demo.azurewebsites.net/api/v1.0/cities?pageNumber=1&pageSize=10&nameFilter=chica`
 
 In this example, it will return up to 10 results per page for any city with a name containing "chica" such as Chicago.  It is not case-sensitive.
 
