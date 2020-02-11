@@ -101,7 +101,7 @@ namespace CityInfoAPI.Web.Controllers
                 var metaData = MetaDataHelper.BuildCitiesMetaData(requestParameters, _cityProcessor, _httpContextAccessor, _linkGenerator);
 
                 // add as custom header
-                Response.Headers.Add("X-Pagination", Newtonsoft.Json.JsonConvert.SerializeObject(metaData));
+                Response.Headers.Add("X-CityParameters", Newtonsoft.Json.JsonConvert.SerializeObject(metaData));
 
                 return Ok(pagedCities);
             }
