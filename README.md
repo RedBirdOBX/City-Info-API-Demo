@@ -83,15 +83,17 @@ Both parameters have default values should the consumer forget to provide them a
 | pageSize   | 10      | 1         | 10        |
 
 
-**Name Filtering:**   
+**Optional Name Filtering**   
 An optional parameter you can provide in this request is a Name filter which looks like this:
 `http://city-info-api-demo.azurewebsites.net/api/v1.0/cities?pageNumber=1&pageSize=10&nameFilter=chica`
 
 In this example, it will return up to 10 results per page for any city with a name containing "chica" such as Chicago.  It is not case-sensitive.
 
 
-**Name Sorting:**  
+**Optional Name Sorting**  
 Another optional parameter you can provide is `orderNameBy` and if the consumer provides `desc` as the value, it will sort the City names by descending order.  Any other value other than `desc` will result in the names being sort in ascending order. 
+`http://city-info-api-demo.azurewebsites.net/api/v1.0/cities?pageNumber=1&pageSize=10&orderNameBy=desc`
+
 
 **Custom Response Header:**   
 The Response Header will provide the consumer helpful information in a custom item known as `X-CityParameters`.  It returns links to the next page (if applicable), previous page (if applicable), the name filter (if used), the name sorting order, and total city count.    
