@@ -30,7 +30,7 @@ namespace CityInfoAPI.Data.Repositories
         public Task<List<City>> GetPagedCities(int pageNumber, int pageSize, string name, string orderNameBy)
         {
             // if using both orderByName **and** a name filter
-            if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(name))
+            if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(orderNameBy))
             {
                 if (orderNameBy.Equals("desc", StringComparison.CurrentCultureIgnoreCase))
                 {
