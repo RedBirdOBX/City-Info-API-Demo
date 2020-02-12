@@ -13,33 +13,44 @@ namespace CityInfoAPI.Web.Controllers.ResponseHelpers
     {
         public static PaginationMetaDataDto BuildCitiesMetaData(RequestParameters requestParameters, CityProcessor _cityProcessor, IHttpContextAccessor httpContextAccessor, LinkGenerator linkGenerator)
         {
-            var allCities = _cityProcessor.GetAllCities().Result;
-            int totalPages = (int)Math.Ceiling(allCities.Count() / (double)requestParameters.PageSize);
-            int totalCount = allCities.Count();
-            bool hasNextPage = requestParameters.PageNumber < totalPages;
-            bool hasPrevPage = requestParameters.PageNumber > 1;
-            string nextUrl = (requestParameters.PageNumber < totalPages) ? CreateCitiesResourceUri(requestParameters, ResourceUriType.NextPage, httpContextAccessor, linkGenerator) : string.Empty;
-            string prevUrl = (requestParameters.PageNumber > 1) ? CreateCitiesResourceUri(requestParameters, ResourceUriType.PreviousPage, httpContextAccessor, linkGenerator) : string.Empty;
-
-            PaginationMetaDataDto results = new PaginationMetaDataDto
+            try
             {
-                CurrentPage = requestParameters.PageNumber,
-                TotalPages = totalPages,
-                PageSize = requestParameters.PageSize,
-                TotalCount = totalCount,
-                HasNextPage = hasNextPage,
-                HasPreviousPage = hasPrevPage,
-                NextPageUrl = nextUrl,
-                PreviousPageUrl = prevUrl
-            };
+                var allCities = _cityProcessor.GetAllCities().Result;
+                int totalPages = (int)Math.Ceiling(allCities.Count() / (double)requestParameters.PageSize);
+                int totalCount = allCities.Count();
+                bool hasNextPage = requestParameters.PageNumber < totalPages;
+                bool hasPrevPage = requestParameters.PageNumber > 1;
+                string nextUrl = (requestParameters.PageNumber < totalPages) ? CreateCitiesResourceUri(requestParameters, ResourceUriType.NextPage, httpContextAccessor, linkGenerator) : string.Empty;
+                string prevUrl = (requestParameters.PageNumber > 1) ? CreateCitiesResourceUri(requestParameters, ResourceUriType.PreviousPage, httpContextAccessor, linkGenerator) : string.Empty;
+                string orderNameBy = (!string.IsNullOrEmpty(requestParameters.OrderNameBy)) ? requestParameters.OrderNameBy : "asc";
+                orderNameBy = orderNameBy.Equals("desc", StringComparison.CurrentCultureIgnoreCase) ? "desc" : "asc";
 
-            return results;
+                PaginationMetaDataDto results = new PaginationMetaDataDto
+                {
+                    CurrentPage = requestParameters.PageNumber,
+                    TotalPages = totalPages,
+                    PageSize = requestParameters.PageSize,
+                    TotalCount = totalCount,
+                    HasNextPage = hasNextPage,
+                    HasPreviousPage = hasPrevPage,
+                    NextPageUrl = nextUrl,
+                    PreviousPageUrl = prevUrl,
+                    OrderNameBy = orderNameBy
+                };
+
+                return results;
+            }
+            catch (ArgumentNullException exception)
+            {
+                throw exception;
+            }
         }
 
         private static string CreateCitiesResourceUri(RequestParameters requestParameters, ResourceUriType type, IHttpContextAccessor httpContextAccessor, LinkGenerator linkGenerator)
         {
             try
             {
+                // i'm sensing a DRY violation here...
                 switch (type)
                 {
                     case ResourceUriType.NextPage:
@@ -49,8 +60,9 @@ namespace CityInfoAPI.Web.Controllers.ResponseHelpers
                                                                 values: new {
                                                                                 pageNumber = requestParameters.PageNumber + 1,
                                                                                 pageSize = requestParameters.PageSize ,
-                                                                    nameFilter = requestParameters.NameFilter
-                                                                            });
+                                                                                nameFilter = requestParameters.NameFilter,
+                                                                });
+
                     case ResourceUriType.PreviousPage:
                         return linkGenerator.GetUriByAction(httpContextAccessor.HttpContext,
                                                                 action: "GetPagedCities",
@@ -58,8 +70,8 @@ namespace CityInfoAPI.Web.Controllers.ResponseHelpers
                                                                 values: new {
                                                                                 pageNumber = requestParameters.PageNumber - 1,
                                                                                 pageSize = requestParameters.PageSize,
-                                                                    nameFilter = requestParameters.NameFilter
-                                                                });
+                                                                                nameFilter = requestParameters.NameFilter,
+                                                                            });
                     default:
                         return linkGenerator.GetUriByAction(httpContextAccessor.HttpContext,
                                                                 action: "GetPagedCities",
@@ -67,8 +79,8 @@ namespace CityInfoAPI.Web.Controllers.ResponseHelpers
                                                                 values: new {
                                                                                 pageNumber = requestParameters.PageNumber,
                                                                                 pageSize = requestParameters.PageSize,
-                                                                                nameFilter = requestParameters.NameFilter
-                                                                });
+                                                                                nameFilter = requestParameters.NameFilter,
+                                                                            });
                 }
             }
             catch (Exception exception)

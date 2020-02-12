@@ -10,7 +10,7 @@ namespace CityInfoAPI.Data.Repositories
         // cities
         Task<List<City>> GetCities();
 
-        Task<List<City>> GetPagedCities(int pageNumber, int pageSize, string name);
+        Task<List<City>> GetPagedCities(int pageNumber, int pageSize, string name, string orderNameBy);
 
         Task<List<City>> GetCitiesWithPointsOfInterest();
 

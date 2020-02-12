@@ -31,9 +31,9 @@ namespace CityInfoAPI.Logic.Processors
             return results;
         }
 
-        public async Task<List<CityWithoutPointsOfInterestDto>> GetPagedCities(int pageNumber, int pageSize, string name)
+        public async Task<List<CityWithoutPointsOfInterestDto>> GetPagedCities(int pageNumber, int pageSize, string name, string orderNameBy)
         {
-            var pagedCityEntities = await _cityInfoRepository.GetPagedCities(pageNumber, pageSize, name);
+            var pagedCityEntities = await _cityInfoRepository.GetPagedCities(pageNumber, pageSize, name, orderNameBy);
             var pagedCities = Mapper.Map<List<CityWithoutPointsOfInterestDto>>(pagedCityEntities);
             return pagedCities;
         }

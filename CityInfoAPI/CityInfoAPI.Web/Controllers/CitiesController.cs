@@ -66,7 +66,7 @@ namespace CityInfoAPI.Web.Controllers
             try
             {
                 // get only the cities we need
-                var pagedCities = await _cityProcessor.GetPagedCities(requestParameters.PageNumber, requestParameters.PageSize, requestParameters.NameFilter);
+                var pagedCities = await _cityProcessor.GetPagedCities(requestParameters.PageNumber, requestParameters.PageSize, requestParameters.NameFilter, requestParameters.OrderNameBy);
 
                 // how many total pages do we have?
                 int allPossibleCities = 0;
@@ -101,7 +101,7 @@ namespace CityInfoAPI.Web.Controllers
                 var metaData = MetaDataHelper.BuildCitiesMetaData(requestParameters, _cityProcessor, _httpContextAccessor, _linkGenerator);
 
                 // add as custom header
-                Response.Headers.Add("X-Pagination", Newtonsoft.Json.JsonConvert.SerializeObject(metaData));
+                Response.Headers.Add("X-CityParameters", Newtonsoft.Json.JsonConvert.SerializeObject(metaData));
 
                 return Ok(pagedCities);
             }

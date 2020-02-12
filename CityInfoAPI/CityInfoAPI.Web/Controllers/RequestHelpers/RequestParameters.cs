@@ -43,6 +43,8 @@
 
         // name to filter by
         public string NameFilter { get; set; }
+
+        public string OrderNameBy { get; set; }
     }
 
     #pragma warning restore CS1591

@@ -19,6 +19,8 @@
         public string PreviousPageUrl { get; set; }
 
         public string NextPageUrl { get; set; }
+
+        public string OrderNameBy { get; set; }
     }
 
     #pragma warning restore CS1591

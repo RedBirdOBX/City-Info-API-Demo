@@ -27,8 +27,31 @@ namespace CityInfoAPI.Data.Repositories
             return cities;
         }
 
-        public Task<List<City>> GetPagedCities(int pageNumber, int pageSize, string name)
+        public Task<List<City>> GetPagedCities(int pageNumber, int pageSize, string name, string orderNameBy)
         {
+            // if using both orderByName **and** a name filter
+            if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(name))
+            {
+                if (orderNameBy.Equals("desc", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return _cityInfoDbContext.Cities.Where(c => c.Name.Contains(name.ToLower()))
+                                                .OrderByDescending(c => c.Name)
+                                                .Skip((pageNumber - 1) * pageSize)
+                                                .Take(pageSize)
+                                                .ToListAsync();
+                }
+                else
+                {
+                    // orderByName had some val but was not 'desc'
+                    return _cityInfoDbContext.Cities.Where(c => c.Name.Contains(name.ToLower()))
+                                                .OrderBy(c => c.Name)
+                                                .Skip((pageNumber - 1) * pageSize)
+                                                .Take(pageSize)
+                                                .ToListAsync();
+                }
+            }
+
+            // if using name filter **only**
             if (!string.IsNullOrEmpty(name))
             {
                 return _cityInfoDbContext.Cities.Where(c => c.Name.Contains(name.ToLower()))
@@ -36,6 +59,16 @@ namespace CityInfoAPI.Data.Repositories
                                                 .Skip((pageNumber - 1) * pageSize)
                                                 .Take(pageSize)
                                                 .ToListAsync();
+            }
+
+            // if using order by name **only**
+            if (!string.IsNullOrEmpty(orderNameBy))
+            {
+                return _cityInfoDbContext.Cities
+                    .OrderByDescending(c => c.Name)
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
             }
 
             return _cityInfoDbContext.Cities.OrderBy(c => c.Name).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
