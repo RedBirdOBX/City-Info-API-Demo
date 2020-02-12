@@ -513,8 +513,8 @@ Add custom paging meta data to the response header.  Tell consumer if there is a
 2.10.2020
 - Name filtering was introduced. You can now filter on city names.
 
-**1.11.0**
-2.12.2020
+**1.11.0**  
+2.12.2020  
 - If user wanted to receive cities in descending order, user can provide an optional querystring parameter to receive city names in descending order.  
 - Added environmental variable check for local instances.  If the app is running locally (defined by Configuration variable), the in-memory datastore will be loaded.  If running in dev or prod environment, the sql database will be used as datastore.
 - Renamed the custom response header item from `X-Pagination` to `X-CityParameters` since this serialized metadata contains more than just paging information.  Also contains total count, possible filters and possible sorting parameters.
