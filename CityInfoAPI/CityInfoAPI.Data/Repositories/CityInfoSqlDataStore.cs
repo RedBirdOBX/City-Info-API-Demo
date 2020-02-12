@@ -64,11 +64,14 @@ namespace CityInfoAPI.Data.Repositories
             // if using order by name **only**
             if (!string.IsNullOrEmpty(orderNameBy))
             {
-                return _cityInfoDbContext.Cities
-                    .OrderByDescending(c => c.Name)
-                    .Skip((pageNumber - 1) * pageSize)
-                    .Take(pageSize)
-                    .ToListAsync();
+                if (orderNameBy.Equals("desc", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return _cityInfoDbContext.Cities
+                                        .OrderByDescending(c => c.Name)
+                                        .Skip((pageNumber - 1) * pageSize)
+                                        .Take(pageSize)
+                                        .ToListAsync();
+                }
             }
 
             return _cityInfoDbContext.Cities.OrderBy(c => c.Name).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
