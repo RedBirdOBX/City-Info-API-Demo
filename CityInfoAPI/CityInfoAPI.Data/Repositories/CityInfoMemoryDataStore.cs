@@ -248,7 +248,7 @@ namespace CityInfoAPI.Data.Repositories
             return cities;
         }
 
-        public async Task<List<City>> GetPagedCities(int pageNumber, int pageSize, string name)
+        public async Task<List<City>> GetPagedCities(int pageNumber, int pageSize, string name, string orderNameBy)
         {
             List<City> citiesWithoutPointsOfInterest = new List<City>();
             foreach (var completeCity in _cities)
@@ -265,7 +265,29 @@ namespace CityInfoAPI.Data.Repositories
                 citiesWithoutPointsOfInterest.Add(city);
             }
 
-            // is user used a name filter
+            // if using both orderByName **and** a name filter
+            if (!string.IsNullOrEmpty(orderNameBy) && !string.IsNullOrEmpty(name))
+            {
+                if (orderNameBy.Equals("desc", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return citiesWithoutPointsOfInterest.Where(c => c.Name.ToLower().Contains(name.ToLower()))
+                                        .OrderByDescending(c => c.Name)
+                                        .Skip((pageNumber - 1) * pageSize)
+                                        .Take(pageSize)
+                                        .ToList();
+                }
+                else
+                {
+                    // orderByName had some val but was not 'desc'
+                    return citiesWithoutPointsOfInterest.Where(c => c.Name.ToLower().Contains(name.ToLower()))
+                                        .OrderBy(c => c.Name)
+                                        .Skip((pageNumber - 1) * pageSize)
+                                        .Take(pageSize)
+                                        .ToList();
+                }
+            }
+
+            // if using name filter **only**
             if (!string.IsNullOrEmpty(name))
             {
                 return citiesWithoutPointsOfInterest.Where(c => c.Name.ToLower().Contains(name.ToLower()))
@@ -273,6 +295,19 @@ namespace CityInfoAPI.Data.Repositories
                                                     .Skip((pageNumber - 1) * pageSize)
                                                     .Take(pageSize)
                                                     .ToList();
+            }
+
+            // if using order by name **only**
+            if (!string.IsNullOrEmpty(orderNameBy))
+            {
+                if (orderNameBy.Equals("desc", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    return citiesWithoutPointsOfInterest
+                                        .OrderByDescending(c => c.Name)
+                                        .Skip((pageNumber - 1) * pageSize)
+                                        .Take(pageSize)
+                                        .ToList();
+                }
             }
 
             return citiesWithoutPointsOfInterest.OrderBy(c => c.Name).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();

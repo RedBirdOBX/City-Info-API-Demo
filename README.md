@@ -1,7 +1,7 @@
 # The City Info Demo API
   
 ----------
-*Version 1.10.0*
+*Version 1.11.0*
 
 ## Summary
 Welcome to the City Info Demo API. Imagine that you were developing for some kind of travel site and one of the requirements was you needed to be able to ask for a complete listing of cities; ask for any given city by it's ID and, if specifically asked for, you needed to be able to provide all the "touristy" things to do for that specified city (landmarks, parks, restaurants, and so on).  
@@ -83,15 +83,23 @@ Both parameters have default values should the consumer forget to provide them a
 | pageSize   | 10      | 1         | 10        |
 
 
-**Name Filtering:** 
+**Optional Name Filtering**   
 An optional parameter you can provide in this request is a Name filter which looks like this:
 `http://city-info-api-demo.azurewebsites.net/api/v1.0/cities?pageNumber=1&pageSize=10&nameFilter=chica`
 
 In this example, it will return up to 10 results per page for any city with a name containing "chica" such as Chicago.  It is not case-sensitive.
 
 
-The Response Header will provide the requestor helpful information in a custom item known as `X-Pagination`.  It returns links to the next page (if applicable), previous page (if applicable), the name filter (if used), and total city count.    
-![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/x-pagination.png)
+**Optional Name Sorting**  
+Another optional parameter you can provide is `orderNameBy` and if the consumer provides `desc` as the value, it will sort the City names by descending order.  Any other value other than `desc` will result in the names being sort in ascending order. 
+`http://city-info-api-demo.azurewebsites.net/api/v1.0/cities?pageNumber=1&pageSize=10&orderNameBy=desc`
+
+
+**Custom Response Header:**   
+The Response Header will provide the consumer helpful information in a custom item known as `X-CityParameters`.  It returns links to the next page (if applicable), previous page (if applicable), the name filter (if used), the name sorting order, and total city count.    
+![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/x-cityparameters.png)
+
+
 
 
 ##### Get City By Id  
@@ -488,7 +496,7 @@ Added new resources:
 - Converted all Controller, Processor, and Repository methods to be `asynchronous`. Controller actions and processor methods return `Task<T>` and calls to these services are annotated with `async` and `await`.
 
 
-**1.8.1**
+**1.8.1**  
 1.30.2019  
 - Added more test cities in the `in memory datastore`. More will be needed for the upcoming pagination development.
 - Minor logging improvements and general clean up.
@@ -506,3 +514,9 @@ Add custom paging meta data to the response header.  Tell consumer if there is a
 **1.10.0**  
 2.10.2020
 - Name filtering was introduced. You can now filter on city names.
+
+**1.11.0**  
+2.12.2020  
+- If user wanted to receive cities in descending order, user can provide an optional querystring parameter to receive city names in descending order.  
+- Added environmental variable check for local instances.  If the app is running locally (defined by Configuration variable), the in-memory datastore will be loaded.  If running in dev or prod environment, the sql database will be used as datastore.
+- Renamed the custom response header item from `X-Pagination` to `X-CityParameters` since this serialized metadata contains more than just paging information.  Also contains total count, possible filters and possible sorting parameters.
