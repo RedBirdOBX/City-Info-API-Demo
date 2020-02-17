@@ -104,6 +104,12 @@ namespace CityInfoAPI.Web.Controllers
                 // add as custom header
                 Response.Headers.Add("X-CityParameters", Newtonsoft.Json.JsonConvert.SerializeObject(metaData));
 
+                // add the navigational links in each city
+                foreach (CityWithoutPointsOfInterestDto city in pagedCities)
+                {
+                    city.Links.Add(UriLinkHelper.CreateLinkForCityWithinCollection(HttpContext.Request, city));
+                }
+
                 return Ok(pagedCities);
             }
             catch (Exception exception)
@@ -137,10 +143,16 @@ namespace CityInfoAPI.Web.Controllers
                 else
                 {
                     _logger.LogInformation($"**** LOGGER: Consumer looking for cityId {cityId}.");
-                    var city = await _cityProcessor.GetCityById(cityId, includePointsOfInterest);
+                    CityDto city = await _cityProcessor.GetCityById(cityId, includePointsOfInterest);
 
                     // add links to this response before returning it
                     city = UriLinkHelper.CreateLinksForCity(HttpContext.Request, city);
+
+                    // if points of interest were included
+                    foreach (PointOfInterestDto poi in city.PointsOfInterest)
+                    {
+                        poi.Links.Add(UriLinkHelper.CreateLinkForPointOfInterestWithinCollection(HttpContext.Request, poi));
+                    }
 
                     return Ok(city);
                 }

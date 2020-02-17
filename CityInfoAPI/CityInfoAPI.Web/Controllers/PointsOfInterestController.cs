@@ -2,6 +2,7 @@
 using CityInfoAPI.Data.Repositories;
 using CityInfoAPI.Dtos.Models;
 using CityInfoAPI.Logic.Processors;
+using CityInfoAPI.Web.Controllers.ResponseHelpers;
 using CityInfoAPI.Web.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
@@ -71,8 +72,14 @@ namespace CityInfoAPI.Web.Controllers
                 }
                 else
                 {
-                    var results = await _pointsOfInterestProcessor.GetPointsOfInterest(cityId);
-                    return Ok(results);
+                    var pointsOfInterest = await _pointsOfInterestProcessor.GetPointsOfInterest(cityId);
+
+                    // add the navigational links in each point of interest
+                    foreach (PointOfInterestDto poi in pointsOfInterest)
+                    {
+                        poi.Links.Add(UriLinkHelper.CreateLinkForPointOfInterestWithinCollection(HttpContext.Request, poi));
+                    }
+                    return Ok(pointsOfInterest);
                 }
             }
             catch (System.Exception exception)
@@ -105,7 +112,7 @@ namespace CityInfoAPI.Web.Controllers
                 }
                 else
                 {
-                    var pointOfInterest = await _pointsOfInterestProcessor.GetPointOfInterestById(cityId, pointId);
+                    PointOfInterestDto pointOfInterest = await _pointsOfInterestProcessor.GetPointOfInterestById(cityId, pointId);
                     if (pointOfInterest == null)
                     {
                         _logger.LogInformation($"**** LOGGER: No point of interest the pointId of {pointId} was found.");
@@ -113,6 +120,7 @@ namespace CityInfoAPI.Web.Controllers
                     }
                     else
                     {
+                        pointOfInterest = UriLinkHelper.CreateLinksForPointOfInterest(HttpContext.Request, pointOfInterest);
                         return Ok(pointOfInterest);
                     }
                 }

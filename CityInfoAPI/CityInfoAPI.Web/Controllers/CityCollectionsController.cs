@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CityInfoAPI.Dtos.Models;
 using CityInfoAPI.Logic.Processors;
+using CityInfoAPI.Web.Controllers.ResponseHelpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -47,7 +48,7 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesDefaultResponseType]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<List<CityDto>>> GetCitiesById([FromQuery] string cityIds)
+        public async Task<ActionResult<List<CityWithoutPointsOfInterestDto>>> GetCitiesById([FromQuery] string cityIds)
         {
             if (cityIds == null)
             {
@@ -55,16 +56,23 @@ namespace CityInfoAPI.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            var results = await _cityCollectionsProcessor.GetCities(cityIds);
+            var cities = await _cityCollectionsProcessor.GetCities(cityIds);
 
             try
             {
-                if (results.Count < 1)
+                if (cities.Count < 1)
                 {
                     _logger.LogInformation($"**** LOGGER: Cities not found with ids {cityIds}.");
                     return NotFound($"Cities not found with ids {cityIds}.");
                 }
-                return Ok(results);
+
+                // build links for each city
+                foreach (CityWithoutPointsOfInterestDto city in cities)
+                {
+                    city.Links.Add(UriLinkHelper.CreateLinkForCityWithinCollection(HttpContext.Request, city));
+                }
+
+                return Ok(cities);
 
             }
             catch (Exception exception)
