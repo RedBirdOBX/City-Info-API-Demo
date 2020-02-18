@@ -5,12 +5,12 @@ namespace CityInfoAPI.Dtos.Models
     /// <summary>
     /// city with no point of interest property
     /// </summary>
-    public class CityWithoutPointsOfInterestDto
+    public class CityWithoutPointsOfInterestDto : LinkedResourcesDto
     {
         /// <summary>
         /// identifier of city
         /// </summary>
-        public string CityId { get; set; }
+        public Guid CityId { get; set; }
 
         /// <summary>
         /// city name

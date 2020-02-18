@@ -5,7 +5,7 @@ namespace CityInfoAPI.Dtos.Models
     /// <summary>
     /// point of interest for city
     /// </summary>
-    public class PointOfInterestDto
+    public class PointOfInterestDto : LinkedResourcesDto
     {
         /// <summary>
         /// key identifier of point of interest

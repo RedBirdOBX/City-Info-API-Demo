@@ -21,10 +21,10 @@ namespace CityInfoAPI.Logic.Processors
             _cityProcessor = cityProcessor;
         }
 
-        public async Task<List<CityDto>> GetCities(string cityIds)
+        public async Task<List<CityWithoutPointsOfInterestDto>> GetCities(string cityIds)
         {
             List<Guid> requestedGuids = new List<Guid>();
-            List<CityDto> results = new List<CityDto>();
+            List<CityWithoutPointsOfInterestDto> results = new List<CityWithoutPointsOfInterestDto>();
 
             if (!string.IsNullOrWhiteSpace(cityIds))
             {
@@ -60,11 +60,18 @@ namespace CityInfoAPI.Logic.Processors
             foreach (Guid id in requestedGuids)
             {
                 CityDto city = await _cityProcessor.GetCityById(id, false);
-
                 if (city != null)
                 {
+                    CityWithoutPointsOfInterestDto cityForResults = new CityWithoutPointsOfInterestDto()
+                    {
+                        CityId = city.CityId,
+                        Description = city.Description,
+                        CreatedOn = city.CreatedOn,
+                        Name = city.Name,
+                    };
+
                     // add to results
-                    results.Add(city);
+                    results.Add(cityForResults);
                 }
             }
 
