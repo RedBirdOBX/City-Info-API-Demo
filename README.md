@@ -1,7 +1,7 @@
 # The City Info Demo API
   
 ----------
-*Version 1.11.0*
+*Version 1.12.0*
 
 ## Summary
 Welcome to the City Info Demo API. Imagine that you were developing for some kind of travel site and one of the requirements was you needed to be able to ask for a complete listing of cities; ask for any given city by it's ID and, if specifically asked for, you needed to be able to provide all the "touristy" things to do for that specified city (landmarks, parks, restaurants, and so on).  
@@ -33,6 +33,7 @@ It supports and demonstrates all HTTP verbs: GET, POST, PUT, PATCH, and DELETE.
 - [CICD](#cicd)
 - [Architecture](#architecture)
 - [Versions](#versions)
+- [HATEOS](#hateos)
 - [Authentication](#authentication)
 - [Swagger and Documentation](#swagger)
 - [Releases](#releases)
@@ -405,6 +406,14 @@ Now if this were a real API, imagine if the owners of this API needed a Version 
 This demonstrates that an entire collection of resources can be contained in one version and an entirely different set of resources can be included in another version.
 
 
+<a href="" id="hateos" name="hateos"></a>
+## HATEOS
+
+Adhering to the HATEOS principles of good RESTful design, all `GET` requests include media navigational links in the response to inform the user on how else they can consume the requested resource.
+
+![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/development/Images/media-links.png)
+  
+
 <a href="" id="authentication" name="authentication"></a>
 ## Authentication
 A basic demonstration of authentication and security was implemented on the `City Summary Reporting Data` resource mentioned above. The concept is that in some real-world(ish) scenario, you would want to secure certain administrative resources like reporting data or POST actions.  This `CitySummary` resource in V2 demonstrates that by using Basic Authorization. 
@@ -450,18 +459,21 @@ Initial release
 
 **1.1.0**  
 9.4.2019  
-Full integration of Swashbuckle (Swagger, Swagger UI), versioning, and Basic Authentication on new resource called City Summary - a hypothetical secured, set of resources at `https://city-info-api-demo-prod.azurewebsites.net/api/v2.0/cities/reporting/summary`.
+
+- Full integration of Swashbuckle (Swagger, Swagger UI), versioning, and Basic Authentication on new resource called City Summary - a hypothetical secured, set of resources at `https://city-info-api-demo-prod.azurewebsites.net/api/v2.0/cities/reporting/summary`.
 
 **1.2.0**  
 11.10.2019  
-Replaced all database record identifiers in routes with guids.  Now, regardless of where or how the data is stored, the identifiers will always remain the same. 
+
+- Replaced all database record identifiers in routes with guids.  Now, regardless of where or how the data is stored, the identifiers will always remain the same. 
 
 **1.3.0**  
 11.15.2019  
-Added `try/catches` to all Controller actions.  
+- Added `try/catches` to all Controller actions.  
 
 **1.4.0**  
 12.9.2019   
+
 Added new resources:
 
 - Create City method was added  
@@ -489,34 +501,49 @@ Added new resources:
 
 **1.7.0**  
 1.8.2020  
+
 - Updated Postman collection to use Global Variables to store the different domains (local, development, and production). Now, we have just one set of requests in our Postman collection instead of three.  See [#test](#test "How To Test").  
 
 **1.8.0**  
 1.17.2020  
+  
 - Converted all Controller, Processor, and Repository methods to be `asynchronous`. Controller actions and processor methods return `Task<T>` and calls to these services are annotated with `async` and `await`.
 
 
 **1.8.1**  
-1.30.2019  
+1.30.2019 
+ 
 - Added more test cities in the `in memory datastore`. More will be needed for the upcoming pagination development.
 - Minor logging improvements and general clean up.
 - Added pull request template.
 
 **1.9.0**  
-2.3.2020  
+2.3.2020 
+ 
 - Add paging to `GetCities` endpoint.  
 - Updated Postman collection.
 
 **1.9.1**  
 2.6.2020  
-Add custom paging meta data to the response header.  Tell consumer if there is a previous page, if there is a next page, and how many total results there are. Custom Header item is known as `X-Pagination`.
+
+- Add custom paging meta data to the response header.  Tell consumer if there is a previous page, if there is a next page, and how many total results there are. Custom Header item is known as `X-Pagination`.
 
 **1.10.0**  
 2.10.2020
+
 - Name filtering was introduced. You can now filter on city names.
 
 **1.11.0**  
-2.12.2020  
+2.12.2020
+  
 - If user wanted to receive cities in descending order, user can provide an optional querystring parameter to receive city names in descending order.  
 - Added environmental variable check for local instances.  If the app is running locally (defined by Configuration variable), the in-memory datastore will be loaded.  If running in dev or prod environment, the sql database will be used as datastore.
 - Renamed the custom response header item from `X-Pagination` to `X-CityParameters` since this serialized metadata contains more than just paging information.  Also contains total count, possible filters and possible sorting parameters.
+
+
+**1.12.0**  
+2.18.2020  
+
+- Following HATEOS principles, added media links in all GET responses.  Assists consumer on how to navigate through the API. 
+- All DTOs used for GET requests now inherit an abstract `LinkDto` class.  Helper utility written to populate list of links for these responses.
+ 
