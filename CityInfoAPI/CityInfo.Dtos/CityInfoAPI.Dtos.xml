@@ -127,6 +127,49 @@
             when record was created
             </summary>
         </member>
+        <member name="T:CityInfoAPI.Dtos.Models.LinkDto">
+            <summary>
+            link type to be included in responses
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.LinkDto.Href">
+            <summary>
+            the uri of the resource
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.LinkDto.Rel">
+            <summary>
+            the responsibility of the uri
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.LinkDto.Method">
+            <summary>
+            the type of request to be made
+            </summary>
+        </member>
+        <member name="M:CityInfoAPI.Dtos.Models.LinkDto.#ctor(System.String,System.String,System.String)">
+            <summary>
+            constructor
+            </summary>
+            <param name="href">uri to return</param>
+            <param name="rel">responsibility of uri</param>
+            <param name="method">type of request</param>
+        </member>
+        <member name="T:CityInfoAPI.Dtos.Models.LinkedResourcesDto">
+            <summary>
+            class ti be inherited by resource dtos
+            </summary>
+        </member>
+        <member name="P:CityInfoAPI.Dtos.Models.LinkedResourcesDto.Links">
+            <summary>
+            links to be added to resource dtos
+            </summary>
+        </member>
+        <member name="M:CityInfoAPI.Dtos.Models.LinkedResourcesDto.#ctor">
+            <summary>
+             constructor
+            </summary>
+        </member>
         <member name="T:CityInfoAPI.Dtos.Models.PointOfInterestCreateDto">
             <summary>
             data is passed to the dto from the PointOfInterestCreateRequestDto

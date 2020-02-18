@@ -6,7 +6,7 @@ namespace CityInfoAPI.Dtos.Models
     /// <summary>
     /// city dto
     /// </summary>
-    public class CityDto
+    public class CityDto : LinkedResourcesDto
     {
         /// constructor
         public CityDto()
