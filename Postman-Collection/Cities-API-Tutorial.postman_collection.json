@@ -63,6 +63,63 @@
 			"response": []
 		},
 		{
+			"name": "HEAD Get Cities (with paging)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3aef09a7-a0a0-4924-a154-f14c8bc1ae25",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"X-CityParameters is present\", function () {",
+							"    pm.response.to.have.header(\"X-CityParameters\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "HEAD",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{domain-local}}/api/v1.0/cities?pageNumber=1&pageSize=10",
+					"host": [
+						"{{domain-local}}"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"cities"
+					],
+					"query": [
+						{
+							"key": "pageNumber",
+							"value": "1"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "GET Cities but with too many pages!",
 			"event": [
 				{
@@ -319,6 +376,58 @@
 						{
 							"key": "includePointsOfInterest",
 							"value": "false"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "OPTIONS City By Id Options",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e28ae06e-7c41-4fea-a772-67492207a14a",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"body is empty\", function () {",
+							"    pm.response.to.have.body(\"\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "OPTIONS",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{domain-local}}/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2?",
+					"host": [
+						"{{domain-local}}"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"cities",
+						"38276231-1918-452d-a3e9-6f50873a95d2"
+					],
+					"query": [
+						{
+							"key": "includePointsOfInterest",
+							"value": "false",
+							"disabled": true
 						}
 					]
 				}

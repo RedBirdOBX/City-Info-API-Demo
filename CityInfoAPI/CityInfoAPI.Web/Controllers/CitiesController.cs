@@ -62,6 +62,7 @@ namespace CityInfoAPI.Web.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesDefaultResponseType]
         [HttpGet("", Name = "GetPagedCities")]
+        [HttpHead("", Name = "GetPagedCities")]
         public async Task<ActionResult<List<CityDto>>> GetPagedCities([FromQuery] RequestParameters requestParameters)
         {
             try
@@ -162,6 +163,19 @@ namespace CityInfoAPI.Web.Controllers
                 _logger.LogCritical($"**** LOGGER: Exception encountered while looking for a city: {cityId}.", exception);
                 return StatusCode(500, "A problem was encountered while processing your request.");
             }
+        }
+
+        /// <summary>for demonstration - returns the available options for the GetCityById endpoint</summary>
+        /// <param name="cityId">the id of the city</param>
+        /// <returns></returns>
+        /// <response code="200">returns a city</response>
+        [HttpOptions("{cityId}", Name = "GetCityByIdOptions")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesDefaultResponseType]
+        public ActionResult GetCityByIdOptions([FromRoute] Guid cityId)
+        {
+            Response.Headers.Add("Allow", "GET,OPTIONS,PATCH");
+            return Ok();
         }
 
         /// <summary>creates a new city</summary>
