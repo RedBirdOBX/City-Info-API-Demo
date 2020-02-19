@@ -7,6 +7,28 @@
 	"item": [
 		{
 			"name": "GET Cities (with paging)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3aef09a7-a0a0-4924-a154-f14c8bc1ae25",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"X-CityParameters is present\", function () {",
+							"    pm.response.to.have.header(\"X-CityParameters\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [
@@ -41,7 +63,127 @@
 			"response": []
 		},
 		{
+			"name": "HEAD Get Cities (with paging)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3aef09a7-a0a0-4924-a154-f14c8bc1ae25",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", function () {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"X-CityParameters is present\", function () {",
+							"    pm.response.to.have.header(\"X-CityParameters\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "HEAD",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{domain-local}}/api/v1.0/cities?pageNumber=1&pageSize=10",
+					"host": [
+						"{{domain-local}}"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"cities"
+					],
+					"query": [
+						{
+							"key": "pageNumber",
+							"value": "1"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Cities but with too many pages!",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3aef09a7-a0a0-4924-a154-f14c8bc1ae25",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{domain-local}}/api/v1.0/cities?pageNumber=10&pageSize=10",
+					"host": [
+						"{{domain-local}}"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"cities"
+					],
+					"query": [
+						{
+							"key": "pageNumber",
+							"value": "10"
+						},
+						{
+							"key": "pageSize",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "GET Cities (with paging, name filter)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2da4a04e-3fb2-41fe-9a3c-9b2703026590",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [
@@ -81,6 +223,20 @@
 		},
 		{
 			"name": "GET Cities (with paging, order by)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a20bf383-bdeb-4e27-8091-7939a417eac1",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [
@@ -120,6 +276,20 @@
 		},
 		{
 			"name": "GET Cities (with paging, name filter, order by)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a088ded9-1bd4-4280-a8c6-65ac8990c5ea",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [
@@ -163,6 +333,25 @@
 		},
 		{
 			"name": "GET City By Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e28ae06e-7c41-4fea-a772-67492207a14a",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"let cityId = \"38276231-1918-452d-a3e9-6f50873a95d2\";",
+							"pm.test(\"Do the ids match\", function () {",
+							"    pm.expect(pm.response.text()).to.include(cityId);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [
@@ -173,7 +362,7 @@
 					}
 				],
 				"url": {
-					"raw": "{{domain-local}}/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2",
+					"raw": "{{domain-local}}/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2?includePointsOfInterest=false",
 					"host": [
 						"{{domain-local}}"
 					],
@@ -182,6 +371,64 @@
 						"v1.0",
 						"cities",
 						"38276231-1918-452d-a3e9-6f50873a95d2"
+					],
+					"query": [
+						{
+							"key": "includePointsOfInterest",
+							"value": "false"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "OPTIONS City By Id Options",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e28ae06e-7c41-4fea-a772-67492207a14a",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"body is empty\", function () {",
+							"    pm.response.to.have.body(\"\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "OPTIONS",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{domain-local}}/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2?",
+					"host": [
+						"{{domain-local}}"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"cities",
+						"38276231-1918-452d-a3e9-6f50873a95d2"
+					],
+					"query": [
+						{
+							"key": "includePointsOfInterest",
+							"value": "false",
+							"disabled": true
+						}
 					]
 				}
 			},
@@ -189,6 +436,25 @@
 		},
 		{
 			"name": "GET Cities Collection by Ids",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8e0925d3-3367-4296-a09a-c93506a2a30e",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"let cityId = \"09fdd26e-5141-416c-a590-7eaf193b9565\";",
+							"pm.test(\"Do the ids match\", function () {",
+							"    pm.expect(pm.response.text()).to.include(cityId);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [
@@ -220,6 +486,20 @@
 		},
 		{
 			"name": "GET City w/o Points of Interest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ccd0207d-30a9-4bde-abc4-ec0fd4a787db",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [
@@ -252,6 +532,20 @@
 		},
 		{
 			"name": "GET Points of Interest for a City",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "742302aa-8292-44c1-b766-1805bf9aa648",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [
@@ -279,6 +573,20 @@
 		},
 		{
 			"name": "GET Point Of Interest by Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b40b7b8d-a3ad-40ad-925d-ca2fb9ed8de5",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [
@@ -307,6 +615,20 @@
 		},
 		{
 			"name": "GET Cities Summary V2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a82061bc-95b1-4b93-bfcf-26e05c919ef3",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [
@@ -339,6 +661,20 @@
 		},
 		{
 			"name": "POST Create City",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a7bc4f04-9826-4156-a1a0-6b24fffe6d9b",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -373,6 +709,20 @@
 		},
 		{
 			"name": "POST Create City with Points of Interest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "aae33d71-8c95-44d3-b483-90297180b679",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -407,6 +757,20 @@
 		},
 		{
 			"name": "POST Create City with Xml",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "aef0ef36-d414-442a-955d-a44cbed9fbdf",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -447,6 +811,20 @@
 		},
 		{
 			"name": "POST Create Multiple Cities",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3ecd6956-6ddb-479d-9ea0-22e7e7483155",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -481,6 +859,20 @@
 		},
 		{
 			"name": "POST Create City WITH a Id (illegal)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2b298abe-2764-429c-a703-4322187081f8",
+						"exec": [
+							"pm.test(\"Status code is 409\", function () {",
+							"    pm.response.to.have.status(409);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -516,6 +908,20 @@
 		},
 		{
 			"name": "POST Create Point Of Interest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e5df8b65-1996-4de4-b3d7-139c21efe013",
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -554,6 +960,20 @@
 		},
 		{
 			"name": "PUT Update Point Of Interest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ab12a538-c0fc-4b13-8d83-cafe0ec17a78",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "PUT",
 				"header": [
@@ -575,7 +995,7 @@
 					"raw": "{\n\t\"name\": \"Updated\",\n\t\"description\": \"Updated description\"\n}"
 				},
 				"url": {
-					"raw": "{{domain-local}}/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest/07c2f263-8afe-4028-8c0e-7d4657ff66fc",
+					"raw": "{{domain-local}}/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest/e5a5f605-627d-4aec-9f5c-e9939ea0a6cf",
 					"host": [
 						"{{domain-local}}"
 					],
@@ -585,7 +1005,60 @@
 						"cities",
 						"38276231-1918-452d-a3e9-6f50873a95d2",
 						"pointsofinterest",
-						"07c2f263-8afe-4028-8c0e-7d4657ff66fc"
+						"e5a5f605-627d-4aec-9f5c-e9939ea0a6cf"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Update Point Of Interest with BAD CityId",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ab12a538-c0fc-4b13-8d83-cafe0ec17a78",
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Updated\",\n\t\"description\": \"Updated description\"\n}"
+				},
+				"url": {
+					"raw": "{{domain-local}}/api/v1.0/cities/cdea3e71-7736-4e72-8650-d6dcc037b1ca/pointsofinterest/e5a5f605-627d-4aec-9f5c-e9939ea0a6cf",
+					"host": [
+						"{{domain-local}}"
+					],
+					"path": [
+						"api",
+						"v1.0",
+						"cities",
+						"cdea3e71-7736-4e72-8650-d6dcc037b1ca",
+						"pointsofinterest",
+						"e5a5f605-627d-4aec-9f5c-e9939ea0a6cf"
 					]
 				}
 			},
@@ -629,6 +1102,20 @@
 		},
 		{
 			"name": "PATCH Point Of Interest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "95744512-80a6-4b7e-916a-3b33f969fc33",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "PATCH",
 				"header": [
@@ -667,6 +1154,20 @@
 		},
 		{
 			"name": "DELETE Point Of Interest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f9c82eda-8336-4ba1-81f5-211e63479cb8",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "DELETE",
 				"header": [
@@ -681,7 +1182,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{domain-local}}/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest/07c2f263-8afe-4028-8c0e-7d4657ff66fc",
+					"raw": "{{domain-local}}/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest/e5a5f605-627d-4aec-9f5c-e9939ea0a6cf",
 					"host": [
 						"{{domain-local}}"
 					],
@@ -691,7 +1192,7 @@
 						"cities",
 						"38276231-1918-452d-a3e9-6f50873a95d2",
 						"pointsofinterest",
-						"07c2f263-8afe-4028-8c0e-7d4657ff66fc"
+						"e5a5f605-627d-4aec-9f5c-e9939ea0a6cf"
 					]
 				}
 			},

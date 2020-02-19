@@ -33,6 +33,12 @@
             <response code="200">returns a city</response>
             <response code="404">city id not valid</response>
         </member>
+        <member name="M:CityInfoAPI.Web.Controllers.CitiesController.GetCityByIdOptions(System.Guid)">
+            <summary>for demonstration - returns the available options for the GetCityById endpoint</summary>
+            <param name="cityId">the id of the city</param>
+            <returns></returns>
+            <response code="200">returns a city</response>
+        </member>
         <member name="M:CityInfoAPI.Web.Controllers.CitiesController.CreateCity(CityInfoAPI.Dtos.Models.CityCreateDto)">
             <summary>creates a new city</summary>
             <example>http://{domain}/api/v1.0/cities</example>
