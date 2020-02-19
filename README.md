@@ -429,7 +429,7 @@ In order to access the V2 resource which requires authentication, you must pass 
 ## Throttling 
 We have the ability to implement all kinds of throttling on this API.  We can limit calls per minute or even per second. We can add IPs to a blacklist or only allow requests from a whitelist.  We can even limit requests per endpoint. We accomplish this by using the `AspNetCoreRateLimit` package ([https://github.com/stefanprodan/AspNetCoreRateLimit](https://github.com/stefanprodan/AspNetCoreRateLimit)).
 
-Just for demonstration purposes, this API has been set up to only accept 10 total requests per minute.  To inform the consumer how many requests are left and when the limit is reset, the Response Header contains a series of `X-Rate-Limit` headers which tell the consumer just that.
+Just for demonstration purposes, this API has been set up to only accept 15 total requests per minute.  To inform the consumer how many requests are left and when the limit is reset, the Response Header contains a series of `X-Rate-Limit` headers which tell the consumer just that.
 
 ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/development/Images/throttling-header-items.png) 
 
@@ -472,94 +472,98 @@ Initial release
 **1.1.0**  
 9.4.2019  
 
-- Full integration of Swashbuckle (Swagger, Swagger UI), versioning, and Basic Authentication on new resource called City Summary - a hypothetical secured, set of resources at `https://city-info-api-demo-prod.azurewebsites.net/api/v2.0/cities/reporting/summary`.
+* Full integration of Swashbuckle (Swagger, Swagger UI), versioning, and Basic Authentication on new resource called City Summary - a hypothetical secured, set of resources at `https://city-info-api-demo-prod.azurewebsites.net/api/v2.0/cities/reporting/summary`.
 
 **1.2.0**  
 11.10.2019  
 
-- Replaced all database record identifiers in routes with guids.  Now, regardless of where or how the data is stored, the identifiers will always remain the same. 
+* Replaced all database record identifiers in routes with guids.  Now, regardless of where or how the data is stored, the identifiers will always remain the same. 
 
 **1.3.0**  
 11.15.2019  
-- Added `try/catches` to all Controller actions.  
+* Added `try/catches` to all Controller actions.  
 
 **1.4.0**  
 12.9.2019   
 
 Added new resources:
 
-- Create City method was added  
-- Create City and n-number of Points of Interest in a single post was added  
-- Create multiple Cities with one post was added 
+* Create City method was added  
+* Create City and n-number of Points of Interest in a single post was added  
+* Create multiple Cities with one post was added 
 
 **1.5.0**  
 12.18.2019
 
-- Now accepts `xml` as content type for input.  As a test, a new Postman request was added to the collection.  It is labeled as 'Local - POST Create City with Xml'.  With this test case, you can post to this resource with valid xml and it will be processed just as it is with json.
-- Prevents `POST` requests for cities and points of interest with provided Ids. The user should never be using POST to a city or point of interest resource with an Id in the route.  These are for `PUT` and `PATCH` only. Methods were added to the controllers to prevent this.
-- If a `guid` is excluded in the body of a `POST` (create Point Of Interest) for example, it will still pass standard validation since it is invoked as an "empty guid" - a GUID type cannot be null. The `Create Point of Interest` resource was updated to check for empty guids. Prevents empty/excluded guids from being posted
+* Now accepts `xml` as content type for input.  As a test, a new Postman request was added to the collection.  It is labeled as 'Local - POST Create City with Xml'.  With this test case, you can post to this resource with valid xml and it will be processed just as it is with json.
+* Prevents `POST` requests for cities and points of interest with provided Ids. The user should never be using POST to a city or point of interest resource with an Id in the route.  These are for `PUT` and `PATCH` only. Methods were added to the controllers to prevent this.
+* If a `guid` is excluded in the body of a `POST` (create Point Of Interest) for example, it will still pass standard validation since it is invoked as an "empty guid" - a GUID type cannot be null. The `Create Point of Interest` resource was updated to check for empty guids. Prevents empty/excluded guids from being posted
 
 **1.6.0**  
 1.7.2020
 
-- Added `CreatedOn` properties to all output Dtos.
-- Created a `UpdateCity` action in CityController with uses a `PATCH` transaction. 
-- Improved Model Validation code in Controllers.  Removed unnecessary code Controller actions as improvements made to the .NET Core Framework eliminate the need for this code such as checking the ModelState as one of the first actions in the method.  If the validation rules fail, it will **never** even invoke the controller action. 
-- Cities cannot be created or updated with same name and description.
-- Duplicate cities can no longer be added.
-- Removed need for city guids in posts/puts/patches.  All guids will now be pulled from the route and are not required in any POST body as it was redundant.
-- The create DTOs are now responsible for creating the GUIDs - not the database or entity. 
+* Added `CreatedOn` properties to all output Dtos.
+* Created a `UpdateCity` action in CityController with uses a `PATCH` transaction. 
+* Improved Model Validation code in Controllers.  Removed unnecessary code Controller actions as improvements made to the .NET Core Framework eliminate the need for this code such as checking the ModelState as one of the first actions in the method.  If the validation rules fail, it will **never** even invoke the controller action. 
+* Cities cannot be created or updated with same name and description.
+* Duplicate cities can no longer be added.
+* Removed need for city guids in posts/puts/patches.  All guids will now be pulled from the route and are not required in any POST body as it was redundant.
+* The create DTOs are now responsible for creating the GUIDs - not the database or entity. 
 
 
 **1.7.0**  
 1.8.2020  
 
-- Updated Postman collection to use Global Variables to store the different domains (local, development, and production). Now, we have just one set of requests in our Postman collection instead of three.  See [#test](#test "How To Test").  
+* Updated Postman collection to use Global Variables to store the different domains (local, development, and production). Now, we have just one set of requests in our Postman collection instead of three.  See [#test](#test "How To Test").  
 
 **1.8.0**  
 1.17.2020  
   
-- Converted all Controller, Processor, and Repository methods to be `asynchronous`. Controller actions and processor methods return `Task<T>` and calls to these services are annotated with `async` and `await`.
+* Converted all Controller, Processor, and Repository methods to be `asynchronous`. Controller actions and processor methods return `Task<T>` and calls to these services are annotated with `async` and `await`.
 
 
 **1.8.1**  
 1.30.2019 
  
-- Added more test cities in the `in memory datastore`. More will be needed for the upcoming pagination development.
-- Minor logging improvements and general clean up.
-- Added pull request template.
+* Added more test cities in the `in memory datastore`. More will be needed for the upcoming pagination development.
+* Minor logging improvements and general clean up.
+* Added pull request template.
 
 **1.9.0**  
 2.3.2020 
  
-- Add paging to `GetCities` endpoint.  
-- Updated Postman collection.
+* Add paging to `GetCities` endpoint.  
+* Updated Postman collection.
 
 **1.9.1**  
 2.6.2020  
 
-- Add custom paging meta data to the response header.  Tell consumer if there is a previous page, if there is a next page, and how many total results there are. Custom Header item is known as `X-Pagination`.
+* Add custom paging meta data to the response header.  Tell consumer if there is a previous page, if there is a next page, and how many total results there are. Custom Header item is known as `X-Pagination`.
 
 **1.10.0**  
 2.10.2020
 
-- Name filtering was introduced. You can now filter on city names.
+* Name filtering was introduced. You can now filter on city names.
 
 **1.11.0**  
 2.12.2020
   
-- If user wanted to receive cities in descending order, user can provide an optional querystring parameter to receive city names in descending order.  
-- Added environmental variable check for local instances.  If the app is running locally (defined by Configuration variable), the in-memory datastore will be loaded.  If running in dev or prod environment, the sql database will be used as datastore.
-- Renamed the custom response header item from `X-Pagination` to `X-CityParameters` since this serialized metadata contains more than just paging information.  Also contains total count, possible filters and possible sorting parameters.
+* If user wanted to receive cities in descending order, user can provide an optional querystring parameter to receive city names in descending order.  
+* Added environmental variable check for local instances.  If the app is running locally (defined by Configuration variable), the in-memory datastore will be loaded.  If running in dev or prod environment, the sql database will be used as datastore.
+* Renamed the custom response header item from `X-Pagination` to `X-CityParameters` since this serialized metadata contains more than just paging information.  Also contains total count, possible filters and possible sorting parameters.
 
 
 **1.12.0**  
 2.18.2020  
 
-- Following HATEOS principles, added media links in all GET responses.  Assists consumer on how to navigate through the API. 
-- All DTOs used for GET requests now inherit an abstract `LinkDto` class.  Helper utility written to populate list of links for these responses.
+* Following HATEOS principles, added media links in all GET responses.  Assists consumer on how to navigate through the API. 
+* All DTOs used for GET requests now inherit an abstract `LinkDto` class.  Helper utility written to populate list of links for these responses.
 
 
 **1.13.0**  
-2.20.2020  
+2.19.2020  
+
+* Using the 3rd party package `AspNetCoreRateLimit`, we now can limit the number of requests to any given endpoint, for any given resource, on any given interval.  For demonstration purposes, the two policies are now in place: 
+ * you can only make 15 requests per minute
+ * you can only make 3 requests per 5 seconds  
  
