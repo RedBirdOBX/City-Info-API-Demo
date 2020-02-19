@@ -1,7 +1,7 @@
 # The City Info Demo API
   
 ----------
-*Version 1.12.0*
+*Version 1.13.0*
 
 ## Summary
 Welcome to the City Info Demo API. Imagine that you were developing for some kind of travel site and one of the requirements was you needed to be able to ask for a complete listing of cities; ask for any given city by it's ID and, if specifically asked for, you needed to be able to provide all the "touristy" things to do for that specified city (landmarks, parks, restaurants, and so on).  
@@ -23,6 +23,7 @@ It supports and demonstrates all HTTP verbs: GET, POST, PUT, PATCH, and DELETE.
 - Microsoft Azure cloud services   
 - Microsoft.AspNetCore.Mvc.Versioning 3.1.3
 - Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer 3.2.0
+- AspNetCoreRateLimit 2.1.0
 
 
 ## Chapters
@@ -35,6 +36,7 @@ It supports and demonstrates all HTTP verbs: GET, POST, PUT, PATCH, and DELETE.
 - [Versions](#versions)
 - [HATEOS](#hateos)
 - [Authentication](#authentication)
+- [Throttling](#throttling)
 - [Swagger and Documentation](#swagger)
 - [Releases](#releases)
  
@@ -423,7 +425,17 @@ A basic demonstration of authentication and security was implemented on the `Cit
 
 In order to access the V2 resource which requires authentication, you must pass along an Authentication parameter in the Request Header and the value will be `Basic Q2l0eUluZm9BUEk6Q2l0eUluZm9BUElQYXNzd29yZA==`.
 
- 
+<a href="" id="throttling" name="throttling"></a>
+## Throttling 
+We have the ability to implement all kinds of throttling on this API.  We can limit calls per minute or even per second. We can add IPs to a blacklist or only allow requests from a whitelist.  We can even limit requests per endpoint. We accomplish this by using the `AspNetCoreRateLimit` package ([https://github.com/stefanprodan/AspNetCoreRateLimit](https://github.com/stefanprodan/AspNetCoreRateLimit)).
+
+Just for demonstration purposes, this API has been set up to only accept 10 total requests per minute.  To inform the consumer how many requests are left and when the limit is reset, the Response Header contains a series of `X-Rate-Limit` headers which tell the consumer just that.
+
+![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/development/Images/throttling-header-items.png) 
+
+Once the limit has been exceeded, the API will return a `429-Too many requests` status code as well as a `API calls quota exceeded! maximum admitted 10 per 1m.` error message in the body.  The Response Header will also inform the consumer when they can retry (custom header item `Retry-After`) their request (in seconds).
+
+![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/development/Images/throttling-header-limit-exceeded.png)
 
 
 <a href="" id="swagger" name="swagger"></a>
@@ -546,4 +558,8 @@ Added new resources:
 
 - Following HATEOS principles, added media links in all GET responses.  Assists consumer on how to navigate through the API. 
 - All DTOs used for GET requests now inherit an abstract `LinkDto` class.  Helper utility written to populate list of links for these responses.
+
+
+**1.13.0**  
+2.20.2020  
  

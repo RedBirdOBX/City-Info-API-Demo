@@ -23,6 +23,7 @@ using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using AspNetCoreRateLimit;
 
 namespace CityInfoAPI.Web
 {
@@ -59,6 +60,40 @@ namespace CityInfoAPI.Web
             #else
                 services.AddTransient<IMailService, CloudMailService>();
             #endif
+
+            // the rate limiter AspNetCoreRateLimit package needs to store the counts and rules somewhere.
+            // it will use a standard memory cache.
+            services.AddMemoryCache();
+
+            // AspNetCoreRateLimit uses IP limiting and client ID limiting. we will use IP limiting.
+            services.Configure<IpRateLimitOptions>((options) =>
+            {
+                options.GeneralRules = new System.Collections.Generic.List<RateLimitRule>()
+                {
+                    new RateLimitRule()
+                    {
+                        // limit any request to any resource to X requests per X minutes/seconds.
+                        // only allow 5 requests per 1 minute.
+                        Endpoint = "*",
+                        Limit = 15,
+                        Period = "1m"   // <-- m = minutes, s = seconds
+                    },
+                    new RateLimitRule()
+                    {
+                        // we can also add a second rule only 3 request per 5 seconds
+                        // note that when the API fires up and Swagger kicks in, they each count as 1 request each.
+                        Endpoint = "*",
+                        Limit = 3,
+                        Period = "5s"   // <-- m = minutes, s = seconds
+                    }
+                };
+            });
+
+            // register limiter policy store & rate limit store/
+            // they store the policies and rate limit counters.
+            // create once and not for each request.
+            services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+            services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
 
             services.AddHealthChecks();
 
@@ -225,6 +260,9 @@ namespace CityInfoAPI.Web
         public void Configure(IApplicationBuilder appBuilder, IHostingEnvironment env, ILoggerFactory loggerFactory, IApiVersionDescriptionProvider apiVersionDescriptionProvider)
         {
             string specsName = "CityAPISpecification";
+
+            // add this middleware early so we can reject requests early on.
+            appBuilder.UseIpRateLimiting();
 
             if (env.IsDevelopment())
             {
