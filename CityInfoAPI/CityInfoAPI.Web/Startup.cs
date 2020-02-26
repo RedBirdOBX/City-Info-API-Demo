@@ -2,6 +2,7 @@
 using CityInfoAPI.Data.Repositories;
 using CityInfoAPI.Logic.Authentication;
 using CityInfoAPI.Logic.Processors;
+using CityInfoAPI.Logic.Services;
 using CityInfoAPI.Web.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
@@ -115,16 +116,17 @@ namespace CityInfoAPI.Web
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            // pick the data source based on the environment
             if (aspnetEnvironment.Equals("local", StringComparison.CurrentCultureIgnoreCase))
             {
-                // load the in-memory datastore if this is local environment
+                // load the in-memory data store if this is local environment
                 services.AddSingleton<ICityInfoRepository, CityInfoMemoryDataStore>();
             }
             else
             {
                 // sql data store
-                string connectionString = Startup.Configuration["ConnectionStrings:cityInfoConnectionString"];
-                services.AddDbContext<CityInfoDbContext>(options => options.UseSqlServer(connectionString));
+                AzureKeyVaultConnector azureConnector = new AzureKeyVaultConnector(Configuration);
+                services.AddDbContext<CityInfoDbContext>(options => options.UseSqlServer(azureConnector.GetConnectionString()));
                 services.AddScoped<ICityInfoRepository, CityInfoSqlDataStore>();
             }
 
