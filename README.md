@@ -24,7 +24,8 @@ It supports and demonstrates all HTTP verbs: GET, POST, PUT, PATCH, and DELETE.
 - Microsoft.AspNetCore.Mvc.Versioning 3.1.3
 - Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer 3.2.0
 - AspNetCoreRateLimit 2.1.0
-
+- Microsoft.Azure.Services.AppAuthentication 1.4.0
+- Microsoft.Azure.KeyVault 3.0.5
 
 ## Chapters
 - [How To Test](#test)
@@ -567,3 +568,7 @@ Added new resources:
  * you can only make 15 requests per minute
  * you can only make 3 requests per 5 seconds  
  
+1.14.0
+2.20.2019
+Microsoft.Azure.Services.AppAuthentication
+Microsoft.Azure.KeyVault
