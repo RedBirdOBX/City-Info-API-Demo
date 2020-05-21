@@ -11,7 +11,7 @@ This demo RESTful API does just that. It allows consumers to make request for US
 It supports and demonstrates all HTTP verbs: GET, POST, PUT, PATCH, and DELETE.
 
 
-`https://city-info-api-demo.azurewebsites.net/api/v1.0/cities`
+`https://city-info-api-prod.azurewebsites.net/api/v1.0/cities`
 
 ## Platform: 
 - ASP.NET Core 2.2 API  
@@ -72,7 +72,7 @@ Valid options:
 ### Cities
 
 ##### Get Cities 
-[https://city-info-api-demo.azurewebsites.net/api/v1.0/cities?pagenumber={n}&pagesize={n}](https://city-info-api-demo.azurewebsites.net/api/v1.0/cities?pagenumber={n}&pagesize={n} "https://city-info-api-demo.azurewebsites.net/api/v1.0/cities?pagenumber={n}&pagesize={n}")   
+[https://city-info-api-prod.azurewebsites.net/api/v1.0/cities?pagenumber={n}&pagesize={n}](https://city-info-api-prod.azurewebsites.net/api/v1.0/cities?pagenumber={n}&pagesize={n} "https://city-info-api-prod.azurewebsites.net/api/v1.0/cities?pagenumber={n}&pagesize={n}")   
 `GET`   
 This resource with return a collection of all cities but does not show you their associated points of interest. 
 
@@ -89,14 +89,14 @@ Both parameters have default values should the consumer forget to provide them a
 
 **Optional Name Filtering**   
 An optional parameter you can provide in this request is a Name filter which looks like this:
-`http://city-info-api-demo.azurewebsites.net/api/v1.0/cities?pageNumber=1&pageSize=10&nameFilter=chica`
+`http://city-info-api-prod.azurewebsites.net/api/v1.0/cities?pageNumber=1&pageSize=10&nameFilter=chica`
 
 In this example, it will return up to 10 results per page for any city with a name containing "chica" such as Chicago.  It is not case-sensitive.
 
 
 **Optional Name Sorting**  
 Another optional parameter you can provide is `orderNameBy` and if the consumer provides `desc` as the value, it will sort the City names by descending order.  Any other value other than `desc` will result in the names being sort in ascending order. 
-`http://city-info-api-demo.azurewebsites.net/api/v1.0/cities?pageNumber=1&pageSize=10&orderNameBy=desc`
+`http://city-info-api-prod.azurewebsites.net/api/v1.0/cities?pageNumber=1&pageSize=10&orderNameBy=desc`
 
 
 **Custom Response Header:**   
@@ -107,20 +107,20 @@ The Response Header will provide the consumer helpful information in a custom it
 
 
 ##### Get City By Id  
-[http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}](http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId} "http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}")   
-[http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}?includepointsofinterest=false](http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}?includepointsofinterest=false "http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}?includepointsofinterest=false")   
+[http://city-info-api-prod.azurewebsites.net/api/v1.0/cities/{cityId}](http://city-info-api-prod.azurewebsites.net/api/v1.0/cities/{cityId} "http://city-info-api-prod.azurewebsites.net/api/v1.0/cities/{cityId}")   
+[http://city-info-api-prod.azurewebsites.net/api/v1.0/cities/{cityId}?includepointsofinterest=false](http://city-info-api-prod.azurewebsites.net/api/v1.0/cities/{cityId}?includepointsofinterest=false "http://city-info-api-prod.azurewebsites.net/api/v1.0/cities/{cityId}?includepointsofinterest=false")   
 `GET`    
 Here, you can request a specific city and also provide an optional query string parameter to explicitly request the Points Of Interest along with the City data. If false, the points of interest collection will be intentionally empty (to lighten payload).  Otherwise, they will be included by default. 
 
 The id along with all other ids are guids.
 
 ##### Get Collection of Cities by Ids  
-[http://city-info-api-demo.azurewebsites.net/api/v1.0/citycollections?cityIds={a,b,c}](http://city-info-api-demo.azurewebsites.net/api/v1.0/citycollections?cityIds={a,b,c} "http://city-info-api-demo.azurewebsites.net/api/v1.0/citycollections?cityIds={a,b,c}")     
+[http://city-info-api-prod.azurewebsites.net/api/v1.0/citycollections?cityIds={a,b,c}](http://city-info-api-prod.azurewebsites.net/api/v1.0/citycollections?cityIds={a,b,c} "http://city-info-api-prod.azurewebsites.net/api/v1.0/citycollections?cityIds={a,b,c}")     
 `GET`    
 Here, you can request a collection of cities by providing their Ids in the querystring.  Invalid ids and duplicates will be ignored. This uses the `CityCollections` resources.
 
 ##### Create a City
-[http://city-info-api-demo.azurewebsites.net/api/v1.0/cities](http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/ "http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/")  
+[http://city-info-api-prod.azurewebsites.net/api/v1.0/cities](http://city-info-api-prod.azurewebsites.net/api/v1.0/cities/ "http://city-info-api-prod.azurewebsites.net/api/v1.0/cities/")  
 `POST`
 
 Here, you can `POST` (in the body) the `json` structure of a new city.  Optionally, you can provide a list of Points of Interest (children) and they will be created as well.
@@ -155,10 +155,10 @@ With Points of Interest
 ```
 
 ##### Create Multiple Cities
-[http://city-info-api-demo.azurewebsites.net/api/v1.0/citycollections](http://city-info-api-demo.azurewebsites.net/api/v1.0/citycollections/ "http://city-info-api-demo.azurewebsites.net/api/v1.0/citycollections/")  
+[http://city-info-api-prod.azurewebsites.net/api/v1.0/citycollections](http://city-info-api-prod.azurewebsites.net/api/v1.0/citycollections/ "http://city-info-api-prod.azurewebsites.net/api/v1.0/citycollections/")  
 `POST`
 
-Here, you can `POST` (in the body) as `json`, an array of cities. If successful, you will receieve a `201-CreatedAtRoute` response and the link to find the new cities will be in the Response Header.
+Here, you can `POST` (in the body) as `json`, an array of cities. If successful, you will receive a `201-CreatedAtRoute` response and the link to find the new cities will be in the Response Header.
 
 ```json
 [
@@ -174,7 +174,7 @@ Here, you can `POST` (in the body) as `json`, an array of cities. If successful,
 ```
 
 ##### Patch a City
-[http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}](http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId} "http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}")  
+[http://city-info-api-prod.azurewebsites.net/api/v1.0/cities/{cityId}](http://city-info-api-prod.azurewebsites.net/api/v1.0/cities/{cityId} "http://city-info-api-prod.azurewebsites.net/api/v1.0/cities/{cityId}")  
 `PATCH`  
 Instead of updated the city whole resource, you can use a patch document and only update one or more properties of the resource such as passwords, emails, and so on. With this API, you can use a standard patch document and specify what part of the resource you want to update.
 
@@ -199,18 +199,18 @@ If successful, it will return a 200 OK status and the new updated resource in th
 ### Points Of Interest
 
 ##### Get Points of Interest for City  
-[http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest](http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest "http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest")  
+[http://city-info-api-prod.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest](http://city-info-api-prod.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest "http://city-info-api-prod.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest")  
 `GET`  
 You can request to see a collection of the Points of Interest for any given city by Id.
 
 ##### Get Point of Interest By Id  
-[http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}](http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId} "http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}")  
+[http://city-info-api-prod.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}](http://city-info-api-prod.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId} "http://city-info-api-prod.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}")  
 `GET`  
 At this endpoint, you can request a specific Point of Interest for a specific City assuming you know the Ids of both resources. 
 
 
 ##### Create a Point of Interest  
-[http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest](http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest "http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest")  
+[http://city-info-api-prod.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest](http://city-info-api-prod.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest "http://city-info-api-prod.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest")  
 `POST`  
 As a security measure, a city cannot have more than 25 Points of Interest. Assuming the city is under the limit, you can create a new Point of Interest for a valid city (by providing it's id). You will need to provide a name and a description as JSON data in the body of the POST.  Like so:
 
@@ -229,7 +229,7 @@ Furthermore, it will return the location of this new resource in the Header of t
 
 
 ##### Update a Point of Interest
-[http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}](http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId} "http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}")  
+[http://city-info-api-prod.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}](http://city-info-api-prod.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId} "http://city-info-api-prod.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}")  
 `PUT`  
 This the endpoint where you can update an entire Point of Interest resource. You do this through a PUT and provide the whole Point of Interest with it's new values.
 
@@ -238,7 +238,7 @@ If successful, it will return you a 200 Success status and the values of the upd
 
 
 ##### Patch a Point of Interest
-[http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}](http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId} "http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}")  
+[http://city-info-api-prod.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}](http://city-info-api-prod.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId} "http://city-info-api-prod.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}")  
 `PATCH`  
 Instead of updated the whole resource, you can use a patch document and only update one or more properties of the resource such as passwords, emails, and so on. With this API, you can use a standard patch document and specify what part of the resource you want to update.
 
@@ -256,7 +256,7 @@ If successful, it will return a 200 OK status and the new updated resource in th
 ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/successful-patch.PNG)
 
 ##### Delete a Point of Interest
-[http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}](http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId} "http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}")  
+[http://city-info-api-prod.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}](http://city-info-api-prod.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId} "http://city-info-api-prod.azurewebsites.net/api/v1.0/cities/{cityId}/pointsofinterest/{pointOfInterestId}")  
 `DELETE`  
 By providing a proper City id and a Point of Interest id, you can delete a resource from the data store.  This functionality would rarely make it to production like this but here is a demonstration none the less.
 
@@ -265,7 +265,7 @@ By providing a proper City id and a Point of Interest id, you can delete a resou
 If successful, it will return a 200 OK status and a message in the body.
 
 ##### City Summary Reporting Data
-[http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/reporting/summary](http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/reporting/summary "http://city-info-api-demo.azurewebsites.net/api/v1.0/cities/reporting/summary")  
+[http://city-info-api-prod.azurewebsites.net/api/v1.0/cities/reporting/summary](http://city-info-api-prod.azurewebsites.net/api/v1.0/cities/reporting/summary "http://city-info-api-prod.azurewebsites.net/api/v1.0/cities/reporting/summary")  
 `GET`  
 Version **2.0** Resource.  This endpoint provides a list of all cities the count of points of interest for each city.
 
@@ -361,8 +361,8 @@ The `CitiesController` logs to the logger service (NLog) and it outputs to the c
 ## CICD
 This API is built with CICD (Continuous Integration, Continuous Delivery). As new features or fixes are accepted into the `development` branch, they are automatically deployed to the development instance of this app.  As feaures and fixes are promoted up to the `master` branch, they are once again automatically delivered into the production version of this app.  No publishing or FTP-ing of files is required.  Life is good.
 
-Development URI*: [https://city-info-api-demo-dev.azurewebsites.net/](https://city-info-api-demo-dev.azurewebsites.net/ "https://city-info-api-demo-dev.azurewebsites.net/")  
-Production URI: [https://city-info-api-demo.azurewebsites.net/](https://city-info-api-demo.azurewebsites.net/} "https://city-info-api-demo.azurewebsites.net/")
+Development URI*: [https://city-info-api-prod-dev.azurewebsites.net/](https://city-info-api-prod-dev.azurewebsites.net/ "https://city-info-api-prod.azurewebsites.net/")  
+Production URI: [https://city-info-api-prod.azurewebsites.net/](https://city-info-api-prod.azurewebsites.net/} "https://city-info-api-prod.azurewebsites.net/")
 
 **sometimes turned off to reduce hosting costs.*
 
@@ -421,7 +421,7 @@ Adhering to the HATEOS principles of good RESTful design, all `GET` requests inc
 ## Authentication
 A basic demonstration of authentication and security was implemented on the `City Summary Reporting Data` resource mentioned above. The concept is that in some real-world(ish) scenario, you would want to secure certain administrative resources like reporting data or POST actions.  This `CitySummary` resource in V2 demonstrates that by using Basic Authorization. 
 
-`https://city-info-api-demo-prod.azurewebsites.net/api/v2.0/cities/reporting/summary`
+`https://city-info-api-prod.azurewebsites.net/api/v2.0/cities/reporting/summary`
 ![](https://github.com/RedBirdOBX/City-Info-API-Demo/blob/master/Images/auth-sample.PNG)
 
 In order to access the V2 resource which requires authentication, you must pass along an Authentication parameter in the Request Header and the value will be `Basic Q2l0eUluZm9BUEk6Q2l0eUluZm9BUElQYXNzd29yZA==`.
@@ -454,13 +454,13 @@ You can see all of this documentation via the Swagger UI interface.
 
 
 **Development:**  
-[https://city-info-api-demo-dev.azurewebsites.net/index.html](https://city-info-api-demo-dev.azurewebsites.net/index.html)
+[https://city-info-api-prod.azurewebsites.net/index.html](https://city-info-api-dev.azurewebsites.net/index.html)
 
 Notice that you can access the various specification documents - one for each version:
 
-[https://city-info-api-demo-dev.azurewebsites.net/swagger/CityAPISpecificationv1.0/swagger.json](https://city-info-api-demo-dev.azurewebsites.net/swagger/CityAPISpecificationv1.0/swagger.json)
+[https://city-info-api-prod.azurewebsites.net/swagger/CityAPISpecificationv1.0/swagger.json](https://city-info-api-prod.azurewebsites.net/swagger/CityAPISpecificationv1.0/swagger.json)
 
-[https://city-info-api-demo-dev.azurewebsites.net/swagger/CityAPISpecificationv2.0/swagger.json](https://city-info-api-demo-dev.azurewebsites.net/swagger/CityAPISpecificationv2.0/swagger.json)
+[https://city-info-api-prod.azurewebsites.net/swagger/CityAPISpecificationv2.0/swagger.json](https://city-info-api-prod.azurewebsites.net/swagger/CityAPISpecificationv2.0/swagger.json)
 
 
 <a href="" id="releases" name="releases"></a>
@@ -473,7 +473,7 @@ Initial release
 **1.1.0**  
 9.4.2019  
 
-* Full integration of Swashbuckle (Swagger, Swagger UI), versioning, and Basic Authentication on new resource called City Summary - a hypothetical secured, set of resources at `https://city-info-api-demo-prod.azurewebsites.net/api/v2.0/cities/reporting/summary`.
+* Full integration of Swashbuckle (Swagger, Swagger UI), versioning, and Basic Authentication on new resource called City Summary - a hypothetical secured, set of resources at `https://city-info-api-prod.azurewebsites.net/api/v2.0/cities/reporting/summary`.
 
 **1.2.0**  
 11.10.2019  
