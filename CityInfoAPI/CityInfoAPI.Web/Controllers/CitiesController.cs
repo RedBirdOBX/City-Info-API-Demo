@@ -4,7 +4,6 @@ using CityInfoAPI.Dtos.Models;
 using CityInfoAPI.Logic.Processors;
 using CityInfoAPI.Web.Controllers.RequestHelpers;
 using CityInfoAPI.Web.Controllers.ResponseHelpers;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.JsonPatch;
@@ -27,7 +26,6 @@ namespace CityInfoAPI.Web.Controllers
     [ApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    [EnableCors("AllowOrigin")]
     public class CitiesController : ControllerBase
     {
         // fields

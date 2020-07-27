@@ -98,11 +98,6 @@ namespace CityInfoAPI.Web
 
             services.AddHealthChecks();
 
-            services.AddCors(c =>
-            {
-                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
-            });
-
             // adding the mvc service
             services.AddMvc(setupAction =>
             {
@@ -289,8 +284,6 @@ namespace CityInfoAPI.Web
                     });
                 });
             }
-
-            appBuilder.UseCors(options => options.AllowAnyOrigin());
 
             appBuilder.UseHttpsRedirection();                  // learn more about this.
             appBuilder.UseHealthChecks("/health");             // learn more about this.
