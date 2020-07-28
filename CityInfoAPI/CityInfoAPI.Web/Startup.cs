@@ -98,6 +98,8 @@ namespace CityInfoAPI.Web
 
             services.AddHealthChecks();
 
+            services.AddCors();
+
             // adding the mvc service
             services.AddMvc(setupAction =>
             {
@@ -289,6 +291,10 @@ namespace CityInfoAPI.Web
             appBuilder.UseHealthChecks("/health");             // learn more about this.
             appBuilder.UseStatusCodePages();
             appBuilder.UseAuthentication();
+
+            // https://stackoverflow.com/questions/44379560/how-to-enable-cors-in-asp-net-core-webapi
+            appBuilder.UseCors(options => options.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+
             appBuilder.UseMvc();
 
             // EF Mappers
