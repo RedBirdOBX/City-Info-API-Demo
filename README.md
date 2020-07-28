@@ -1,7 +1,7 @@
 # The City Info Demo API
   
 ----------
-*Version 1.14.0*
+*Version 1.15.0*
 
 ## Summary
 Welcome to the City Info Demo API. Imagine that you were developing for some kind of travel site and one of the requirements was you needed to be able to ask for a complete listing of cities; ask for any given city by it's ID and, if specifically asked for, you needed to be able to provide all the "touristy" things to do for that specified city (landmarks, parks, restaurants, and so on).  
@@ -569,6 +569,11 @@ Added new resources:
  * you can only make 3 requests per 5 seconds  
  
 **1.14.0** 
-2.26.2019
+2.26.2020
 
 * Integrated the use of Azure Key Vault services for db connectivity. 
+
+**1.15.0** 
+7.29.2020
+
+* Enabled CORS for local testing. 
