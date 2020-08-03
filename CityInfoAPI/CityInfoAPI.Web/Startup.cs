@@ -76,15 +76,15 @@ namespace CityInfoAPI.Web
                         // limit any request to any resource to X requests per X minutes/seconds.
                         // only allow 5 requests per 1 minute.
                         Endpoint = "*",
-                        Limit = 15,
+                        Limit = 30,
                         Period = "1m"   // <-- m = minutes, s = seconds
                     },
                     new RateLimitRule()
                     {
-                        // we can also add a second rule only 3 request per 5 seconds
+                        // we can also add a second rule to only allow x request per x seconds
                         // note that when the API fires up and Swagger kicks in, they each count as 1 request each.
                         Endpoint = "*",
-                        Limit = 3,
+                        Limit = 10,
                         Period = "5s"   // <-- m = minutes, s = seconds
                     }
                 };
