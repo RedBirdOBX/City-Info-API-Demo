@@ -1,13 +1,13 @@
-﻿using CityInfoAPI.Data.EF;
+﻿using AspNetCoreRateLimit;
+using CityInfoAPI.Data.EF;
 using CityInfoAPI.Data.Repositories;
 using CityInfoAPI.Logic.Authentication;
 using CityInfoAPI.Logic.Processors;
-using CityInfoAPI.Logic.Services;
 using CityInfoAPI.Web.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -22,14 +22,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Microsoft.AspNetCore.Mvc.Routing;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using AspNetCoreRateLimit;
 
 namespace CityInfoAPI.Web
 {
 
-    #pragma warning disable CS1591
+#pragma warning disable CS1591
 
     public class Startup
     {
@@ -127,8 +124,8 @@ namespace CityInfoAPI.Web
             else
             {
                 // sql data store
-                AzureKeyVaultConnector azureConnector = new AzureKeyVaultConnector(Configuration);
-                services.AddDbContext<CityInfoDbContext>(options => options.UseSqlServer(azureConnector.GetConnectionString()));
+                string connectionString = Startup.Configuration["ConnectionStrings:dbConnectionString"];
+                services.AddDbContext<CityInfoDbContext>(options => options.UseSqlServer(connectionString));
                 services.AddScoped<ICityInfoRepository, CityInfoSqlDataStore>();
             }
 
