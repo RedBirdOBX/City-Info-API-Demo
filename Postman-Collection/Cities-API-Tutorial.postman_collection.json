@@ -11,7 +11,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "3aef09a7-a0a0-4924-a154-f14c8bc1ae25",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
@@ -39,9 +38,9 @@
 					}
 				],
 				"url": {
-					"raw": "{{domain-local}}/api/v1.0/cities?pageNumber=1&pageSize=10",
+					"raw": "{{CityApiBaseUrl}}/api/v1.0/cities?pageNumber=1&pageSize=10",
 					"host": [
-						"{{domain-local}}"
+						"{{CityApiBaseUrl}}"
 					],
 					"path": [
 						"api",
@@ -68,7 +67,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "3aef09a7-a0a0-4924-a154-f14c8bc1ae25",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
@@ -96,9 +94,9 @@
 					}
 				],
 				"url": {
-					"raw": "{{domain-local}}/api/v1.0/cities?pageNumber=1&pageSize=10",
+					"raw": "{{CityApiBaseUrl}}/api/v1.0/cities?pageNumber=1&pageSize=10",
 					"host": [
-						"{{domain-local}}"
+						"{{CityApiBaseUrl}}"
 					],
 					"path": [
 						"api",
@@ -125,7 +123,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "3aef09a7-a0a0-4924-a154-f14c8bc1ae25",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(400);",
@@ -145,9 +142,9 @@
 					}
 				],
 				"url": {
-					"raw": "{{domain-local}}/api/v1.0/cities?pageNumber=10&pageSize=10",
+					"raw": "{{CityApiBaseUrl}}/api/v1.0/cities?pageNumber=10&pageSize=10",
 					"host": [
-						"{{domain-local}}"
+						"{{CityApiBaseUrl}}"
 					],
 					"path": [
 						"api",
@@ -174,7 +171,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "2da4a04e-3fb2-41fe-9a3c-9b2703026590",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
@@ -194,9 +190,9 @@
 					}
 				],
 				"url": {
-					"raw": "{{domain-local}}/api/v1.0/cities?pageNumber=1&pageSize=10&nameFilter=ch",
+					"raw": "{{CityApiBaseUrl}}/api/v1.0/cities?pageNumber=1&pageSize=10&nameFilter=ch",
 					"host": [
-						"{{domain-local}}"
+						"{{CityApiBaseUrl}}"
 					],
 					"path": [
 						"api",
@@ -227,7 +223,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "a20bf383-bdeb-4e27-8091-7939a417eac1",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
@@ -247,9 +242,9 @@
 					}
 				],
 				"url": {
-					"raw": "{{domain-local}}/api/v1.0/cities?pageNumber=1&pageSize=10&orderNameBy=desc",
+					"raw": "{{CityApiBaseUrl}}/api/v1.0/cities?pageNumber=1&pageSize=10&orderNameBy=desc",
 					"host": [
-						"{{domain-local}}"
+						"{{CityApiBaseUrl}}"
 					],
 					"path": [
 						"api",
@@ -280,7 +275,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "a088ded9-1bd4-4280-a8c6-65ac8990c5ea",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
@@ -300,9 +294,9 @@
 					}
 				],
 				"url": {
-					"raw": "{{domain-local}}/api/v1.0/cities?pageNumber=1&pageSize=5&nameFilter=ch&orderNameBy=desc",
+					"raw": "{{CityApiBaseUrl}}/api/v1.0/cities?pageNumber=1&pageSize=5&nameFilter=ch&orderNameBy=desc",
 					"host": [
-						"{{domain-local}}"
+						"{{CityApiBaseUrl}}"
 					],
 					"path": [
 						"api",
@@ -337,7 +331,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "e28ae06e-7c41-4fea-a772-67492207a14a",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
@@ -362,21 +355,15 @@
 					}
 				],
 				"url": {
-					"raw": "{{domain-local}}/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2?includePointsOfInterest=false",
+					"raw": "{{CityApiBaseUrl}}/api/v1.0/cities/ce09626b-e19e-47f5-82f3-2bbf60866a47",
 					"host": [
-						"{{domain-local}}"
+						"{{CityApiBaseUrl}}"
 					],
 					"path": [
 						"api",
 						"v1.0",
 						"cities",
-						"38276231-1918-452d-a3e9-6f50873a95d2"
-					],
-					"query": [
-						{
-							"key": "includePointsOfInterest",
-							"value": "false"
-						}
+						"ce09626b-e19e-47f5-82f3-2bbf60866a47"
 					]
 				}
 			},
@@ -388,7 +375,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "e28ae06e-7c41-4fea-a772-67492207a14a",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
@@ -413,9 +399,9 @@
 					}
 				],
 				"url": {
-					"raw": "{{domain-local}}/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2",
+					"raw": "{{CityApiBaseUrl}}/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2",
 					"host": [
-						"{{domain-local}}"
+						"{{CityApiBaseUrl}}"
 					],
 					"path": [
 						"api",
@@ -440,7 +426,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "8e0925d3-3367-4296-a09a-c93506a2a30e",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
@@ -465,9 +450,9 @@
 					}
 				],
 				"url": {
-					"raw": "{{domain-local}}/api/v1.0/citycollections?cityIds=38276231-1918-452d-a3e9-6f50873a95d2,09fdd26e-5141-416c-a590-7eaf193b9565",
+					"raw": "{{CityApiBaseUrl}}/api/v1.0/citycollections?cityIds=38276231-1918-452d-a3e9-6f50873a95d2,09fdd26e-5141-416c-a590-7eaf193b9565",
 					"host": [
-						"{{domain-local}}"
+						"{{CityApiBaseUrl}}"
 					],
 					"path": [
 						"api",
@@ -490,7 +475,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "ccd0207d-30a9-4bde-abc4-ec0fd4a787db",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
@@ -510,9 +494,9 @@
 					}
 				],
 				"url": {
-					"raw": "{{domain-local}}/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2?includePointsOfInterest=false",
+					"raw": "{{CityApiBaseUrl}}/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2?includePointsOfInterest=false",
 					"host": [
-						"{{domain-local}}"
+						"{{CityApiBaseUrl}}"
 					],
 					"path": [
 						"api",
@@ -536,7 +520,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "742302aa-8292-44c1-b766-1805bf9aa648",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
@@ -556,9 +539,9 @@
 					}
 				],
 				"url": {
-					"raw": "{{domain-local}}/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest",
+					"raw": "{{CityApiBaseUrl}}/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest",
 					"host": [
-						"{{domain-local}}"
+						"{{CityApiBaseUrl}}"
 					],
 					"path": [
 						"api",
@@ -577,7 +560,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "b40b7b8d-a3ad-40ad-925d-ca2fb9ed8de5",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
@@ -597,9 +579,9 @@
 					}
 				],
 				"url": {
-					"raw": "{{domain-local}}/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest/e5a5f605-627d-4aec-9f5c-e9939ea0a6cf",
+					"raw": "{{CityApiBaseUrl}}/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest/e5a5f605-627d-4aec-9f5c-e9939ea0a6cf",
 					"host": [
-						"{{domain-local}}"
+						"{{CityApiBaseUrl}}"
 					],
 					"path": [
 						"api",
@@ -619,7 +601,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "a82061bc-95b1-4b93-bfcf-26e05c919ef3",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
@@ -644,9 +625,9 @@
 					}
 				],
 				"url": {
-					"raw": "{{domain-local}}/api/v2.0/cities/reporting/summary",
+					"raw": "{{CityApiBaseUrl}}/api/v2.0/cities/reporting/summary",
 					"host": [
-						"{{domain-local}}"
+						"{{CityApiBaseUrl}}"
 					],
 					"path": [
 						"api",
@@ -665,7 +646,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "a7bc4f04-9826-4156-a1a0-6b24fffe6d9b",
 						"exec": [
 							"pm.test(\"Status code is 201\", function () {",
 							"    pm.response.to.have.status(201);",
@@ -694,9 +674,9 @@
 					"raw": "{\n\t\"name\" : \"New City A\",\n\t\"description\" : \"New city description A\"\n}"
 				},
 				"url": {
-					"raw": "{{domain-local}}/api/v1.0/cities",
+					"raw": "{{CityApiBaseUrl}}/api/v1.0/cities",
 					"host": [
-						"{{domain-local}}"
+						"{{CityApiBaseUrl}}"
 					],
 					"path": [
 						"api",
@@ -713,7 +693,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "aae33d71-8c95-44d3-b483-90297180b679",
 						"exec": [
 							"pm.test(\"Status code is 201\", function () {",
 							"    pm.response.to.have.status(201);",
@@ -742,9 +721,9 @@
 					"raw": "{\n\t\"name\" : \"New City\",\n\t\"description\" : \"New city description\",\n\t\"pointsOfInterest\" : \n\t[\n\t\t{\n\t\t\t\"name\": \"Point of Interest for new city\",\n\t\t\t\"description\": \"Point of Interest description for new city.\"\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Point of Interest2 for new city\",\n\t\t\t\"description\": \"Point of Interest2 description for new city.\"\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Point of Interest3 for new city\",\n\t\t\t\"description\": \"Point of Interest3 description for new city.\"\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Point of Interest4 for new city\",\n\t\t\t\"description\": \"Point of Interest4 description for new city.\"\n\t\t}\n\t]\n}"
 				},
 				"url": {
-					"raw": "{{domain-local}}/api/v1.0/cities",
+					"raw": "{{CityApiBaseUrl}}/api/v1.0/cities",
 					"host": [
-						"{{domain-local}}"
+						"{{CityApiBaseUrl}}"
 					],
 					"path": [
 						"api",
@@ -761,7 +740,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "aef0ef36-d414-442a-955d-a44cbed9fbdf",
 						"exec": [
 							"pm.test(\"Status code is 201\", function () {",
 							"    pm.response.to.have.status(201);",
@@ -788,12 +766,17 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "<CityCreateDto xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.datacontract.org/2004/07/CityInfoAPI.Dtos.Models\">\n    <Description>Description for Alpha City</Description>\n    <Name>New Alpha City</Name>\n    <PointsOfInterest>\n        <PointOfInterestCreateRequestDto>\n            <Description>Description for location 1</Description>\n            <Name>Location 1</Name>\n        </PointOfInterestCreateRequestDto>\n        <PointOfInterestCreateRequestDto>\n            <Description>Description for location 2</Description>\n            <Name>Location 2</Name>\n        </PointOfInterestCreateRequestDto>\n    </PointsOfInterest>\n</CityCreateDto>"
+					"raw": "<CityCreateDto xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.datacontract.org/2004/07/CityInfoAPI.Dtos.Models\">\n    <Description>Description for Alpha City</Description>\n    <Name>New Alpha City</Name>\n    <PointsOfInterest>\n        <PointOfInterestCreateRequestDto>\n            <Description>Description for location 1</Description>\n            <Name>Location 1</Name>\n        </PointOfInterestCreateRequestDto>\n        <PointOfInterestCreateRequestDto>\n            <Description>Description for location 2</Description>\n            <Name>Location 2</Name>\n        </PointOfInterestCreateRequestDto>\n    </PointsOfInterest>\n</CityCreateDto>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
 				},
 				"url": {
-					"raw": "{{domain-local}}/api/v1.0/cities",
+					"raw": "{{CityApiBaseUrl}}/api/v1.0/cities",
 					"host": [
-						"{{domain-local}}"
+						"{{CityApiBaseUrl}}"
 					],
 					"path": [
 						"api",
@@ -810,7 +793,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "3ecd6956-6ddb-479d-9ea0-22e7e7483155",
 						"exec": [
 							"pm.test(\"Status code is 201\", function () {",
 							"    pm.response.to.have.status(201);",
@@ -839,9 +821,9 @@
 					"raw": "[\n\t{\n\t\t\"name\" : \"New City B\",\n\t\t\"description\" : \"New city description B\"\n\t},\n\t{\n\t\t\"name\" : \"New City C\",\n\t\t\"description\" : \"New city description C\"\n\t}\n]"
 				},
 				"url": {
-					"raw": "{{domain-local}}/api/v1.0/citycollections",
+					"raw": "{{CityApiBaseUrl}}/api/v1.0/citycollections",
 					"host": [
-						"{{domain-local}}"
+						"{{CityApiBaseUrl}}"
 					],
 					"path": [
 						"api",
@@ -858,7 +840,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "2b298abe-2764-429c-a703-4322187081f8",
 						"exec": [
 							"pm.test(\"Status code is 409\", function () {",
 							"    pm.response.to.have.status(409);",
@@ -887,9 +868,9 @@
 					"raw": "{\n\t\"name\" : \"New City\",\n\t\"description\" : \"New city description\"\n}"
 				},
 				"url": {
-					"raw": "{{domain-local}}/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2",
+					"raw": "{{CityApiBaseUrl}}/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2",
 					"host": [
-						"{{domain-local}}"
+						"{{CityApiBaseUrl}}"
 					],
 					"path": [
 						"api",
@@ -907,7 +888,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "e5df8b65-1996-4de4-b3d7-139c21efe013",
 						"exec": [
 							"pm.test(\"Status code is 201\", function () {",
 							"    pm.response.to.have.status(201);",
@@ -938,9 +918,9 @@
 					"raw": "{\n\t\"name\": \"New Point of Interest2\",\n\t\"description\": \"New Point of Interest description 3.\"\n}"
 				},
 				"url": {
-					"raw": "{{domain-local}}/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest",
+					"raw": "{{CityApiBaseUrl}}/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest",
 					"host": [
-						"{{domain-local}}"
+						"{{CityApiBaseUrl}}"
 					],
 					"path": [
 						"api",
@@ -959,7 +939,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "ab12a538-c0fc-4b13-8d83-cafe0ec17a78",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
@@ -990,9 +969,9 @@
 					"raw": "{\n\t\"name\": \"Updated\",\n\t\"description\": \"Updated description\"\n}"
 				},
 				"url": {
-					"raw": "{{domain-local}}/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest/e5a5f605-627d-4aec-9f5c-e9939ea0a6cf",
+					"raw": "{{CityApiBaseUrl}}/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest/e5a5f605-627d-4aec-9f5c-e9939ea0a6cf",
 					"host": [
-						"{{domain-local}}"
+						"{{CityApiBaseUrl}}"
 					],
 					"path": [
 						"api",
@@ -1012,7 +991,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "ab12a538-c0fc-4b13-8d83-cafe0ec17a78",
 						"exec": [
 							"pm.test(\"Status code is 404\", function () {",
 							"    pm.response.to.have.status(404);",
@@ -1043,9 +1021,9 @@
 					"raw": "{\n\t\"name\": \"Updated\",\n\t\"description\": \"Updated description\"\n}"
 				},
 				"url": {
-					"raw": "{{domain-local}}/api/v1.0/cities/cdea3e71-7736-4e72-8650-d6dcc037b1ca/pointsofinterest/e5a5f605-627d-4aec-9f5c-e9939ea0a6cf",
+					"raw": "{{CityApiBaseUrl}}/api/v1.0/cities/cdea3e71-7736-4e72-8650-d6dcc037b1ca/pointsofinterest/e5a5f605-627d-4aec-9f5c-e9939ea0a6cf",
 					"host": [
-						"{{domain-local}}"
+						"{{CityApiBaseUrl}}"
 					],
 					"path": [
 						"api",
@@ -1081,9 +1059,9 @@
 					"raw": "[\r\n\t{\r\n\t\t\"op\": \"replace\",\r\n\t\t\"path\": \"/name\",\r\n\t\t\"value\": \"updated name\"\r\n\t},\r\n\t{\r\n\t\t\"op\": \"replace\",\r\n\t\t\"path\": \"/description\",\r\n\t\t\"value\": \"updated description 2\"\r\n\t}\r\n]"
 				},
 				"url": {
-					"raw": "{{domain-local}}/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2",
+					"raw": "{{CityApiBaseUrl}}/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2",
 					"host": [
-						"{{domain-local}}"
+						"{{CityApiBaseUrl}}"
 					],
 					"path": [
 						"api",
@@ -1101,7 +1079,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "95744512-80a6-4b7e-916a-3b33f969fc33",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
@@ -1131,9 +1108,9 @@
 					"raw": "[\n\t{\n\t\t\"op\": \"replace\",\n\t\t\"path\": \"/description\",\n\t\t\"value\": \"updated description 2\"\n\t}\n]"
 				},
 				"url": {
-					"raw": "{{domain-local}}/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest/e5a5f605-627d-4aec-9f5c-e9939ea0a6cf",
+					"raw": "{{CityApiBaseUrl}}/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest/e5a5f605-627d-4aec-9f5c-e9939ea0a6cf",
 					"host": [
-						"{{domain-local}}"
+						"{{CityApiBaseUrl}}"
 					],
 					"path": [
 						"api",
@@ -1153,7 +1130,6 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "f9c82eda-8336-4ba1-81f5-211e63479cb8",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
@@ -1177,9 +1153,9 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{domain-local}}/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest/e5a5f605-627d-4aec-9f5c-e9939ea0a6cf",
+					"raw": "{{CityApiBaseUrl}}/api/v1.0/cities/38276231-1918-452d-a3e9-6f50873a95d2/pointsofinterest/e5a5f605-627d-4aec-9f5c-e9939ea0a6cf",
 					"host": [
-						"{{domain-local}}"
+						"{{CityApiBaseUrl}}"
 					],
 					"path": [
 						"api",
@@ -1193,6 +1169,5 @@
 			},
 			"response": []
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }
