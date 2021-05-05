@@ -1,0 +1,12 @@
+2021-05-05 07:24:58.7083 Info Message Template Auto Format enabled
+2021-05-05 07:24:58.7251 Info Loading assembly: NLog.Web.AspNetCore
+2021-05-05 07:24:58.8277 Info Adding target FileTarget(Name=allfile)
+2021-05-05 07:24:58.8440 Info Adding target FileTarget(Name=ownFile-web)
+2021-05-05 07:24:58.8961 Info Found 45 configuration items
+2021-05-05 07:24:59.2125 Info Configuring from an XML element in C:\Data\Projects\City-Info-API-Demo\CityInfoAPI.Web\nlog.config...
+2021-05-05 07:24:59.2125 Info Message Template Auto Format enabled
+2021-05-05 07:24:59.2125 Info Loading assembly: NLog.Web.AspNetCore
+2021-05-05 07:24:59.2125 Info Adding target FileTarget(Name=allfile)
+2021-05-05 07:24:59.2125 Info Adding target FileTarget(Name=ownFile-web)
+2021-05-05 07:24:59.2125 Info Closing old configuration.
+2021-05-05 07:24:59.2560 Info Found 45 configuration items
