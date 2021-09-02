@@ -329,3 +329,4 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
 CityInfoAPI/CityInfoAPI.Web/Logs/internal-nlog.txt
+CityInfoAPI.Web/Logs/internal-nlog.txt

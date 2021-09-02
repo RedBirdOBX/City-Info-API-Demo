@@ -1,0 +1,5 @@
+ASPNETCORE_ENVIRONMENT
+Production
+
+ConnectionStrings:dbConnectionString
+Server=tcp:redbirdobx.database.windows.net,1433;Initial Catalog=RedBirdOBX;Persist Security Info=False;User ID=RedBirdAdmin;Password=Avalon1!d;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;
